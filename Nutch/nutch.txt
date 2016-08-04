@@ -1,0 +1,5 @@
+nutch inject leslie1 urls:  leslie1 是 crawlId
+
+start-hbase.sh:  0.90.4的hbase需要，hostname是 localhsot: sudo hostname loclahost, 否则无法启动;
+
+
