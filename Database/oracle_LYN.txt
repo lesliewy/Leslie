@@ -1,0 +1,406 @@
+SQL语句分为:
+a,数据库管理语句
+b,数据库访问语句:  
+   查询,
+   DML 操作用户对象的语句.
+   事务控制语句(commit , rollback),
+   DDL 操作数据字典的语句。  数据字典数据不能直接update,delete,insert   隐式提交
+   DCL 数据控制语言. grant revoke
+
+null: 对字符串拼接没有影响;
+      is null 不走index;  可以用特殊值代替来走索引.  根据实际情况是否利用.
+date: alter session set nls_data_format='American' 覆盖 客户端(注册表) 覆盖数据库默认
+      一般用to_date转换，不要直接按照定义格式.
+between:   between 'D' and 'M'    :  D 开头 到M(不是M开头)
+like : like '%\%90\%% escape '\'
+
+funtion
+ oracle 中 NUMBER 类型优先级高于字符类型, 能转成数字的就隐式转换成数字.
+ count(distinct(salary)||'.'||distinct(dep_no))
+ group by :  1, select 中的非包含在组函数中的字段必须出现在group by 中.
+             2, group by 中的字段可以出现在select中. 
+             3, 9i 中group by 会先sort(group by 字段),  10g中是hash(乱序).       distinct也存在这个问题.
+执行顺序:  from -> select -> where -> group by -> having -> select 中组函数 -> order by
+            只有group by 后面的才能用组函数.       group by, having, select 中组函数, order by 使用什么函数都没有关系.
+子查询:  将查询放在where,having 中作为值的查询.
+         所有的子查询(复杂子查询，非值列表)都可以改成表连接.
+IN:   如果是值列表是有限制的，根本原因是sql长度的限制.   
+      如果是子查询是没有限制的.
+order by : 如果有union,必须放在最后. 且排序字段必须出现在第一个select中.
+      涉及到去重的，都要进行排序,可以看explain plan.
+
+分组增强: 小计,汇总  roll up   : 避免了union 算法增强,只扫描一次.      C  r   网络传输
+常用:
+rollup(a):  a  all   :  a的分组计算, 一次汇总
+rollup(a,b) ab a all :  ab的分组计算, a的分组计算, 一次汇总
+rollup(a,b,c) abc ab a all
+rollup((a,b),c):  abc ab all      (n+1)项
+grouping
+
+少用:
+cube(a) : a all
+cube(a,b): ab a b all
+cube(a,b,c): abc ab ac a ab c all
+
+group sets:  组集:  避免多次访问表
+
+多列子查询  where (a,b) = (select a,b from tab where id=100)  比单列效率高
+
+相关子查询: select column1,column2,...
+              from table outer
+             where column1 operator 
+                           (select colum1 from table2 where expr1 = outer.expr2)
+         效率不好,每个主查询都要与子查询做比较  (/*+ rule*/ 9i:  filter)
+                                                (10g: nested join)
+         相关子查询最好修改成表连接，其他子查询不需要.   consistent gets会减少很多.
+EXISTS: 类似相关子查询, 使用semi join,效率不错.
+        EXISTS ( SELECT 'X' from employees where manager_id=outer.employee.id)  SEMI:半连接 EXISTS不需要全部执行完.
+        exists 与 IN 效率区别不大，要看数据, 符合条件的数据在前面还是后面.
+        not in 与not exists:   not in 只要有null，结果就是null.   但是not exists没有这个问题.
+                               not in 效率低很多.
+        not in 子查询一定要改:  not exists. 也可以外连接(但效率没not exists好)
+
+update 中的相关子查询:
+       update employee set department_id = (select department_id from department where department_id = outer.department_id)
+       注意可能把之前的数据覆盖.
+
+with 子句:
+   可以先处理子查询，后面直接取；  而不需要遇到一次子查询就执行一次
+   复杂子查询考虑使用.
+
+DML语句: 
+Merge : 新增数据,更改的数据  量大的时候，使用最好; 否则,做很多无用功.           merge 无法做删除.
+insert .. select:
+    无条件: insert all  : 多表
+    有条件: insert all when ... into 
+                       when ... into 
+                       else into
+    有条件: insert firt
+FORALL : 比一次一次的for循环插入的效率高很多.
+    类似sqlplus 中array: 获取数据的行数.     show arraysize;   set array 5000;   影响sqlplus 中的consistent read.
+    
+redo: 修改数据顺序:  1,锁住记录  2,产生redo日志 3,写入redo数据段  4,产生修改日志  5,修改数据
+      知道seesion_id, 查v$session_wait 中不该出现event='log buffer space'
+v$sysstat    name=redo buffer allocation retries 接近于0，  不超过 redo entries的1%.
+
+redo buffer 类似漏斗.
+
+insert /*+ append*/ ...select ...   : 直接装载插入, 高水平线之后开始插入。  正常是找到空块，插入，再找空块.
+                可以结合Nologging:  减少redo日志，速率高.
+create table ... nologging as select :  只对  insert /*+append*/ , sqlLoader 有用. 普通dml仍会产生.  因为保证数据不丢失. 
+create index ... nologging           :  对所有dml语句生效.
+alter index ... rebuild nologgiing   :  
+
+锁:
+TM: 表级共享锁. A修改表结构时，不希望其他用户访问. B修改表结构时，也不希望.  这时获得的锁就是共享锁.
+TX: 行级独占锁.
+
+锁竞争的优化:  增加  4,外键上加索引.   oracle 中处理父表时，会自动锁住外表的相关行.   加索引，只锁住该外键字段.
+
+undo:   undo中的数据 + 已有的表数据  -> 读一致性映像.   查询前先snapshot,根据snapshot找undo.
+        insert 时undo 最小, 只是新行的rowid.
+        used_ublk,start_time,  大事务，长事务.
+        import:  commit=y buffer=   ,到buffer大小时commit.   正常情况下所有表数据insert之后,执行DDL,这时才提交.
+
+SQL 处理过程:
+Open:  打开隐式游标(分配内存区)
+Parse: 解析. 最终产生execution plan.  shared pool的library cache.    都要用数据字典(数据字典缓冲区).
+        每秒10000次硬解析,才考虑优化
+       代码共享:代码文本完全一致.(大小写，回车，换行都一致).判断是否相同时用sql text 作ascii码运算.  v$sql 中查是否硬解析
+Bind:  绑定，有绑定变量时做.   考虑使用, 减少硬解析；   但可能选错execution plan.  主键上一定可以使用,因为index均匀，execution不会错. 
+       不建议使用cursor_sharing
+Exec:  执行. 按照execution plan. 
+Fetch: DML操作没有.  查询才有.  sort
+Close: 关闭游标.(释放内存区)
+
+oracle 所有对象都是段,  index 在一个段上: 段(segment) > 区(extents,默认1m) > 块(block)      
+区是文件系统上的连续空间,连续的块.
+
+sort:  超过sort_area_size,就会利用 temperary tablespace上的temperary segment.
+       从v$sort_segment查当前磁盘排序. used_extents, total_extents
+         v$sort_usage 查询大排序，小排序
+
+
+
+
+
+
+===oracle 性能优化
+cpu高:  进程频繁释放 排序 io等待 硬解析 sql算法不正确...
+主动式性能优化:
+   分析最难,逐层分析,再一一排除.
+   实施时，一个一个进行优化措施的实施，不要实施多个.
+   收集信息:  不要在实施后马上收集,运行一段时间后再收集.
+高并发下的高速: 高并发导致系统资源竞争,导致速度更慢.
+
+OLTP 系统架构和数据库设计
+   RAC: DML操作产生块锁, 因为只锁住一行,其他节点可能修改块中另一行,从而块无法写出.
+   MTS: 共享模式,但用的不多，因为性能不高.  BS结构中一搬用中间件代替,而不是用oracle提供的MTS.          一般用于高并发,CS结构.
+   PGA可以小，因为OLTP中没有大排序,从而不需要大的PGA.
+OLTP 存储对象
+   减少动态分配(文件 区 块)
+      文件： 一般表空间不够,设置了动态扩展,  一般发生在批量加载时.
+      区: 
+      块: 块头事务槽的动态分配.  先获得块头事务槽,进而锁住块中的行;  并发时会有影响.
+   initrans 要设置的足够高,尤其是索引.
+   读和写都会产生热点块: 会先获得latch，来锁住内存.  相当于内存锁.
+   pctfree ：块中除了数据外，保留了一部分，那部分占用的百分比.  update 时才用到这部分块.
+  
+   触发器少用:  DML操作要等待触发器的完成.
+   考虑使用约束,而不使用应用代码
+   要控制约束的数量:  界面控制(比如性别,界面上只有男女2个; salary 必须是正数).  约束对DML操作效率有影响.
+   
+决策支持系统(就是数据仓库)
+   2个特点: 批量装载, 海量查询
+   RAC:  基本没有用，因为数据仓库没有大量并发.
+   MTS:  基本没有用. 同上.
+   cpu 主频要高. 高I/O.   
+   缓冲池命中率,块命中率低是正常的;   主要看中I/O.
+   大池要大:  因为数据仓库要开并行.
+   外键约束可以去掉: 因为数据是从在线系统取来.
+
+   多层系统:  在线系统  -> DS/DM  -> DW(数据仓库) -> report
+   DS/DM: 运行数据模型，将生成的表转至 数据仓库.
+   DW:    运行决策支持,产生报表数据.
+   report:       
+
+   存储
+      BLOCK_SIZE : 设置最大.
+      DB_FILE_MULTIBLOCK_READ_COUNT:　I/O 最大能力/BLOCK_SIZE
+      pctfree 设为0.
+      使用聚簇表:
+      大量使用分区表,分区索引:     
+      非均匀分布的索引列使用柱状图
+       柱状图:  即统计信息,用于CBO, RBO不用.     利用索引还是全表扫描.   没有柱状图,oracle认为索引分布均匀. (9i是手动的,10g的可以自动收集)
+   应用问题   
+      大量数据简单处理使用pl/sql.
+      大量数据复杂处理(最好放在后台,减少网络开销 c,shell,perl...).
+      小量数据处理，还要回显: 使用前台应用程序.   
+
+调优目的:
+   减少等待
+   访问最小块数:  优化sql: 写好语句,选好算法,把数据放在最少块中.
+   数据块保留在内存中(OLTP):  命中率
+   响应时间: 只代表一条sql的快慢
+   吞吐量:   trans/s
+   负载量:
+
+工具:
+   操作系统:
+     top:    oracle cpu 高,一般是sql问题.
+     sar:    可以看历史的.
+     vmstat
+     iostat
+     ....
+   数据库:
+     动态性能视图(是所有工具的基础)
+     statspack： 能做的,AWR都能做.
+     AWR/ADDM:   自收集/自诊断    ADDM不一定准确(50%-70%准确)
+        mmon进程:  AWR信息(每小时一次,7天), ASH信息(每秒一次,top)
+        @?/rdbms/admin/awrpt    : ?表示oracle主目录.
+        snap started ：  空行表示重启了, 所以跨空行比没意义.
+        report : 
+            留意:  rac?  snap time间隔  并发session, db time(如果高,可能有问题)
+            重点:  top timed events 和 top sql.
+          top timed events: 
+             latch free: 内存锁 请求latch多. -> 找出哪块内存latch有问题. latch envents: 看miss/get,高的就是可能有竞争. 再看是否是shared pool: 看Time saved,  软解析要超过99%才算好的系统能够,正常的都是95%以上.
+             db file sequence read:  单个i/o单块
+                    离散 read  :  单个i/o多块.	
+             table fetch by rowid:  用索引
+             by rowgets: 全表扫描.
+             buffer gets: 用索引 全表扫描都会涉及		
+
+             event: 队列竞争 TX index 	: DML索引分裂导致.
+             transaction： 一般10个左右.  上百的表示硬件很强了.
+             OLTP 看命中率. 
+             混合系统: 不太注重. Buffer gets一般98%以上. 
+             execute to parse % : 一般接近100%.  下面那个也是.
+             optimal: oracle 自己分配的内存就能完成排序.
+             onepass: 需要一次i/o,最好少点.
+             multipass: 多次，最好别出现.
+
+             segment statistics:  
+	      sql statistics: gets表明cpu.   单次持续时间   持续时间与cpu时间的比较(看下消耗cpu 还是 等待)
+
+        等待事件: oracle 细化趋势,便于ADDM.
+      ASH: 每秒 top信息. 当前数据库关键信息
+
+   应用:   autotrace,sql trace, sql tunning advisor, sql access advisor  ,后两个可以帮助分析.
+   * 系统捕获sql, 根据pid:    v$sql, v$session, v$process     10g中增加了sql_fulltext
+
+等待事件   竞争即等待
+   1,不得不等(非空闲等待):
+   2,必须等(空闲等待):   比如会话等待用户输入,空闲时.
+v$event_name:   参数: 更准确定位等待位置.
+buffer busy wait:  即块竞争,带有 file# block$ id 参数,表明哪个块竞争.
+  (表 索引上)  段: 表，索引都是一个段.
+   段头块竞争: 原因: 1,freelist是串行的. 2,一块上块状态发生多个修改.     freelist登记块是否可用.
+        增加freelist;  自动段空间管理(bitmap: 可以并行维护,现在已经很少了)
+   段中块竞争:
+      DML带来的跟initrans有关.  
+      查询: 热点块产生latch.  访问表时:  算法  
+           访问索引时:  反转索引.
+v$system_event:  发现系统问题
+v$session_event:  找会话问题.           先查这个，再查下面的. 因下面的是瞬时值.
+v$session_wait:  从参数(P1,P2,P3)中找竞争对象.    wait time :0 正在发生; -1:完了很短  >0: 完了,等了这么多时间.
+
+
+
+db file sequential read 很高:  算法，不该走索引    表数据量大    io竞争
+direct path read/write : 一般排序时用到,  绕过了buffer, 直接读写磁盘.
+latch : 任何操作内存的都需要latch.
+log buffer space: 
+
+============
+oracle 存储
+所有的存储对象都是segment. extend(区)是段的扩展单位.
+Oracle block 是一个或多个连续的 OS block构成.
+Database  1:n  Tablespace  1:n  segment 1:n exten 1:n block 1:n os block
+                  1:n
+                Data file
+
+段的分类: table, table partition, cluster, index, index-organized table, LOB segment, undo segment, temporary segment.
+
+正常索引: key + rowid
+索引组织表没有物理rowid.
+高水平线:  段头块中; truncate 可以重置;    analyse统计.
+
+Block:   块头从上往下递增,  数据从下往上递增.  initrans , maxtrans, pctfree, pctused;    maxtrans已经没用了,oracle规定255.
+    块空闲空间 < pctfree时，不能insert，但可以update,delete.
+    块大小只能在建库时设置，以后不行.
+    pctfree 设置不合理，导致行迁移.
+    pctfree = 100 * upd自段长度/平均行长度
+    pctused = 1 - pctfree - 30%~40%
+    chained_rows 分析哪些行发生了行迁移.
+
+表:  考虑2点:  是否松散; 是否发生行迁移;
+   临时表:在事务中或者会话中传递数据.   1,插数据没日志;   2,没有回滚，在事务中才有效. 3,没有锁竞争.    
+
+数字比字符要好，要快.
+
+直接路径装载:   直接装载块,避免一条一条装载.
+直接装载:  insert into
+
+表维护:   重组、收缩
+
+===============================
+应用优化一般2个: 
+上面是应用存储优化
+应用语句优化
+优化器: CBO从oracle7(1992)出现.  RBO 很早,10g时不再被支持.
+   RBO: 语法驱动和字典驱动;使用一个分级系统,过度依赖语句书写,where 中有index,一定走索引;  表连接时,谁是主表取决于from中顺序, from中自右向左,最右边是驱动表(最好使用全表扫描,小表)
+        向hash join 这样的高级算法不支持;
+        where 条件从最后一个添加开始过滤;   除外: 等值表连接永远第一个执行,因为过滤最多.
+   CBO: 选择最低代价(CPU,I/O,查询的网络传输)的驱动;统计驱动;
+        8i:算法有缺陷;  有I/O,网络传输,但没有cpu.
+        9i:统计信息非自动收集.
+        10g: 统计信息自动收集; 每天固定时间点收集,可能存在统计信息收集不够.
+optimizer_mode: 
+   choose,rule 在10g不再被支持,但是在实例级,语句级仍可使用.
+   choose: 自适应，有统计信息的用CBO,没有的用RBO;表连接时出现问题,可能带来自动收集,效率低.
+   rule:  RBO
+   first_rows: 最快返回第一行. 趋向于走索引.(因索引找到一个返回一个,全表扫描找到全部,再返回)
+   all_rows: 趋向于全表扫描.
+   first_rows_n: n越小,越趋向于索引.
+分区表自动选择CBO,
+大表变化量(增,删,修改索引等)增减5%,就需要收集统计信息.
+
+sql trace 中
+query: db consistent gets, 越多,cpu越大.
+current:  db block gets,是在内存中的,逻辑读.
+dist: physical gets
+
+
+工具:
+   statspack/awr+addm: 哪些语句
+   explain plan ,sql trace/tkprof,autotrace: 分析
+   sql tunning advisor, aql access advisor: 提供建议
+explain plan: plan_table , 只解释不执行.  解析时执行计划,非运行时,但可以通过v$sql_plan查看运行时的,也可以dbms.xplan.display().
+autotrace:   
+   set autotrace on: 执行显示.
+   set autotrace trace： 执行不显示
+   set autotrace trace exp:  查询不执行,DML操作仍然执行, 这是就要用 explain plan.
+sql trace: autotrace 前提是值得sql;  sql trace 可以找sql， 因为是跟踪sql process,所以包含很多其他的sql(查看数据字典等),trprof 加 sys=no,去掉系统的.
+   alter session 是跟踪自己session
+   dbms_system.set_sql_trace_session(sid,serial#,true); 跟踪某个会话.
+   alter session set events '10046 trace name context forever,level 8';  sql trace 相当于level4, level 8 多了个等待.
+     Oradebug setospid <spid>
+   tkprof  sys=no sort= print=
+sql tunning advisor: 
+sql access advisor:
+
+执行过的执行计划保存在 v$sql_plan中, 在cache中.   address+hash value 或者sql_id都可以确定一条sql, sql_id 是10以后才有.  可以从v$sql中查处address hash value.
+
+数据访问方法:
+   聚簇表:
+   索引组织表:
+   索引:
+      要不要建:where 出现, 唯一值多,过滤多.
+      唯一索引: 查询快; DML操作慢;
+			函数索引: 查询快; DML慢;  CBO才支持.
+      存储要与表分开.
+      结构: 
+         根:
+         分支:
+       索引记录:记录头,关键字1,关键字值1,关键字2,关键字值2,...,rowid.      索引记录都放在叶子上, 开始时在第二层同层分裂
+           索引IO+数据IO: 对于索引，一个数据块就是一个IO.
+       索引删除不是真的删除,标记为删除. 等块上所有的都标记为删除,才可用.
+       pctfree: 单调递增减的可以为0.       
+       10g: skip_unused_indexs: 先看索引状态,不可用的跳过.  少用.
+      
+       !=: 一般情况下全表扫描.如果是少量数据，要改写.
+       count(*),count('x'),count(salary):   在RBO下都一样,全表扫描.   
+              在CBO下,count(salary)如果salary是索引字段，走索引.
+                      如果salary是索引字段,且not null,  count(*),count('x'),count(exployee_id) 都会用salary 这个索引.
+     组合索引(a,b):   1,1  1,2  1,5  2,1  2,3  2,7  ....,  先按a排序,再按b排序
+   物化视图: 将查询结果保存, 以后就直接查询该结果,不需要计算. 1,物化视图  enable query rewirte 2,session 启用查询重写.
+             如果查询的结果是物化视图的子集,就会使用物化视图; 否则，不使用.
+
+index range scan:
+index full scan: 把索引都扫描一遍; 也是单个i/o多块;   和全表扫描相比:谁的块少谁块.
+   前提条件:  select 字段在index中有; CBO中,RBO不行. 可以设置seesion级测试: alter system set optimizer_mode=rule;
+index fast full scan: 带rowid
+skip index scan:  比普通的索引慢.
+
+统计信息: 
+
+hint: 主要用来测试;  不要在程序中加,除非需求恒定.
+
+
+====================================
+autotrace:
+   phsical reads:  物理读,产生I/O.   优化时,最好是看第二次的.
+   db block gets:  当前模式读.   dbml产生.
+   consistent gets:  一致性读.   查询操作产生,  这里都是运行的真实情况.     而上面的Cost(%CPU)是算出来的，可能不准确.
+   redo:   dml操作时查看.
+   sort:   有排序时看.
+   net:    有dblink时查看.
+内存读 > 物理读
+
+单个i/o多块：   全表扫描时用.
+单个i/o单块:    走index时肯定是单个i/o单块.
+
+index:
+  唯一值多, index对应的值少, 索引效率高.
+  RPT_CNT <MAT_CNT   :  肯定全表, 因为是同一张表中的两个字段.
+  != :  本身不走索引;!= 和 <> 符号是一样的，只是兼容. 如果!=后的结果集多，可以不优化；  如果 != 后的结果集少,这时索引效率高,考虑将!= 改成< > 来走索引.
+
+RBO 表连接:       sort-merge : 大表有序时，可能比nested loop 性能好.
+                  nested loop: 一表全表扫描(小表)，另一用索引(大表)   做比较的多,   消耗CPU， I/O小.
+CBO(10g) 表连接:  sort-merge:
+                  nested loop:
+                  hash join:  一般比另两个好.   A表全表扫描,B表全表扫描,将A表分成100份，计算hash值,B表分成1000份,计算hash值. 然后进行100×1000次比较.  所以做比较的要少,cpu小, I/O多.
+                  CBO比RBO执行计划更准确,但要有准确信息.  ANALYSE DBMS_STATS
+                              等值连接有效.  2个大的数据源时使用.
+                  Cluster join:
+                  Full outer join: 全外连接.  左外连接+右反向连接   外连接耗很高的资源.
+
+减少排序:  analyse 只分析索引列
+
+count(*):  取至高水平位前数据.     高水平线之前的块可能有数据，也可能没数据，但保证后面的没数据.
+
+
+优化:
+   1,时间和地点上的分散
+   2,充分合理利用资源
+

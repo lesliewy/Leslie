@@ -1,0 +1,487 @@
+===================================================Complete Book==================================================
+ORACLE 10.0.2
+ 第六章
+1,insert into movie(title,year,length,incolor,studioname,producerc#) values('Pretty Woman','1991','121','1',1234,'1234');
+   当属性year,length,producerc#为INTEGER, incolor为NUMBER，studioname为VARCHAR,上式仍然成立.但是如果year为'abc',length为'abc',studioname为Disney,则会报错.
+   同样，select * from movie where length<'121'，当length为INTEGER类型仍然成立.
+   但是， WHERE STUDIONAME=1234; 其中的STUDIONAME虽然为VARCHAR类型，语句仍然是错误的.
+   也就是说INTEGER型：可以为不加单引号的数字，也可以加单引号的数字；
+           VARCHAR型：如果是insert语句,可以是不加单引号的数字;如果是在where条件中,必须加单引号；
+
+2,关于大小写
+  关键字、表名、属性名、用户名、密码、表空间名都是大小写不敏感的
+  表中的内容            是大小写敏感的 
+  如果表使用了别名，例如 t1 a,t2 b ,则不可以再出现t1.name,t2.sex等使用表名的情况.
+
+3,关于DATE数据类型
+   insert into moviestar(X) VALUES('08-OCT-1987');其中X为DATE类型，这样写是日期可以正确解析，这是ORACLE默认的日期解析方式。单引号不能省掉。
+ 如果不这样写，还可以使用to_date函数：to_date('09281961','mmddyyyy') 、to_date('12-09-1956','dd-mm-yyyy')等等匹配就行。 
+
+4,关于null
+  1) 在Oracle中CREATE TABLE时，如果不指定为not null,默认为null,即可以为null.如果要设置某个属性为null,直接用null就可以了。如：
+     insert into movie values(null,183); UPDATE MOVIE SET TITLE=NULL ......
+  2)  select * from movie where year =null; 即使有的year属性为null,也不会有结果。因为只有当where的条件为true时，才会被选择，而根据null的两个原则知为unknown,
+     不为true.  year is null 结果为true.                    同理，where year=length,即使有两个同为null,仍然不会被选择，改为year is null and length is null 
+     关于null两个原则： a,对NULL和任何值(包括NULL)进行算术运算,如+和*,其结果仍然是空值.NULL不是常量，不能NULL+3;
+                        b,当使用比较运算符时，如=和>,比较NULL值和任意值(包括另一NULL值),其结果为UNKNOWN.
+
+
+6,关于子查询
+  书上可以用 select * from producerc# = (select cert# from movieexec);但是在Oracle中是错误的，可以修改为 select * from producerc# IN (select cert# from movieexec);  但是如果子查询只返回一条记录则可以。                同理，其他的逻辑表达式也一样。 如果是< 则可以改为<ANY(......),>可以改为>ALL(.......)
+
+7,关于表连接
+  外连接
+      a, 左外连接： 当左边表的值与右边的不匹配时，仍然列出左边的那行记录,即使此时select 中选的都是右边的属性，此时会添加值为null的行。
+         select a.name,a.cert# from movieexec a left outer join moviestar b on a.name=b.name;    
+       等价于
+         select a.name,a.cert# from movieexec a,moviestar b where a.name=b.name(+);     -- '(+)'放在另一边
+         上面的两种写法其实不是等价的. 如果表a和表b的关联条件只有一个，则可以；如果不止一个，则只能用第一种.如：
+         select a.name,a.cert# from movieexec a left outer join moviestar b on a.name=b.name and a.address=b.address
+      b, 右外连接： 当右边表的值与左边的不匹配时，仍然列出右边表中的记录。  此时如果select中所选的都是左边的记录，会添加值为null的行。
+         select a.name,a.cert# from movieexec a right outer join moviestar b on a.name=b.name; 
+       等价于
+         select a.name,a.cert# from movieexec a right outer join moviestar b on a.name(+)=b.name;   --'(+)'放在相反的一边
+      c, 完全外连接: 将两边不匹配的值都加上
+         select a.name,a.cert# from movieexec a full outer join moviestar b on a.name=b.name;
+        不能在两边都加‘(+)', 如：where a.name(+)=b.name(+) 这是不合法的语句。
+      以上的 outer 关键字是可选的。
+  内连接： 其中不含值为null的记录，这是一般意义上的等值连接
+         select a.name,a.cert# from movieexec a inner join moviestar b on a.name=b.name;
+       等价于
+         select a.name,a.cert# from movieexec a,movistar b where a.name=b.name;
+
+8,关于索引
+   1）查看某个表的索引或者所有该用户的索引
+          select index_name,index_type,table_name from user_indexes where table_name not like '%$%' order by table_name;
+
+第七章
+1，关于主键
+   1）创建主键时，oracle在表中定义主键约束或者唯一性键约束时,同时也创建了索引.
+   
+
+==================================================================记录======================================================================================
+0: Oracle 文档：
+  0.1 SQL Statement 如create table/index:    在SQL Reference 中找到
+  0.2 各种函数：                             在SQL Reference 中找到 
+  0.3 各种系统参数、系统表、动态试图：       在Reference中找到
+  0.4 pl/sql 各种包，如dbms_stats等 ：       在books --> PL/SQL Packages and Types Reference中
+  0.5 优化工具,如 tkprof            :        在Performance Tuning Guide中.
+  0.6 SQL*PLUS输出显示，如Column命令:        在books --> SQL*Plus? User's Guide and Reference
+  0.7 connect resource 等各种角色   :        在books --> Security Guide
+
+  b14200.pdf: SQL Reference
+ 
+1, 
+   select * from tabs             当前用户的所有表和视图,即user_tables
+   select * from dba_tables      所有用户的表和视图
+   select name from v$database;   显示当前使用的数据库名称
+   select object_name from dba_objects where created >'25-DEC-09' and object_type='TABLE';   可以查看2009年12月25日之后创建的表名。当然也有user_objects.
+   select username,default_tablespace from dba_users;
+   ......
+   可以参考oracle 系统表
+     ORACLE中数据字典视图分为3大类,    
+     用前缀区别，分别为：USER，ALL 和 DBA，许多数据字典视图包含相似的信息。
+     USER_*:有关用户所拥有的对象信息，即用户自己创建的对象信息
+     ALL_*：有关用户可以访问的对象的信息，即用户自己创建的对象的信息加上其他用户创建的对象但该用户有权访问的信息
+     DBA_*：有关整个数据库中对象的信息
+     （这里的*可以为TABLES， INDEXES， OBJECTS， USERS等。 
+
+a.系统表(动态性能视图,可以查看文档中Reference部分)
+ORACLE数据库的系统参数都存储在数据库中，可以通过SQLPLUS，以用户SYSYTEM进行查询。几个重要的表或者视图如下：
+$: dynamic performance views.   分为v$和v_$
+v_$: actual dynamic performance views
+v$: public synonym for v_$.
+
+v$controlfile：控制文件的信息；
+v$datafile：数据文件的信息；
+v$logfile: 日志文件位置.
+v$log：日志文件的信息；
+v$process：处理器的信息,进程 的信息；
+v$session：会话信息；
+v$transaction：事务信息；
+v$resource：资源信息；
+v$sga：系统全局区的信息。
+v$sgastat:   SGA中具体的信息(pool,name,bytes).
+v$mystat:    当前会话的状态(SID,STATISTICS,VALUE)   v$sysstat: 系统数据信息.  根据STATISTICS#在v$statname中找到对应的意思. 我发现commit(4#)那个不准，不知道怎么计算的.
+
+v$sga_dynamic_components:  可以查看sga中各个的大小
+v$sgainfo:   
+
+上面的视图名中的‘v$’,只是视图名字中的字符。类似于上面的视图或表还有很多，位于：
+$ORACLE_HOME/RDBMS/ADMIN/CATALOG.SQL文件中。
+
+这些视图或表可以在SQLPLUS中用SELECT语句进行查询。
+b.数据字典视图
+表和列
+DBA_TABLES、ALL_TABLES和USER_TABLES显示了有关数据库表的一般信息。
+DBA_TAB_COLUMNS、ALL_TAB_COLUMNS和USER_TAB_COLUMNS显示了每个数据库表的列的信息。
+注意：DBA_OBJECTS、ALL_OBJECTS和USER_OBJECTS显示了模式对象的信息，包括表。
+
+完整性约束
+DBA_CONSTRAINTS、ALL_CONSTRAINTS和USER_CONSTRAINST显示有关约束的一般信息。
+DBA_CONS_COLUMNS、ALL_CONS_COLUMNS和USER_CONS_COLUMNS显示有关列的相关约束的一般信息。
+
+视图
+DBA_VIEWS、ALL_VIEWS和USER_VIEWS。
+注意：DBA_OBJECTS、ALL_OBJECTS和USER_OBJECTS显示了模式对象的信息，包括视图。
+
+序列
+DBA_SEQUENCES、ALL_SEQUENCES和USER_SEQUENCES。
+注意：DBA_OBJECTS、ALL_OBJECTS和USER_OBJECTS显示了模式对象的信息，包括序列。
+===   查看用户所拥有的序列
+
+同义词
+DBA_SYNONYMS、ALL_SYNONYMS和USER_SYNONYMS。
+注意：DBA_OBJECTS、ALL_OBJECTS和USER_OBJECTS显示了模式对象的信息，包括同义词。
+
+索引
+DBA_INDEXS、ALL_INDEXS、USER_INDEXS、DBA_IND_COLUMNS、ALL_IND_COLUMNS和USER_IND_COLUMNS。
+===其中USER_IDN_COLUMNS可以列出表名、索引名、字段名。
+
+用户
+DBA_USERS。  
+===   default_tablespace
+
+
+表空间定额
+DBA_TS_QUOTAS。
+===  select  tablespace_name,username,bytes,max_bytes from dba_ts_quotas;     查看表空间使用情况.
+
+配置表
+DBA_PROFILES。
+
+表空间
+DBA_TABLESPACES。
+
+数据文件
+DBA_DATA_FILES。
+
+段
+DBA_SEGMENTS、USER_SEGMENT。
+
+回滚段
+DBA_ROLLBACK_SEGS、V$ROLLNAME、V$ROLLSTAT。
+
+用户系统权限
+DBA_SYS_PRIVS  (ALL_SYS_PRIVS)  USER_SYS_PRIVS
+===系统权限：create table、create view、create synonym、unlimited tablespaces、
+
+用户对象权限
+DBA_TAB_PRIVS  ALL_TAB_PRIVS  USER_TAB_PRIVS
+===可以查看表哪些用户可以访问
+
+角色
+DBA_ROLES。
+===  查看系统所有角色(ROLE  PASSWORD_REQUIRED).   不存在ALL_ROLES  和USER_ROLES
+
+用户角色权限
+DBA_ROLE_PRIVS  ALL_ROLE_PRIVS  USER_ROLE_PRIVS
+===角色权限: connect  查看哪些用户分配了哪些角色
+
+角色权限
+ROLE_SYS_PRIVS
+===   不同的用户查询的结果不同,查看当前用户所拥有角色对应的系统权限.可以查看RESOURCE 角色对应的权限.
+===   select * from role_sys_privs where role IN ('CONNECT','RESOURCE');  如果当前用户具有这些权限,就能查到. 一般用sysdba查角色对应的权限,能查到所有的. connect 角色只有一个create session权限; resource有create各种对象的权限. 
+
+  1.1  查看表结构
+       desc table_name;   
+       select column_name,data_type,nullable from user_tab_columns where table_name=?    :  查看nullable等.
+       select * from user_constraints where table_name=? and constraint_type='P'         :  查看主键等.
+  1.2  查看当前的sessionid
+       1) select * from v$session where audsid=userenv('sessionid');  -- userenv()是sql函数
+       2) SELECT SYS_CONTEXT ('USERENV', 'SESSION_USER') FROM DUAL;   -- sys_context()是sql函数.
+       3) select * from v$session where sid = ( select sid from v$mystat where rownum=1);
+
+2, 关于sqlplus
+   * SQLPATH 环境变量: a)在刚进入sqlplus时，先查找当前目录看有没有login.sql文件，有则执行，没有再查找$SQLPATH环境变量所指的目录，有则执行
+                        b)在start sql文件(@ sql文件)时，同样执行上述查找login.sql文件。
+     如果show 时候报table/view does not exists   :        grant select on v_$parameter to leslie1;
+     show user :                    显示当前登录数据库的用户名.
+   * sqlplus /nolog : 登录数据库,但没有连接任何数据库.
+      conn /as sysdba: 以sysdba用户登录.
+      startup        :启动数据库,以上3步为启动数据库方法.
+   * define_editor='vi';
+      edit 1.sql; 用vi编辑完sql后,@1.sql来执行.
+      save 1.sql; 将上一条sql保存在1.sql文件中,然后可以edit 1.sql.
+   * 一般需要设置变量:  set linesize 200;set pagesize 50;  其他的可以先不设置.
+     set long 10000: 设置CLOB,LONG,NCLOB类型的显示大小.  例如: select dbms_metadata.get_ddl()的返回,如果太小就会truncate.
+     set heading off: 不显示表头名字,只显示值. 如果set pagesize 0; 同样会执行set heading off.
+
+3, 部分命令
+   1) rollback 可以回滚执行但尚未commit的数据
+   2) oerr ora 27101: oerr 可以查看ORA-27101: shared memory realm does not exist的错误原因和解决方法。此命令在shell中，而非数据库中。
+   3) 关于授权命令:
+     a)语法：
+	 GRANT privilege [, ...] ON object [, ...]
+	  TO { PUBLIC | GROUP group | username }
+	 privilege 可能的权限有： 
+	  SELECT 访问声明的表/视图的所有列/字段． 
+	  INSERT 向声明的表中插入所有列字段． 
+	  UPDATE 更新声明的所有列/字段． 
+	  DELETE 从声明的表中删除所有行． 
+	  RULE   在表/视图上定义规则 （参见 CREATE RULE 语句）． 
+	  ALL    赋予所有权限． 
+          CREATE TABLE
+	 object 赋予权限的对象名．可能的对象是： 
+	     * table （表）
+	     * view （视图）
+	     * sequence （序列）
+	     * index （索引）
+	  PUBLIC       代表是所有用户的简写． 
+	  GROUP group  将要赋予权限的组 group ．目前的版本中，组必须是用下面方法显式创建的． 
+	  username     将要赋予权限的用户名．PUBLIC 是代表所有用户的简写． 
+      b)收回权限: revoke select on movie from sysman;  收回授给sysman在表movie上的select权限.
+   4)关于建表、视图、同义词
+     creat table 时，如果想建一个结构和已存在的表的结构一样的表，可以：   create table t1 as select * from big_table where 1=0;   那么t1的结构和big_table的结构一样，不过是空表，没有数据。如果没有写最后的where 条件，那么也会用big_table中数据填充t1,那这两个表就完全一样了。
+     create or replace view t1_v as select * from t1;
+     create or replace synonym t1 for leslie1.t1;
+   5)关于sqlplus 命令
+     a) 使用show all: 查看所有的show 命令.
+         set wrap off:    不折行显示
+         set pageline 100:          每页显示100条记录(oracle每100条记录打印一次标题),假如一共有1000行记录，而屏幕显示不完那么多，可以Edit->Profile Preference                                    s->Scrolling->Scrollback 的大小.
+
+     b)使用show parameter : 查看所有参数信息   单独查看： show parameter sga_target; 
+     c)使用compute & break :  
+         compute sum of bytes on pool :    在pool(column)列显示总大小
+         break on pool skip 1:             在pool(column)相同的只显示一行
+     * sqlplus payopr/payopr123@//172.16.49.219:1521/motion:    连接 172.16.49.219上端口是1521实例名是motion的数据库.
+
+   6)关于constraint
+     a)alter table customers add constraints pk_customers primary key(custid);     为表customers增加primary key.
+     b)alter table orders rename column ordtid to ordid;                           将表orders中列 ordtid 改名为ordid.
+     c) create table orderdetail (ordid varchar2(10) not null,
+                                  artid varchar2(10) not null,
+                               quantity number(4) default 0,
+                               constraint pk_orderdetail primary key (ordid,artid));  -- constraint + constraint名 ＋primary key ＋（）.
+   7) 关于导入导出
+      在linux shell中执行，而不是登录数据库执行
+       exp system/manager@compbk file=database1.dmp full=y ;                                      :  导出整个数据库
+       exp leslie1/leslie1@compbk file=leslie1.dmp owner=leslie1,leslie2                          :  将用户leslie1和leslie2的相关信息导出. 
+       exp leslie1/leslie1@compbk file=t1t2.dmp tables=t1,t2;                                     :  将用户leslie1的t1 和 t2 表导出.
+       exp leslie1/leslie1@compbk file=t2.dmp table=t2 query=\"where object_type=\'TABLE\'\";     :  指定条件导出表中记录.
+
+       imp system/manager@compbk file=database1.dmp full=y ignore=y                               :  导入整个数据库，存在的不报错.
+       imp leslie1/leslie1@compbk file=t1t2.dmp tables=t1,t2;                                     :  导入leslie1用户的t1 和 t2 表.
+
+4, 关于包
+   1) 查看包的内容
+      select * from user_source where name="RUNSTATS_PKG';
+      select text from user_source where name='RUNSTATS_PKG';
+      select text from user_source where name='RUNSTATS_PKG' AND type='PACKAGE BODY';
+   2）常用包
+      a) dbms_stats.gather_table_stats(ownname=>'LESLIE1',tabname=>'DISORGANIZED',cascade=>true);  收集leslie1.disorganized表、索引(cascade为true)的信息,分散于各个视图中，如： user_tables,user_indexes,user_tab_statistics等.
+      b) dbms_metadata.get_ddl('TABLE','TABNAME'):查看完整的表结构语句.
+         select dbms_metadata.get_ddl('TABLE','T1','LESLIE1') from dual;   查看Leslie1下的t1表结构.
+         下面导出用户leslie1下面的所有表的ddl语句:
+         set long size 10000; spool leslie1.sql;
+         select dbms_metadata.get_ddl('TABLE',u.table_name) from user_tables u;
+         spool off;
+      c) dbms_stats.set_table_stats('ownname=>'LESLIE1',tabname=>'T1',numrows=>1000000,numblks=>100000);
+
+5, 关于oracle中各种错误:
+   a) ORA-01102: cannot mount database in EXCLUSIVE mode
+      出现：启动数据库时。
+      方法一：/opt/oracle/dbs/lkCOMPBK文件正在被其他进程使用，kill这些正在使用的进程：fuser -k lkCOMPBK，重新startup数据库即可。
+
+   b) TNS:net service name is incorrectly specified
+      方法一：可能是.profile中没有配置ORACLE_SID这个环境变量:export ORACLE_SID=compbk
+
+   a) TNS:listener does not currently know of service requested in connect descriptor
+      出现：sqlplus system/manager@compbk时。
+      方法一：listener 虽然起了，但是数据库没有启动。
+
+   d) TNS: no listener
+      出现： sqlplus system/manager@compbk时
+      方法一：数据库虽然启动了，但是监听没有启动.
+
+6, 关于oracle优化
+   6.1 工具
+    a) 使用autotrace: 方法见 oracle 9i&10编程艺术中 第0章  要执行$ORACLE_HOME/rdbms/admin/utlxplan.sql。
+    b) 使用explain plan: 执行$ORACLE_HOME/rdbms/admin/utlxplan.sql (UNIX)  该脚本后会生成一个表这个程序会创建一个名为plan_table的表。
+       语法： explain PLAN [ SET STATEMENT_ID [=] < string literal > ] [ INTO < table_name > ]
+              FOR < sql_statement >
+       执行完上面语句后执行： 
+          SELECT A.OPERATION,OPTIONS,OBJECT_NAME,OBJECT_TYPE,ID,PARENT_ID
+            FROM PLAN_TABLE  a
+           WHERE STATEMENT_ID='T_TEST'
+        ORDER BY Id;u
+       或者执行： select * from table(dbms_xplan.display);
+    注意： explain plan 并不会实际执行for后面的语句，但是autotrace会,即使使用set autotrace on traceonly explain。所以像 delete、update、insert等语句最好用       explain plan。防止操作数据库中数据。
+    set timing on: 在sqlplus 中显示语句总执行时间。
+    在执行explain plan之前，最好 delete from plan_table; 否则执行结果可能不准确.
+    * set autotrace on 
+    * explain plan for ....     then :  select * from table(dbms_xplan.display)
+    * tkprof : 见 tkprof.txt
+   
+
+    6.2 用户提交给oracle的sql及parsed sql 放在 shared_pool中。   sql取得的数据放在buffer_cache中（影响物理读）
+        可以执行以下语句清除： alter system flush shared_pool;      alter system flush buffer_cache;          (10g使用)
+        9i 的清除方法： 1. SELECT tablespace_name FROM dba_segments
+                            WHERE segment_name = [the table name in your query]
+                        2. ALTER tablespace [tablespace_name] offline;
+                        3. ALTER tablespace [tablespace_name] online;
+    6.3 关于HINT
+      a) select /*+ index(COLOCATED COLOCATED_PK)*/* from colocated;     注意第一个'*‘和'+'之间没有空格; 从10g开始'+'和index之间的空格也不是必须的.
+
+    6.4 在新建完一个索引之后，一般要执行dbms_stats.gather_table_stats(ownname=>'',tabname=>'',cascade=>TRUE)来重新统计数据，否则autotrace的执行结果可能不准确。
+
+    6.5 执行优化前，可能需要执行：
+        alter system flush shared_pool;
+        alter system flush buffer_cache;
+
+7, 关于索引
+   7.1 如果where clause中包含索引且按索引访问表，那么select 出的数据按照该索引升序排列,索引相同的则按rowid升序排列.
+       select kyc_no,nrvw_dt from ciftcus where nrvw_dt between '20090101' and '20101010';
+     与select kyc_no,nrvw_dt from ciftcus where nrvw_dt between '20090101' and '20101010' order by nrvw_dt; 等效.
+
+8, 关于创建用户
+   8.1 create user leslie1 identified by leslie;   创建用户leslie1,密码是leslie,如果只是这样,conn leslie1/leslie时会报错：user ... lacks CREATE SESSION privilege; logon denied
+       grant create session to leslie1;            可以解决上面的问题.
+       grant connect to leslie1;                   也可以解决上面的问题. 角色connect只具有create session的权限.
+   8.2  alter user leslie1 identified by leslie2;  修改用户leslie1的密码为leslie2.
+        password leslie1                           同样修改用户密码，这种情况下输入的密码不可见;  这是命令,不是语句.
+   8.3 drop user leslie1 cascade;                  删除用户leslie1及其下的所有objects
+
+9, 关于表空间
+   9.1 创建用户时最好指定好默认表空间和可使用的表空间配额
+       create user leslie1 identified by leslie1 default tablespace LESLIE1 quota 29M on LESLIE1   :  default tablespace 用于建表时未指定表空间的情况. GRANT CREATE TABLE TO LESLIE1; 这是针对默认表空间而言的，在该表空间上leslie1必须有分配的空间. 
+       ALTER USER LESLIE1 QUOTA unlimited on LESLIE1 只有分配了空间才可以在相应的表空间建表,用于增加某个用户在某个表空间的配额. 
+                                45m on users        :  在表空间users上分配45m给leslie1用户.
+       select * from user_ts_quotas;                         :  查看当前用户在某个表空间上的配额.
+       select username,default_tablespace from dba_users;    :  查看用户的默认表空间.
+   9.2 增加表空间大小
+       a,select * from dba_data_files t where t.tablespace_name = 'USERS';     找出该表空间对应的数据文件及路径
+       b,alter database datafile '全路径的数据文件名称' resize ***M;           增大数据文件.
+         or
+         alter tablespace 表空间名称;
+         add datafile '全路径的数据文件名称' ***M;                             增加数据文件.
+   9.3 用户在某个表空间上的情况:
+       a, 用户在表空间USERS上的配额不足，导致无法insert等操作：
+          select tablespace_name,bytes 已使用空间,max_bytes 分配的配额空间 from user_ts_quotas;         : 查看用户配额.
+          alter user leslie1 quota 60m on users;                                                        : 增加用户在表空间users上的配额.
+       b, 用户所使用的表空间不足，导致错误:
+          select sum(bytes) "空闲空间" from dba_free_space where tablespace_name='USERS';               : 查看剩余空间.
+          select sum(bytes) "总空间"  from dba_data_files where tablespace_name='USERS';                : 查看总空间,两个相减即为已使用空间.
+          如果不足，按9.2中两种方法添加，增加数据文件时需要先查看操作系统的空间是否足够:df -g
+          另外一般建表时指定： autoextend on next 10m  让表空间可以自动增长.在快满时，如果操作系统还有空间，则可以自动的增长.
+          alter database datafile '/opt/oracle/instance/compbk/users01.dbf' autoextend off;     :   关闭表空间自动增长功能.
+
+10, 关于视图
+   10.1 向视图中插入一条记录，同时也会在原表中插入同样的记录.
+        create view t1_v as select * from t1;
+
+11, 关于同义词
+   11.1  一般步骤: 1) 建表  2)建立该表的视图  3)将视图的权限賦给某个用户   4）在该用户下创建视图的同义词.
+         对哪个对象建立同义词,该用户就必须对该对象有 SELECT 权限才可以访问该同义词.
+
+12, 关于序列
+   12.1 创建序列: create sequence seq1 increment by 1 start with 10 maxvalue 999 nocycle nocache;        用户必须拥有create sequence权限
+        使用序列: select seq1.currval from dual;   -- 查看序列当前值.  
+                  select seq1.nextval from dual;   -- 查看序列下一个值.
+        如果使用了cache: 如: cache 20 则上例中select last_number from user_sequences where sequence_name="SEQ1" 的值将是30或50.
+       
+13,关于权限
+        
+=====================================Oracle 9i&10g Programming Techniques and Solutions================================
+第0章 配置环境
+runstats 创建：
+1,创建试图
+   create or replace view stats
+   as select 'STAT...'||a.name name,b.value
+   from v$statname a, v$mystat b
+   where a.statistic# = b.statistic#
+   union all
+   select 'LATCH.'||name,gets
+   from v$latch;
+2,创建表
+    create global temporary table run_stats
+    (runid   varchar2(15),
+    name    varchar2(80),
+    value   int)
+    on commit preserve rows;
+3,创建runstas包
+    create or replace package runstats_pkg
+    as
+    procedure rs_start;
+    procedure rs_middle;
+    procedure rs_stop(p_difference_threshold in number default 0);
+    end;
+    /
+
+4,执行CRE_BIG_TABLE.SQL的结果：
+system@COMPBK> @CRE_BIG_TABLE.SQL
+Table altered.
+
+5,创建表t1和t2:
+   create table t1
+   as
+   select * from big_table
+   where 1=0;
+6,system用户没有select 视图stats的权限
+  可以用sys创建，然后grant 给system,具体用system执行时，select * from sys.stats；即可以访问了。
+
+
+
+perfstatte or replace package body runstats_pkg   用户密码： leslie1987
+
+第2章 体系结构概述
+1,关于连接和进程
+  只要连接上，ps -ef |grep leslie 就会看到服务器进程，此时没有其他进程(只要没有startup）
+ startup nomount: 启动instance,但是不启动数据库,此时ps -ef|grep leslie 可以看到很多进程
+ startup mount: 启动数据库，但是closed状态.
+ 
+ alter database mount:   当前实例装载数据库 
+ alter database open:    当前实例打开数据库
+ alter database close:   当前实例关闭数据库
+ 但是同一实例只能装载和打开一次数据库，要想再打开，须先shutdown
+
+
+================================================记录=====================================================================================================
+* www.oracle.com 帐号： leslie_wangyang@hotmail.com     1..2..3..
+
+* rownum
+   For each row returned by a query, the ROWNUM pseudocolumn returns a number indicating the order in which Oracle selects the row from a table or set of joined rows. The first row selected has a ROWNUM of 1, the second has 2, and so on.
+   a)select * from orders where rownum < 10 ;    --正确
+   b)select * from orders where rownum > 1 ;     --值永远是false。The first row fetched is assigned a ROWNUM of 1 and makes the condition false. The second row to be fetched is now the first row and is also assigned a ROWNUM of 1 and makes the condition false. All rows subsequently fail to satisfy the condition, so no rows are returned.
+   c) select * from orders where rownum <10 order by orderid;      --  注意是现取10条记录再对这10条记录进行排序.
+
+*sql developer
+  sh developer.sh:  打开oracle sql developer.
+  Alt+Shift+1：     将当前的worksheet命名为1号标签，  Alt+1: 转到1号标签.
+
+* TNS:net service name is incorrectly specified
+  方法一：可能是.profile中没有配置ORACLE_SID这个环境变量:export ORACLE_SID=compbk
+
+* 当使用不带pfile 子句的startup 命令时，Oracle 将从平台指定的默认位置上的服务器参数文件（SPFILE）中读取初始化参数。Oracle查找SPFILE或者创通的init.ora的顺序是：在平台指定的默认位置上，Oracle首先查找名为spfile$ ORACLE_SID.ora的文件，假如没有就查找spfile.ora文件，还没有的话，就找init$ORACLE_SID.ora文件.只要找到一个就不再继续找了。
+
+
+关于oracle中各种错误:
+   a) ORA-01102: cannot mount database in EXCLUSIVE mode
+      方法一：/opt/oracle/dbs/lkCOMPBK文件正在被其他进程使用，kill这些正在使用的进程：fuser -k lkCOMPBK，重新startup数据库即可。
+   
+   b)ORA-00119: invalid specification for system parameter LOCAL_LISTENER
+     ORA-00132: syntax error or unresolved network name 'LISTENER_COMPBK'
+    方法一：在tnsnames.ora中添加如下： 
+     LISTENER_COMPBK =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = ubuntu.ubuntu-domain)(PORT = 1522)) 
+   c) ORA-01536: space quota exceeded for tablespace 'USERS'
+     用户在表空间 USERS 上超过了设置的使用配额.
+     c.1: 查看该用户在USERS上的配额设置情况，看是不是该配额超过了限制 (dba_data_files:总空间  dba_free_space:剩余空间  dba_ts_quotas: 用户配额)
+     c.2: 查看USERS总空间大小，看是不是需要增加.
+
+==================================================================PL/SQL====================================================================================
+
+
+
+
+========================================Windows Oracle 
+E:\Oracle\product\10.2.0\db_1
+全局数据库名: orcl
+sys,system,sysman,dbsnmp: aaaaaa
+数据库配置文件已经安装到 E:\Oracle\product\10.2.0,同时其他选定的安装组件也已经安装到 E:\Oracle\product\10.2.0\db_1。
+iSQL*Plus URL 为:
+http://leslie-PC:5560/isqlplus
+
+iSQL*Plus DBA URL 为:
+http://leslie-PC:5560/isqlplus/dba
+

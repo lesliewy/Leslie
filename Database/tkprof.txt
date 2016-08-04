@@ -1,0 +1,76 @@
+oracle tkprof使用小结
+本文档由ice.xie原创，转载请说明出处
+1)大概步骤:
+ alter session set sql_trace=true;
+   执行sql;
+   alter session set sql_trace=false;
+   show parameter user_dump_dest;
+   tkprof  a.trc  a.txt
+
+3.如果需要在session级别上设置trace，可以在sqlplus中使用下列语句：
+SQL> alter session set sql_trace=true;
+或者SQL> execute dbms_session.set_sql_trace(TRUE);
+会话已更改。
+
+4.如果要在PL/SQL中对session级别上设置trace，可以使用dbms_session这个包：
+SQL>exec dbms_system.set_sql_trace_in_session(sid，serial#,true);
+PL/SQL 过程已成功完成。
+
+5.在user_dump_dest下找到该trc文件,文件最大容量由 max_dump_file_size决定
+  show parameter user_dump_dest;
+
+6.使用tkprof生成相关文件,tkprof放在$ORACLE_HOME/bin目录下，如无法执行请检查环境变量和PATH
+tkprof erptest_ora_27576.trc session.txt explain=system/manager aggregate=yes sys=no waits=yes sort=fchela
+相关说明:
+sys=no：表示阻止所有以sys用户执行的sql被显示出来，默认为YES
+aggregate=yes|no 若用户指定AGGREGATE=NO，TKPROF将不会对相同SQL文本的多个用户进行汇总
+waits=yes|no Record summary for any wait events found in the trace file.
+
+CALL： 每次SQL语句的处理都分成三个部分（Parse，Execute,Fetch）
+Parse： 这步将SQL语句转换成执行计划，包括检查是否有正确的授权和所需要用到的表、列以及其他引用到的对象是否存在。
+Execute： 这步是真正的由Oracle来执行语句。对于insert、update、delete操作，这步会修改数据，对于select操作,这步就只是确定选择的记录。
+Fetch： 返回查询语句中所获得的记录，这步只有select语句会被执行。
+COUNT: 这个语句被parse、execute、fetch的次数。
+
+CPU： 这个语句对于所有的parse、execute、fetch所消耗的cpu的时间，以秒为单位。
+ELAPSED： 这个语句所有消耗在parse、execute、fetch的总的时间。
+DISK： 从磁盘上的数据文件中物理读取的块的数量。一般来说更想知道的是正在从缓存中读取的数据而不是从磁盘上读取的数据。
+QUERY： 在一致性读模式下，所有parse、execute、fetch所获得的buffer的数量。 一致性模式的buffer是用于给一个长时间运行的事务提供一个一致性读的快照，缓存实际上在头部存储了状态。 --即逻辑读:读取缓冲区的次数.
+CURRENT：在current模式下所获得的buffer的数量。一般在current模式下执行insert、update、delete操作都会获取 buffer。在current模式下如果在高速缓存区发现有新的缓存足够给当前的事务使用，则这些buffer都会被读入了缓存区中。
+ROWS: 所有SQL语句返回的记录数目，但是不包括子查询中返回的记录数目。对于select语句，返回记录是在fetch这步，
+对于insert、update、delete操作，返回记录则是在execute这步。
+
+tkprof产生出来的文件示例:
+select *
+from
+ leslie1.t5 where object_id='123'
+call     count       cpu    elapsed       disk      query    current        rows
+------- ------  -------- ---------- ---------- ---------- ----------  ----------
+Parse        1      0.00       0.02          0          0          0           0
+Execute      1      0.00       0.01          0          0          0           0
+Fetch        1      0.00       0.00          0          2          0           0
+------- ------  -------- ---------- ---------- ---------- ----------  ----------
+total        3      0.00       0.03          0          2          0           0
+
+Misses in library cache during parse: 1
+Optimizer mode: ALL_ROWS
+Parsing user id: 5
+
+Rows     Row Source Operation
+-------  ---------------------------------------------------
+      0  TABLE ACCESS BY INDEX ROWID T5 (cr=2 pr=0 pw=0 time=140 us) -- cr表示总的逻辑读: 索引+表本身.  consistent reads
+      0   INDEX RANGE SCAN T5_IND1 (cr=2 pr=0 pw=0 time=117 us)(object id 54144) --cr表示索引的逻辑读.
+
+
+
+问题判断：
+1. query+current/rows 平均每行所需的block数，太大的话（超过20）SQL语句效率太低
+2. Parse count/Execute count parse count应尽量接近1，如果太高的话，SQL会进行不必要的reparse。
+要检查Pro*C程序的MAXOPENCURSORS是不是太低了，或不适当的使用的RELEASE_CURSOR选项
+3. rows Fetch/Fetch Fetch Array的大小，太小的话就没有充分利用批量Fetch的功能，
+增加了数据在客户端和服务器之间的往返次数。在Pro*C中可以用prefetch=NN,Java/JDBC中可调用SETROWPREFETCH,
+在PL/SQL中可以用BULK COLLECT,SQLPLUS中的arraysize(缺省是15)　　
+4. disk/query+current 磁盘IO所占逻辑IO的比例，太大的话有可能是db_buffer_size过小(也跟SQL的具体特性有关)　　
+5. elapsed/cpu 太大表示执行过程中花费了大量的时间等待某种资源　　
+6. cpu　OR　elapsed 太大表示执行时间过长，或消耗了大量的CPU时间，应该考虑优化
+7.　执行计划中的Rows 表示在该处理阶段所访问的行数，要尽量减少

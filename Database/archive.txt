@@ -1,0 +1,744 @@
+============================================================Oracle 角色及权限=======================================================================
+    每个Oracle用户都有一个名字和口令,并拥有一些由其创建的表、视图和其他资源。Oracle角色（role）就是一组权限（privilege）(或者是每个用户根据其状态和条件所需的访问类型)。用户可以给角色授予或赋予指定的权限，然后将角色赋给相应的用户。一个用户也可以直接给其他用户授权。
+    数据库系统权限（Database System Privilege）允许用户执行特定的命令集。例如，CREATE TABLE权限允许用户创建表，GRANT ANY PRIVILEGE 权限允许用户授予任何系统权限。
+    数据库对象权限（Database Object Privilege）使得用户能够对各个对象进行某些操作。例如DELETE权限允许用户删除表或视图的行，SELECT权限允许用户通过select从表、视图、序列（sequences）或快照 （snapshots）中查询信息。
+一、创建用户
+   Oracle内部有两个建好的用户：SYSTEM和SYS。用户可直接登录到SYSTEM用户以创建其他用户，因为SYSTEM具有创建别的用户的权限。在安装Oracle时，用户或系统管理员首先可以为自己建立一个用户。例如：
+    create user user01 identified by u01;
+    该命令还可以用来设置其他权限，详细情况参见自学资料。要改变一个口令，可以使用alter user命令：
+    alter user user01 identified by usr01;
+    现在user01的口令已由“u01”改为“usr01”。
+    除了alter user命令以外，用户还可以使用password命令。如果使用password命令，用户输入的新口令将不在屏幕上显示。有dba特权的用户可以通过password命令改变任何其他用户的口令；其他用户只能改变自己的口令。
+    当用户输入password命令时，系统将提示用户输入旧口令和新口令，如下所示：
+    password
+    Changing password for user01
+    Old password:
+    New password:
+    Retype new password:
+    当成功地修改了口令时，用户会得到如下的反馈：
+    Password changed
+二、删除用户
+    删除用户，可以使用drop user命令，如下所示：
+    drop user user01;
+   如果用户拥有对象，则不能直接删除，否则将返回一个错误值。指定关键字CASCADE，可删除用户所有的对象，然后再删除用户。下面的例子用来删除用户与其对象：
+    drop user user01 CASCADE;
+三、3种标准角色
+    Qracle为了兼容以前的版本，提供了三种标准的角色（role）：CONNECT、RESOURCE和DBA。
+    1. CONNECT Role(连接角色)
+    临时用户，特别是那些不需要建表的用户，通常只赋予他们CONNECTrole。CONNECT是使用Oracle的简单权限，这种权限只有在对其他用户的表有访问权时，包括select、insert、update和delete等，才会变得有意义。拥有CONNECT role的用户还能够创建表、视图、序列（sequence）、簇（cluster）、同义词（synonym ）、会话（session）和与其他数据库的链（link）。
+    2. RESOURCE Role(资源角色)
+    更可靠和正式的数据库用户可以授予RESOURCE role。RESOURCE提供给用户另外的权限以创建他们自己的表、序列、过程（procedure）、触发器（trigger）、索引（index）和簇（cluster）。
+    3. DBA Role(数据库管理员角色)
+    DBA role拥有所有的系统权限----包括无限制的空间限额和给其他用户授予各种权限的能力。SYSTEM由DBA用户拥有。下面介绍一些DBA经常使用的典型权限。
+   （1）grant（授权）命令
+    下面对刚才创建的用户user01授权，命令如下：
+    grant connect, resource to user01;
+   （2）revoke（撤消）权限
+    已授予的权限可以撤消。例如撤消（1）中的授权，命令如下：
+    revoke connect, resource from user01;
+    一个具有DBA角色的用户可以撤消任何别的用户甚至别的DBA的CONNECT、RESOURCE 和DBA的其他权限。当然，这样是很危险的，因此，除非真正需要，DBA权限不应随便授予那些不是很重要的一般用户。
+    撤消一个用户的所有权限，并不意味着从Oracle中删除了这个用户，也不会破坏用户创建的任何表；只是简单禁止其对这些表的访问。其他要访问这些表的用户可以象以前那样地访问这些表。
+四、创建角色
+   除了前面讲到的三种系统角色----CONNECT、RESOURCE和DBA，用户还可以在Oracle创建自己的role。用户创建的role可以由表或系统权限或两者的组合构成。为了创建role，用户必须具有CREATE ROLE系统权限。下面给出一个create role命令的实例：
+    create role STUDENT;
+    这条命令创建了一个名为STUDENT的role。
+    一旦创建了一个role，用户就可以给他授权。给role授权的grant命令的语法与对对用户的语法相同。在给role授权时，在grant命令的to子句中要使用role的名称，如下所示：
+    grant select on CLASS to STUDENT;
+   现在，拥有STUDENT角色的所有用户都具有对CLASS表的select权限。
+   ### system 用户创建了perf_role角色，在leslie1用户中可以授权:grant select on t4 to perf_role;
+
+五、删除角色
+   要删除角色，可以使用drop role命令，如下所示：
+   drop role STUDENT;
+   指定的role连同与之相关的权限将从数据库中全部删除。
+
+==========================================================user & schema==================================================================================
+前言：
+user是控制权限的，而schema则是一个容器，非所有者如果需要访问这个容器下的对象就需要在对象前面写上schema（owner）的名字，如果不想写而又没有创建synonym，此时可以通过 alter session set current_schema=schema_name来改变当前session的schema从而在访问对象时省去schema（owner）；最终能否访问对象还是要看是否有访问这个对象的权限而和schema无关。
+
+深入理解user和schema的区别:
+user即Oracle中的用户，和所有系统的中用户概念类似，用户所持有的是系统的权限及资源；
+而schema所涵盖的是各种对象，它包含了表、函数、包等等对象的“所在地”，并不包括对他们的权限控制。
+好比一个房子，里面放满了家具，对这些家具有支配权的是房子的主人（user），而不是房子（schema）。
+你可以也是一个房子的主人（user），拥有自己的房子（schema）。可以通过alter session的方式进入别人的房子。
+这个时候，你可以看到别人房子里的家具（desc）。
+如果你没有特别指定的话，你所做的操作都是针对你当前所在房子中的东西。
+至于你是否有权限使用（select）、搬动（update）或者拿走（delete）这些家具就看这个房子的主人有没有给你这样的权限了，或者你是整个大厦（DB）的老大（DBA）。alter session set schema可以用来代替synonyms。
+如果你想调用其他schema的对象（有权限的前提下），但并没有建synonym，同时又不想把其他schema名字放入代码中，就可以首先使用alter session set schema=<其他schema名字>
+
+2,关于视图 
+Oracle的数据库对象分为五种：表，视图，序列，索引和同义词。
+    视图是基于一个表或多个表或视图的逻辑表，本身不包含数据，通过它可以对表里面的数据进行查询和修改。视图基于的表称为基表。
+    视图是存储在数据字典里的一条select语句。 通过创建视图可以提取数据的逻辑上的集合或组合。
+视图的优点：
+      1.对数据库的访问，因为视图可以有选择性的选取数据库里的一部分。
+      2.用户通过简单的查询可以从复杂查询中得到结果。
+      3.维护数据的独立性，试图可从多个表检索数据。
+      4.对于相同的数据可产生不同的视图。
+视图分为简单视图和复杂视图：
+      简单视图只从单表里获取数据
+      复杂视图从多表
+
+      简单视图不包含函数和数据组
+      复杂视图包含
+
+     简单视图可以实现DML操作
+     复杂视图不可以.
+
+视图的创建：
+    CREATE [OR REPLACE] [FORCE|NOFORCE] VIEW view_name
+  [(alias[, alias]...)]
+  AS subquery
+  [WITH CHECK OPTION [CONSTRAINT constraint]]
+  [WITH READ ONLY]
+其中：
+OR REPLACE    ：若所创建的试图已经存在，ORACLE自动重建该视图；
+FORCE              ：不管基表是否存在ORACLE都会自动创建该视图；
+NOFORCE         ：只有基表都存在ORACLE才会创建该视图：
+alias                   ：为视图产生的列定义的别名；
+subquery           ：一条完整的SELECT语句，可以在该语句中定义别名；
+WITH CHECK  OPTION ：
+                            插入或修改的数据行必须满足视图定义的约束；
+WITH READ ONLY ：
+                           该视图上不能进行任何DML操作。
+例如：
+       CREATE  OR  REPLACE  VIEW  dept_sum_vw
+               (name,minsal,maxsal,avgsal)
+       AS  SELECT d.dname,min(e.sal),max(e.sal),avg(e.sal)
+       FROM    emp e,dept d
+       WHERE  e.deptno=d.deptno
+       GROUP  BY  d.dname;
+
+视图的定义原则：
+       1.视图的查询可以使用复杂的SELECT语法，包括连接/分组查询和子查询；
+       2.在没有WITH CHECK OPTION和 READ ONLY 的情况下，查询中不能使用
+          ORDER BY 子句；
+       3.如果没有为CHECK OPTION约束命名，系统会自动为之命名，形式为SYS_Cn;
+       4.OR REPLACE选项可以不删除原视图便可更改其定义并重建，或重新授予对象
+          权限。
+
+视图的查询：
+          视图创建成功后，可以从视图中检索数据，这点和从表中检索数据一样。
+          还可以查询视图的全部信息和指定的数据行和列。
+   如：
+         检索数据：
+          SQL>SELECT * FROM  dept_sum_vw；
+         查询视图定义：
+         SELECT view_name,text  from user_views;
+            其中text显示的内容为视图定义的SELECT语句，可通过DESC USER_VIEWS
+            得到相关信息。
+
+修改视图：
+        通过OR REPLACE 重新创建同名视图即可。
+
+视图上的DML 操作：
+        DML操作应遵循的原则：
+        1.简单视图可以执行DML操作；
+        2.在视图包含GROUP 函数，GROUP BY子句，DISTINCT关键字时不能
+           删除数据行；
+        3.在视图不出现下列情况时可通过视图修改基表数据或插入数据：
+            a.视图中包含GROUP 函数，GROUP BY子句，DISTINCT关键字；
+            b.使用表达式定义的列；
+            c.ROWNUM伪列。
+            d.基表中未在视图中选择的其他列定义为非空且无默认值。
+
+视图可用于保持数据库的完整性，但作用有限。
+通过视图执行引用完整性约束可在数据库级执行约束。
+
+WITH CHECK OPTION 子句限定：
+         通过视图执行的INSERTS和UPDATES操作不能创建该视图检索不到的数据行，
+         因为它会对插入或修改的数据行执行完整性约束和数据有效性检查。
+  例如：
+           CREATE OR REPLACE VIEW  vw_emp20
+           AS  SELECT *  FROM  emp
+           WHERE  deptno=20
+           WITH CHECK OPTION constraint  vw_emp20_ck;
+          视图 已建立。
+
+            查询结果：
+           SELECT empno,ename,job FROM vw_emp20;
+          
+          EMPNO                ENAME                JOB
+---------------------           --------------          -------------
+              7369                 SMITH                CLERK
+              7566                 JONES               MANAGER
+              7902                 FORD                ANALYST
+
+          修改：
+                UPDATE vw_emp20
+                SET        deptno=20
+                WHERE   empno=7902;
+           将产生错误：
+               UPDATE vw_emp20
+                              *
+               ERROR 位于第一行：
+               ORA-01402：视图WITH CHECK OPTION 违反WHERE 子句
+
+视图的删除：
+            DROP VIEW  VIEW_NAME语句删除视图。
+            删除视图的定义不影响基表中的数据。
+            只有视图所有者和具备DROP VIEW权限的用户可以删除视图。
+            视图被删除后，基于被删除视图的其他视图或应用将无效。 
+
+======================================Oracle字符集===============================================================================================
+一、什么是oracle字符集
+　　Oracle字符集是一个字节数据的解释的符号集合,有大小之分,有相互的包容关系。ORACLE 支持国家语言的体系结构允许你使用本地化语言来存储，处理，检索数据。它使数据库工具，错误消息，排序次序，日期，时间，货币，数字，和日历自动适应本地化语言和平台。
+　　影响oracle数据库字符集最重要的参数是NLS_LANG参数。
+　　它的格式如下: 　　NLS_LANG = language_territory.charset
+　　它有三个组成部分(语言、地域和字符集)，每个成分控制了NLS子集的特性。
+　　其中:
+　　Language 指定服务器消息的语言，territory 指定服务器的日期和数字格式，charset 指定字符集。如:AMERICAN _ AMERICA. ZHS16GBK 　　从NLS_LANG的组成我们可以看出，真正影响数据库字符集的其实是第三部分。
+　　所以两个数据库之间的字符集只要第三部分一样就可以相互导入导出数据，前面影响的只是提示信息是中文还是英文。
+二.查看数据库字符集
+　　这涉及三方面的字符集，
+　　一是oracel server端的字符集;
+　　二是oracle client端的字符集;
+　　三是dmp文件的字符集。
+　　在做数据导入的时候，需要这三个字符集都一致才能正确导入。
+　　1、查询oracle server端的字符集
+　　有很多种方法可以查出oracle server端的字符集，比较直观的查询方法是以下这种:
+　　SQL>select userenv('language') from dual;
+　　结果类似如下:AMERICAN _ AMERICA. ZHS16GBK
+　　2、如何查询dmp文件的字符集
+　　用oracle的exp工具导出的dmp文件也包含了字符集信息，dmp文件的第2和第3个字节记录了dmp文件的字符集。如果dmp文件不大，比如只有几M或几十M，可以用UltraEdit打开(16进制方式)，看第2第3个字节的内容，如0354，然后用以下SQL查出它对应的字符集:
+　　SQL> select nls_charset_name(to_number('0354','xxxx')) from dual;
+　　ZHS16GBK
+　　如果dmp文件很大，比如有2G以上(这也是最常见的情况)，用文本编辑器打开很慢或者完全打不开，可以用以下命令(在unix主机上):
+　　cat exp.dmp |od -x|head -1|awk '{print $2 $3}'|cut -c 3-6
+　　然后用上述SQL也可以得到它对应的字符集。
+　　3、查询oracle client端的字符集
+　　这个比较简单。
+　　在windows平台下，就是注册表里面相应OracleHome的NLS_LANG。还可以在dos窗口里面自己设置，比如: 　　set nls_lang=AMERICAN_AMERICA.ZHS16GBK
+　　这样就只影响这个窗口里面的环境变量。
+　　在unix平台下，就是环境变量NLS_LANG。
+　　$echo $NLS_LANG
+　　AMERICAN_AMERICA.ZHS16GBK
+　　如果检查的结果发现server端与client端字符集不一致，请统一修改为同server端相同的字符集。
+　　补充：
+　　(1).数据库服务器字符集
+　　select * from nls_database_parameters
+　　来源于props$，是表示数据库的字符集。
+　　(2).客户端字符集环境
+　　select * from nls_instance_parameters
+　　其来源于v$parameter，表示客户端的字符集的设置，可能是参数文件，环境变量或者是注册表
+　　(3).会话字符集环境
+　　select * from nls_session_parameters
+　　来源于v$nls_parameters，表示会话自己的设置，可能是会话的环境变量或者是alter session完成，如果会话没有特殊的设置，将与nls_instance_parameters一致。
+　　(4).客户端的字符集要求与服务器一致，才能正确显示数据库的非Ascii字符。如果多个设置存在的时候，alter session>环境变量>注册表>参数文件
+　　字符集要求一致，但是语言设置却可以不同，语言设置建议用英文。如字符集是zhs16gbk，则nls_lang可以是American_America.zhs16gbk。
+三、修改oracle的字符集
+　　上文说过，oracle的字符集有互相的包容关系。如us7ascii就是zhs16gbk的子集,从us7ascii到zhs16gbk不会有数据解释上的问题,不会有数据丢失。在所有的字符集中utf8应该是最大,因为它基于unicode,双字节保存字符(也因此在存储空间上占用更多)。
+　　一旦数据库创建后，数据库的字符集理论上讲是不能改变的。因此，在设计和安装之初考虑使用哪一种字符集十分重要。根据Oracle的官方说明，字符集的转换是从子集到超集受支持,反之不行。如果两种字符集之间根本没有子集和超集的关系，那么字符集的转换是不受oracle支持的。对数据库 server而言，错误的修改字符集将会导致很多不可测的后果，可能会严重影响数据库的正常运行，所以在修改之前一定要确认两种字符集是否存在子集和超集的关系。一般来说，除非万不得已，我们不建议修改oracle数据库server端的字符集。特别说明，我们最常用的两种字符集ZHS16GBK和 ZHS16CGB231280之间不存在子集和超集关系，因此理论上讲这两种字符集之间的相互转换不受支持。
+　　1、修改server端字符集(不建议使用)
+　　在oracle 8之前，可以用直接修改数据字典表props$来改变数据库的字符集。但oracle8之后，至少有三张系统表记录了数据库字符集的信息，只改props$表并不完全，可能引起严重的后果。正确的修改方法如下:
+　　$sqlplus /nolog
+　　SQL>conn / as sysdba; 　　若此时数据库服务器已启动，则先执行SHUTDOWN IMMEDIATE命令关闭数据库服务器，然后执行以下命令:
+　　SQL>STARTUP MOUNT;
+　　SQL>ALTER SYSTEM ENABLE RESTRICTED SESSION;
+　　SQL>ALTER SYSTEM SET JOB_QUEUE_PROCESSES=0;
+　　SQL>ALTER SYSTEM SET AQ_TM_PROCESSES=0;
+　　SQL>ALTER DATABASE OPEN;
+　　SQL>ALTER DATABASE CHARACTER SET ZHS16GBK;
+　　SQL>ALTER DATABASE national CHARACTER SET ZHS16GBK;
+　　SQL>SHUTDOWN IMMEDIATE;
+　　SQL>STARTUP
+　　注意：如果没有大对象，在使用过程中进行语言转换没有什么影响，（切记设定的字符集必须是ORACLE支持，不然不能start）按上面的做法就可以,但是可能会出现‘ORA-12717: Cannot ALTER DATABASE NATIONAL CHARACTER SET when NCLOB data exists’ 这样的提示信息
+　　要解决这个问题有两种方法
+　　一个是,利用INTERNAL_USE 关键字修改区域设置,
+　　还有一个是利用re-create,但是re-create有点复杂,所以请用internal_use,
+　　SQL>SHUTDOWN IMMEDIATE;
+　　SQL>STARTUP MOUNT EXCLUSIVE;
+　　SQL>ALTER SYSTEM ENABLE RESTRICTED SESSION;
+　　SQL>ALTER SYSTEM SET JOB_QUEUE_PROCESSES=0;
+　　SQL>ALTER SYSTEM SET AQ_TM_PROCESSES=0;
+　　SQL>ALTER DATABASE OPEN;
+　　SQL>ALTER DATABASE NATIONAL CHARACTER SET INTERNAL_USE UTF8;
+　　SQL>SHUTDOWN immediate;
+　　SQL>startup;
+　　如果按上面的做法做,National charset的区域设置就没有问题
+　　2、修改dmp文件字符集
+　　上文说过，dmp文件的第2第3字节记录了字符集信息，因此直接修改dmp文件的第2第3字节的内容就可以‘骗’过oracle的检查。这样做理论上也仅是从子集到超集可以修改，但很多情况下在没有子集和超集关系的情况下也可以修改，我们常用的一些字符集，如 US7ASCII，WE8ISO8859P1，ZHS16CGB231280，ZHS16GBK基本都可以改。因为改的只是dmp文件，所以影响不大。
+　　具体的修改方法比较多，最简单的就是直接用UltraEdit修改dmp文件的第2和第3个字节。
+　　比如想将dmp文件的字符集改为ZHS16GBK，可以用以下SQL查出该种字符集对应的16进制代码: 　　SQL> select to_char(nls_charset_id('ZHS16GBK'), 'xxxx') from dual;
+　　0354
+　　然后将dmp文件的2、3字节修改为0354即可。
+　　如果dmp文件很大，用ue无法打开，就需要用程序的方法了。
+
+=================================================Oracle 安装,启动,登录,删除(linux)===================================================================================
+首先把系统更新到最新，安装如下包
+网上是说要使用命令 sudo apt-get install 将下列包全部安装，遇到几个找不到的，我直接忽略了，好像也没有问题。
+alien binutils gcc ia32-libs lesstif2 lesstif2-dev lib32stdc++6 lib32z1 libaio1
+libc6 libc6-dev libc6-dev-i386 libc6-i386 libmotif3 make libstdc++5 rpm
+=====这一步是必须的，否则安装时会出错，有些不必安装，逐个执行安装即可，不能安装的就不安装。
+当用ubuntu9.10安装时，由于9.10装的是 libstdc++6,而oracle 10g 要求的是libstdc++5,故还需要安装libstdc++5: dpkg -i libstdc++5的deb安装包。
+
+一、创建用户
+因为oracle一定要oracle用户来进行安装，所以首先需要创建oracle用户和相关联的用户组
+yurocy@yurocy-desktop:~$ sudo addgroup oinstall
+yurocy@yurocy-desktop:~$ sudo addgroup dba
+yurocy@yurocy-desktop:~$ sudo addgroup nobody
+yurocy@yurocy-desktop:~$ sudo useradd -g oinstall -G dba -d /home/oracle -m -s /bin/bash oracle
+v@yurocy-desktop:~$ sudo usermod -g nobody nobody
+#创建oracle用户密码
+yurocy@yurocy-desktop:~$ sudo passwd oracle
+
+二、创建安装目录
+yurocy@yurocy-desktop:~$ sudo mkdir -p /opt/oracle
+yurocy@yurocy-desktop:~$ sudo chown -R oracle:oinstall /opt/oracle/
+yurocy@yurocy-desktop:~$ sudo chmod -R 755 /opt/oracle/
+
+三、修改linux内核参数
+yurocy@yurocy-desktop:~$ sudo vim /etc/sysctl.conf
+#按I进入编辑，添加如下参数
+kernel.shmmax = 3147483648
+kernel.shmmni = 4096
+kernel.shmall = 2097152
+kernel.sem = 250 32000 100 128
+fs.file-max = 65536
+net.ipv4.ip_local_port_range = 1024 65000
+
+yurocy@yurocy-desktop:~$ sudo vim /etc/security/limits.conf
+#添加如下参数
+oracle soft nofile 65536
+oracle hard nofile 65536
+oracle soft nproc 16384
+oracle hard nproc 16384
+
+#让修改后的参数生效
+yurocy@desktop-desktop:~$ sudo sysctl -p
+
+创建链接：
+yurocy@desktop-desktop:~$ sudo ln -s /usr/bin/awk /bin/awk
+yurocy@desktop-desktop:~$ sudo ln -s /usr/bin/rpm /bin/rpm
+yurocy@desktop-desktop:~$ sudo ln -s /usr/bin/basename /bin/basename
+
+四、设置用户环境
+切换到oracle用户
+yurocy@desktop-desktop:~$ su oracle
+Password:输入刚才创建的oracle用户密码
+
+oracle@desktop-desktop:~$ vim ~/.profile
+按I进入编辑模式，添加如下内容,但网有说是 bash_profile文件,应该是一样，可能是ubuntu版本问题
+if [-f ~/.bashrc ]; then
+~/.bashrc
+fi
+#编辑完后按ESC再按Shift+ZZ保存并退出，接着编辑 .bashrc
+
+oracles@desktop-desktop:~$ vim ～/.bashrc
+＃增加如下内容
+export ORACLE_BASE=/home/oracle/oracle
+export ORACLE_HOME=$ORACLE_BASE/product/10.2.0/db_2
+export PATH=$ORACLE_HOME/bin:$ORACLE_HOME/Apache/Apache/bin:$PATH
+export ORACLE_OWNER=oracle
+export ORACLE_SID=orcl
+export ORACLE_TERM=xterm
+
+
+五、开始做安装准备
+需要在 /etc/目录下创建一个文件 redhat-release ,需要权限进行创建，创建好后添加如下内容
+yurocy@yurocy-desktop:~$ sudo vim /etc/redhat-release
+＃添加
+Red Hat Linux release 3.1 (drupal)
+===上面这一步是必须的，不执行这一步，在安装时会报：oracle只能在以下系统中安装：……     ，所以这一步可能告诉系统当前的系统。
+
+安装JDK，然后打开“应用程序－－系统工具－－sun java 6 console”,看看能否显示中文，如果不能,需要进行一些设置，主是对jre下面的Fonts文件夹进行编辑，我的设置如下：
+yurocy@yurocy-desktop:$ sudo chmod a+w /usr/java/jdk/jre/lib/fonts/
+yurocy@yurocy-desktop:$ cd /usr/java/jdk/jre/lib/fonts/
+yurocy@yurocy-desktop:/usr/java/jdk/jre/lib/fonts$ mkdir fallback
+yurocy@yurocy-desktop:/usr/java/jdk/jre/lib/fonts$ cd fallback
+yurocy@yurocy-desktop:/usr/java/jdk/jre/lib/fonts/fallback$ sudo cp /usr/share/fonts/truetype/arphic/uming.tcc /usr/java/jdk/jre/lib/fonts/fallback/
+yurocy@yurocy-desktop:/usr/java/jdk/jre/lib/fonts/fallback$ sudo mkfontdir
+yurocy@yurocy-desktop:/usr/java/jdk/jre/lib/fonts/fallback$ sudo mkfontscale
+
+这样解决了安装时乱码的问题，也解了用sqldeveloper 查询结果乱码的问题
+
+六、安装oracle
+#前面提到过需要oracle进行安装，现在注销下系统改成oracle进行登录
+
+oracle@yurocy-desktop:~$ unzip 10201_database_linux32.zip                 //  此是安装包
+oracle@yurocy-desktop:~$ cd database
+oracle@yurocy-desktop:~/database$ ./runInstaller -jreLoc $JAVA_HOME/jre/
+
+#需要将#JAVA_HOME 替换为你的JDK安装路径，后面的 -jreLoc 指定的JDK路径，这个一定要添加要不然安装的时候会出现乱码问题,我就是在这里搞了好久才搞定，因为我们之前以经设定的JDK可显示中文
+#oracle自带的JRE不支持中文，所以在安装的时候直接 ./runInstaller 的时候用的是oracle的JRE，安装的界面也是乱码
+#能后会弹出一个界面，直拉按照自已的配置NEXT进行安装就可，在安装的最后一步会提示 需要用 root 用户去运行两个脚本文件orainstRoot.sh和root.sh 这个时候不要点OK，打开终端用root 进行登录
+#按照当中的提示执行那二个脚本，执行完后点OK，安装成功
+
+#可以通过 yurocy@yurocy-desktop:~@ sudo passwd root 对 root 密码进行设置
+如果用其他用户登录，则可以 chown -R leslie ora10   来更改       sudo chown -R leslie:oinstall /opt/ora10  :在此之前： usermod -a -G oinstall leslie
+
+1,创建数据库
+  cd /opt/ora10/bin
+  ./dbca               (database configuration assistant)
+  Global database name:  compbk.domain
+  SID:                   compbk
+
+           password     
+SYS        managersys
+SYSTEM     manager
+DBSNMP     leslie
+SYSMAN     leslie
+
+leslie1    leslie1(后增)
+
+三个配置文件
+　　
+　　listener.ora、sqlnet.ora、tnsnames.ora ，都是放在$ORACLE_HOME\network\admin目录下。
+　　重点:三个文件的作用和使用
+　　#-----------------------
+　　sqlnet.ora-----作用类似于linux或者其他unix的nsswitch.conf文件，通过这个文件来决定怎么样找一个连接中出现的连接字符串，
+　　例如我们客户端输入
+　　sqlplus sys/oracle@orcl
+　　假如我的sqlnet.ora是下面这个样子
+　　SQLNET.AUTHENTICATION_SERVICES= (NTS)
+　　NAMES.DIRECTORY_PATH= (TNSNAMES,HOSTNAME)
+　　那么，客户端就会首先在tnsnames.ora文件中找orcl的记录.如果没有相应的记录则尝试把orcl当作一个主机名，通过网络的途径去解析它的ip地址然后去连接这个ip上GLOBAL_DBNAME=orcl这个实例，当然我这里orcl并不是一个主机名
+　　如果我是这个样子
+　　NAMES.DIRECTORY_PATH= (TNSNAMES)
+　　那么客户端就只会从tnsnames.ora查找orcl的记录
+　　括号中还有其他选项，如LDAP等并不常用。
+　　#------------------------
+　　Tnsnames.ora------这个文件类似于unix 的hosts文件，提供的tnsname到主机名或者ip的对应，只有当sqlnet.ora中类似
+　　NAMES.DIRECTORY_PATH= (TNSNAMES) 这样，也就是客户端解析连接字符串的顺序中有TNSNAMES是，才会尝试使用这个文件。
+　　例子中有两个，ORCL 对应的本机，SALES对应的另外一个IP地址，里边还定义了使用主用服务器还是共享服务器模式进行连接，一句一句说
+　　#你所要连接的时候输入得TNSNAME
+　　ORCL =                                                        // 此行即为 system/manager@orcl 中的orcl,可以与下面的服务名不同。
+　　(DESCRIPTION =
+　　(ADDRESS_LIST =
+　　#下面是这个TNSNAME对应的主机，端口，协议
+　　(ADDRESS = (PROTOCOL = TCP)(HOST = 127.0.0.1)(PORT = 1521))
+　　)
+　　(CONNECT_DATA =
+　　#使用专用服务器模式去连接需要跟服务器的模式匹配，如果没有就根据服务器的模式
+　　#自动调节
+　　(SERVER = DEDICATED)
+　　#对应service_name，SQLPLUS>show parameter service_name;
+　　#进行查看
+　　(SERVICE_NAME = orcl)                                        // 此行即为数据库名。
+　　)
+　　)
+　　#下面这个类似
+　　SALES =
+　　(DESCRIPTION =
+　　(ADDRESS_LIST =
+　　(ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.188.219)(PORT = 1521))
+　　)
+　　(CONNECT_DATA =
+　　(SERVER = DEDICATED)
+　　(SERVICE_NAME = sales)
+　　)
+　　)
+　　#----------------------
+　　客户端完了我们来看服务器端
+　　
+　　listener.ora------listener监听器进程的配置文件
+　　关于listener进程就不多说了，接受远程对数据库的接入申请并转交给oracle的服务器进程。所以如果不是使用的远程的连接，listener进程就不是必需的，同样的如果关闭listener进程并不会影响已经存在的数据库连接。
+　　Listener.ora文件的例子
+　　#listener.ora Network Configuration File: #E:\oracle\product\10.1.0\Db_2\NETWORK\ADMIN\listener.ora
+　　# Generated by Oracle configuration tools.
+　　#下面定义LISTENER进程为哪个实例提供服务
+　　#这里是ORCL，并且它对应的ORACLE_HOME和GLOBAL_DBNAME
+　　#其中GLOBAL_DBNAME不是必需的除非使用HOSTNAME做数据库连接
+　　SID_LIST_LISTENER =
+　　(SID_LIST =
+　　(SID_DESC =
+　　(GLOBAL_DBNAME = boway)
+　　(ORACLE_HOME = E:\oracle\product\10.1.0\Db_2)
+　　(SID_NAME = ORCL)                                    // 此行指明数据库实例，必须如果将实例修改为COMPBK_1,那么lsnrctl start 时，为：
+                                                         //  Service "COMPBK_1" has 1 instance(s).
+                                                         //  Instance "COMPBK_1", status UNKNOWN, has 1 handler(s) for this service..
+                                                         //  SID_NAME必须与tnsnames.ora中的service_name一致
+　　)
+　　)
+　　#监听器的名字，一台数据库可以有不止一个监听器
+　　#再向下面是监听器监听的协议，ip，端口等，这里使用的tcp1521端口，并且使#用的是主机名
+　　LISTENER =
+　　(DESCRIPTION =
+　　(ADDRESS = (PROTOCOL = TCP)(HOST = boway)(PORT = 1521))          // 该端口与tnsnames.ora中的"(ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.188.219)(PORT = 1521))"端口需一致. 
+　　)
+　　上面的例子是一个最简单的例子，但也是最普遍的。一个listener进程为一个instance(SID)提供服务。
+　　监听器的操作命令
+　　$ORACLE_HOME/bin/lsnrctl start,其他诸如stop,status等。具体敲完一个lsnrctl后看帮助。
+　　上面说到的三个文件都可以通过图形的配置工具来完成配置
+===　　$ORACLE_HOME/netca 向导形式的
+　　
+===　　$ORACLE_HOME/netmgr
+　　
+　　本人比较习惯netmgr,
+　　profile 配置的是sqlnet.ora也就是名称解析的方式
+　　service name 配置的是tnsnames.ora文件
+　　listeners配置的是listener.ora文件，即监听器进程
+　　具体的配置可以尝试一下然后来看一下配置文件。
+　　
+　　这样一来总体结构就有了，是当你输入sqlplus sys/oracle@orcl的时候
+　　1. 查询sqlnet.ora看看名称的解析方式，发现是TNSNAME
+　　2. 则查询tnsnames.ora文件，从里边找orcl的记录，并且找到主机名，端口和service_name.  -- @orcl 此处成为连接符,对应tnsnames.ora中ORCL=，可以与下面的service_name不同，二者没关系.
+　　3. 如果listener进程没有问题的话，建立与listener进程的连接。listener.ora中的端口必须要与tnsnames.ora中的一致，表示监听该端口,另外SID_NAME也必须于tnsnames.ora中的service_name一致，才能监听该sid.
+　　4. 根据不同的服务器模式如专用服务器模式或者共享服务器模式，listener采取接下去的动作。默认是专用服务器模式，没有问题的话客户端就连接上了数据库的server process。
+　　5. 这时候网络连接已经建立，listener进程的历史使命也就完成了。
+#---------------
+　　几种连接用到的命令形式
+　　1.sqlplus / as sysdba(中间比须要有空格，但是如果用conn /as sysdba却可以)这是典型的操作系统认证，不需要listener进程
+      如果使用的是sql plus(图形界面),需要在username中输入sys / as sysdba, 发现无论sys有没有密码,都可以不输登陆. 在Windows上，需要启动对应的数据库实例的服务,例如: OracleServiceOrcl
+　　2.sqlplus sys/oracle 这种连接方式只能连接本机数据库，同样不需要listener进程,但是首先要确保数据库已经startup了。 -- 如果是其他用户，则需要通过第三种方式来连接.
+　　3.sqlplus sys/oracle@orcl 这种方式需要listener进程处于可用状态。最普遍的通过网络连接。
+　　以上连接方式使用sys用户或者其他通过密码文件验证的用户都不需要数据库处于可用状态，操作系统认证也不需要数据库可用，普通用户因为是数据库认证，所以数据库必需处于open状态。
+　　#-------------
+　　
+　　平时排错可能会用到的
+　　
+　　1.lsnrctl status查看服务器端listener进程的状态
+　　LSNRCTL> help
+　　The following operations are available
+　　An asterisk (*) denotes a modifier or extended command:
+　　start stop status
+　　services version reload
+　　save_config trace change_password
+　　quit exit set*
+　　show*
+　　LSNRCTL> status
+　　2.tnsping 查看客户端sqlnet.ora和tnsname.ora文件的配置正确与否，及对应的服务器的listener进程的状态。
+　　C:\>tnsping orcl
+　　TNS Ping Utility for 32-bit Windows: Version 10.1.0.2.0 - Production on 16-8月 -
+　　2005 09:36:08
+　　Copyright (c) 1997, 2003, Oracle. All rights reserved.
+　　Used parameter files:
+　　E:\oracle\product\10.1.0\Db_2\network\admin\sqlnet.ora
+　　Used TNSNAMES adapter to resolve the alias
+　　Attempting to contact (DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)
+　　(HOST = 127.0.0.1)(PORT = 1521))) (CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_
+　　NAME = orcl)))
+　　OK (20 msec)
+　　
+　　3.
+　　SQL>show sga 查看instance是否已经启动
+　　SQL> select open_mode from v$database; 查看数据库是打开还是mount状态。
+　　OPEN_MODE
+　　----------
+　　READ WRITE
+　　#-----------------
+　　使用hostname访问数据库而不是tnsname的例子
+　　使用tnsname访问数据库是默认的方式，但是也带来点问题，那就是客户端都是需要配置tnsnames.ora文件的。如果你的数据库服务器地址发生改变，就需要重新编辑客户端这个文件。通过hostname访问数据库就没有了这个麻烦。
+　　需要修改
+　　服务器端listener.ora
+　　#监听器的配置文件listener.ora
+　　#使用host naming则不再需要tnsname.ora文件做本地解析
+　　# listener.ora Network Configuration File: d:\oracle\product\10.1.0\db_1\NETWORK\ADMIN\listener.ora
+　　# Generated by Oracle configuration tools.
+　　SID_LIST_LISTENER =
+　　(SID_LIST =
+　　(SID_DESC =
+　　# (SID_NAME = PLSExtProc)
+　　(SID_NAME = orcl)
+　　(GLOBAL_DBNAME = boway)
+　　(ORACLE_HOME = d:\oracle\product\10.1.0\db_1)
+　　# (PROGRAM = extproc)
+　　)
+　　)
+　　LISTENER =
+　　(DESCRIPTION_LIST =
+　　(DESCRIPTION =
+　　(ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC))
+　　)
+　　(DESCRIPTION =
+　　(ADDRESS = (PROTOCOL = TCP)(HOST = boway)(PORT = 1521))
+　　)
+　　)
+　　客户端sqlnet.ora 如果确认不会使用TNSNAME访问的话，可以去掉TNSNAMES
+　　# sqlnet.ora Network Configuration File: d:\oracle\product\10.1.0\db_1\NETWORK\ADMIN\sqlnet.ora
+　　# Generated by Oracle configuration tools.
+　　SQLNET.AUTHENTICATION_SERVICES= (NTS)
+　　NAMES.DIRECTORY_PATH= (HOSTNAME)
+　　Tnsnames.ora文件不需要配置，删除也无所谓。
+　　下面就是网络和操作系统的配置问题了，怎么样能够解析我的主机名的问题了
+　　可以通过下面的方式连接
+　　sqlplus sys/oracle@boway
+　　这样的话，会连接boway这台服务器，并且listener来确定你所要连接的service_name。
+
+3,
+RA-27101 Shared memory realm does not exist 之解決
+在试图登录pl/sql时,输入用户名（system/pwd)后，Oracle报告下列错误：
+ERROR:
+ORA-27101 Shared memory realm does not exist
+ORA-01034 ORACLE not available  
+或者在em登录的时候报告下列错误：
+错误: NMO 未 setuid-root (只适用于 Unix)
+查阅了相关
+ORA-27101 Shared memory realm does not exist
+ORA-01034 ORACLE not available  
+的说明，解释为ORACLE_HOME或者ORACLE_SID设置不正确。
+但检查bash_profile以后没有发现错误;
+錯誤點，沒有開啟oracle服務；
+解決辦法，直接開啟oracle相關數據庫的服務；
+或按照下面的步驟操作:
+lsnrctl start
+sqlplus '/as sysdba'
+sql> startup
+emctl start dbconsole
+isqlplusctl start
+确实，我按照上面的方法做了，成功。
+
+4,http://ubuntu.ubuntu-domain:1158/em可以进入oracle enterprise manager
+iSQL*Plus URL:
+http://Ubuntu.ubuntu-domain:5560/isqlplus
+iSQL*Plus DBA URL:
+http://Ubuntu.ubuntu-domain:5560/isqlplus/dba
+Enterprise Manager 10g Database Control URL:
+http://Ubuntu.ubuntu-domain:1158/em
+实际上url中的Ubuntu.ubuntu-domain是本机的ip地址,也就是127.0.0.1,后边的是该数据库的端口号.在同一个服务器中创建多个数据库的话,每个数据库对应不同的端口,这个是我们需要记忆或者保存的.
+
+5,Oracle数据库提供了几种不同的数据库启动和关闭方式，本文将详细介绍这些启动和关闭方式之间的区别以及它们各自不同的功能。
+一、启动和关闭Oracle数据库
+对于大多数Oracle DBA来说，启动和关闭Oracle数据库最常用的方式就是在命令行方式下的Server Manager。从Oracle 8i以后，系统将Server Manager的所有功能都集中到了SQL*Plus中，也就是说从8i以后对于数据库的启动和关闭可以直接通过SQL*Plus来完成，而不再另外需要 Server Manager，但系统为了保持向下兼容，依旧保留了Server Manager工具。另外也可通过图形用户工具（GUI）的Oracle Enterprise Manager来完成系统的启动和关闭，图形用户界面Instance Manager非常简单，这里不再详述。
+要启动和关闭数据库，必须要以具有Oracle 管理员权限的用户登陆，通常也就是以具有SYSDBA权限的用户登陆。一般我们常用INTERNAL用户来启动和关闭数据库（INTERNAL用户实际上是SYS用户以SYSDBA连接的同义词）。Oracle数据库的新版本将逐步淘汰INTERNAL这个内部用户，所以我们最好还是设置DBA用户具有 SYSDBA权限。
+sqlplus / as sysdba   :   以sys用户登录，可以起停数据库. 如果已经连接数据库，可以: conn /as sysdba 转为sys用户.
+二、数据库的启动（STARTUP）
+启动一个数据库需要三个步骤：
+
+1、 创建一个Oracle实例（非安装阶段）
+　　2、 由实例安装数据库（安装阶段）
+　　3、 打开数据库（打开阶段）
+
+在Startup命令中，可以通过不同的选项来控制数据库的不同启动步骤。
+
+1、STARTUP NOMOUNT
+NONOUNT 选项仅仅创建一个Oracle实例。读取init.ora初始化参数文件、启动后台进程、初始化系统全局区（SGA）。Init.ora文件定义了实例的配置，包括内存结构的大小和启动后台进程的数量和类型等。实例名根据Oracle_SID设置，不一定要与打开的数据库名称相同。当实例打开后，系统将显示一个SGA内存结构和大小的列表，如下所示：
+SQL> startup nomount
+　　ORACLE 例程已经启动。
+　　Total System Global Area 35431692 bytes
+　　Fixed Size 70924 bytes
+　　Variable Size 18505728 bytes
+　　Database Buffers 16777216 bytes
+　　Redo Buffers 77824 bytes
+
+2、STARTUP MOUNT
+该命令创建实例并且安装数据库，但没有打开数据库。Oracle系统读取控制文件中关于数据文件和重作日志文件的内容，但并不打开该文件。这种打开方式常在数据库维护操作中使用，如对数据文件的更名、改变重作日志以及打开归档方式等。在这种打开方式下，除了可以看到SGA系统列表以外，系统还会给出"数据库装载完毕"的提示。
+
+3、STARTUP
+该命令完成创建实例、安装实例和打开数据库的所有三个步骤。此时数据库使数据文件和重作日志文件在线，通常还会请求一个或者是多个回滚段。这时系统除了可以看到前面Startup Mount方式下的所有提示外，还会给出一个"数据库已经打开"的提示。此时，数据库系统处于正常工作状态，可以接受用户请求。
+如果采用STARTUP NOMOUNT或者是STARTUP MOUNT的数据库打开命令方式，必须采用ALTER DATABASE命令来执行打开数据库的操作。例如，如果你以STARTUP NOMOUNT方式打开数据库，也就是说实例已经创建，但是数据库没有安装和打开。这是必须运行下面的两条命令，数据库才能正确启动。
+ALTER DATABASE MOUNT;
+　　ALTER DATABASE OPEN;
+而如果以STARTUP MOUNT方式启动数据库，只需要运行下面一条命令即可以打开数据库：
+ALTER DATABASE OPEN.
+
+4、其他打开方式
+除了前面介绍的三种数据库打开方式选项外，还有另外其他的一些选项。
+
+(1) STARTUP RESTRICT
+这种方式下，数据库将被成功打开，但仅仅允许一些特权用户（具有DBA角色的用户）才可以使用数据库。这种方式常用来对数据库进行维护，如数据的导入/导出操作时不希望有其他用户连接到数据库操作数据。
+
+(2) STARTUP FORCE
+该命令其实是强行关闭数据库（shutdown abort）和启动数据库（startup）两条命令的一个综合。该命令仅在关闭数据库遇到问题不能关闭数据库时采用。
+
+(3) ALTER DATABASE OPEN READ ONLY;
+该命令在创建实例以及安装数据库后，以只读方式打开数据库。对于那些仅仅提供查询功能的产品数据库可以采用这种方式打开。
+三、数据库的关闭（SHUTDOWN）
+对于数据库的关闭，有四种不同的关闭选项，下面对其进行一一介绍。
+1、SHUTDOWN NORMAL
+这是数据库关闭SHUTDOWN命令的确省选项。也就是说如果你发出SHUTDOWN这样的命令，也即是SHUTDOWN NORNAL的意思。
+发出该命令后，任何新的连接都将再不允许连接到数据库。在数据库关闭之前，Oracle将等待目前连接的所有用户都从数据库中退出后才开始关闭数据库。采用这种方式关闭数据库，在下一次启动时不需要进行任何的实例恢复。但需要注意一点的是，采用这种方式，也许关闭一个数据库需要几天时间，也许更长。
+
+2、SHUTDOWN IMMEDIATE
+这是我们常用的一种关闭数据库的方式，想很快地关闭数据库，但又想让数据库干净的关闭，常采用这种方式。
+当前正在被Oracle处理的SQL语句立即中断，系统中任何没有提交的事务全部回滚。如果系统中存在一个很长的未提交的事务，采用这种方式关闭数据库也需要一段时间（该事务回滚时间）。系统不等待连接到数据库的所有用户退出系统，强行回滚当前所有的活动事务，然后断开所有的连接用户。
+
+3、SHUTDOWN TRANSACTIONAL
+该选项仅在Oracle 8i后才可以使用。该命令常用来计划关闭数据库，它使当前连接到系统且正在活动的事务执行完毕，运行该命令后，任何新的连接和事务都是不允许的。在所有活动的事务完成后，数据库将和SHUTDOWN IMMEDIATE同样的方式关闭数据库。
+
+4、SHUTDOWN ABORT
+这是关闭数据库的最后一招，也是在没有任何办法关闭数据库的情况下才不得不采用的方式，一般不要采用。如果下列情况出现时可以考虑采用这种方式关闭数据库。
+1、 数据库处于一种非正常工作状态，不能用shutdown normal或者shutdown immediate这样的命令关闭数据库;
+2、 需要立即关闭数据库；
+3、 在启动数据库实例时遇到问题；
+所有正在运行的SQL语句都将立即中止。所有未提交的事务将不回滚。Oracle也不等待目前连接到数据库的用户退出系统。下一次启动数据库时需要实例恢复，因此，下一次启动可能比平时需要更多的时间。
+表1可以清楚地看到上述四种不同关闭数据库的区别和联系。
+表1 Shutdown数据库不同方式对比表
+
+关闭方式                         A    I    T    N
+允许新的连接                     ×    ×    ×    ×
+等待直到当前会话中止             ×    ×    ×    √
+等待直到当前事务中止             ×    ×    √    √
+强制CheckPoint，关闭所有文件     ×    √    √    √
+
+其中：A-Abort I-Immediate T-Transaction N-Nornal
+
+基本知识（版本号码的格式）
+
+例如：oracle 9.0.1.1.2
+
+9：版本号
+0：新特性版本号
+1（第一个）：维护版本号
+1（第二个）：普通的补丁设置号码
+2：特殊的平台补丁设置号码
+
+删除oracle10g方法 ： 
+1. 运行 $ORACLE_HOME/bin/localconfig delete     需以root用户登录
+2. rm -rf $ORACLE_BASE/*
+3. rm -f /etc/oraInst.loc /etc/oratab
+4. rm -rf /etc/oracle
+5. rm -f /etc/inittab.cssd
+6. rm -f /usr/local/bin/coraenv /usr/local/bin/dbhome /usr/local/bin/oraenv
+7. 删除oracle用户和组。
+
+=======================================================oracle数据库的常用网址========================================================================
+
+作者:佚名 发布时间:2004-8-24 9:54:16 文章来源:西部E网
+1、ORACLE官方网站，这个应当大家都该知道吧，大家有空应当多去看看最新消息
+www.oracle.com  
+以下是ORACLE中国网站
+www.oracle.com/cn  
+官方网站衍生出来的网站就不少了，以下是Oracle技术网，可以访问Oracle的论坛，下载代码与文档，也可以在这里免费注册一个用户，下载ORACLE数据库。
+http://otn.oracle.com  
+Oracle与Linux应当是最近的一个发展热题吧，想要了解更多的信息吗？可以访问Oracle的Linux技术中心
+http://oss.oracle.com  
+Metalink是个不错的地方，但是需要注册，而且不是免费的，需要产品号
+http://metalink.oracle.com  
+Oracle在线文档是个不错的地方，你可以找到你需要的很多文档
+http://tahiti.oracle.com  
+Tom，应当很多人都知道的了，那么Ask Tom就是他用来回答常见问题的著名官方站点了
+http://asktom.oracle.com  
+
+2、其实，说起Oracle，国外的站点一般要比国内的站点好，为什么呢？主要就是一个信息的及时性，一般新东西在国外站点上马上就可以找到，而到了国内，则可能需要在几个月之后了。以下则是几个国外的好的Oracle站点
+这里罗列大部分的Oracle常见问题，还包括常用脚本与书籍介绍
+http://www.orafaq.com  
+看到这个等式Unix + Oracle = Ixora，是不是很奇怪啊，那你可以去这个站点看看，特别是喜欢内部研究的朋友，真的不错。
+http://www.ixora.com.au  
+说到内部研究，很多朋友都会很感兴趣，那么就给大家再介绍一个非常好的内部研究的站点，也不大。
+http://www.juliandyke.com  
+有些朋友觉得内部研究才是高手的体现，其实不尽然，只要把管理，备份与恢复，优化做的不错，其实也就是高手了，内部研究仅仅是一个辅助工具而已。好了，个人的发展是自己决定的，下面再推荐一个好的网站，这里可以看到很多Oracle的版本之间的新特性，也包括很多脚本，当然也可以见到Burleson大师，虽然他的口碑不怎么好。
+http://www.idevelopment.info  
+说到oracle的安装与Linux，倒是真有一个好地方，不仅有Redhat的大量介绍，还有我们很很关心的Oracle 9i在各个Linux版本上的安装
+http://www.puschitz.com  
+其它的国外站点虽然也很多，但是去的也就少了，好了，还给大家推荐一个
+http://www.dbasupport.com  
+
+3、国内站点其实也有不少好地方，加上很多同胞看到中文的确感觉好一些，毕竟，还是母语好啊。我其实有一些想法，就是希望国内的Oracle专家门能多翻译或多总结一些最新的资料，让国内与国外的差距能小一些。
+说起国内站点，大部初学者都应当知道Oracle技术网吧，虽然东西老点，入门还是可以的，我当初也从这里走过。
+http://www.oradb.net  
+国内新起的Oracle站点也不少，不过一般不仅仅是Oracle，还有OS，如聚贤庄，名字还是挺好听的
+http://www.ncn.cn  
+另外一个就叫GoodDba了，与聚贤庄感觉性质相似。
+http://www.goodba.net/oracle  
+最后，给大家插入一个数据仓库的站点，很不错
+http://www.dwway.com  
+
+4、说起论坛呢，还是感觉国内的好了，这个可能与本人英文写作水平有关系，呵呵。
+首先要说的就是国内Oracle的最大论坛Itpub了，人气一直也是最好的，虽然有时候有点慢，但大家都喜欢他，特别是大家的偶像Biti在那里。
+http://www.itpub.net  
+其实呢，我还是喜欢另一个地方，那就是中国oracle用户组，那里的高手更多，当然，biti,cp, RudolfLu可都是那里的大明星啊，呵呵
+http://www.cnoug.org  
+当然，也不要忘了中国Oracle官方论坛，毕竟是官方的，只是人气不好而已。
+http://211.99.196.144:8090  
+很多人也知道Chinaunix吧，其实那里也有一个Oracle论坛，但是我去的少
+http://www.chinaunix.net  
+很多人都知道CSDN吧，那里也有Oracle论坛，不过那里主要是开发问题，如果你的开发多，可以去那里瞧瞧哦。
+http://expert.csdn.net/expert/forum.asp  
+虽然我说论坛是国内的好，还是给大家补充一个国外的论坛吧。当然，这个论坛是什么数据库都有的了
+http://dbforums.com  
+
+5、最后，说说功能强大的Google与Google新闻组，遇到问题的时候，很多人喜欢到论坛上问，其实，你知道在论坛上搜索一下，或者来到这里，输入你想要找的东西，然后搜索，我相信，很多时候你都可以找到你的答案。
+http://www.google.com  
+http://groups.google.com 
+
