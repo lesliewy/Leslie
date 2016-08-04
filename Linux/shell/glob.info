@@ -1,0 +1,346 @@
+File: *manpages*,  Node: glob,  Up: (dir)
+
+GLOB(3)                    Linux Programmer's Manual                   GLOB(3)
+
+
+
+NAME
+       glob,  globfree  -  find pathnames matching a pattern, free memory from
+       glob()
+
+SYNOPSIS
+       #include <glob.h>
+
+       int glob(const char *pattern, int flags,
+                int (*errfunc) (const char *epath, int eerrno),
+                glob_t *pglob);
+       void globfree(glob_t *pglob);
+
+DESCRIPTION
+       The glob() function searches for all  the  pathnames  matching  pattern
+       according  to  the  rules  used  by  the shell (see glob(7)).  No tilde
+       expansion or parameter substitution is done; if  you  want  these,  use
+       wordexp(3).
+
+       The globfree() function frees the dynamically allocated storage from an
+       earlier call to glob().
+
+       The results of a glob() call are stored in the structure pointed to  by
+       pglob.   This  structure  is  of type glob_t (declared in <glob.h>) and
+       includes the following elements defined by POSIX.2 (more may be present
+       as an extension):
+
+           typedef struct {
+               size_t   gl_pathc;    /* Count of paths matched so far  */
+               char   **gl_pathv;    /* List of matched pathnames.  */
+               size_t   gl_offs;     /* Slots to reserve in gl_pathv.  */
+           } glob_t;
+
+       Results are stored in dynamically allocated storage.
+
+       The  argument  flags  is  made up of the bitwise OR of zero or more the
+       following symbolic constants, which modify the behavior of glob():
+
+       GLOB_ERR
+              Return upon a read error (because a directory does not have read
+              permission,  for example).  By default, glob() attempts carry on
+              despite errors, reading all of the directories that it can.
+
+       GLOB_MARK
+              Append a slash to each path which corresponds to a directory.
+
+       GLOB_NOSORT
+              Don't sort the returned pathnames.  The only reason to  do  this
+              is  to save processing time.  By default, the returned pathnames
+              are sorted.
+
+       GLOB_DOOFFS
+              Reserve pglob->gl_offs slots at the beginning  of  the  list  of
+              strings in pglob->pathv.  The reserved slots contain NULL point‐
+              ers.
+
+       GLOB_NOCHECK
+              If no pattern matches, return the original pattern.  By default,
+              glob() returns GLOB_NOMATCH if there are no matches.
+
+       GLOB_APPEND
+              Append  the  results  of  this  call  to  the  vector of results
+              returned by a previous call to glob().  Do not set this flag  on
+              the first invocation of glob().
+
+       GLOB_NOESCAPE
+              Don't  allow  backslash ('\') to be used as an escape character.
+              Normally, a backslash can be used to quote the following charac‐
+              ter,  providing  a  mechanism  to  turn  off the special meaning
+              metacharacters.
+
+       flags may also include any of the following, which are  GNU  extensions
+       and not defined by POSIX.2:
+
+       GLOB_PERIOD
+              Allow  a  leading  period  to  be matched by metacharacters.  By
+              default, metacharacters can't match a leading period.
+
+       GLOB_ALTDIRFUNC
+              Use alternative functions pglob->gl_closedir, pglob->gl_readdir,
+              pglob->gl_opendir,  pglob->gl_lstat, and pglob->gl_stat for file
+              system access instead of the normal library functions.
+
+       GLOB_BRACE
+              Expand csh(1) style brace expressions of the form {a,b}.   Brace
+              expressions  can  be  nested.  Thus, for example, specifying the
+              pattern "{foo/{,cat,dog},bar}" would return the same results  as
+              four separate glob() calls using the strings: "foo/", "foo/cat",
+              "foo/dog", and "bar".
+
+       GLOB_NOMAGIC
+              If the pattern contains no  metacharacters  then  it  should  be
+              returned  as  the  sole  matching word, even if there is no file
+              with that name.
+
+       GLOB_TILDE
+              Carry out tilde expansion.  If a tilde ('~') is the only charac‐
+              ter  in the pattern, or an initial tilde is followed immediately
+              by a slash ('/'), then the home directory of the caller is  sub‐
+              stituted  for  the  tilde.  If an initial tilde is followed by a
+              username (e.g., "~andrea/bin"), then the tilde and username  are
+              substituted by the home directory of that user.  If the username
+              is invalid, or the home directory cannot be determined, then  no
+              substitution is performed.
+
+       GLOB_TILDE_CHECK
+              This  provides behavior similar to that of GLOB_TILDE.  The dif‐
+              ference is that if the username is invalid, or the  home  direc‐
+              tory  cannot  be  determined,  then instead of using the pattern
+              itself as the name, glob() returns GLOB_NOMATCH to  indicate  an
+              error.
+
+       GLOB_ONLYDIR
+              This  is  a hint to glob() that the caller is interested only in
+              directories that match the pattern.  If the  implementation  can
+              easily determine file-type information, then non-directory files
+              are not returned to the caller.  However, the caller must  still
+              check that returned files are directories.  (The purpose of this
+              flag is merely to optimize performance when the caller is inter‐
+              ested only in directories.)
+
+       If  errfunc is not NULL, it will be called in case of an error with the
+       arguments epath, a pointer to the path which failed,  and  eerrno,  the
+       value  of  errno as returned from one of the calls to opendir(3), read‐
+       dir(3), or stat(2).  If errfunc returns non-zero,  or  if  GLOB_ERR  is
+       set, glob() will terminate after the call to errfunc.
+
+       Upon  successful return, pglob->gl_pathc contains the number of matched
+       pathnames and pglob->gl_pathv contains a pointer to the list of  point‐
+       ers to matched pathnames.  The list of pointers is terminated by a NULL
+       pointer.
+
+       It is possible to  call  glob()  several  times.   In  that  case,  the
+       GLOB_APPEND flag has to be set in flags on the second and later invoca‐
+       tions.
+
+       As a GNU extension, pglob->gl_flags is set to the flags specified, ored
+       with GLOB_MAGCHAR if any metacharacters were found.
+
+RETURN VALUE
+       On  successful completion, glob() returns zero.  Other possible returns
+       are:
+
+       GLOB_NOSPACE
+              for running out of memory,
+
+       GLOB_ABORTED
+              for a read error, and
+
+       GLOB_NOMATCH
+              for no found matches.
+
+CONFORMING TO
+       POSIX.2, POSIX.1-2001.
+
+NOTES
+       The structure elements gl_pathc and gl_offs are declared as  size_t  in
+       glibc  2.1, as they should be according to POSIX.2, but are declared as
+       int in libc4, libc5 and glibc 2.0.
+
+BUGS
+       The glob() function may fail due  to  failure  of  underlying  function
+       calls,  such  as malloc(3) or opendir(3).  These will store their error
+       code in errno.
+
+EXAMPLE
+       One example of use is the following code, which simulates typing
+
+           ls -l *.c ../*.c
+
+       in the shell:
+
+           glob_t globbuf;
+
+           globbuf.gl_offs = 2;
+           glob("*.c", GLOB_DOOFFS, NULL, &globbuf);
+           glob("../*.c", GLOB_DOOFFS | GLOB_APPEND, NULL, &globbuf);
+           globbuf.gl_pathv[0] = "ls";
+           globbuf.gl_pathv[1] = "-l";
+           execvp("ls", &globbuf.gl_pathv[0]);
+
+SEE ALSO
+       ls(1), sh(1),  stat(2),  exec(3),  fnmatch(3),  malloc(3),  opendir(3),
+       readdir(3), wordexp(3), glob(7)
+
+COLOPHON
+       This  page  is  part of release 3.21 of the Linux man-pages project.  A
+       description of the project, and information about reporting  bugs,  can
+       be found at http://www.kernel.org/doc/man-pages/.
+
+
+
+GNU                               2007-10-10                           GLOB(3)
+GLOB(7)                    Linux Programmer's Manual                   GLOB(7)
+
+
+
+NAME
+       glob - Globbing pathnames
+
+DESCRIPTION
+       Long  ago,  in Unix V6, there was a program /etc/glob that would expand
+       wildcard patterns.  Soon afterwards this became a shell built-in.
+
+       These days there is also a library routine glob(3)  that  will  perform
+       this function for a user program.
+
+       The rules are as follows (POSIX.2, 3.13).
+
+   Wildcard Matching
+       A  string  is  a  wildcard pattern if it contains one of the characters
+       '?', '*' or '['.  Globbing is the operation  that  expands  a  wildcard
+       pattern  into  the list of pathnames matching the pattern.  Matching is
+       defined by:
+
+       A '?' (not between brackets) matches any single character.
+
+       A '*' (not between brackets) matches any string,  including  the  empty
+       string.
+
+       Character classes
+
+       An  expression  "[...]" where the first character after the leading '['
+       is not an '!' matches a single character, namely any of the  characters
+       enclosed  by  the brackets.  The string enclosed by the brackets cannot
+       be empty; therefore ']' can be allowed between the  brackets,  provided
+       that it is the first character.  (Thus, "[][!]" matches the three char‐
+       acters '[', ']' and '!'.)
+
+       Ranges
+
+       There is one special convention: two characters separated by '-' denote
+       a    range.    (Thus,   "[A-Fa-f0-9]"   is   equivalent   to   "[ABCDE‐
+       Fabcdef0123456789]".)  One may include '-' in its  literal  meaning  by
+       making  it  the  first  or last character between the brackets.  (Thus,
+       "[]-]" matches just the two characters ']' and '-', and "[--0]" matches
+       the three characters '-', '.', '0', since '/' cannot be matched.)
+
+       Complementation
+
+       An expression "[!...]" matches a single character, namely any character
+       that is not matched by the expression obtained by  removing  the  first
+       '!'  from it.  (Thus, "[!]a-]" matches any single character except ']',
+       'a' and '-'.)
+
+       One can remove the special meaning of '?', '*'  and  '['  by  preceding
+       them  by a backslash, or, in case this is part of a shell command line,
+       enclosing them in quotes.  Between brackets these characters stand  for
+       themselves.   Thus,  "[[?*\]" matches the four characters '[', '?', '*'
+       and '\'.
+
+   Pathnames
+       Globbing is applied on each of the components of a pathname separately.
+       A '/' in a pathname cannot be matched by a '?' or '*' wildcard, or by a
+       range like "[.-0]".  A range cannot contain an explicit '/'  character;
+       this would lead to a syntax error.
+
+       If a filename starts with a '.', this character must be matched explic‐
+       itly.  (Thus, rm * will not remove .profile, and tar c * will  not  ar‐
+       chive all your files; tar c . is better.)
+
+   Empty Lists
+       The  nice  and simple rule given above: "expand a wildcard pattern into
+       the list of matching pathnames" was the original Unix  definition.   It
+       allowed one to have patterns that expand into an empty list, as in
+           xv -wait 0 *.gif *.jpg
+       where  perhaps  no  *.gif files are present (and this is not an error).
+       However, POSIX requires that a wildcard pattern is left unchanged  when
+       it  is  syntactically  incorrect,  or the list of matching pathnames is
+       empty.  With bash one can  force  the  classical  behavior  by  setting
+       allow_null_glob_expansion=true.
+
+       (Similar problems occur elsewhere.  E.g., where old scripts have
+           rm `find . -name "*~"`
+       new scripts require
+           rm -f nosuchfile `find . -name "*~"`
+       to avoid error messages from rm called with an empty argument list.)
+
+NOTES
+   Regular expressions
+       Note  that wildcard patterns are not regular expressions, although they
+       are a bit similar.  First of all, they  match  filenames,  rather  than
+       text, and secondly, the conventions are not the same: for example, in a
+       regular expression '*' means zero  or  more  copies  of  the  preceding
+       thing.
+
+       Now  that  regular expressions have bracket expressions where the nega‐
+       tion is indicated by a '^', POSIX has declared the effect of a wildcard
+       pattern "[^...]" to be undefined.
+
+   Character classes and Internationalization
+       Of  course  ranges  were  originally  meant to be ASCII ranges, so that
+       "[ -%]" stands for "[ !"#$%]" and "[a-z]"  stands  for  "any  lowercase
+       letter".   Some  Unix  implementations generalized this so that a range
+       X-Y stands for the set of characters with code between the codes for  X
+       and  for Y.  However, this requires the user to know the character cod‐
+       ing in use on the local system, and moreover, is not convenient if  the
+       collating  sequence for the local alphabet differs from the ordering of
+       the character codes.  Therefore, POSIX extended  the  bracket  notation
+       greatly,  both  for  wildcard patterns and for regular expressions.  In
+       the above we saw three types of items  that  can  occur  in  a  bracket
+       expression:  namely  (i) the negation, (ii) explicit single characters,
+       and (iii) ranges.  POSIX specifies ranges in  an  internationally  more
+       useful way and adds three more types:
+
+       (iii)  Ranges  X-Y  comprise  all  characters that fall between X and Y
+       (inclusive) in the current collating sequence as defined by the LC_COL‐
+       LATE category in the current locale.
+
+       (iv) Named character classes, like
+
+       [:alnum:]  [:alpha:]  [:blank:]  [:cntrl:]
+       [:digit:]  [:graph:]  [:lower:]  [:print:]
+       [:punct:]  [:space:]  [:upper:]  [:xdigit:]
+
+       so  that  one can say "[[:lower:]]" instead of "[a-z]", and have things
+       work in Denmark, too, where there are three letters  past  'z'  in  the
+       alphabet.  These character classes are defined by the LC_CTYPE category
+       in the current locale.
+
+       (v) Collating symbols, like "[.ch.]" or "[.a-acute.]", where the string
+       between  "[."  and  ".]" is a collating element defined for the current
+       locale.  Note that this may be a multi-character element.
+
+       (vi) Equivalence class expressions,  like  "[=a=]",  where  the  string
+       between  "[="  and  "=]"  is any collating element from its equivalence
+       class, as defined for the current locale.  For example, "[[=a=]]" might
+       be equivalent to "[aáàäâ]" (warning: Latin-1 here), that is, to "[a[.a-
+       acute.][.a-grave.][.a-umlaut.][.a-circumflex.]]".
+
+SEE ALSO
+       sh(1), fnmatch(3), glob(3), locale(7), regex(7)
+
+COLOPHON
+       This page is part of release 3.21 of the Linux  man-pages  project.   A
+       description  of  the project, and information about reporting bugs, can
+       be found at http://www.kernel.org/doc/man-pages/.
+
+
+
+Linux                             2003-08-24                           GLOB(7)

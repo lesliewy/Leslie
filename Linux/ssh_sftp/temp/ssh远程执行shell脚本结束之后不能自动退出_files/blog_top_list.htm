@@ -1,0 +1,55 @@
+
+var start = 1;
+
+var _html = '<div class="blogpopMain"><div class="l">'
+          + '<a href="http://blog.51cto.com/zt/128" target="_blank"><img src="http://blog.51cto.com/image/blog_top/upload/1332301112_index.jpg" width="105" height="105" /></a>'
+          + '<p><a href="http://blog.51cto.com/zt/128" target="_blank">HTTP服务器Nginx</a></p></div>'
+          + '<div class="r"><h4 style="text-align:left;"><a href="http://nayunqi.blog.51cto.com/2506180/810468" target="_blank">女生做运维，巾帼不让须眉</a></h4>'
+          + '<ul>'
+          + '<li><a href="http://jirigala.blog.51cto.com/4461650/810907" target="_blank">用什么心态对待水平糟糕的程序员？</a></li>'
+          + '<li><a href="http://virtualbus.blog.51cto.com/345374/810728" target="_blank">不建议全面桌面虚拟化的几个理由 </a></li>'
+          + '<li><a href="http://bbs.51cto.com/thread-919898-1.html" target="_blank">博客展台赛：雷锋后现代精神传播赛</a></li>'
+          + '<li><a href="http://doctor.51cto.com/develop-254.html" target="_blank"style="color:red;">门诊：Linux与开源软件的运维之道</a></li>'
+          + '</ul>'
+          + '</div></div>'
+          + '';
+
+jQuery('#showMessagerDim').show();
+
+jQuery(function(){
+//window.onload=function(){
+   if(get_cookie('blog_top')==''&&start==1){
+//	 show_pop();
+	    jQuery.messager.showblogtop('', _html);
+        var date=new Date();
+	    var day = 1332345600000;//
+	    date.setTime(day);
+	    var test = date.getTime();
+	    document.cookie="blog_top=yes;domain=.blog.51cto.com;expires="+date.toGMTString()+";path=/;";
+    }
+	jQuery("#showMessagerDim").click(function(){
+		jQuery.messager.showblogtop('', _html);
+		//removeIframe();
+	});
+//}
+});
+
+
+function get_cookie(Name) {
+    var search = Name + "=";
+    var returnvalue = "";
+    if (document.cookie.length > 0) {
+        offset = document.cookie.indexOf(search);
+        if (offset != -1) {
+            offset += search.length;
+
+            end1 = document.cookie.indexOf(";", offset);
+
+            if (end1 == -1)
+            end1 = document.cookie.length;
+            returnvalue=unescape(document.cookie.substring(offset, end1));
+        }
+    }
+    return returnvalue;
+}
+

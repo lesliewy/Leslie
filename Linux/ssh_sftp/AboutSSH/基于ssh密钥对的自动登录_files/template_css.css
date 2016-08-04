@@ -1,0 +1,510 @@
+﻿body {
+	margin: 5px 1px;
+	height: 100%;
+	padding: 0px;
+	font-family: Verdana,Tahoma,宋体,sans-serif;
+	font-size: 12px;
+	color: #333333;
+	background-image: url(../images/background.jpg);
+	background-repeat: no-repeat;
+}
+
+td,tr,p,div {
+	font-family: Verdana,Tahoma,宋体,sans-serif;
+	font-size: 12px;
+	color: #333333;
+}
+img, a {
+	border: 0;
+	vertical-align: text-middle;
+}
+a:link, a:visited {
+	color: #6B51A2; text-decoration: none;
+	font-weight: bold;
+}
+
+a:hover {
+	color: #ff6600;	text-decoration: none;
+	font-weight: bold;
+}
+
+ul {
+	margin: 0px 0px 0px 0px;
+	padding: 0;
+	list-style: none;
+}
+
+li {
+	line-height: 15px;
+	padding-left: 15px;
+	padding-top: 0px;
+	background-image: url(../images/arrow.gif);
+	background-repeat: no-repeat;
+	background-position: 0px 3px;
+}
+
+hr { 
+	/* often used in components like Akobook, and Simpleboard forum
+	   to define the separator lines */
+	background: transparent; 
+	height:1px; 
+	border: 1px solid #314B77;
+}
+
+.pagenav {
+  text-align: center;
+  font-weight: bold;
+  width: auto;
+  padding: 4px;
+  margin: 1px;
+}
+
+.pagenavbar {
+	padding-right: 5px;
+	float: right;
+}
+
+a.pagenav, a.pagenav:visited {
+	/* same as above, but for links */
+	font-weight: bold;
+	color: #6B51A2;
+}
+
+a.pagenav:hover {
+	/* same as above, but for links with mouse pointer over it */
+	color: #FF9900;
+}
+
+.small {
+	color: #999999;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.smalldark {
+	color: #999999;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+/* Form Styles */
+
+.button {
+	padding: 2px 5px 2px 5px;
+	height: 20px;
+	border:solid 1px #cccccc;
+	background-color: #CEFFAE;
+	color: #23598d;
+	text-align: center;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.inputbox {
+	color: #343A58;
+	font-size: 12px;
+	padding: 2px;
+	border:solid 1px #cccccc;
+	background-color: #ffffff;
+}
+
+.ontab {
+	/* For styling of the "Tab" buttons when editing contents through the frontend
+	   (when you log in as admin in the frontend). This .ontab is the styling for the
+	   tab when it is active or after its "clicked" */
+	background-color: #323A15;
+	border-left: outset 1px #DCF2FA;
+	border-right: outset 1px #808080;
+	border-top: outset 1px #DCF2FA;
+	border-bottom: solid 1px #d5d5d5;
+	text-align: center;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+/* Menu Styling */
+
+a.mainlevel:link, a.mainlevel:visited {
+	background: url(../images/menu_bg.gif) no-repeat;
+	background-position: 0px -3px;
+	font-weight: bold;
+	font-size: 13px;
+	color: #6B51A2;
+	padding-top: 3px;
+	padding-left: 20px;
+	height: 25px;
+	text-decoration: none;
+}
+
+a.mainlevel:hover {
+	background-position: 0px -28px;
+	text-decoration: none;
+	color: #FC6401;
+}
+
+ul#mainlevel-nav
+{
+
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	font-size: 0.8em;
+}
+
+ul#mainlevel-nav li
+{
+	display: block;
+	background-image: none;
+	padding-left: 0px;
+	padding-right: 0px;
+	float: right;
+	margin: 0;
+	width: auto !important;
+	font-size: 12px;
+	line-height: 21px;
+	white-space: nowrap;
+	border-right: 1px dotted #cccccc;
+}
+
+ul#mainlevel-nav li a
+{
+
+	display: block;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-decoration: none;
+	color:#F0F3FF;
+	background: transparent;
+}
+
+ul#mainlevel-nav li a:hover
+{
+	color: #ff6600;
+}
+
+#active_menu {
+	color:#FFCC00;
+	font-weight: bold;
+}
+
+a#active_menu:hover {
+	color: #ff6600;
+}
+
+/* General styling for Sections/Categories/Contents */
+
+.createdate {
+	height: 15px;
+	padding-bottom: 10px;
+	color: #999990;
+	font-size: 11px;
+	font-weight: bold;
+	text-align: right;
+}
+
+.modifydate {
+	height: 15px;
+	padding-top: 10px;
+	color: #999990;
+	font-size: 11px;
+	font-weight: bold;
+	text-align: right;
+}
+
+/* Styling for Contents */
+ 
+.contentpane {
+	/* The main contents table! That entire thing is contained in a table with this style */
+	background-color : #ffffff;
+}
+
+.contentpaneopen {	
+	background-color : #ffffff;
+}
+
+.contentheading {
+	height: 30px;
+	width: 470px;
+	background-color : #ffffff;
+	background: url(../images/contenthead.png)  no-repeat;
+	color: #666666;
+	text-align: left;
+	padding-top: 9px;
+	padding-left: 15px;
+	font-weight: bold;
+	font-size: 12px;
+	white-space: nowrap;
+}
+
+.contentpagetitle {
+	/* Couldn't find where is this yet. Will update this part when I
+		get to it. Sorry. If you know, please email me the infos */
+	font-size: 13px;
+	font-weight: bold;
+ 	color: #FF9900;
+	text-align:left;
+}
+
+.contentdescription {
+	/* the "DESCRIPTION" part of that page */
+	font-size: 12px;
+	color: #999990;
+	text-align: left;
+}
+
+table.contenttoc {
+	border: 1px solid #cccccc;
+	padding: 2px;
+	margin-left: 2px;
+	margin-bottom: 2px;
+}
+
+table.contenttoc th {
+	background: url(../images/bg_menu.gif) repeat-x;
+	color: #666666;
+	text-align: left;
+	padding-top: 2px;
+	padding-left: 4px;
+	height: 21px;
+	font-weight: bold;
+	font-size: 12px;
+	text-transform: uppercase;
+}
+
+table.contentpane td.componentheading {
+	padding-left: 4px;
+}
+
+table.contentpane td.contentheading {
+  padding-left: 15px;
+  padding-top: 9px;
+}
+
+.content_rating {
+	/* used for styling the texts used for displaying 
+	   those "stars" for rating in an article */
+	font-weight: normal;
+	font-size: 8pt;
+}
+
+.content_vote {
+	/* used for those voting texts (the one with voting RADIO buttons) */
+	font-weight: normal;
+	font-size: 8pt;
+}
+
+/* Sections Styles */
+
+.sectiontableheader {
+  font-weight: bold;
+  background: #f0f0f0;
+  padding: 4px;
+}
+
+.sectiontablefooter {
+
+}
+
+.sectiontableentry1 {
+	background-color : #ffffff;
+}
+
+.sectiontableentry2 {
+	background-color : #EDF3E9;
+}
+
+/* Styles for Categories */
+
+.category {
+	/* this is to set the category Titles ( found on a SECTION's page
+	   where the Category lists are) styles */
+	color: #23598d; 
+	font-size: 12px; 
+	font-weight: bold; 
+	text-decoration: none;
+}
+
+a.category:link, a.category:visited {
+	color: #6B51A2; font-weight: bold;
+}
+
+a.category:hover {
+	color: #ff6600;
+}
+
+/* Components Styles */
+
+.componentheading {
+	/* This is used for formatting the component's title
+	   when it is displayed on its own page on the frontend */
+	font-size: 13px;
+	font-weight: bold;
+ 	color: #23598d;
+	text-align:left;
+}
+
+/* Modules formatting */
+
+table.moduletable {
+	width: 100%;
+	margin-bottom: 5px;
+	padding: 5px;
+	border-collapse: collapse;
+}
+
+table.moduletable th {
+	background: url(../images/table1_top.gif) repeat-x;
+	color: #6633CC;
+	text-align: center;
+	padding-top: 9px;
+	padding-left: 4px;
+	height: 32px;
+	font-weight: bold;
+	font-size: 12px;
+	text-transform: uppercase;
+}
+
+table.moduletable td {
+	background-position-x: center;
+	font-size: 12px;
+	padding: 0px;
+	margin: 0px;
+	font-weight: normal;
+}
+
+/* Built-in Component's Syling */
+/*  Polls  */
+ 
+.poll {
+	font-size: 12px;
+	font-weight: bold;
+	color: #343A58;
+	line-height: 14px
+}
+
+.pollstableborder {
+	border: 1px solid #465675;
+}
+
+table.pollstableborder td {
+  padding: 3px;
+}
+
+/*  Weblinks */
+
+a.weblinks:link, a.weblinks:visited {
+	color: #6B51A2; text-decoration: none; font-weight: normal;
+	}
+
+a.weblinks:hover {
+	color: #000099;	text-decoration: underline;
+	}
+	
+
+/* Search page */
+
+table.searchintro td {
+	font-weight: bold;
+}
+
+.maintitle {
+	color: #ffffff;
+	font-size: 14px;
+	padding-left: 15px;
+	padding-top: 20px;
+}
+
+.error {
+  font-style: italic;
+  text-transform: uppercase;
+  padding: 5px;
+  color: #cccccc;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.back_button {
+	float: left;
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #cccccc;
+  width: 40px;
+  padding: 4px;
+}
+
+.contentcolumn {
+	padding-right: 5px;
+}
+
+.highlight {
+	background-color: Yellow;
+	color: Blue;
+	padding: 0px 2px 0px 2px;
+}
+.code {
+	background-color: #ddd;
+	border: 1px solid #bbb;
+}
+
+/*start user styling*/
+
+div.relatebox div.module {
+	padding-left:2px;
+}
+.relatebox div.module div div div h3{
+	margin-left:5px;
+	margin-right:6px;
+	font-size: 12px;
+	color:#6B51A2;
+	padding-top:5px;
+	padding-left:35px;
+	padding-bottom:3px;
+	background: url(../images/latestnews_bg.gif) no-repeat 5px 2px;
+	background-color: #D9ECFF;
+}
+
+div.roundblock div.module {
+}
+
+.roundblock div.module {
+	background: url('../images/user_bottom_left.png') no-repeat bottom left;
+}
+.roundblock div.module div div {
+    background: url('../images/user_top_left.png') no-repeat top left;
+}
+.roundblock div.module div {
+	background: url('../images/user_bottom_right.png') no-repeat bottom right;
+}
+.roundblock div.module div div div {
+    background: url('../images/user_top_right.png') no-repeat top right;
+	padding: 0px 0px 11px 2px; WIDTH: 100%;
+}
+.roundblock#feed div.module div div div {
+	padding: 0px 0px 1px 0px;
+}
+.roundblock div.module div div div h3{
+	font-size: 12px;
+	color:#6B51A2;
+	padding-top:5px;
+	padding-left:35px;
+	padding-bottom:3px;
+	height:20px;
+	background: url(../images/latestnews_bg.gif) no-repeat 5px 2px;
+}
+
+.roundblock#hot div.module div div div h3{
+	background: url(../images/popular_bg.gif) no-repeat 5px 2px;
+}
+.roundblock#login div.module div div div h3{
+	background: url(../images/login.gif) no-repeat 5px 2px;
+}
+.roundblock#tongji div.module div div div h3{
+	background: url(../images/ent.gif) no-repeat 5px 2px;
+}
+.roundblock div.module div div div div {
+    background: none;
+    padding-top: 0px;
+} 
+/*end user styling*/

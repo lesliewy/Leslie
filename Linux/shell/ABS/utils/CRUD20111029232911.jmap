@@ -1,0 +1,183 @@
+Attaching to process ID 27559, please wait...
+sun.jvm.hotspot.debugger.NoSuchSymbolException: Could not find symbol "heapOopSize" in any of the known library names (libjvm.so, libjvm_g.so, gamma_g)
+	at sun.jvm.hotspot.HotSpotTypeDataBase.lookupInProcess(HotSpotTypeDataBase.java:390)
+	at sun.jvm.hotspot.HotSpotTypeDataBase.readVMIntConstants(HotSpotTypeDataBase.java:310)
+	at sun.jvm.hotspot.HotSpotTypeDataBase.<init>(HotSpotTypeDataBase.java:88)
+	at sun.jvm.hotspot.bugspot.BugSpotAgent.setupVM(BugSpotAgent.java:568)
+	at sun.jvm.hotspot.bugspot.BugSpotAgent.go(BugSpotAgent.java:494)
+	at sun.jvm.hotspot.bugspot.BugSpotAgent.attach(BugSpotAgent.java:332)
+	at sun.jvm.hotspot.tools.Tool.start(Tool.java:163)
+	at sun.jvm.hotspot.tools.PMap.main(PMap.java:67)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at sun.tools.jmap.JMap.runTool(JMap.java:179)
+	at sun.tools.jmap.JMap.main(JMap.java:110)
+Debugger attached successfully.
+0x06000000	8361K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/server/libjvm.so
+0x08048000	46K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/bin/java
+0x91e25000	93K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libnet.so
+0xb749e000	74K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libzip.so
+0xb74af000	184K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libjava.so
+0xb74d4000	55K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libverify.so
+0xb74e0000	41K	/lib/tls/i686/cmov/libnss_files-2.10.1.so
+0xb74ec000	37K	/lib/tls/i686/cmov/libnss_nis-2.10.1.so
+0xb74f7000	77K	/lib/tls/i686/cmov/libnsl-2.10.1.so
+0xb7520000	29K	/lib/tls/i686/cmov/librt-2.10.1.so
+0xb757a000	145K	/lib/tls/i686/cmov/libm-2.10.1.so
+0xb75a1000	1288K	/lib/tls/i686/cmov/libc-2.10.1.so
+0xb76e5000	9K	/lib/tls/i686/cmov/libdl-2.10.1.so
+0xb76e9000	37K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/jli/libjli.so
+0xb76f3000	114K	/lib/tls/i686/cmov/libpthread-2.10.1.so
+0xb770d000	25K	/lib/tls/i686/cmov/libnss_compat-2.10.1.so
+0xb7715000	37K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/native_threads/libhpi.so
+0xb7721000	110K	/lib/ld-2.10.1.so
+============================================================================================================================
+Attaching to process ID 27559, please wait...
+sun.jvm.hotspot.debugger.NoSuchSymbolException: Could not find symbol "heapOopSize" in any of the known library names (libjvm.so, libjvm_g.so, gamma_g)
+	at sun.jvm.hotspot.HotSpotTypeDataBase.lookupInProcess(HotSpotTypeDataBase.java:390)
+	at sun.jvm.hotspot.HotSpotTypeDataBase.readVMIntConstants(HotSpotTypeDataBase.java:310)
+	at sun.jvm.hotspot.HotSpotTypeDataBase.<init>(HotSpotTypeDataBase.java:88)
+	at sun.jvm.hotspot.bugspot.BugSpotAgent.setupVM(BugSpotAgent.java:568)
+	at sun.jvm.hotspot.bugspot.BugSpotAgent.go(BugSpotAgent.java:494)
+	at sun.jvm.hotspot.bugspot.BugSpotAgent.attach(BugSpotAgent.java:332)
+	at sun.jvm.hotspot.tools.Tool.start(Tool.java:163)
+	at sun.jvm.hotspot.tools.PMap.main(PMap.java:67)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at sun.tools.jmap.JMap.runTool(JMap.java:179)
+	at sun.tools.jmap.JMap.main(JMap.java:110)
+Debugger attached successfully.
+0x06000000	8361K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/server/libjvm.so
+0x08048000	46K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/bin/java
+0x91e25000	93K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libnet.so
+0xb749e000	74K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libzip.so
+0xb74af000	184K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libjava.so
+0xb74d4000	55K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libverify.so
+0xb74e0000	41K	/lib/tls/i686/cmov/libnss_files-2.10.1.so
+0xb74ec000	37K	/lib/tls/i686/cmov/libnss_nis-2.10.1.so
+0xb74f7000	77K	/lib/tls/i686/cmov/libnsl-2.10.1.so
+0xb7520000	29K	/lib/tls/i686/cmov/librt-2.10.1.so
+0xb757a000	145K	/lib/tls/i686/cmov/libm-2.10.1.so
+0xb75a1000	1288K	/lib/tls/i686/cmov/libc-2.10.1.so
+0xb76e5000	9K	/lib/tls/i686/cmov/libdl-2.10.1.so
+0xb76e9000	37K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/jli/libjli.so
+0xb76f3000	114K	/lib/tls/i686/cmov/libpthread-2.10.1.so
+0xb770d000	25K	/lib/tls/i686/cmov/libnss_compat-2.10.1.so
+0xb7715000	37K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/native_threads/libhpi.so
+0xb7721000	110K	/lib/ld-2.10.1.so
+============================================================================================================================
+Attaching to process ID 27559, please wait...
+sun.jvm.hotspot.debugger.NoSuchSymbolException: Could not find symbol "heapOopSize" in any of the known library names (libjvm.so, libjvm_g.so, gamma_g)
+	at sun.jvm.hotspot.HotSpotTypeDataBase.lookupInProcess(HotSpotTypeDataBase.java:390)
+	at sun.jvm.hotspot.HotSpotTypeDataBase.readVMIntConstants(HotSpotTypeDataBase.java:310)
+	at sun.jvm.hotspot.HotSpotTypeDataBase.<init>(HotSpotTypeDataBase.java:88)
+	at sun.jvm.hotspot.bugspot.BugSpotAgent.setupVM(BugSpotAgent.java:568)
+	at sun.jvm.hotspot.bugspot.BugSpotAgent.go(BugSpotAgent.java:494)
+	at sun.jvm.hotspot.bugspot.BugSpotAgent.attach(BugSpotAgent.java:332)
+	at sun.jvm.hotspot.tools.Tool.start(Tool.java:163)
+	at sun.jvm.hotspot.tools.PMap.main(PMap.java:67)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at sun.tools.jmap.JMap.runTool(JMap.java:179)
+	at sun.tools.jmap.JMap.main(JMap.java:110)
+Debugger attached successfully.
+0x06000000	8361K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/server/libjvm.so
+0x08048000	46K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/bin/java
+0x91e25000	93K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libnet.so
+0xb749e000	74K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libzip.so
+0xb74af000	184K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libjava.so
+0xb74d4000	55K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libverify.so
+0xb74e0000	41K	/lib/tls/i686/cmov/libnss_files-2.10.1.so
+0xb74ec000	37K	/lib/tls/i686/cmov/libnss_nis-2.10.1.so
+0xb74f7000	77K	/lib/tls/i686/cmov/libnsl-2.10.1.so
+0xb7520000	29K	/lib/tls/i686/cmov/librt-2.10.1.so
+0xb757a000	145K	/lib/tls/i686/cmov/libm-2.10.1.so
+0xb75a1000	1288K	/lib/tls/i686/cmov/libc-2.10.1.so
+0xb76e5000	9K	/lib/tls/i686/cmov/libdl-2.10.1.so
+0xb76e9000	37K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/jli/libjli.so
+0xb76f3000	114K	/lib/tls/i686/cmov/libpthread-2.10.1.so
+0xb770d000	25K	/lib/tls/i686/cmov/libnss_compat-2.10.1.so
+0xb7715000	37K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/native_threads/libhpi.so
+0xb7721000	110K	/lib/ld-2.10.1.so
+============================================================================================================================
+Attaching to process ID 27559, please wait...
+sun.jvm.hotspot.debugger.NoSuchSymbolException: Could not find symbol "heapOopSize" in any of the known library names (libjvm.so, libjvm_g.so, gamma_g)
+	at sun.jvm.hotspot.HotSpotTypeDataBase.lookupInProcess(HotSpotTypeDataBase.java:390)
+	at sun.jvm.hotspot.HotSpotTypeDataBase.readVMIntConstants(HotSpotTypeDataBase.java:310)
+	at sun.jvm.hotspot.HotSpotTypeDataBase.<init>(HotSpotTypeDataBase.java:88)
+	at sun.jvm.hotspot.bugspot.BugSpotAgent.setupVM(BugSpotAgent.java:568)
+	at sun.jvm.hotspot.bugspot.BugSpotAgent.go(BugSpotAgent.java:494)
+	at sun.jvm.hotspot.bugspot.BugSpotAgent.attach(BugSpotAgent.java:332)
+	at sun.jvm.hotspot.tools.Tool.start(Tool.java:163)
+	at sun.jvm.hotspot.tools.PMap.main(PMap.java:67)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at sun.tools.jmap.JMap.runTool(JMap.java:179)
+	at sun.tools.jmap.JMap.main(JMap.java:110)
+Debugger attached successfully.
+0x06000000	8361K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/server/libjvm.so
+0x08048000	46K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/bin/java
+0x91e25000	93K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libnet.so
+0xb749e000	74K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libzip.so
+0xb74af000	184K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libjava.so
+0xb74d4000	55K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libverify.so
+0xb74e0000	41K	/lib/tls/i686/cmov/libnss_files-2.10.1.so
+0xb74ec000	37K	/lib/tls/i686/cmov/libnss_nis-2.10.1.so
+0xb74f7000	77K	/lib/tls/i686/cmov/libnsl-2.10.1.so
+0xb7520000	29K	/lib/tls/i686/cmov/librt-2.10.1.so
+0xb757a000	145K	/lib/tls/i686/cmov/libm-2.10.1.so
+0xb75a1000	1288K	/lib/tls/i686/cmov/libc-2.10.1.so
+0xb76e5000	9K	/lib/tls/i686/cmov/libdl-2.10.1.so
+0xb76e9000	37K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/jli/libjli.so
+0xb76f3000	114K	/lib/tls/i686/cmov/libpthread-2.10.1.so
+0xb770d000	25K	/lib/tls/i686/cmov/libnss_compat-2.10.1.so
+0xb7715000	37K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/native_threads/libhpi.so
+0xb7721000	110K	/lib/ld-2.10.1.so
+============================================================================================================================
+Attaching to process ID 27559, please wait...
+sun.jvm.hotspot.debugger.NoSuchSymbolException: Could not find symbol "heapOopSize" in any of the known library names (libjvm.so, libjvm_g.so, gamma_g)
+	at sun.jvm.hotspot.HotSpotTypeDataBase.lookupInProcess(HotSpotTypeDataBase.java:390)
+	at sun.jvm.hotspot.HotSpotTypeDataBase.readVMIntConstants(HotSpotTypeDataBase.java:310)
+	at sun.jvm.hotspot.HotSpotTypeDataBase.<init>(HotSpotTypeDataBase.java:88)
+	at sun.jvm.hotspot.bugspot.BugSpotAgent.setupVM(BugSpotAgent.java:568)
+	at sun.jvm.hotspot.bugspot.BugSpotAgent.go(BugSpotAgent.java:494)
+	at sun.jvm.hotspot.bugspot.BugSpotAgent.attach(BugSpotAgent.java:332)
+	at sun.jvm.hotspot.tools.Tool.start(Tool.java:163)
+	at sun.jvm.hotspot.tools.PMap.main(PMap.java:67)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at sun.tools.jmap.JMap.runTool(JMap.java:179)
+	at sun.tools.jmap.JMap.main(JMap.java:110)
+Debugger attached successfully.
+0x06000000	8361K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/server/libjvm.so
+0x08048000	46K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/bin/java
+0x91e25000	93K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libnet.so
+0xb749e000	74K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libzip.so
+0xb74af000	184K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libjava.so
+0xb74d4000	55K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/libverify.so
+0xb74e0000	41K	/lib/tls/i686/cmov/libnss_files-2.10.1.so
+0xb74ec000	37K	/lib/tls/i686/cmov/libnss_nis-2.10.1.so
+0xb74f7000	77K	/lib/tls/i686/cmov/libnsl-2.10.1.so
+0xb7520000	29K	/lib/tls/i686/cmov/librt-2.10.1.so
+0xb757a000	145K	/lib/tls/i686/cmov/libm-2.10.1.so
+0xb75a1000	1288K	/lib/tls/i686/cmov/libc-2.10.1.so
+0xb76e5000	9K	/lib/tls/i686/cmov/libdl-2.10.1.so
+0xb76e9000	37K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/jli/libjli.so
+0xb76f3000	114K	/lib/tls/i686/cmov/libpthread-2.10.1.so
+0xb770d000	25K	/lib/tls/i686/cmov/libnss_compat-2.10.1.so
+0xb7715000	37K	/opt/Genuitec/Common/binary/com.sun.java.jdk.linux.x86_1.6.0.013/jre/lib/i386/native_threads/libhpi.so
+0xb7721000	110K	/lib/ld-2.10.1.so
+============================================================================================================================
+Attaching to process ID 27559, please wait...
+Error attaching to process: sun.jvm.hotspot.debugger.DebuggerException: Can't attach to the process
+============================================================================================================================

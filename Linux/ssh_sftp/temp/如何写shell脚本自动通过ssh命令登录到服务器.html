@@ -1,0 +1,253 @@
+<html><head><title>如何写shell脚本自动通过ssh命令登录到服务器？_技术文档_百度空间</title><meta http-equiv="content-type" content="text/html; charset=gbk"><link rel="alternate" type="application/rss+xml" title="订阅该空间的博客文章" href="http://hi.baidu.com/qq5910225/rss"><style type="text/css">.error{color:#F00;font-size:12px}.shareUser,.shareLastEditor{line-height:20px;color:#666;text-align:left}.shareLastEditor{margin:5px 0 8px}</style><script>
+	    var g_pageTimerStart=new Date().getTime();
+	</script><script src="%E5%A6%82%E4%BD%95%E5%86%99shell%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87ssh%E5%91%BD%E4%BB%A4%E7%99%BB%E5%BD%95%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8_files/global.js"></script><script src="%E5%A6%82%E4%BD%95%E5%86%99shell%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87ssh%E5%91%BD%E4%BB%A4%E7%99%BB%E5%BD%95%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8_files/libs.js"></script><script src="%E5%A6%82%E4%BD%95%E5%86%99shell%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87ssh%E5%91%BD%E4%BB%A4%E7%99%BB%E5%BD%95%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8_files/tangram-1.js"></script><script>
+var Session = {
+    isLogin: !true,
+    isHost: 0,
+    loginStatus : 0,
+    userName: "qq5910225",   
+    userPortrait:'b0eb7171353931303232359909',
+    spaceURL: "\/qq5910225",
+    spBasicURL:"http:\/\/hi.baidu.com\/qq5910225",
+    spBasicURLEnc:"http%3A%2F%2Fhi.baidu.com%2Fqq5910225",
+    visitorName:    "",
+    visitorPortrait:'00000000',
+    isActive: '0',   /*{cmt 访问者是否激活空间}*/
+    visitorURL: "\/",        // 
+    pageURL: "http://hi.baidu.com\/qq5910225\/blog\/item\/445b5c2062bfcd5f9922ed3c.html",    
+    refer: "http:\/\/www.google.com.hk\/url?sa=t&rct=j&q=ssh+shell%E8%84%9A%E6%9C%AC&source=web&cd=3&ved=0CEgQFjAC&url=http%3A%2F%2Fhi.baidu.com%2Fqq5910225%2Fblog%2Fitem%2F445b5c2062bfcd5f9922ed3c.html&ei=cMVpT-36KILLrQf72PT8Bw&usg=AFQjCNFgxsOafX6-kem8aTznwdFeAIkvgg&cad=rja",
+    spToken: 'the fisrt two args should be string type:0,1!', 
+    spFriendDomain: 'http://frd.baidu.com',
+    spSpaceDomain: 'http://hi.baidu.com',
+    spPortraitDomain: 'http://tx.bdimg.com',
+    spSpaceStaticDomain: 'http://hi.bdimg.com', /*{cmt TODO RD似乎还不有提供这个变量，记得补成呀！}*/
+    spImgDomain : 'http://img.baidu.com',
+    spStaticDomain : 'http://hi.bdimg.com',
+
+    isDrag: false  /*{cmt 是否在拖动页：是为了通用，只对模块内容有作用，这里也作为一个通用属性}*/
+    ,isProfile: false   /*{cmt 是否在拖动页：是为了通用，只对模块内容有作用，这里也作为一个通用属性}*/
+    ,isPortraitVerify:!true
+    };
+</script><link href="%E5%A6%82%E4%BD%95%E5%86%99shell%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87ssh%E5%91%BD%E4%BB%A4%E7%99%BB%E5%BD%95%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8_files/ucard.css" rel="stylesheet" type="text/css"><script src="%E5%A6%82%E4%BD%95%E5%86%99shell%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87ssh%E5%91%BD%E4%BB%A4%E7%99%BB%E5%BD%95%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8_files/ucard.js" type="text/javascript"></script><script src="%E5%A6%82%E4%BD%95%E5%86%99shell%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87ssh%E5%91%BD%E4%BB%A4%E7%99%BB%E5%BD%95%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8_files/check_baiduhi.js" type="text/javascript"></script></head><body><iframe name="_BdPopupLayer_xl7ni7bihn149a0h9tb0edzp" style="position: absolute; z-index: 65001; display: none;" id="_BdPopupLayer_xl7ni7bihn149a0h9tb0edzp" frameborder="0" scrolling="no"></iframe><iframe name="_BdPopupLayer_prlxt4mvsyb4bvi7v3d6lhsh" style="position: absolute; z-index: 65001; display: none;" id="_BdPopupLayer_prlxt4mvsyb4bvi7v3d6lhsh" frameborder="0" scrolling="no"></iframe><link rel="Stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E5%86%99shell%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87ssh%E5%91%BD%E4%BB%A4%E7%99%BB%E5%BD%95%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8_files/bdeditor.css"> <script>
+/*<![CDATA[*/
+if(top.location != self.location){
+	top.location = self.location;
+}
+var myref = encodeURIComponent("http://hi.baidu.com\/qq5910225\/blog\/item\/445b5c2062bfcd5f9922ed3c.html");
+/*]]>*/
+</script><!--[if (lt IE 8.0)]><link rel=stylesheet type=text/css href="http://hi.bdimg.com/static/cblog/css/ui/mods.css?v=774e31a7.css"><![endif]--><!--[if (!IE)|(gte IE 8.0)]><!--><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E5%86%99shell%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87ssh%E5%91%BD%E4%BB%A4%E7%99%BB%E5%BD%95%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8_files/mods_datauri.css"><!--<![endif]--><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E5%86%99shell%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87ssh%E5%91%BD%E4%BB%A4%E7%99%BB%E5%BD%95%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8_files/d648caa11c81dcadcaefd01c.css"><!--[if (lt IE 8.0)]><link rel=stylesheet type=text/css href="http://hi.bdimg.com/static/cblog/css/space.css?v=147cf8eb.css"><![endif]--><!--[if (!IE)|(gte IE 8.0)]><!--><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E5%86%99shell%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87ssh%E5%91%BD%E4%BB%A4%E7%99%BB%E5%BD%95%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8_files/space_datauri.css"><!--<![endif]--><div class="userbar"><center> <div id="nav"><a class="logo" href="http://hi.baidu.com/index.htm"><img src="%E5%A6%82%E4%BD%95%E5%86%99shell%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87ssh%E5%91%BD%E4%BB%A4%E7%99%BB%E5%BD%95%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8_files/logo_93_30.gif" alt="百度空间" border="0"></a><div class="manage no-login"><form action="https://passport.baidu.com/?login" method="post">用户名:<input name="username">&nbsp;&nbsp; 密码:<input name="password" type="password"> <input name="mem_pass" value="on" type="hidden"><input value="" style="width: 0pt; height: 0pt;" type="submit"><a href="#" class="loginlink" onclick="this.parentNode.submit(); return false;">登录</a> </form> <a href="http://hi.baidu.com/reg/new" class="reglink">注册</a></div> </div></center></div><script src="%E5%A6%82%E4%BD%95%E5%86%99shell%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87ssh%E5%91%BD%E4%BB%A4%E7%99%BB%E5%BD%95%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8_files/base.js"></script><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E5%86%99shell%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87ssh%E5%91%BD%E4%BB%A4%E7%99%BB%E5%BD%95%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8_files/base.css"><script language="javascript">
+window.qetc = window.qetc || {};
+qetc.Context = {domain : "http://hi.baidu.com",
+    portrait : "00000000",
+    spToken : "the fisrt two args should be string type:0,1!",
+    isHost : false};
+</script><script src="%E5%A6%82%E4%BD%95%E5%86%99shell%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87ssh%E5%91%BD%E4%BB%A4%E7%99%BB%E5%BD%95%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8_files/qing_entrance.js"></script><script language="javascript" src="%E5%A6%82%E4%BD%95%E5%86%99shell%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87ssh%E5%91%BD%E4%BB%A4%E7%99%BB%E5%BD%95%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8_files/dialog.js"></script><center><div id="main" align="left"><!--[if IE]><script>
+var objmain = document.getElementById("main");
+function updatesize(){ var bodyw = window.document.body.offsetWidth; if(bodyw <= 790) objmain.style.width="772px"; else if(bodyw >= 1016) objmain.style.width="996px"; else objmain.style.width="100%"; }
+updatesize(); window.onresize = updatesize;
+</script><![endif]--><div id="header"><div class="lc"><div class="rc"></div></div><div class="tit"><a href="http://hi.baidu.com/qq5910225" class="titlink" title="qq5910225的空间 http://hi.baidu.com/qq5910225">技术文档</a></div><div class="desc">转载记录学习</div><div id="tabline">&nbsp;</div><div id="tab"><a href="http://hi.baidu.com/qq5910225/home">主页</a><a href="http://hi.baidu.com/qq5910225/blog" class="on">博客</a><a href="http://hi.baidu.com/qq5910225/album">相册</a><span>|</span><a href="http://hi.baidu.com/qq5910225/profile">个人档案</a><span>|</span><a href="http://hi.baidu.com/qq5910225/friends">好友</a><span>|</span><a href="http://tieba.baidu.com/i/sys/jump?un=qq5910225&amp;fr=spacebar" onclick="BdUtil.ns_trackerLink('m_20110330_spacebar','')" target="_blank">i贴吧</a></div></div><div class="stage"><div class="stagepad"><div style="width:100%"><table class="modth" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td class="modtl" width="7">&nbsp;</td><td class="modtc" nowrap="nowrap"><div class="modhead"><span class="modtit">查看文章</span></div></td><td class="modtc" nowrap="nowrap" align="right"></td><td class="modtr" width="7">&nbsp;</td></tr></tbody></table><div id="m_blog" class="modbox" style="overflow-x:hidden;"><div class="tit">如何写shell脚本自动通过ssh命令登录到服务器？</div><div class="date">2010-06-30 12:28</div><table style="table-layout: fixed; width: 100%;"><tbody><tr><td><div id="blog_text" class="cnt"><h3>如何写shell脚本自动通过ssh命令登录到服务器？</h3>
+我需要ssh登录到上百台linux server上去执行相同命令，相写一个shell脚本，把用户名和密码写进去，然后让这个脚本自动登录每台linux server去执行命令。
+<p class="author"><strong>luopc</strong> 发表于 2006-04-17 10:56</p>
+用EXPECT实现用密码登录，也可配置成不需要密码<br>
+<br>
+<br>
+#!/usr/bin/expect -f<br>
+<br>
+if { $argc &lt; 3 } {<br>
+puts stderr "Usage: $argv0 IPAdress Login OldPasswd"<br>
+exit<br>
+}<br>
+<br>
+set IPADDR [lindex $argv 0]<br>
+set LOGIN [lindex $argv 1]<br>
+set OLD_PW [lindex $argv 2]<br>
+<br>
+set timeout 30<br>
+<br>
+stty -echo<br>
+<br>
+spawn ssh $IPADDR -l $LOGIN<br>
+expect {<br>
+    "*Password:*"&nbsp;&nbsp; {<br>
+  &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; send "$OLD_PW\r"<br>
+  &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; exp_continue<br>
+    } "*Last login:*" {<br>
+  &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; #interact<br>
+  &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; exit 0<br>
+    } timeout {<br>
+  &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; send_user "connection to $IPADDR timeout!\n"<br>
+  &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; exit 1<br>
+    } "*incorrect*" {<br>
+  &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; send_user "password incorrect!\n"<br>
+  &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; exit 2<br>
+    } "*Permission*" {&nbsp;&nbsp; #for LINUX ssh<br>
+  &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; send_user "password Error!\n"<br>
+  &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; exit 2<br>
+    } eof {<br>
+  &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; exit 3<br>
+    }<br>
+}
+<p class="author"><strong>sailer_sh</strong> 发表于 2006-04-17 11:05</p>
+非常感谢！<br>
+那么如果让shell脚本在登录服务器以后自动执行命令，然后回返执行的结果，最后再退出登录？
+<p class="author"><strong>sirius</strong> 发表于 2006-04-17 11:42</p>
+关注...
+<p class="author"><strong>sailer_sh</strong> 发表于 2006-04-17 13:11</p>
+脚本执行有问题：<br>
+[code]./autologin.sh 192.168.1.1 root abcdef<br>
+spawn ssh 192.168.1.1 -l root<br>
+root@192.168.1.1's password: <br>
+[/code]<br>
+过了30秒以后显示：connection to 192.168.1.1 timeout!<br>
+好像没有自动输入密码。<br>
+我手工通过ssh命令可以连上去
+<p class="author"><strong>luopc</strong> 发表于 2006-04-17 13:17</p>
+去掉<br>
+#interact<br>
+前的#号即可
+<p class="author"><strong>luopc</strong> 发表于 2006-04-17 13:23</p>
+expect 是根据屏幕上的显示信息再确定下一执行动作的，不同的操作系统有点小区别：<br>
+你将<br>
+"*Password:*"&nbsp;&nbsp;<br>
+该成<br>
+"*assword:*"<br>
+应可通过测试
+<p class="author"><strong>sailer_sh</strong> 发表于 2006-04-17 13:26</p>
+还是不行。<br>
+ssh命令本身的提示并不是"Password:"，这个有关系吗？
+<p class="author"><strong>sailer_sh</strong> 发表于 2006-04-17 14:34</p>
+[quote]原帖由 [i]luopc[/i] 于 2006-4-17 13:23 发表<br>
+expect 是根据屏幕上的显示信息再确定下一执行动作的，不同的操作系统有点小区别：<br>
+你将<br>
+"*Password:*"&nbsp;&nbsp;<br>
+该成<br>
+"*assword:*"<br>
+应可通过测试 [/quote]<br>
+<br>
+是的，你说的这个方法是有效的，我登录到了远程服务器。<br>
+怪不得看到别人写的except脚本里都用”assword“，一直没理解它的意思。
+<p class="author"><strong>yjh777</strong> 发表于 2006-04-17 17:16</p>
+[quote]原帖由 [i]sailer_sh[/i] 于 2006-4-17 11:05 发表<br>
+非常感谢！<br>
+那么如果让shell脚本在登录服务器以后自动执行命令，然后回返执行的结果，最后再退出登录？ [/quote]<br>
+man ssh-keygen<br>
+ssh-keygen 生成公钥密钥对,再用expect把他们scp到远程机的~/.ssh/下面。<br>
+man ssh<br>
+ssh $REMOTE_HOST $COMMAND<br>
+...<br>
+...<br>
+ssh $REMOTE_HOST rm -rf ~/.ssh/*
+<p class="author"><strong>rainysun</strong> 发表于 2008-04-13 20:59</p>
+神州时数码没有提供linux下的客户端，我在网上下了一个叫upnet的程序，执行的时候是在当前目录下执行下列代码;<br>
+   ./upnet -u myUsername&nbsp;&nbsp; -p myPassord<br>
+然后就可以上网了（其实第一次运行时还要加上另一个选项－h 服务器ip地址，只是后来它保存了而已）<br>
+现在的问题是过了一分钟左右，就连不上网了，重新执行上面的代码，会提示upnet程序已经存在：<br>
+Warning: bad ps syntax, perhaps a bogus '-'? See [url]http://procps.sf.net/faq.html[/url]<br>
+This procedure has Exsit!<br>
+<br>
+我必须kill掉upnet进程才可以。（upnet 进程存在却上不了网）<br>
+&nbsp;&nbsp; 如果时间长了，终端会提示; <br>
+   Keeping the conjunction fails, canning not find the server.<br>
+这是upnet进程已经自动关闭，可以直接执行上面的代码<br>
+我的想法是编写一个自动连接，并且在一分钟后自动重新连接并且能下够自动杀掉upnet进程的脚本。刚学linux，不会脚本。哪位大侠能帮帮帮我。感激不尽。困扰我多时了。
+<p class="author"><strong>maitr</strong> 发表于 2008-09-13 03:00</p>
+晕死，发错地方了，要转这个帖子给别人看的，怎么回复到这个帖子上了<br>
+:em11:<br>
+<br>
+[[i] 本帖最后由 maitr 于 2008-9-13 03:02 编辑 [/i]]
+<p class="author"><strong>hhxxttxs</strong> 发表于 2008-09-13 12:38</p>
+实用！
+<p class="author"><strong>ywlyanw</strong> 发表于 2008-12-17 23:18</p>
+可以继续改进，判断上个登录后退出状态，继续对下个登录的操作进行自动响应执行:wink:
+<p class="author"><strong>我是DBA</strong> 发表于 2008-12-18 08:51</p>
+[url]http://www.ibm.com/developerworks/cn/aix/library/au-expect/index.html[/url]<br>
+Expect 在网络管理中发挥着重要作用<br>
+<br>
+expect的介绍
+<p class="author"><strong>zeeler</strong> 发表于 2009-06-28 17:39</p>
+21: Syntax error: "}" unexpected (expecting "then")<br>
+出错啊，Ubuntu 9.04测试 <br></div></td></tr></tbody></table><br><div class="opt" id="blogOpt"><a href="http://hi.baidu.com/qq5910225/blog/category/Shell" title="查看该分类中所有文章">类别：Shell</a><span class="x-blog-opt-sp">|</span><a href="#" onclick="addToShare(); return false;" target="_blank"><img src="%E5%A6%82%E4%BD%95%E5%86%99shell%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87ssh%E5%91%BD%E4%BB%A4%E7%99%BB%E5%BD%95%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8_files/share_btn.gif" border="0" align="absbottom"></a><span class="x-blog-opt-sp">|</span><a title="将此文章添加到百度搜藏" href="http://cang.baidu.com/do/add" onclick="return addToFavor();" target="_blank">添加到搜藏</a> <span class="x-blog-opt-sp">|</span><a title="将此文章分享到i贴吧" href="#" onclick="addToiTieba(); return false;" target="_blank">分享到i贴吧</a><span class="x-blog-opt-sp">|</span>浏览(<span id="result">1258</span>)<span class="x-blog-opt-sp">|</span><a href="#send">评论</a>&nbsp;(<span id="blogCmtCount">0</span>)<script language="javascript">
+										/*<![CDATA[*/
+										var pre = [true,'lftp怎么登陆ssl的ftp？', 'lftp怎么登陆ssl的ftp？','\/qq5910225/blog/item/ef2ba91f04b7bd8686d6b6a2.html'];
+										var post = [true,'Expect循环登录多台服务器执行命令的脚本','Expect循环登录多台服务器执行命...', '\/qq5910225/blog/item/54b13f1c72828cc5a686693c.html'];
+										if(pre[0] || post[0]){
+											document.write('<div style="height:5px;line-height:5px;">&nbsp;</div><div id="in_nav">');
+											if(pre[0]){
+												document.write('上一篇：<a href="' + pre[3] + '" title="' + pre[1] + '">' +  pre[2] + '</a>&nbsp;&nbsp;&nbsp;&nbsp;');
+											}
+											if(post[0]){
+												document.write('下一篇：<a href="' + post[3] + '" title="' + post[1] + '">' +  post[2] + '</a>');
+											}
+											document.write('</div>');
+										}
+										/*]]>*/
+									</script><div style="height:5px;line-height:5px;">&nbsp;</div><div id="in_nav">上一篇：<a href="http://hi.baidu.com/qq5910225/blog/item/ef2ba91f04b7bd8686d6b6a2.html" title="lftp怎么登陆ssl的ftp？">lftp怎么登陆ssl的ftp？</a>&nbsp;&nbsp;&nbsp;&nbsp;下一篇：<a href="http://hi.baidu.com/qq5910225/blog/item/54b13f1c72828cc5a686693c.html" title="Expect循环登录多台服务器执行命令的脚本">Expect循环登录多台服务器执行命...</a></div></div><div class="line">&nbsp;</div><style type="text/css">#in_related_doc a{text-decoration:none}</style><div id="in_related_tmp"></div><div id="in_reader"> <div class="tit">最近读者：</div></div><div class="line">&nbsp;</div><div id="in_comment"> <a name="comment"></a> <div class="tit">网友评论：</div> <span id="userCommentList"></span> <div id="page"></div></div><form action="/qq5910225/commit" id="blogCmtSubmitForm" name="blogCmtSubmitForm" method="post"> <input name="bdstoken" value="the fisrt two args should be string type:0,1!" type="hidden"> <input name="ct" value="8" type="hidden"> <input name="cm" value="2" type="hidden"> <input name="spBlogID" value="445b5c2062bfcd5f9922ed3c" type="hidden"> <input name="spBlogCmtID" value="" type="hidden"> <input name="spRefURL" value="" type="hidden"></form><div id="in_send"><a name="send"></a><form name="form1" id="popFormSubmit" action="/qq5910225/commit" method="post" onsubmit="return checkcmtform()"><input name="bdstoken" value="the fisrt two args should be string type:0,1!" type="hidden"><input name="ct" value="8" type="hidden"><input name="cm" value="1" type="hidden"><input name="spBlogID" value="445b5c2062bfcd5f9922ed3c" type="hidden"><input value="http://hi.baidu.com/qq5910225/blog/item/445b5c2062bfcd5f9922ed3c.html" name="spRefURL" id="spRefURL" type="hidden"><script>
+										    document.getElementById("spRefURL").value = window.location.href;
+										</script><div class="tit">发表评论：</div><table border="0" cellpadding="0" cellspacing="5" width="620"><tbody><tr><td class="f14">姓　名：</td><td><input name="spBlogCmtor" id="spBlogCmtor" style="width: 220px;" tabindex="1" onchange="checkname('spBlogCmtor')" maxlength="49" onfocus="hidErr(1);"><script>
+                                                            document.write(" &nbsp;&nbsp; <a href='http://hi.baidu.com/st/reg.html' target='_blank'>注册</a>");
+                                                            document.write(' | <a href="https://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'" onclick="BdUtil.relogin(); return false;">登录</a>');
+														</script> &nbsp;&nbsp; <a href="http://hi.baidu.com/st/reg.html" target="_blank">注册</a> | <a href="https://passport.baidu.com/?login&amp;tpl=sp&amp;tpl_reg=sp&amp;u=http%3A%2F%2Fhi.baidu.com%2Fqq5910225%2Fblog%2Fitem%2F445b5c2062bfcd5f9922ed3c.html" onclick="BdUtil.relogin(); return false;">登录</a><div style="display:none" id="nmerror">*姓名最长为50字节</div></td></tr><tr id="1_err" style="display: none;"><td>&nbsp;</td><td><div class="error" id="1_err_con"></div></td></tr><tr><td class="f14">网址或邮箱：</td><td><input name="spBlogCmtURL" id="spBlogCmtURL" style="width: 360px;" maxlength="128" tabindex="2" onchange="checkeandu('spBlogCmtURL')" onfocus="hidErr(2);"> (选填)<script>
+														G("spBlogCmtor").value="";
+														G("spBlogCmtURL").value="";
+													</script></td></tr><tr id="2_err" style="display: none;"><td>&nbsp;</td><td><div class="error" id="2_err_con"></div></td></tr><tr><td class="f14" id="reTitle" valign="top">内　容：</td><td>        <div id="bdeditor_container_ngemyrmeeyifndemvnzbw83a">            <table height="155px" border="0" cellpadding="0" cellspacing="0" width="100%">                <tbody><tr>                    <td style="display: none;" id="editor_toolbar_ngemyrmeeyifndemvnzbw83a" class="ToolbarContainer"><div class="ToolbarStrip"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td nowrap="nowrap"><div class="ToolbarItem" title="插入表情" id="ToolbarItem_jdr1y5euxumv55ayho6e0mnz" onclick="_Instance['jdr1y5euxumv55ayho6e0mnz'].clickHandler(this)" onmouseup="_Instance['jdr1y5euxumv55ayho6e0mnz'].mouseUpHandler(this)" onmousedown="_Instance['jdr1y5euxumv55ayho6e0mnz'].mouseDownHandler(this)" onmouseout="_Instance['jdr1y5euxumv55ayho6e0mnz'].mouseOutHandler(this)" onmouseover="_Instance['jdr1y5euxumv55ayho6e0mnz'].mouseOverHandler(this)"><div class="img Smiley" alt="插入表情"><font style="font-size:12px">插入表情</font></div></div></td></tr></tbody></table></div></td>                </tr>                <tr>                    <td id="editor_area_ngemyrmeeyifndemvnzbw83a" class="EditorContainer"><iframe src="javascript:void(0)" frameborder="0" height="155px" width="100%"></iframe></td>                </tr>            </tbody></table>        </div>    <textarea name="spBlogCmtText" id="spBlogCmtText" style="width: 520px; height: 155px; display: none;" tabindex="3" onfocus="hidErr(3);" onclick="BdUtil.relogin(); return false;"></textarea></td></tr><tr id="3_err" style="display: none;"><td>&nbsp;</td><td><div class="error" id="3_err_con"></div></td></tr><tr><td class="f14" valign="top">&nbsp;</td><td class="f14" valign="top"><input id="btn_ok" name="btn_ok" autocomplete="off" onclick="BdUtil.relogin(); return false;" value="发表评论" tabindex="5" type="submit">&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="cancleReLink" onclick="canclereply(); return false;" style="display: none; font-size: 12px; color: rgb(102, 102, 102);">取消回复</a></td></tr></tbody></table></form></div><br></div><table height="8" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td class="modbl" width="7">&nbsp;</td><td class="modbc">&nbsp;</td><td class="modbr" width="7">&nbsp;</td></tr></tbody></table></div></div></div></div><div class="clearfix"></div><div style="text-align:center;margin:30px auto 15px;font-family:Arial,simsun;font-size:12px;"><div style="margin:0 auto 6px;"><a href="http://help.baidu.com/question?prod_en=space" target="_blank" style="color: rgb(0, 0, 204);">帮助中心</a><span>&nbsp;|&nbsp;</span><a href="http://tieba.baidu.com/f?kw=%B0%D9%B6%C8%BF%D5%BC%E4&amp;fr=wwwt" target="_blank" style="color: rgb(0, 0, 204);">空间客服</a><span>&nbsp;|&nbsp;</span><a href="http://tousu.baidu.com/hi/" target="_blank" style="color: rgb(0, 0, 204);">投诉中心</a><span>&nbsp;|&nbsp;</span><a href="http://www.baidu.com/search/hi_contract.html" target="_blank" style="color: rgb(0, 0, 204);">空间协议</a></div><div style="color:#7A77C8;">&#169;2012&nbsp;Baidu</div></div></center><ul id="blogCmtContentList" style="display:none;"></ul><script>	var g_blogTitle = '如何写shell脚本自动通过ssh命令登录到服务器？';
+		var g_blogId = '445b5c2062bfcd5f9922ed3c';
+		var g_isAllowCmt =  true ;
+		var g_isByShared =  false ;
+		var g_isAddRelate =  true ;
+		var g_latestReader = [
+									["http:\/\/hi.baidu.com\/hjq20","d00e686a7132304700","hjq20"],
+									["http:\/\/hi.baidu.com\/房桐","3fd2736d676b66616e677000","smgkfang"],
+									["http:\/\/hi.baidu.com\/lsdjqwq","0e1c6c73646a7177713703","lsdjqwq"],
+									["http:\/\/hi.baidu.com\/2400小兵","883232343030d0a1b1f8360b","2400小兵"],
+									["http:\/\/hi.baidu.com\/jiyinyiyong","68776a6979696e7969796f6e67e603","jiyinyiyong"],
+									["http:\/\/hi.baidu.com\/johnawm","ac556a6f686e61776db700","johnawm"],
+									["http:\/\/hi.baidu.com\/zjxn025","de8b7a6a786e303235ca1a","zjxn025"],
+									["http:\/\/hi.baidu.com\/han830218","46bd68616e383330323138bd20","han830218"],
+								{}
+			];
+	</script><iframe id="submitiframe" name="submitiframe" src="%E5%A6%82%E4%BD%95%E5%86%99shell%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87ssh%E5%91%BD%E4%BB%A4%E7%99%BB%E5%BD%95%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8_files/blank.htm" style="display: none;"></iframe><script src="%E5%A6%82%E4%BD%95%E5%86%99shell%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87ssh%E5%91%BD%E4%BB%A4%E7%99%BB%E5%BD%95%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8_files/comment.js"></script><script src="%E5%A6%82%E4%BD%95%E5%86%99shell%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E9%80%9A%E8%BF%87ssh%E5%91%BD%E4%BB%A4%E7%99%BB%E5%BD%95%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8_files/detailpage.js"></script><script>
+/*<![CDATA[*/
+/*{cmt
+    这个相当一个代理器  
+  在这里想实现一种这种加载效果：加载时注册（用一个 初始化数据.数组 记录要绑定的ID），文档ready后，按需加载js+css资源，js加载完，就初始化据执行
+
+  有个问题，有些结构是 动态 执行这个绑定的，可能会发生资源还没有加载的情况。可以考虑给初始化数据，加一个标志位，说明加载完未，如果未，则把数据push到 初始化数据中(因为是用 dom.onxxx 的方式，所以不怕多次对同一个ID执行的问题)
+
+
+  }*/
+var SP = SP || {};
+if(!SP.mycard){
+    SP.mycard = new (function(){
+        var me = this;
+        var _cancleAction = Session.isDrag;  /*{cmt 标记在特殊情况下，所有的注册都被abort 如拖动页面}*/
+        var _list = [];
+        var _sourceLoaded = false;    /*{cmt 这里用了一种资源加载结束后，回调的机制，这个标志资源是否加载结束}*/
+        me.bind = function (_id){
+            if(_cancleAction){  //abort
+                return;
+            }
+            if(!_sourceLoaded){
+                _list.push(_id);
+            } else {
+                baidu.space.mycard.bind(_id);
+            }
+        }
+        me.init = function (_config){
+            _cancleAction = !!_config.cancle;
+        }
+        me.onSourceLoaded = function (){
+            _sourceLoaded = true;
+            baidu.space.mycard.init({portrait: Session.visitorPortrait});
+            for(var i=0,len=_list.length; i<len; i++){
+                baidu.space.mycard.bind(_list[i]);
+            }
+        }
+    })();
+    baidu.dom.ready(function(){
+        BdAjax.loadCSS('http://hi.bdimg.com/static/cblog/css/ui/ucard/ucard.css?v=50de96ca.css');
+        BdAjax.loadJS('http://hi.bdimg.com/static/cblog/js/ui/ucard/ucard.js?v=fcbffbf8.js');
+    });
+}
+SP.mycard.bind('m_blog');  /*{cmt 只有文档加载完才真正绑定，这里只是append记录 }*/
+/*]]>*/
+</script></body></html>

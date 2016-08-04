@@ -1,0 +1,364 @@
+.infolevel1, .infolevel2 , .infolevel3 {
+    background-color: #FAD163;
+    display: block;
+}
+
+div #jcAzrulWindow{
+	position: absolute;
+}
+
+.infolevel1, .infolevel2 {
+    height: 1px;
+    font-size: 1px;
+}
+
+.infolevel1 {
+    margin-right: 3px;
+    margin-left: 3px;
+}
+
+.infolevel2 {
+    margin-right: 1px;
+    margin-left: 1px;
+}
+
+.infolevel3 {
+    color: #000000;
+	font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    height: 18px;
+}
+
+#powered_jc {
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    font-size: xx-small;
+}
+    
+.jcAdminPanel{
+    top: 0px;
+	position: relative;
+	display: block;
+	background-color: #EFEFD2;
+	padding:4px;
+	padding:4px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-right-color: #E6E6B7;
+	border-bottom-color: #E6E6B7;
+	text-align: right;
+	width: auto;
+	right: 0px;
+    	}
+
+#bb_container, #bb_main , div.bb_front {
+	height:26px;
+	display:block;
+	vertical-align: middle;
+	overflow: hidden;
+	padding: 0px;
+	margin: 0px;
+	background-image: url(smilies/bbcode_bg.gif);
+	background-position: right 0px;
+	background-repeat: no-repeat;
+}
+    	
+div.bb_main {
+	float: left;
+	display:block;
+	background-image: url(smilies/bbcode_front.gif);
+	background-position: left 0px;
+	background-repeat: no-repeat;
+	clear:none;
+}
+
+#bb_main div{display:inline}
+#bb_main>div{display:-moz-inline-block}
+/*\*//*/
+#bb_main>div{display:inline-block}
+/* */ 
+
+div.bb_item {
+	display:-moz-inline-block;
+	/*\*//*/
+	display:inline-block;
+	/* */ 
+	float: left;
+	margin-top: 0px;
+    margin-bottom: 0px;
+	width:22px;
+	margin: 0px;
+	overflow: visible;
+	clear:none;
+}
+
+.bb_itemImg {
+	display:inline;
+	margin-top: 0px;
+    margin-bottom: 0px;
+	overflow: visible;
+	padding:0px;
+}
+
+div.bb_front {
+	background-image: url(smilies/bbcode_front.gif);
+	float: left;
+	width: 14px;
+	margin: 0px;
+	display:inline;
+}
+
+.toggleArea{
+	text-align:right;
+	display:block;
+}
+
+.trackback-footer {
+    clear: both;
+    margin: 5px 10px 5px 10px;
+}
+
+.trackback-footer {
+    margin: 0 0 5px 0;
+    border-top: 1px solid #BCBCBC;
+    padding-top: 3px;
+    font-size: 85%;
+    text-align: right;
+}
+
+.trackback-url{
+	text-align: right;
+	margin: 5px 10px 10px 10px;
+}
+
+#trackbacks-content{
+	margin: 0px;
+}
+
+div #jcfavDiv #favTitle{
+	border-bottom: 1px solid #BCBCBC;
+	height: 15px;
+	padding: 5px;
+	background-color: #CDCDCD;
+}
+
+div #jcfavDiv #favTitle #favImage{
+	position: absolute;
+}
+
+div #jcfavDiv #favTitle #favText {
+	left:35px;
+	top: 3px;
+	font-weight: bold;
+	position:absolute;
+}
+
+div #jcfavDiv #favTitle #favClose{
+	right: 10px;
+	top: 3px;
+	position: absolute;
+}
+
+div #jcshareDiv #shareTitle{
+	border-bottom: 1px solid #BCBCBC;
+	height: 15px;
+	padding: 5px;
+	background-color: #CDCDCD;
+}
+
+div #jcshareDiv #shareTitle #shareImage{
+	position: absolute;
+}
+
+div #jcshareDiv #shareTitle #shareText {
+	left:35px;
+	top: 3px;
+	font-weight: bold;
+	position:absolute;
+}
+
+div #jcshareDiv #shareTitle #shareClose{
+	right: 10px;
+	top: 3px;
+	position: absolute;
+}
+
+div #emailFormDiv{
+	top:29px;
+	z-index:10;
+	width:410px;
+}
+
+div #emailFormDiv #emailFormTitle #emailFormImage{
+	position: absolute;
+	left: 5px;
+}
+
+div #emailFormDiv #emailFormTitle #emailFormText {
+	left:35px;
+	top: 3px;
+	font-weight: bold;
+	position:absolute;
+}
+
+div #emailFormDiv #emailFormTitle #emailFormClose{
+	top: 3px;
+	right: 10px;
+	position: absolute;
+}
+
+
+div #emailFormDiv #emailFormTitle{
+	border-bottom: 1px solid #BCBCBC;
+	height: 15px;
+	padding: 5px;
+	background-color: #CDCDCD;
+}
+
+div #emailFormDiv input {
+	background-color: #FFFFFF;
+}
+
+.emailForm{
+	background-color:#EEEEEE;
+	border-color:#CCCCCC rgb(153, 153, 153) rgb(153, 153, 153) rgb(204, 204, 204);
+	border-style:solid;
+	border-width:1px;
+	color:#333333;
+	display:-moz-inline-box;
+	margin:1px;
+	vertical-align:middle;
+	white-space:nowrap;
+	position:absolute;
+	right:0px;
+	top:0px;
+	text-align: left;
+}
+
+.emailForm #emailFormResult{
+	margin-top: 5px;
+	padding: 4px;
+}
+
+.emailForm #emailFormResult #email{
+	text-decoration: underline;
+	color: blue;
+}
+#jcshareDiv ul{
+	padding:0px;
+}
+
+#jcshareDiv ul li {
+	float:left;
+	margin:0pt;
+	padding:0pt;
+	width:48%;
+	list-style-type: none;
+}
+
+#jcshareDiv ul li a {
+	background-position:0px 2px;
+	background-repeat:no-repeat;
+	display:block;
+	float:left;
+	height:24px;
+	padding:0px 0pt 0pt 22px;
+	vertical-align:middle;
+	font-size:95%;
+}
+
+#bm_delicious {
+	background-image:url(images/bookmarks/delicious.gif);
+}
+
+#bm_digg {
+	background-image:url(images/bookmarks/digg.gif);
+}
+#bm_furl {
+	background-image:url(images/bookmarks/furl.gif);
+}
+
+#bm_yahoo_myweb {
+	background-image:url(images/bookmarks/yahoo_myweb.gif);
+}
+
+#bm_stumbleupon {
+	background-image:url(images/bookmarks/stumbleupon.gif);
+}
+
+#bm_google_bmarks {
+	background-image:url(images/bookmarks/google_bmarks.gif);
+}
+
+#bm_technorati {
+	background-image:url(images/bookmarks/technorati.gif);
+}
+
+#bm_reddit {
+	background-image:url(images/bookmarks/reddit.gif);
+}
+
+#bm_facebook {
+	background-image:url(images/bookmarks/facebook.gif);
+}
+
+div#jc_commentsDiv{
+	z-index:-1;
+}
+
+span.jcerr{
+font-weight:bold;
+color:#FF0000;
+}
+	div.dialog_header div.dialog_close{
+		cursor:pointer;
+		float:right;
+	}
+	div#AzrulWindow{
+		background:transparent url(images/shadowAlpha.png) no-repeat scroll right bottom !important;
+	}
+	table#jcAzrulWindowtable{
+		position:relative;
+		right:6px;
+		bottom:6px;
+	}
+	
+	td#jcAzrulWindowContent {
+		background-color:#EEEEEE;
+		border-color:#CCCCCC rgb(153, 153, 153) rgb(153, 153, 153) rgb(204, 204, 204);
+		border-style:solid;
+		border-width:1px;
+		color:#333333;
+	}
+	
+
+	
+	td#jcAzrulWindowContent hr{
+		 height: 1px;
+		 background-color:#CDCDCD;
+	}
+	
+	td#jcAzrulWindowContent div.dialog_header{
+		background-color:#CDCDCD;
+		border-bottom:1px solid #BCBCBC;
+		height:15px;
+		padding:5px;
+		font-size:13px;
+		font-weight:bold;
+		margin:0px;
+		width:auto;
+	}
+	
+	td#jcAzrulWindowContent h2 span{
+		display:block;
+		padding:4px 10px 5px;
+	}
+	
+	td#jcAzrulWindowContent div.dialog_content{
+		display:block;
+		padding:4px 10px 5px;
+	}

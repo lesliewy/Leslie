@@ -1,0 +1,512 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html
+xmlns="http://www.w3.org/1999/xhtml"><head><link
+rel='stylesheet' href='http://apt-blog.net/wp-content/plugins/wp-minify/cache/4ecb796f12b3041bbbf81d09f738700c.css?m=1332343647' type='text/css' media='screen' /> <script type='text/javascript' src='http://apt-blog.net/wp-content/plugins/wp-minify/cache/a812684e33d56afe933f7ffe77c171f7.js?m=1332343647'></script> <meta
+http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title> 用于shell脚本无交互的ssh自动登陆</title><meta
+name="description" content="  用于shell脚本无交互的ssh自动登陆" /><meta
+name="keywords" content="  用于shell脚本无交互的ssh自动登陆" /><link
+rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://apt-blog.net/feed" /><link
+rel="pingback" href="http://apt-blog.net/xmlrpc.php" /><link
+rel="alternate" type="application/rss+xml" title="apt-blog.net   无证程序员的PT桑 &raquo; 用于shell脚本无交互的ssh自动登陆 Comments Feed" href="http://apt-blog.net/ssh_auto_login_in_shell_script/feed" /><link
+rel="EditURI" type="application/rsd+xml" title="RSD" href="http://apt-blog.net/xmlrpc.php?rsd" /><link
+rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://apt-blog.net/wp-includes/wlwmanifest.xml" /><link
+rel='prev' title='Unix心传：无名师与MCSE能者（伪文言翻译）' href='http://apt-blog.net/master-foo-and-the-mcse' /><link
+rel='next' title='下班关机拔U盘的提醒程序' href='http://apt-blog.net/shutdown_reminder_to_unplug_usb_drive' /><meta
+name="generator" content="WordPress 3.3.1" /><link
+rel='canonical' href='http://apt-blog.net/ssh_auto_login_in_shell_script' /><link
+rel='shortlink' href='http://apt-blog.net/?p=818' /><style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style> <script type="text/javascript">/*<![CDATA[*///
+//
+// Wordpress Comment Toolbar plugin: Javascript functions
+//
+// Plugin release:   1.4.3
+// Author:           Cristiano Fino
+// WebSite:          http://www.cristianofino.net
+//
+function CF_Quote(id, oauthor) {
+  var otext = document.getElementById('co_' + id);
+  var otextCommentArea = document.getElementById("comment");
+  if (otextCommentArea == null)
+  {
+	alert("WARNING! Add \"ID=\'comment\'\" into the field <textarea name=\'comment\' ...></textarea> in the file \'comment.php\' of your theme.");
+	return;
+  }
+  if (window.getSelection)
+	 var sel = window.getSelection();
+  else if (document.getSelection)
+	 var sel = document.getSelection();
+  else if (document.selection) {
+	 var sel = document.selection.createRange().text; }
+  if (otext.innerText){
+	  if (sel != "") otextCommentArea.value += "<b>" + oauthor + "</b> wrote:\n<blockquote>" + sel + "</blockquote>\n";
+		else otextCommentArea.value += "<b>" + oauthor + "</b> wrote:\n<blockquote>" + otext.innerText + "</blockquote>\n";
+  }
+  else {
+	  if (sel != "") otextCommentArea.value += "<b>" + oauthor + "</b> wrote:\n<blockquote>" + sel + "</blockquote>\n";
+		else otextCommentArea.value += "<b>" + oauthor + "</b> wrote:\n<blockquote>" + otext.textContent + "</blockquote>\n";
+  }
+  otextCommentArea.focus();
+}
+function CF_Reply(id, oauthor) {
+  var otextCommentArea = document.getElementById("comment");
+  if (otextCommentArea == null)
+  {
+	alert("WARNING! Add \"ID=\'comment\'\" into the field <textarea name=\'comment\' ...></textarea> in the file \'comment.php\' of your theme.");
+	return;
+  }
+  otextCommentArea.value += "<b>@ " + oauthor + "</b>:\n";
+  otextCommentArea.focus();
+}/*]]>*/</script>  <script type="text/javascript">var analyticsFileTypes = [''];
+	var analyticsEventTracking = 'enabled';</script> <script type="text/javascript">var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-7822035-1']);
+	_gaq.push(['_trackPageview']);
+	_gaq.push(['_trackPageLoadTime']);
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();</script> </head><body><div
+align="center"><div
+id="wrapper"><div
+id="doc1" class="yui-t4"><div
+id="hd"><div
+id="sitemeta"><ul><li><a
+href="https://apt-blog.net/wp-login.php">Log in</a></li><li
+class="rss"><a
+href="http://apt-blog.net/feed">Subscribe RSS Feed</a></li></ul></div><div
+id="titlewrapper"><div
+id="blogtitle"><h1><a
+href="http://apt-blog.net/">apt-blog.net   无证程序员的PT桑</a></h1></div><div
+id="menu"><div
+class="menu-header-container"><ul
+id="menu-header" class="menu"><li
+id="menu-item-1050" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1050"><a
+href="/">Home</a></li><li
+id="menu-item-1051" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1051"><a
+href="http://wiki.ptsang.net">Wiki</a></li><li
+id="menu-item-1052" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1052"><a
+href="http://apt-blog.net/article_archives">文章存档</a></li><li
+id="menu-item-1053" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1053"><a
+href="http://apt-blog.net/programs">程序作品</a></li><li
+id="menu-item-1054" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1054"><a
+href="http://apt-blog.net/about-2">About</a></li></ul></div></div><div
+id="blogdescription">潜逃中。</div></div><div
+id="newsflash"></div><div
+class="clear">&nbsp;</div></div><div
+id="sidebar" class="yui-b"><ul
+class="sidebar"><li
+id="feedburner-stats" class="widget widget_feedburner"><h2 class="widgettitle">FeedBurner RSS</h2><p><a
+href="http://feeds2.feedburner.com/apt-blog"><img
+src="http://feeds2.feedburner.com/~fc/apt-blog?bg=E3DACF&amp;fg=345797&amp;anim=0" height="26" width="88" style="border:0" alt="" /></a></p></li><li
+id="search-3" class="widget widget_search"><h2 class="widgettitle">搜索</h2><form
+method="get" id="searchform" action="http://apt-blog.net/"> <input
+type="text" size="14" value="" name="s" id="s" class="s" /> <input
+type="submit" id="searchsubmit" value="GO" /></form></li><li
+id="recent-comments-3" class="widget widget_recent_comments"><h2 class="widgettitle">Recent Comments</h2><ul
+id="recentcomments"><li
+class="recentcomments">icaca on <a
+href="http://apt-blog.net/release-of-vimrepress_cn/comment-page-1#comment-3834">Vim中写WordPress博客 - VimRepress</a></li><li
+class="recentcomments">BOYPT on <a
+href="http://apt-blog.net/break-through-l7qos-with-openvpn-over-http/comment-page-1#comment-3831">OpenVPN over HTTP 突破Layer 7 QoS的宽带网速限制</a></li><li
+class="recentcomments">小梦 on <a
+href="http://apt-blog.net/break-through-l7qos-with-openvpn-over-http/comment-page-1#comment-3830">OpenVPN over HTTP 突破Layer 7 QoS的宽带网速限制</a></li><li
+class="recentcomments">小梦 on <a
+href="http://apt-blog.net/break-through-l7qos-with-openvpn-over-http/comment-page-1#comment-3826">OpenVPN over HTTP 突破Layer 7 QoS的宽带网速限制</a></li><li
+class="recentcomments">小梦 on <a
+href="http://apt-blog.net/break-through-l7qos-with-openvpn-over-http/comment-page-1#comment-3825">OpenVPN over HTTP 突破Layer 7 QoS的宽带网速限制</a></li></ul></li><li
+id="tag_cloud-4" class="widget widget_tag_cloud"><h2 class="widgettitle">Tags</h2><div
+class="tagcloud"><a
+href='http://apt-blog.net/tag/8021x' class='tag-link-216' title='11 topics' style='font-size: 16.842105263158pt;'>802.1x</a> <a
+href='http://apt-blog.net/tag/arch' class='tag-link-225' title='4 topics' style='font-size: 11.242105263158pt;'>Arch</a> <a
+href='http://apt-blog.net/tag/avr' class='tag-link-184' title='3 topics' style='font-size: 9.7684210526316pt;'>AVR</a> <a
+href='http://apt-blog.net/tag/blog' class='tag-link-132' title='2 topics' style='font-size: 8pt;'>Blog</a> <a
+href='http://apt-blog.net/tag/cet' class='tag-link-125' title='3 topics' style='font-size: 9.7684210526316pt;'>CET</a> <a
+href='http://apt-blog.net/tag/debian' class='tag-link-102' title='2 topics' style='font-size: 8pt;'>Debian</a> <a
+href='http://apt-blog.net/tag/eap' class='tag-link-229' title='4 topics' style='font-size: 11.242105263158pt;'>EAP</a> <a
+href='http://apt-blog.net/tag/eapol' class='tag-link-217' title='5 topics' style='font-size: 12.421052631579pt;'>EAPOL</a> <a
+href='http://apt-blog.net/tag/google' class='tag-link-67' title='4 topics' style='font-size: 11.242105263158pt;'>Google</a> <a
+href='http://apt-blog.net/tag/hack' class='tag-link-124' title='2 topics' style='font-size: 8pt;'>Hack</a> <a
+href='http://apt-blog.net/tag/ibus' class='tag-link-178' title='3 topics' style='font-size: 9.7684210526316pt;'>ibus</a> <a
+href='http://apt-blog.net/tag/java' class='tag-link-133' title='2 topics' style='font-size: 8pt;'>Java</a> <a
+href='http://apt-blog.net/tag/linux' class='tag-link-45' title='26 topics' style='font-size: 22pt;'>Linux</a> <a
+href='http://apt-blog.net/tag/nginx' class='tag-link-239' title='7 topics' style='font-size: 14.189473684211pt;'>nginx</a> <a
+href='http://apt-blog.net/tag/nokia' class='tag-link-56' title='3 topics' style='font-size: 9.7684210526316pt;'>Nokia</a> <a
+href='http://apt-blog.net/tag/plugin' class='tag-link-303' title='4 topics' style='font-size: 11.242105263158pt;'>plugin</a> <a
+href='http://apt-blog.net/tag/python' class='tag-link-127' title='23 topics' style='font-size: 21.263157894737pt;'>Python</a> <a
+href='http://apt-blog.net/tag/scribefire' class='tag-link-36' title='2 topics' style='font-size: 8pt;'>Scribefire</a> <a
+href='http://apt-blog.net/tag/sogou' class='tag-link-138' title='2 topics' style='font-size: 8pt;'>Sogou</a> <a
+href='http://apt-blog.net/tag/twitter' class='tag-link-131' title='3 topics' style='font-size: 9.7684210526316pt;'>Twitter</a> <a
+href='http://apt-blog.net/tag/ubuntu' class='tag-link-63' title='14 topics' style='font-size: 18.315789473684pt;'>Ubuntu</a> <a
+href='http://apt-blog.net/tag/vim' class='tag-link-301' title='7 topics' style='font-size: 14.189473684211pt;'>Vim</a> <a
+href='http://apt-blog.net/tag/vimpress' class='tag-link-345' title='6 topics' style='font-size: 13.452631578947pt;'>vimpress</a> <a
+href='http://apt-blog.net/tag/web' class='tag-link-119' title='2 topics' style='font-size: 8pt;'>Web</a> <a
+href='http://apt-blog.net/tag/wordpress' class='tag-link-37' title='4 topics' style='font-size: 11.242105263158pt;'>WordPress</a> <a
+href='http://apt-blog.net/tag/%e4%bb%a3%e7%90%86' class='tag-link-140' title='2 topics' style='font-size: 8pt;'>代理</a> <a
+href='http://apt-blog.net/tag/%e5%8a%a0%e9%80%9f' class='tag-link-62' title='2 topics' style='font-size: 8pt;'>加速</a> <a
+href='http://apt-blog.net/tag/%e5%8d%95%e7%89%87%e6%9c%ba' class='tag-link-185' title='3 topics' style='font-size: 9.7684210526316pt;'>单片机</a> <a
+href='http://apt-blog.net/tag/%e5%ae%a2%e6%88%b7%e7%ab%af' class='tag-link-215' title='6 topics' style='font-size: 13.452631578947pt;'>客户端</a> <a
+href='http://apt-blog.net/tag/%e5%be%ae%e8%bd%af' class='tag-link-47' title='2 topics' style='font-size: 8pt;'>微软</a> <a
+href='http://apt-blog.net/tag/%e6%90%9c%e7%8b%97' class='tag-link-137' title='2 topics' style='font-size: 8pt;'>搜狗</a> <a
+href='http://apt-blog.net/tag/%e6%95%99%e8%82%b2%e7%bd%91' class='tag-link-139' title='2 topics' style='font-size: 8pt;'>教育网</a> <a
+href='http://apt-blog.net/tag/%e6%9f%a5%e5%88%86' class='tag-link-126' title='3 topics' style='font-size: 9.7684210526316pt;'>查分</a> <a
+href='http://apt-blog.net/tag/%e6%b5%8f%e8%a7%88%e5%99%a8' class='tag-link-130' title='4 topics' style='font-size: 11.242105263158pt;'>浏览器</a> <a
+href='http://apt-blog.net/tag/%e7%a5%9e%e5%b7%9e%e6%95%b0%e7%a0%81' class='tag-link-214' title='7 topics' style='font-size: 14.189473684211pt;'>神州数码</a> <a
+href='http://apt-blog.net/tag/%e7%a8%8b%e5%ba%8f' class='tag-link-17' title='2 topics' style='font-size: 8pt;'>程序</a> <a
+href='http://apt-blog.net/tag/%e7%bc%96%e7%a8%8b' class='tag-link-92' title='5 topics' style='font-size: 12.421052631579pt;'>编程</a> <a
+href='http://apt-blog.net/tag/%e7%bd%91%e7%bb%9c' class='tag-link-116' title='2 topics' style='font-size: 8pt;'>网络</a> <a
+href='http://apt-blog.net/tag/%e8%81%94%e6%83%b3' class='tag-link-222' title='3 topics' style='font-size: 9.7684210526316pt;'>联想</a> <a
+href='http://apt-blog.net/tag/%e8%ae%a4%e8%af%81%e5%8d%8f%e8%ae%ae' class='tag-link-218' title='8 topics' style='font-size: 14.926315789474pt;'>认证协议</a> <a
+href='http://apt-blog.net/tag/%e8%af%ba%e5%9f%ba%e4%ba%9a' class='tag-link-53' title='2 topics' style='font-size: 8pt;'>诺基亚</a> <a
+href='http://apt-blog.net/tag/%e8%be%93%e5%85%a5%e6%b3%95' class='tag-link-177' title='3 topics' style='font-size: 9.7684210526316pt;'>输入法</a> <a
+href='http://apt-blog.net/tag/%e8%bf%9b%e7%a8%8b' class='tag-link-93' title='2 topics' style='font-size: 8pt;'>进程</a> <a
+href='http://apt-blog.net/tag/%e9%94%90%e6%8d%b7' class='tag-link-235' title='3 topics' style='font-size: 9.7684210526316pt;'>锐捷</a> <a
+href='http://apt-blog.net/tag/%e9%a9%b1%e5%8a%a8' class='tag-link-182' title='3 topics' style='font-size: 9.7684210526316pt;'>驱动</a></div></li><li
+id="text-3" class="widget widget_text"><h2 class="widgettitle">联系博主</h2><div
+class="textwidget"><p>Email or Gtalk:<br
+/> <img
+src="http://apt-blog.net/wp-content/uploads/2009/09/ptmail.png" /></p></div></li><li
+id="text-4" class="widget widget_text"><h2 class="widgettitle">Google Friend Connect</h2><div
+class="textwidget"><div
+id="div-9065179173756892933" style="width:200px;border:1px solid #cccccc;"></div><div><br
+/></div><div
+id="div-4104608176178179477" style="width:200px;border:1px solid #cccccc;"></div></div></li><li
+id="linkcat-15" class="widget widget_links"><h2 class="widgettitle">博友</h2><ul
+class='xoxo blogroll'><li><a
+href="http://ambulance-007.blogspot.com/" target="_blank">Autumn&#8217;s Blog</a></li><li><a
+href="http://felixcat.net/" rel="friend" title="Felix&#039;s Blog - Computer" target="_blank">Felix&#039;s Blog</a></li></ul></li><li
+id="tag_cloud-5" class="widget widget_tag_cloud"><h2 class="widgettitle">Tags</h2><div
+class="tagcloud"><a
+href='http://apt-blog.net/tag/8021x' class='tag-link-216' title='11 topics' style='font-size: 16.842105263158pt;'>802.1x</a> <a
+href='http://apt-blog.net/tag/arch' class='tag-link-225' title='4 topics' style='font-size: 11.242105263158pt;'>Arch</a> <a
+href='http://apt-blog.net/tag/avr' class='tag-link-184' title='3 topics' style='font-size: 9.7684210526316pt;'>AVR</a> <a
+href='http://apt-blog.net/tag/blog' class='tag-link-132' title='2 topics' style='font-size: 8pt;'>Blog</a> <a
+href='http://apt-blog.net/tag/cet' class='tag-link-125' title='3 topics' style='font-size: 9.7684210526316pt;'>CET</a> <a
+href='http://apt-blog.net/tag/debian' class='tag-link-102' title='2 topics' style='font-size: 8pt;'>Debian</a> <a
+href='http://apt-blog.net/tag/eap' class='tag-link-229' title='4 topics' style='font-size: 11.242105263158pt;'>EAP</a> <a
+href='http://apt-blog.net/tag/eapol' class='tag-link-217' title='5 topics' style='font-size: 12.421052631579pt;'>EAPOL</a> <a
+href='http://apt-blog.net/tag/google' class='tag-link-67' title='4 topics' style='font-size: 11.242105263158pt;'>Google</a> <a
+href='http://apt-blog.net/tag/hack' class='tag-link-124' title='2 topics' style='font-size: 8pt;'>Hack</a> <a
+href='http://apt-blog.net/tag/ibus' class='tag-link-178' title='3 topics' style='font-size: 9.7684210526316pt;'>ibus</a> <a
+href='http://apt-blog.net/tag/java' class='tag-link-133' title='2 topics' style='font-size: 8pt;'>Java</a> <a
+href='http://apt-blog.net/tag/linux' class='tag-link-45' title='26 topics' style='font-size: 22pt;'>Linux</a> <a
+href='http://apt-blog.net/tag/nginx' class='tag-link-239' title='7 topics' style='font-size: 14.189473684211pt;'>nginx</a> <a
+href='http://apt-blog.net/tag/nokia' class='tag-link-56' title='3 topics' style='font-size: 9.7684210526316pt;'>Nokia</a> <a
+href='http://apt-blog.net/tag/plugin' class='tag-link-303' title='4 topics' style='font-size: 11.242105263158pt;'>plugin</a> <a
+href='http://apt-blog.net/tag/python' class='tag-link-127' title='23 topics' style='font-size: 21.263157894737pt;'>Python</a> <a
+href='http://apt-blog.net/tag/scribefire' class='tag-link-36' title='2 topics' style='font-size: 8pt;'>Scribefire</a> <a
+href='http://apt-blog.net/tag/sogou' class='tag-link-138' title='2 topics' style='font-size: 8pt;'>Sogou</a> <a
+href='http://apt-blog.net/tag/twitter' class='tag-link-131' title='3 topics' style='font-size: 9.7684210526316pt;'>Twitter</a> <a
+href='http://apt-blog.net/tag/ubuntu' class='tag-link-63' title='14 topics' style='font-size: 18.315789473684pt;'>Ubuntu</a> <a
+href='http://apt-blog.net/tag/vim' class='tag-link-301' title='7 topics' style='font-size: 14.189473684211pt;'>Vim</a> <a
+href='http://apt-blog.net/tag/vimpress' class='tag-link-345' title='6 topics' style='font-size: 13.452631578947pt;'>vimpress</a> <a
+href='http://apt-blog.net/tag/web' class='tag-link-119' title='2 topics' style='font-size: 8pt;'>Web</a> <a
+href='http://apt-blog.net/tag/wordpress' class='tag-link-37' title='4 topics' style='font-size: 11.242105263158pt;'>WordPress</a> <a
+href='http://apt-blog.net/tag/%e4%bb%a3%e7%90%86' class='tag-link-140' title='2 topics' style='font-size: 8pt;'>代理</a> <a
+href='http://apt-blog.net/tag/%e5%8a%a0%e9%80%9f' class='tag-link-62' title='2 topics' style='font-size: 8pt;'>加速</a> <a
+href='http://apt-blog.net/tag/%e5%8d%95%e7%89%87%e6%9c%ba' class='tag-link-185' title='3 topics' style='font-size: 9.7684210526316pt;'>单片机</a> <a
+href='http://apt-blog.net/tag/%e5%ae%a2%e6%88%b7%e7%ab%af' class='tag-link-215' title='6 topics' style='font-size: 13.452631578947pt;'>客户端</a> <a
+href='http://apt-blog.net/tag/%e5%be%ae%e8%bd%af' class='tag-link-47' title='2 topics' style='font-size: 8pt;'>微软</a> <a
+href='http://apt-blog.net/tag/%e6%90%9c%e7%8b%97' class='tag-link-137' title='2 topics' style='font-size: 8pt;'>搜狗</a> <a
+href='http://apt-blog.net/tag/%e6%95%99%e8%82%b2%e7%bd%91' class='tag-link-139' title='2 topics' style='font-size: 8pt;'>教育网</a> <a
+href='http://apt-blog.net/tag/%e6%9f%a5%e5%88%86' class='tag-link-126' title='3 topics' style='font-size: 9.7684210526316pt;'>查分</a> <a
+href='http://apt-blog.net/tag/%e6%b5%8f%e8%a7%88%e5%99%a8' class='tag-link-130' title='4 topics' style='font-size: 11.242105263158pt;'>浏览器</a> <a
+href='http://apt-blog.net/tag/%e7%a5%9e%e5%b7%9e%e6%95%b0%e7%a0%81' class='tag-link-214' title='7 topics' style='font-size: 14.189473684211pt;'>神州数码</a> <a
+href='http://apt-blog.net/tag/%e7%a8%8b%e5%ba%8f' class='tag-link-17' title='2 topics' style='font-size: 8pt;'>程序</a> <a
+href='http://apt-blog.net/tag/%e7%bc%96%e7%a8%8b' class='tag-link-92' title='5 topics' style='font-size: 12.421052631579pt;'>编程</a> <a
+href='http://apt-blog.net/tag/%e7%bd%91%e7%bb%9c' class='tag-link-116' title='2 topics' style='font-size: 8pt;'>网络</a> <a
+href='http://apt-blog.net/tag/%e8%81%94%e6%83%b3' class='tag-link-222' title='3 topics' style='font-size: 9.7684210526316pt;'>联想</a> <a
+href='http://apt-blog.net/tag/%e8%ae%a4%e8%af%81%e5%8d%8f%e8%ae%ae' class='tag-link-218' title='8 topics' style='font-size: 14.926315789474pt;'>认证协议</a> <a
+href='http://apt-blog.net/tag/%e8%af%ba%e5%9f%ba%e4%ba%9a' class='tag-link-53' title='2 topics' style='font-size: 8pt;'>诺基亚</a> <a
+href='http://apt-blog.net/tag/%e8%be%93%e5%85%a5%e6%b3%95' class='tag-link-177' title='3 topics' style='font-size: 9.7684210526316pt;'>输入法</a> <a
+href='http://apt-blog.net/tag/%e8%bf%9b%e7%a8%8b' class='tag-link-93' title='2 topics' style='font-size: 8pt;'>进程</a> <a
+href='http://apt-blog.net/tag/%e9%94%90%e6%8d%b7' class='tag-link-235' title='3 topics' style='font-size: 9.7684210526316pt;'>锐捷</a> <a
+href='http://apt-blog.net/tag/%e9%a9%b1%e5%8a%a8' class='tag-link-182' title='3 topics' style='font-size: 9.7684210526316pt;'>驱动</a></div></li><li
+id="meta-2" class="widget widget_meta"><h2 class="widgettitle">Meta</h2><ul><li><a
+href="https://apt-blog.net/wp-login.php">Log in</a></li><li><a
+href="http://apt-blog.net/feed" title="Syndicate this site using RSS 2.0">Entries <abbr
+title="Really Simple Syndication">RSS</abbr></a></li><li><a
+href="http://apt-blog.net/comments/feed" title="The latest comments to all posts in RSS">Comments <abbr
+title="Really Simple Syndication">RSS</abbr></a></li><li><a
+href="http://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li></ul></li></ul></div><div
+id="bd" class="single"><div
+id="yui-main"><div
+class="yui-b"><div
+class="post-wrap" id="post"><h1 class="post-title"><a
+href="http://apt-blog.net/ssh_auto_login_in_shell_script" rel="bookmark" title="Permanent Link to 用于shell脚本无交互的ssh自动登陆">用于shell脚本无交互的ssh自动登陆</a></h1><div>June 24, 2010</div><div
+class="story-content"><p>ssh连接远程主机时候询问密码，跟su、sudo命令的默认行为一样，是不从stdin读入数据的，据称是为安全考虑，但是有时候在脚本当中确实需要无人守值的登陆。</p><p>搜索一下不难找到类似的例子，使用expect来完成密码应答：</p><div
+class="wp_syntax"><table><tr><td
+class="line_numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td
+class="code"><pre class="bash" style="font-family:monospace;"><span style="color: #666666; font-style: italic;">#!/bin/bash</span>
+auto_login_ssh <span style="color: #7a0874; font-weight: bold;">&#40;</span><span style="color: #7a0874; font-weight: bold;">&#41;</span> <span style="color: #7a0874; font-weight: bold;">&#123;</span>
+    expect <span style="color: #660033;">-c</span> <span style="color: #ff0000;">&quot;set timeout -1;
+                spawn -noecho ssh -o StrictHostKeyChecking=no $2 <span style="color: #007800;">${@:3}</span>;
+                expect *assword:*;
+                send -- $1<span style="color: #000099; font-weight: bold;">\r</span>;
+                interact;&quot;</span>;
+<span style="color: #7a0874; font-weight: bold;">&#125;</span>
+&nbsp;
+auto_login_ssh <span style="color: #c20cb9; font-weight: bold;">passwd</span> user<span style="color: #000000; font-weight: bold;">@</span>host</pre></td></tr></table></div><p>StrictHostKeyChecking=no参数让ssh默认添加新主机的公钥指纹，也就不会出现出现是否继续yes/no的提示了。</p><p>expect很不错，上述代码基本可以达到要求了，能够当<strong>翻墙</strong>用的ssh -D自动登陆，执行远程命令等等，但是如果作为一个完全非交互的远程工具，应该说还一差，不能返回整个连接执行过程是否成功。</p><p>使用expect后，程序的exit status是expect的，而不是ssh的，所以如果遇上连接不到的主机、密码错误等情况，expect也一样是正常退出，$?为0，所以需要对expect的代码稍加修改；</p><div
+class="wp_syntax"><table><tr><td
+class="line_numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td
+class="code"><pre class="bash" style="font-family:monospace;"><span style="color: #666666; font-style: italic;">#!/bin/bash</span>
+auto_smart_ssh <span style="color: #7a0874; font-weight: bold;">&#40;</span><span style="color: #7a0874; font-weight: bold;">&#41;</span> <span style="color: #7a0874; font-weight: bold;">&#123;</span>
+    expect <span style="color: #660033;">-c</span> <span style="color: #ff0000;">&quot;set timeout -1;
+                spawn ssh -o StrictHostKeyChecking=no $2 <span style="color: #007800;">${@:3}</span>;
+                expect {
+                    *assword:* {send -- $1<span style="color: #000099; font-weight: bold;">\r</span>;
+                                 expect {
+                                    *denied* {exit 2;}
+                                    eof
+                                 }
+                    }
+                    eof         {exit 1;}
+                }
+                &quot;</span>
+    <span style="color: #7a0874; font-weight: bold;">return</span> <span style="color: #007800;">$?</span>
+<span style="color: #7a0874; font-weight: bold;">&#125;</span>
+&nbsp;
+auto_smart_ssh <span style="color: #c20cb9; font-weight: bold;">passwd</span> user<span style="color: #000000; font-weight: bold;">@</span>host <span style="color: #c20cb9; font-weight: bold;">ls</span> <span style="color: #000000; font-weight: bold;">/</span>var
+<span style="color: #7a0874; font-weight: bold;">echo</span> <span style="color: #660033;">-e</span> <span style="color: #ff0000;">&quot;<span style="color: #000099; font-weight: bold;">\n</span>---Exit Status: $?&quot;</span></pre></td></tr></table></div><p>这段expect的Tcl代码我已经尽量弄的好看点了（但还是挺难看），主要作用是，如果在输入密码后遇到Permission denied，肯定是脚本提供的帐号有问题，就直接让expect按状态2退出；而如果主机不可达No route to host, timed out, Connection refused等情况，ssh会直接退出，expect收到eof，让其按状态1退出。而因为这个设计本来就用于执行远程命令后退出，不需要用户交互，所以第9行的eof则是让expect等待ssh退出，而不是不是进行interact了。</p><p>有这样的处理，使用auto_smart_ssh的脚本就可以根据返回值判断执行过程的是否成功，而进行相应处理了。</p><p>openssh里面另外一个很好用的远程文件传输工具scp，也以如法炮制：</p><div
+class="wp_syntax"><table><tr><td
+class="line_numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td
+class="code"><pre class="bash" style="font-family:monospace;">auto_scp <span style="color: #7a0874; font-weight: bold;">&#40;</span><span style="color: #7a0874; font-weight: bold;">&#41;</span> <span style="color: #7a0874; font-weight: bold;">&#123;</span>
+    expect <span style="color: #660033;">-c</span> <span style="color: #ff0000;">&quot;set timeout -1;
+                spawn scp -o StrictHostKeyChecking=no <span style="color: #007800;">${@:2}</span>;
+                expect {
+                    *assword:* {send -- $1<span style="color: #000099; font-weight: bold;">\r</span>;
+                                 expect {
+                                    *denied* {exit 1;}
+                                    eof
+                                 }
+                    }
+                    eof         {exit 1;}
+                }
+                &quot;</span>
+    <span style="color: #7a0874; font-weight: bold;">return</span> <span style="color: #007800;">$?</span>
+<span style="color: #7a0874; font-weight: bold;">&#125;</span>
+&nbsp;
+auto_scp pass ~<span style="color: #000000; font-weight: bold;">/</span>myfile user<span style="color: #000000; font-weight: bold;">@</span>host:~<span style="color: #000000; font-weight: bold;">/</span>path<span style="color: #000000; font-weight: bold;">/</span>to<span style="color: #000000; font-weight: bold;">/</span>myfile
+<span style="color: #7a0874; font-weight: bold;">echo</span> <span style="color: #007800;">$?</span></pre></td></tr></table></div><hr
+/><p><strong>后话：</strong>如果仅仅是日常使用，为了避免经常输入主机密码的麻烦，最理想的方法是生产本机的公/私密钥对，把指纹直接复制到远程主机上，较新的openssh提供了ssh-copy-id工具：</p><div
+class="wp_syntax"><table><tr><td
+class="line_numbers"><pre>1
+2
+3
+4
+</pre></td><td
+class="code"><pre class="bash" style="font-family:monospace;"><span style="color: #c20cb9; font-weight: bold;">ssh-keygen</span>
+ssh-copy-id user<span style="color: #000000; font-weight: bold;">@</span>host1
+ssh-copy-id user<span style="color: #000000; font-weight: bold;">@</span>host2
+ssh-copy-id user<span style="color: #000000; font-weight: bold;">@</span>host3</pre></td></tr></table></div><p>运行ssh-keygen时会问几个问题，全部回车默认就是我们要的效果了，分别把密钥分发到远程主机后，以后执行ssh user@host，还是scp，都是直接完成了。</p><p>如果需要删除远程机器上对应本机本账户的密钥，登陆到该账户，打开<code>~/.ssh/authorized_keys</code>文件，搜索你的用户名，删除那行，保存，即可。</p><p>当然也可以自动化：</p><div
+class="wp_syntax"><table><tr><td
+class="line_numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td
+class="code"><pre class="bash" style="font-family:monospace;">auto_ssh_copy_id <span style="color: #7a0874; font-weight: bold;">&#40;</span><span style="color: #7a0874; font-weight: bold;">&#41;</span> <span style="color: #7a0874; font-weight: bold;">&#123;</span>
+    expect <span style="color: #660033;">-c</span> <span style="color: #ff0000;">&quot;set timeout -1;
+                spawn ssh-copy-id $2;
+                expect {
+                    *(yes/no)* {send -- yes<span style="color: #000099; font-weight: bold;">\r</span>;exp_continue;}
+                    *assword:* {send -- $1<span style="color: #000099; font-weight: bold;">\r</span>;exp_continue;}
+                    eof        {exit 0;}
+                }&quot;</span>;
+<span style="color: #7a0874; font-weight: bold;">&#125;</span></pre></td></tr></table></div></div><div
+class="metawrap"><p> tags: <a
+href="http://apt-blog.net/tag/auto" rel="tag">auto</a>, <a
+href="http://apt-blog.net/tag/bash" rel="tag">bash</a>, <a
+href="http://apt-blog.net/tag/login" rel="tag">login</a>, <a
+href="http://apt-blog.net/tag/script" rel="tag">script</a>, <a
+href="http://apt-blog.net/tag/shell" rel="tag">shell</a>, <a
+href="http://apt-blog.net/tag/ssh" rel="tag">ssh</a><br
+/> posted in <a
+href="http://apt-blog.net/category/tech/programming/shell-programming" title="View all posts in Shell" rel="category tag">Shell</a>, <a
+href="http://apt-blog.net/category/tech/unix_linux" title="View all posts in Unix/Linux" rel="category tag">Unix/Linux</a> by PT</p><p
+class="interact"> Follow comments via the <a
+href='http://apt-blog.net/ssh_auto_login_in_shell_script/feed'>RSS Feed</a> | <a
+href="#respond">Leave a comment</a> | <a
+href="http://apt-blog.net/ssh_auto_login_in_shell_script/trackback">Trackback URL</a></p></div></div><div
+id="comments"><h3 id="comments-title">5 Responses to <em>用于shell脚本无交互的ssh自动登陆</em></h3><ol
+class="commentlist"><li
+class="post pingback"><p>Pingback: <a
+href='http://www.isspy.com/%e6%97%a0%e4%ba%a4%e4%ba%92-ssh-%e7%99%bb%e5%bd%95%e8%84%9a%e6%9c%ac/' rel='external nofollow' class='url'>无交互 SSH 登录脚本 | Linux . Spy</a></p></li><li
+class="post pingback"><p>Pingback: <a
+href='http://felixcat.net/2010/07/ubuntu-2/' rel='external nofollow' class='url'>继续我的Ubuntu之旅 (2) | Felix&#039;s Blog</a></p></li><li
+class="comment even thread-even depth-1" id="li-comment-2874"><div
+id="comment-2874"><div
+class="comment-author vcard"> <img
+alt='' src='http://1.gravatar.com/avatar/ddbde56799905d5129592104925b3ad4?s=40&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=X' class='avatar avatar-40 photo' height='40' width='40' /><cite
+class="fn"><a
+href='http://ihipop.info' rel='external nofollow' class='url'>ihipop</a></cite> <span
+class="says">says:</span></div><div
+class="comment-meta commentmetadata"><a
+href="http://apt-blog.net/ssh_auto_login_in_shell_script/comment-page-1#comment-2874"> 2011/01/09 at 19:35</a></div><div
+class="comment-body"><p>${@:3}是什么意思？</p></div><div
+class="reply"> <a
+class='comment-reply-link' href='/ssh_auto_login_in_shell_script?replytocom=2874#respond' onclick='return addComment.moveForm("comment-2874", "2874", "respond", "818")'>Reply</a></div></div><ul
+class='children'><li
+class="comment byuser comment-author-admin bypostauthor odd alt depth-2" id="li-comment-2876"><div
+id="comment-2876"><div
+class="comment-author vcard"> <img
+alt='' src='http://1.gravatar.com/avatar/7acc3f47065371e2595a53230f8a130d?s=40&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=X' class='avatar avatar-40 photo' height='40' width='40' /><cite
+class="fn"><a
+href='http://apt-blog.net' rel='external nofollow' class='url'>PT</a></cite> <span
+class="says">says:</span></div><div
+class="comment-meta commentmetadata"><a
+href="http://apt-blog.net/ssh_auto_login_in_shell_script/comment-page-1#comment-2876"> 2011/01/10 at 15:27</a></div><div
+class="comment-body"><p>{}是shell里面的数组符，:是数据控制符，@是调用参数的数组，{@:3}就是第三个以及以后出现的参数的意思。</p><p>Python里面也有类似的操作符号。</p></div><div
+class="reply"> <a
+class='comment-reply-link' href='/ssh_auto_login_in_shell_script?replytocom=2876#respond' onclick='return addComment.moveForm("comment-2876", "2876", "respond", "818")'>Reply</a></div></div></li></ul></li><li
+class="comment even thread-odd thread-alt depth-1" id="li-comment-3743"><div
+id="comment-3743"><div
+class="comment-author vcard"> <img
+alt='' src='http://0.gravatar.com/avatar/0f78428535eee31e28e2d075916ef2e9?s=40&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=X' class='avatar avatar-40 photo' height='40' width='40' /><cite
+class="fn">wei</cite> <span
+class="says">says:</span></div><div
+class="comment-meta commentmetadata"><a
+href="http://apt-blog.net/ssh_auto_login_in_shell_script/comment-page-1#comment-3743"> 2011/11/14 at 09:41</a></div><div
+class="comment-body"><p>good!!非常实用啊</p></div><div
+class="reply"> <a
+class='comment-reply-link' href='/ssh_auto_login_in_shell_script?replytocom=3743#respond' onclick='return addComment.moveForm("comment-3743", "3743", "respond", "818")'>Reply</a></div></div></li></ol><div
+id="respond"><h3 id="reply-title">Leave a Reply <small><a
+rel="nofollow" id="cancel-comment-reply-link" href="/ssh_auto_login_in_shell_script#respond" style="display:none;">Cancel reply</a></small></h3><form
+action="http://apt-blog.net/wp-comments-post.php" method="post" id="commentform"><p
+class="comment-notes">Your email address will not be published. Required fields are marked <span
+class="required">*</span></p><p
+class="comment-form-author"><label
+for="author">Name</label> <span
+class="required">*</span><input
+id="author" name="author" type="text" value="" size="30" aria-required='true' /></p><p
+class="comment-form-email"><label
+for="email">Email</label> <span
+class="required">*</span><input
+id="email" name="email" type="text" value="" size="30" aria-required='true' /></p><p
+class="comment-form-url"><label
+for="url">Website</label><input
+id="url" name="url" type="text" value="" size="30" /></p><p
+class="comment-form-comment"><label
+for="comment">Comment</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p><p
+class="form-allowed-tags">You may use these <abbr
+title="HyperText Markup Language">HTML</abbr> tags and attributes: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; &lt;pre lang=&quot;&quot; line=&quot;&quot; escaped=&quot;&quot; highlight=&quot;&quot;&gt; </code></p><p
+class="form-submit"> <input
+name="submit" type="submit" id="submit" value="Post Comment" /> <input
+type='hidden' name='comment_post_ID' value='818' id='comment_post_ID' /> <input
+type='hidden' name='comment_parent' id='comment_parent' value='0' /></p> <script type="text/javascript">/*<![CDATA[*//*  */ document.write('<div><input type="hidden" name="url1cb3" value="9c' + '1394" \/><input type="hidden" name="%name2%" value="'+'"><\/div>'); /*  *//*]]>*/</script> <noscript><p><label
+for="url1cb3g">Please type "9c1394": </label><input
+type="text" name="url1cb3" id="url1cb3g" /></p><p><label
+for="ef3067e">Leave this field empty please: </label><input
+type="text" name="ef3067" id="ef3067e" /></p> </noscript><p
+style="display: none;"><input
+type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="b179c63eb2" /></p></form></div></div></div></div></div><div
+id="ft"> <script type="text/javascript" src="http://www.google.com/friendconnect/script/friendconnect.js"></script> <script type="text/javascript">var skin = {};
+skin['BORDER_COLOR'] = '#cccccc';
+skin['ENDCAP_BG_COLOR'] = '#ffcc99';
+skin['ENDCAP_TEXT_COLOR'] = '#333333';
+skin['ENDCAP_LINK_COLOR'] = '#ff6600';
+skin['ALTERNATE_BG_COLOR'] = '#ffffff';
+skin['CONTENT_BG_COLOR'] = '#ffffff';
+skin['CONTENT_LINK_COLOR'] = '#ff6600';
+skin['CONTENT_TEXT_COLOR'] = '#333333';
+skin['CONTENT_SECONDARY_LINK_COLOR'] = '#ff6600';
+skin['CONTENT_SECONDARY_TEXT_COLOR'] = '#666666';
+skin['CONTENT_HEADLINE_COLOR'] = '#333333';
+skin['DEFAULT_COMMENT_TEXT'] = '\u6309\u6b64\u7559\u8a00';
+skin['HEADER_TEXT'] = '\u7559\u8a00';
+skin['POSTS_PER_PAGE'] = '6';
+google.friendconnect.container.setParentUrl('/' /* location of rpc_relay.html and canvas.html */);
+google.friendconnect.container.renderWallGadget(
+ { id: 'div-9065179173756892933',
+   site: '14992392317838475724',
+   'view-params':{"disableMinMax":"true","scope":"SITE","allowAnonymousPost":"true","features":"video,comment","startMaximized":"true"}
+ },
+  skin);
+skin = {};
+skin['BORDER_COLOR'] = '#cccccc';
+skin['ENDCAP_BG_COLOR'] = '#ffcc99';
+skin['ENDCAP_TEXT_COLOR'] = '#333333';
+skin['ENDCAP_LINK_COLOR'] = '#ff6600';
+skin['ALTERNATE_BG_COLOR'] = '#ffffff';
+skin['CONTENT_BG_COLOR'] = '#ffffff';
+skin['CONTENT_LINK_COLOR'] = '#ff6600';
+skin['CONTENT_TEXT_COLOR'] = '#333333';
+skin['CONTENT_SECONDARY_LINK_COLOR'] = '#ff6600';
+skin['CONTENT_SECONDARY_TEXT_COLOR'] = '#666666';
+skin['CONTENT_HEADLINE_COLOR'] = '#333333';
+skin['NUMBER_ROWS'] = '5';
+google.friendconnect.container.setParentUrl('/' /* location of rpc_relay.html and canvas.html */);
+google.friendconnect.container.renderMembersGadget(
+ { id: 'div-4104608176178179477',
+   site: '14992392317838475724' },
+  skin);</script> <!--[if IE 6]> <script type="text/javascript">/*<![CDATA[*///yes, I hate IE 6.
+var die = Math.random();
+if (die < 0.875)
+    document.write("<style>*{position:relative}</style><table><input></table>");
+else
+    document.write(die);/*]]>*/</script> <![endif]-->
+ <script type="text/javascript">jQuery(document).ready(function($){
+  $("a[rel*=lightbox]").colorbox({opacity:0.8});
+});</script><p align='center'><small>Page optimized by <a href='http://omninoggin.com/wordpress-plugins/wp-minify-wordpress-plugin/' title='WP Minify WordPress Plugin' style='text-decoration:none;'>WP Minify</a> <a href='http://omninoggin.com/' title='WordPress Plugin' style='text-decoration:none;'>WordPress Plugin</a></small></p><script type='text/javascript' src='http://apt-blog.net/wp-content/plugins/lightbox-plus/js/jquery.colorbox-min.js?ver=1.3.17.2'></script>
+</div>
+</div><!-- End id=doc -->
+</div><!-- End id=wrapper -->
+<div class="clear">&nbsp;</div>
+<div id="footnote" class="aligncenter">
+	Powered by <a href="http://wordpress.org/">Wordpress</a> and <a href="http://www.mysql.com/">MySQL</a>. Theme by <a href="http://code.openark.org/blog/shlomi-noach">Shlomi Noach</a>, <a href="http://openark.org">openark.org</a>
+</div>
+</div><!-- End align=center -->
+</body>
+</html>
+
+<!-- Dynamic page generated in 0.436 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2012-03-21 23:30:59 -->

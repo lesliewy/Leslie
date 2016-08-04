@@ -1,0 +1,19 @@
+   const int three=3;    // 编译时报错:case label does not reduce to an integer constant
+//   enum {three=3};        
+   switch(a){
+       case 1: 
+           printf("a is 1\n");
+           break;
+       case 2: 
+       abc:
+           printf("a is 2 or 3 or 4\n");
+           break;
+    case three: printf("goto abc\n"); goto abc;    
+       default: 
+           printf("error\n");
+           break;
+   }
+//conclusion:
+      const int th=3;    // th 并不是真正的字面常量, 只是 th 的值不能被改变.
+      #define th 3
+      enum {th=3};       // 这两种th的值就是字面常量3, 用switch测试时不会报错.

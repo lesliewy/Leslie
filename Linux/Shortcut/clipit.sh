@@ -1,0 +1,2 @@
+nohup clipit >/dev/null &
+

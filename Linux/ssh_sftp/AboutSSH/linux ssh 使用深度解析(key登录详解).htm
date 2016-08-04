@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<!--[if IE 6]>
+<html id="ie6" dir="ltr" lang="zh-CN">
+<![endif]-->
+<!--[if IE 7]>
+<html id="ie7" dir="ltr" lang="zh-CN">
+<![endif]-->
+<!--[if IE 8]>
+<html id="ie8" dir="ltr" lang="zh-CN">
+<![endif]-->
+<!--[if !(IE 6) | !(IE 7) | !(IE 8)  ]><!-->
+<html dir="ltr" lang="zh-CN"><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>linux ssh 使用深度解析（key登录详解） | Jackie li's Blog</title>
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="stylesheet" type="text/css" media="all" href="linux%20ssh%20%E4%BD%BF%E7%94%A8%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90%28key%E7%99%BB%E5%BD%95%E8%AF%A6%E8%A7%A3%29_files/style.css">
+<link rel="pingback" href="http://blog.lizhigang.net/xmlrpc.php">
+<!--[if lt IE 9]>
+<script src="http://blog.lizhigang.net/wp-content/themes/twentyeleven/js/html5.js" type="text/javascript"></script>
+<![endif]-->
+<link rel="alternate" type="application/rss+xml" title="Jackie li's Blog » Feed" href="http://blog.lizhigang.net/feed">
+<link rel="alternate" type="application/rss+xml" title="Jackie li's Blog » 评论 Feed" href="http://blog.lizhigang.net/comments/feed">
+<script type="text/javascript" src="linux%20ssh%20%E4%BD%BF%E7%94%A8%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90%28key%E7%99%BB%E5%BD%95%E8%AF%A6%E8%A7%A3%29_files/l10n.js"></script>
+<script type="text/javascript" src="linux%20ssh%20%E4%BD%BF%E7%94%A8%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90%28key%E7%99%BB%E5%BD%95%E8%AF%A6%E8%A7%A3%29_files/comment-reply.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://blog.lizhigang.net/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://blog.lizhigang.net/wp-includes/wlwmanifest.xml"> 
+<link rel="index" title="Jackie li's Blog" href="http://blog.lizhigang.net/">
+<link rel="start" title="页面跳转的三种方式" href="http://blog.lizhigang.net/archives/10">
+<link rel="prev" title="[微]小公司和大公司的技术员的差别" href="http://blog.lizhigang.net/archives/244">
+<link rel="next" title=".ssh/config简单使用" href="http://blog.lizhigang.net/archives/265">
+<meta name="generator" content="WordPress 3.2.1">
+<link rel="canonical" href="http://blog.lizhigang.net/archives/249">
+<link rel="shortlink" href="http://blog.lizhigang.net/?p=249">
+<script src="linux%20ssh%20%E4%BD%BF%E7%94%A8%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90%28key%E7%99%BB%E5%BD%95%E8%AF%A6%E8%A7%A3%29_files/ga.js" async="" type="text/javascript"></script></head>
+
+<body class="single single-post postid-249 single-format-standard single-author singular two-column left-sidebar">
+<div id="page" class="hfeed">
+	<header id="branding" role="banner">
+			<hgroup>
+				<h1 id="site-title"><span><a href="http://blog.lizhigang.net/" title="Jackie li's Blog" rel="home">Jackie li's Blog</a></span></h1>
+				<h2 id="site-description">生活的点滴，留个印迹</h2>
+			</hgroup>
+
+			
+								<form method="get" id="searchform" action="http://blog.lizhigang.net/">
+		<label for="s" class="assistive-text">搜索</label>
+		<input class="field" name="s" id="s" placeholder="搜索" type="text">
+		<input class="submit" name="submit" id="searchsubmit" value="搜索" type="submit">
+	</form>
+			
+			<nav id="access" role="navigation">
+				<h3 class="assistive-text">主菜单</h3>
+								<div class="skip-link"><a class="assistive-text" href="#content" title="跳至主内容区域">跳至主内容区域</a></div>
+				<div class="skip-link"><a class="assistive-text" href="#secondary" title="跳至副内容区域">跳至副内容区域</a></div>
+								<div class="menu-%e6%96%b0%e8%8f%9c%e5%8d%95-container"><ul id="menu-%e6%96%b0%e8%8f%9c%e5%8d%95" class="menu"><li id="menu-item-349" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-349"><a href="http://blog.lizhigang.net/">首页</a></li>
+<li id="menu-item-350" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-350"><a href="http://blog.lizhigang.net/resume">简历</a></li>
+</ul></div>			</nav><!-- #access -->
+	</header><!-- #branding -->
+
+
+	<div id="main">
+		<div id="primary">
+			<div id="content" role="main">
+
+				
+					<nav id="nav-single">
+						<h3 class="assistive-text">文章导航</h3>
+						<span class="nav-previous"><a href="http://blog.lizhigang.net/archives/244" rel="prev"><span class="meta-nav">←</span> 上一篇</a></span>
+						<span class="nav-next"><a href="http://blog.lizhigang.net/archives/265" rel="next">下一篇 <span class="meta-nav">→</span></a></span>
+					</nav><!-- #nav-single -->
+
+					
+<article id="post-249" class="post-249 post type-post status-publish format-standard hentry category-linux tag-key tag-openssh tag-ssh tag-ssh-key">
+	<header class="entry-header">
+		<h1 class="entry-title">linux ssh 使用深度解析（key登录详解）</h1>
+
+				<div class="entry-meta">
+			<span class="sep">发表于 </span><a href="http://blog.lizhigang.net/archives/249" title="10:37 下午" rel="bookmark"><time class="entry-date" datetime="2010-12-01T22:37:32+00:00" pubdate="">2010年12月1日</time></a><span class="by-author"> <span class="sep"> 由 </span> <span class="author vcard"><a class="url fn n" href="http://blog.lizhigang.net/archives/author/jackie-li" title="查看所有由 jackie.li 发布的文章" rel="author">jackie.li</a></span></span>		</div><!-- .entry-meta -->
+			</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		<div id="_mcePaste"><span style="font-family: song, Verdana; line-height: 22px; font-size: 14px; border-collapse: collapse;">
+ SSH全称Secure SHell，顾名思义就是非常安全的shell的意思，SSH协议是IETF（Internet Engineering 
+Task Force）的Network Working Group所制定的一种协议。SSH的主要目的是用来取代传统的telnet和R系列<span class="t_tag" style="word-wrap: break-word; line-height: normal; cursor: pointer; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #ff0000; white-space: nowrap;">命令</span>（rlogin,rsh,rexec等）远程登陆和远程执行命令的工具，实现对远程登陆和远程执行命令加密。防止由于<span class="t_tag" style="word-wrap: break-word; line-height: normal; cursor: pointer; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #ff0000; white-space: nowrap;">网络</span>监听而出现的密码泄漏，对<span class="t_tag" style="word-wrap: break-word; line-height: normal; cursor: pointer; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #ff0000; white-space: nowrap;">系统</span>构成威胁。<br style="word-wrap: break-word; line-height: normal;"><br style="word-wrap: break-word; line-height: normal;"> ssh协议目前有SSH1和SSH2，SSH2协议兼容SSH1。目前实现SSH1和SSH2协议的主要<span class="t_tag" style="word-wrap: break-word; line-height: normal; cursor: pointer; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #ff0000; white-space: nowrap;">软件</span>有OpenSSH和SSH Communications Security Corporation　公司的SSH Communications 软件。前者是OpenBSD组织<span class="t_tag" style="word-wrap: break-word; line-height: normal; cursor: pointer; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #ff0000; white-space: nowrap;">开发</span>的
+一款免费的SSH软件，后者是商业软件，因此在linux、FreeBSD、OpenBSD、NetBSD等免费类UNIX系统种，通畅都使用
+OpenSSH作为SSH协议的实现软件。因此，本文重点介绍一下OpenSSH的使用。需要注意的是OpenSSH和SSH 
+Communications的登陆公钥/私钥的格式是不同的，如果想用SSH 
+Communications产生的私钥/公钥对来登入到使用OpenSSH的linux系统需要对公钥/私钥进行格式转换。<span id="more-249"></span><br style="word-wrap: break-word; line-height: normal;"><br style="word-wrap: break-word; line-height: normal;"> 在出现SSH之前，系统管理员需要登入远程<span class="t_tag" style="word-wrap: break-word; line-height: normal; cursor: pointer; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #ff0000; white-space: nowrap;">服务器</span>执
+行系统管理任务时，都是用telnet来实现的，telnet协议采用明文密码传送，在传送过程中对数据也不加密，很容易被不怀好意的人在网络上监听到密
+码。同样，在SSH工具出现之前R系列命令也很流行（由于这些命令都以字母r开头，故把这些命令合称为R系列命令R是remote的意思），比如
+rexec是用来执行远程服务器上的命令的，和telnet的区别是telnet需要先登陆远程服务器再实行相关的命令，而R系列命令可以把登陆和执行命
+令并登出系统的操作整合在一起。这样就不需要为在远程服务器上执行一个命令而特地登陆服务器了。</span></div>
+<div><span style="font-family: song, Verdana; line-height: 22px; font-size: 14px; border-collapse: collapse;">SSH
+是一种加密协议，不仅在登陆过程中对密码进行加密传送，而且对登陆后执行的命令的数据也进行加密，这样即使别人在网络上监听并截获了你的数据包，他也看不
+到其中的内容。OpenSSH已经是目前大多数linux和BSD操作系统（甚至cygwin）的标准组件，因此关于如何<span class="t_tag" style="word-wrap: break-word; line-height: normal; cursor: pointer; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #ff0000; white-space: nowrap;">安装</span>OpenSSH本文就不再叙述了，如果不出意外，你的系统上必定已经安装好了OpenSSH。</span></div>
+<p>OpenSSH软件包包含以下命令：</p>
+<p><strong>sshd </strong>―― SSH服务端程序</p>
+<p><strong>sftp-server</strong> ―― SFTP服务端程序（类似FTP但提供数据加密的一种协议）</p>
+<p><strong>scp </strong>―― 非交互式sftp-server的客户端，用来向服务器上传/下载文件</p>
+<p><strong>sftp </strong>―― 交互式sftp-server客户端，用法和ftp命令一样。</p>
+<p><strong>slogin </strong>――　ssh的别名</p>
+<p><strong>ssh </strong>――　SSH协议的客户端程序，用来登入远程系统或远程执行命令</p>
+<p><strong>ssh-add</strong> ―― &nbsp; &nbsp;SSH代理相关程序，用来向SSH代理添加dsa　key</p>
+<p><strong>ssh-agent</strong> ―― &nbsp; &nbsp;ssh代理程序</p>
+<p><strong>ssh-keyscan</strong> ――　ssh　public key 生成器</p>
+<p>SSH最常用的使用方式是代替telnet进行远程登陆。不同于telnet的密码登陆，SSH还同时支持Publickey、Keybord 
+Interactive、GSSAPI等多种登入方式，不像telnet那样只有输入系统密码一种途径。目前最常用的登陆方式还是传统的Password
+方式和Publickey方式登陆。下面以Redhat　AS4为例，举例说明这两种登陆方式的用法。</p>
+<blockquote><p><span style="font-family: song, Verdana; line-height: normal; font-size: 14px; border-collapse: collapse;">[root@mail ~]# ssh 172.18.6.227<br style="word-wrap: break-word; line-height: normal;">The authenticity of host ’172.18.6.227 (172.18.6.227)’ can’t be established.<br style="word-wrap: break-word; line-height: normal;">RSA key fingerprint is 43:80:f2:e1:9b:b6:6e:c0:e2:dd:57:8f:ed:89:b3:81.<br style="word-wrap: break-word; line-height: normal;">Are you sure you want to continue connecting (yes/no)? yes<br style="word-wrap: break-word; line-height: normal;">Warning: Permanently added ’172.18.6.227′ (RSA) to the list of known hosts.<br style="word-wrap: break-word; line-height: normal;"><a style="word-wrap: break-word; text-decoration: none; color: rgb(0, 0, 0); line-height: normal;" href="mailto:root@172.18.6.227">root@172.18.6.227</a>‘s password:&nbsp;<br style="word-wrap: break-word; line-height: normal;">Last login: Thu Jul 12 18:47:47 2007 from 172.18.6.130<br style="word-wrap: break-word; line-height: normal;">[root@qmail ~]#</span></p></blockquote>
+<p>第一次登陆后，ssh就会把登陆的ssh指纹存放在用户home目录的.ssh目录的know_hosts文件中，如果远程系统重装过系统，ssh
+指纹已经改变，你需要把 .ssh 
+目录下的know_hosts中的相应指纹删除，再登陆回答yes，方可登陆。请注意.ssh目录是开头是”.”的隐藏目录，需要ls 
+–a参数才能看到。<strong><span style="color: #993300;">而且这个目录的权限必须是700,并且用户的home目录也不能给其他用户写权限，否则ssh服务器会拒绝登陆。如果发生不能登陆的问题，请察看服务器上的日志文件/var/log/secure。通常能很快找到不能登陆的原因。</span></strong></p>
+<p><strong><span style="color: #993300;"><span style="color: #000000; font-weight: normal;"> </span></span></strong></p>
+<p><span style="color: #993300;"><span style="color: #000000; font-family: song, Verdana; line-height: 22px; font-size: 14px; border-collapse: collapse;"><strong>ssh远程执行命令：</strong></span></span></p>
+<blockquote><p><span style="color: #993300;"><span style="color: #000000; font-family: song, Verdana; line-height: 22px; font-size: 14px; border-collapse: collapse;"><strong><span style="font-weight: normal; line-height: normal;">[root@mail ~]# ssh 172.18.6.227 ls -l /<br style="word-wrap: break-word; line-height: normal;"><a style="word-wrap: break-word; text-decoration: none; color: rgb(0, 0, 0); line-height: normal;" href="mailto:root@172.18.6.227">root@172.18.6.227</a>‘s password:&nbsp;<br style="word-wrap: break-word; line-height: normal;">total 1244<br style="word-wrap: break-word; line-height: normal;">drwxr-xr-x&nbsp; &nbsp; 2 root root&nbsp; &nbsp; 4096 Jun 26 04:02 bin<br style="word-wrap: break-word; line-height: normal;">drwxr-xr-x&nbsp; &nbsp; 4 root root&nbsp; &nbsp; 4096 Mar 29 11:17 boot<br style="word-wrap: break-word; line-height: normal;">drwxr-xr-x&nbsp; &nbsp; 2 root root&nbsp; &nbsp; 4096 Jan 25 11:26 command<br style="word-wrap: break-word; line-height: normal;">drwxr-xr-x&nbsp; &nbsp;15 root root&nbsp; &nbsp; 4096 Jun 12 20:09 data<br style="word-wrap: break-word; line-height: normal;">drwxr-xr-x&nbsp; &nbsp; 9 root root&nbsp; &nbsp; 5360 Jul&nbsp;&nbsp;2 13:38 dev<br style="word-wrap: break-word; line-height: normal;">drwxr-xr-x&nbsp; &nbsp;87 root root&nbsp; &nbsp;12288 Jul 11 04:02 etc<br style="word-wrap: break-word; line-height: normal;">drwxr-xr-x&nbsp; &nbsp;20 root root&nbsp; &nbsp; 4096 Apr 10 10:54 home<br style="word-wrap: break-word; line-height: normal;">drwxr-xr-x&nbsp; &nbsp; 2 root root&nbsp; &nbsp; 4096 Aug 13&nbsp;&nbsp;2004 initrd</span></strong></span></span></p></blockquote>
+<p><span style="font-family: song, Verdana;"><span style="border-collapse: collapse; line-height: 22px;"><strong><span style="font-weight: normal; font-size: 14px;">输入正确的密码后，ssh会链接远程服务器的sshd服务器程序，然后执行远程服务器上的<br style="word-wrap: break-word; line-height: normal;">ls –l /命令　，并把输入结果传到本地服务器。相当于你先登陆到远程服务器，然后再实行命令ls –l /，最后再登出服务器。需要提醒的是，如果你需要登陆服务器并执行不止一个命令，必须要把命令用单引号或双引号引起来：</span></strong></span></span></p>
+<blockquote><p><span style="font-family: song, Verdana;"><span style="border-collapse: collapse; line-height: 22px;"><span style="font-weight: normal; font-size: 14px;"><strong>ssh 172.18.6.227 “cd /root &amp;&amp; ls “</strong></span></span></span></p></blockquote>
+<p>ssh的远程实行命令的功能是用来代替原始的R系列命令的，在ssh出现之前系统管理员们不得不用rexec, 
+rsh等不安全的远程执行命令工具来完成同样的操作。这个功能在管理大批机器的时候是非常有用的，比如我要重启10.0.0.0/24网段内所有的服务
+器，只要输入一条命令：</p>
+<blockquote><p><strong>for i in $(seq 1 254) ; do&nbsp;&nbsp;ssh 10.0.0.${i} reboot ; done</strong></p></blockquote>
+<p>就可以完成重启所有服务器的操作，也许你会说，这要虽然不需要再登陆每一台服务器了，但是还是要每次输入密码，多麻烦啊。别急，下面要讲的用ssh public key方式登陆就是要<span class="t_tag" style="word-wrap: break-word; line-height: normal; cursor: pointer; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #ff0000; white-space: nowrap;">解决</span>问题。</p>
+<p><strong>采用public key登录：</strong></p>
+<p><strong><span style="font-weight: normal;">openssh的ssh-keygen命令用来产生这样的私钥和公钥。</span></strong></p>
+<blockquote><p><span style="font-family: song, Verdana; line-height: normal; font-size: 14px; border-collapse: collapse;">[root@mail ~]# ssh-keygen -b 1024 -t dsa -C&nbsp;<a style="word-wrap: break-word; text-decoration: none; color: rgb(0, 0, 0); line-height: normal;" href="mailto:gucuiwen@myserver.com">gucuiwen@myserver.com</a><br style="word-wrap: break-word; line-height: normal;">Generating public/private dsa key pair.<br style="word-wrap: break-word; line-height: normal;">#提示正在生成，如果选择4096长度，可能需要较长时间<br style="word-wrap: break-word; line-height: normal;">Enter file in which to save the key (/root/.ssh/id_dsa):&nbsp;<br style="word-wrap: break-word; line-height: normal;">＃询问把公钥和私钥放在那里，回车用默认位置即可<br style="word-wrap: break-word; line-height: normal;">Enter passphrase (empty for no passphrase):&nbsp;<br style="word-wrap: break-word; line-height: normal;">＃询问输入私钥密语，为了实现<span class="t_tag" style="word-wrap: break-word; line-height: normal; cursor: pointer; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #ff0000; white-space: nowrap;">自动</span>登陆，应该不要密语，直接回车<br style="word-wrap: break-word; line-height: normal;">Enter same passphrase again:&nbsp;<br style="word-wrap: break-word; line-height: normal;">＃再次提示输入密语，再次直接回车<br style="word-wrap: break-word; line-height: normal;">Your identification has been saved in /root/.ssh/id_dsa.<br style="word-wrap: break-word; line-height: normal;">Your public key has been saved in /root/.ssh/id_dsa.pub.<br style="word-wrap: break-word; line-height: normal;">＃提示公钥和私钥已经存放在/root/.ssh/目录下<br style="word-wrap: break-word; line-height: normal;">The key fingerprint is:<br style="word-wrap: break-word; line-height: normal;">71:e5:cb:15:d3:8c:05:ed:05:84:85:32:ce:b1:31:ce&nbsp;<a style="word-wrap: break-word; text-decoration: none; color: rgb(0, 0, 0); line-height: normal;" href="mailto:gucuiwen@myserver.com">gucuiwen@myserver.com</a><br style="word-wrap: break-word; line-height: normal;">＃提示key的指纹</span></p></blockquote>
+<p><span style="font-family: song, Verdana; line-height: 22px; font-size: 14px; border-collapse: collapse;">说明：<br style="word-wrap: break-word; line-height: normal;">-b 1024　采用长度为1024字节的公钥/私钥对，最长4096字节，一般1024或2048就可以了，太长的话加密解密需要的时间也长。<br style="word-wrap: break-word; line-height: normal;">-t dsa　　采用dsa加密方式的公钥/私钥对，除了dsa还有rsa方式，rsa方式最短不能小于768字节长度。<br style="word-wrap: break-word; line-height: normal;">-C&nbsp;<a style="word-wrap: break-word; text-decoration: none; color: rgb(0, 0, 0); line-height: normal;" href="mailto:gucuiwen@myserver.com">gucuiwen@myserver.com</a> 对这个公钥/私钥对的一个注释和说明，一般用所有人的邮件代替。可以省略不写，更多其他参数请man ssh-keygen。</span></p>
+<blockquote><p><span style="font-family: song, Verdana; line-height: 22px; font-size: 14px; border-collapse: collapse;"><span style="line-height: normal;">[root@mail ~]# ls -l /root/.ssh<br style="word-wrap: break-word; line-height: normal;">total 16<br style="word-wrap: break-word; line-height: normal;">-rw——-&nbsp;&nbsp;1 root root 668 Jul 12 20:07 id_dsa<br style="word-wrap: break-word; line-height: normal;">-rw-r–r–&nbsp;&nbsp;1 root root 611 Jul 12 20:07 id_dsa.pub<br style="word-wrap: break-word; line-height: normal;">-rw-r–r–&nbsp;&nbsp;1 root root 222 Jul 12 19:37 known_hosts</span></span></p></blockquote>
+<p><strong><span style="font-weight: normal;"><span style="font-family: song, Verdana;">产生的公钥/私钥文件在用户home目录的.ssh目录下，其中id_dsa.pub是公钥，把产生的公钥上传到需要登陆的服务器的对应用户目录的home目录的.ssh目录下，再一次强调用户自己的目录(home目录)必须不能有其他人可写的权限，</span><span style="color: #800000;">.ssh目录的权限必须是700</span><span style="font-family: song, Verdana;">，
+即除了用户自己，其他人没有任何读写察看该目录的权限，否则ssh服务器会拒绝登陆。ssh默认的公钥文件是用户home目录下的.ssh目录下的
+authorized_keys文件，因此需要把产生的公钥以这个文件名放到服务器的/root/.ssh/目录下，这个文件中可以存放多个客户端的公钥
+文件，就好比一个大门上可以上很多锁，可以有不同的钥匙来尝试开锁，只要有一个锁被打开了，门就可以打开了。放到服务器上应该是这样子的：</span></span></strong></p>
+<p><strong><strong><span style="color: #800000;">私钥必须是600权限</span></strong><span style="font-weight: normal;">，否则ssh服务器会拒绝用户登陆。</span></strong></p>
+<p>大致就是这个样子了。现把/etc/ssh/ssh_config 和 /etc/ssh/sshd_config的配置说下。</p>
+<p><strong><span style="color: #ff6600;">/etc/ssh/ssh_config:</span></strong></p>
+<blockquote><p><span style="font-family: Arial, Helvetica, sans-serif; line-height: 24px; font-size: 14px; color: #383838;"> </span></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">Host *<br style="padding: 0px; margin: 0px;"><strong>选项“Host”只对能够匹配后面字串的计算机有效。“*”表示所有的计算机。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">ForwardAgent no<br style="padding: 0px; margin: 0px;"><strong>“ForwardAgent”设置连接是否经过验证代理（如果存在）转发给远程计算机。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">ForwardX11 no<br style="padding: 0px; margin: 0px;"><strong>“ForwardX11”设置X11连接是否被自动重定向到安全的通道和显示集（DISPLAY set）。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">RhostsAuthentication no<br style="padding: 0px; margin: 0px;"><strong>“RhostsAuthentication”设置是否使用基于rhosts的安全验证。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">RhostsRSAAuthentication no<br style="padding: 0px; margin: 0px;"><strong>“RhostsRSAAuthentication”设置是否使用用RSA算法的基于rhosts的安全验证。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">RSAAuthentication yes<br style="padding: 0px; margin: 0px;"><strong>“RSAAuthentication”设置是否使用RSA算法进行安全验证。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">PasswordAuthentication yes<br style="padding: 0px; margin: 0px;"><strong>“PasswordAuthentication”设置是否使用口令验证。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">FallBackToRsh no<br style="padding: 0px; margin: 0px;"><strong>“FallBackToRsh”设置如果用ssh连接出现错误是否自动使用rsh。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">UseRsh no<br style="padding: 0px; margin: 0px;"><strong>“UseRsh”设置是否在这台计算机上使用“rlogin/rsh”。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">BatchMode no<br style="padding: 0px; margin: 0px;"><strong>“BatchMode”如果设为“yes”，passphrase/password（交互式输入口令）的提示将被禁止。当不能交互式输入口令的时候，这个选项对脚本文件和批处理任务十分有用。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">CheckHostIP yes<br style="padding: 0px; margin: 0px;"><strong>“CheckHostIP”设置ssh是否查看连接到服务器的主机的IP地址以防止DNS欺骗。建议设置为“yes”。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">StrictHostKeyChecking no<br style="padding: 0px; margin: 0px;"><strong>“StrictHostKeyChecking”如果设置成“yes”，ssh就不会自动把计算机的密匙加入“$HOME/.ssh/known_hosts”文件，并且一旦计算机的密匙发生了变化，就拒绝连接。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">IdentityFile ~/.ssh/identity<br style="padding: 0px; margin: 0px;"><strong>“IdentityFile”设置从哪个文件读取用户的RSA安全验证标识。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">Port 22<br style="padding: 0px; margin: 0px;"><strong>“Port”设置连接到远程主机的端口。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">Cipher blowfish<br style="padding: 0px; margin: 0px;"><strong>“Cipher”设置加密用的密码。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">EscapeChar ~<br style="padding: 0px; margin: 0px;"><strong>“EscapeChar”设置escape字符。</strong></p>
+</blockquote>
+<p><strong><span style="color: #ff6600;">/etc/ssh/sshd_config:</span></strong></p>
+<blockquote><p><span style="font-family: Arial, Helvetica, sans-serif; line-height: 24px; font-size: 14px; color: #383838;"> </span></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">Port 22<br style="padding: 0px; margin: 0px;"><strong>“Port”设置sshd监听的端口号。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">ListenAddress 192.168.1.1<br style="padding: 0px; margin: 0px;"><strong>“ListenAddress”设置sshd服务器绑定的IP地址。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">HostKey /etc/ssh/ssh_host_key</p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;"><strong>“HostKey”设置包含计算机私人密匙的文件。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">ServerKeyBits 1024<br style="padding: 0px; margin: 0px;"><strong>“ServerKeyBits”定义服务器密匙的位数。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">LoginGraceTime 600<br style="padding: 0px; margin: 0px;"><strong>“LoginGraceTime”设置如果用户不能成功登录，在切断连接之前服务器需要等待的时间（以秒为单位）。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">KeyRegenerationInterval 3600<br style="padding: 0px; margin: 0px;"><strong>“KeyRegenerationInterval”设置在多少秒之后自动重新生成服务器的密匙（如果使用密匙）。重新生成密匙是为了防止用盗用的密匙解密被截获的信息。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">PermitRootLogin no<br style="padding: 0px; margin: 0px;"><strong>“PermitRootLogin”设置root能不能用ssh登录。这个选项一定不要设成“yes”。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">IgnoreRhosts yes<br style="padding: 0px; margin: 0px;"><strong>“IgnoreRhosts”设置验证的时候是否使用“rhosts”和“shosts”文件。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">IgnoreUserKnownHosts yes<br style="padding: 0px; margin: 0px;"><strong>“IgnoreUserKnownHosts”设置ssh daemon是否在进行RhostsRSAAuthentication安全验证的时候忽略用户的“$HOME/.ssh/known_hosts”</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">StrictModes yes<br style="padding: 0px; margin: 0px;"><strong>“StrictModes”设置ssh在接收登录请求之前是否检查用户家目录和rhosts文件的权限和所有权。这通常是必要的，因为新手经常会把自己的目录和文件设成任何人都有写权限。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">X11Forwarding no<br style="padding: 0px; margin: 0px;"><strong>“X11Forwarding”设置是否允许X11转发。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">PrintMotd yes<br style="padding: 0px; margin: 0px;"><strong>“PrintMotd”设置sshd是否在用户登录的时候显示“/etc/motd”中的信息。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">SyslogFacility AUTH<br style="padding: 0px; margin: 0px;"><strong>“SyslogFacility”设置在记录来自sshd的消息的时候，是否给出“facility code”。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">LogLevel INFO<br style="padding: 0px; margin: 0px;"><strong>“LogLevel”设置记录sshd日志消息的层次。INFO是一个好的选择。查看sshd的man帮助页，已获取更多的信息。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">RhostsAuthentication no<br style="padding: 0px; margin: 0px;"><strong>“RhostsAuthentication”设置只用rhosts或“/etc/hosts.equiv”进行安全验证是否已经足够了。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">RhostsRSAAuthentication no<br style="padding: 0px; margin: 0px;"><strong>“RhostsRSA”设置是否允许用rhosts或“/etc/hosts.equiv”加上RSA进行安全验证。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">RSAAuthentication yes<br style="padding: 0px; margin: 0px;"><strong>“RSAAuthentication”设置是否允许只有RSA安全验证。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">PasswordAuthentication yes<br style="padding: 0px; margin: 0px;"><strong>“PasswordAuthentication”设置是否允许口令验证。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">PermitEmptyPasswords no<br style="padding: 0px; margin: 0px;"><strong>“PermitEmptyPasswords”设置是否允许用口令为空的帐号登录。</strong></p>
+<p style="line-height: 24px; color: #383838; font-size: 14px; padding: 0px; margin: 0px;">AllowUsers admin<br style="padding: 0px; margin: 0px;"><strong>“AllowUsers”的后面可以跟着任意的数量的用户名的匹配串（patterns）或<span style="color: #0000ff; padding: 0px; margin: 0px;">user@host</span>这样的匹配串，这些字符串用空格隔开。主机名可以是DNS名或IP地址。</strong></p>
+</blockquote>
+<p><span style="font-family: Verdana, Helvetica, Arial, sans-serif; line-height: 25px; font-size: 14px; color: #444444;">将SSH2兼容格式的公钥转换成为Openssh兼容格式</span></p>
+<blockquote><p><span style="line-height: 25px; font-size: 14px; color: #444444;"><strong><span style="color: #ff0000;"> ssh-keygen -i -f Identity.pub &gt;&gt; /root/.ssh/authorized_keys2</span></strong></span></p></blockquote>
+			</div><!-- .entry-content -->
+
+	<footer class="entry-meta">
+		此条目由 <a href="http://blog.lizhigang.net/archives/author/jackie-li">jackie.li</a> 发表在 <a href="http://blog.lizhigang.net/archives/category/linux" title="查看 Linux 中的全部文章" rel="category tag">Linux</a> 分类目录，并贴了 <a href="http://blog.lizhigang.net/archives/tag/key%e7%99%bb%e5%bd%95" rel="tag">key登录</a>、<a href="http://blog.lizhigang.net/archives/tag/openssh" rel="tag">openssh</a>、<a href="http://blog.lizhigang.net/archives/tag/ssh" rel="tag">ssh</a>、<a href="http://blog.lizhigang.net/archives/tag/ssh-key" rel="tag">ssh key</a> 标签。将<a href="http://blog.lizhigang.net/archives/249" title="链向 linux ssh 使用深度解析（key登录详解） 的固定链接" rel="bookmark">固定链接</a>加入收藏夹。		
+			</footer><!-- .entry-meta -->
+</article><!-- #post-249 -->
+
+						<div id="comments">
+	
+	
+			<p class="nocomments">评论已关闭。</p>
+	
+									
+</div><!-- #comments -->
+
+				
+			</div><!-- #content -->
+		</div><!-- #primary -->
+
+
+	</div><!-- #main -->
+
+	<footer id="colophon" role="contentinfo">
+
+			
+
+			<div id="site-generator">
+								<a href="http://cn.wordpress.org/" title="优雅的个人发布平台" rel="generator">自豪地采用 WordPress</a>
+			</div>
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-16044460-1']);
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+})();
+</script>
+
+
+</body></html>

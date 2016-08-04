@@ -1,0 +1,22 @@
+
+var article_more_html = '<ul></ul>';
+var article_more_div = document.getElementById("moreArticleList");
+if(article_more_div){
+    if(article_more_html != '<ul></ul>')
+    {
+        var html = "";
+        if(0 == 1){ 
+            html = "<span><b>我的更多文章 </b>&nbsp; <a href='javascript:void(0);' onclick='return showEditMoreArticles(this);'>编辑</a></span>";
+        }else{
+            html = "<span><b>我的更多文章</b></span>"; 
+        } 
+        html +=  article_more_html;
+        article_more_div.innerHTML = html;
+    }
+    else
+    {
+        if(0 == 1){ 
+            article_more_div.innerHTML = "<span><a href='javascript:void(0);' onclick='return showEditMoreArticles(this);'>+ <b>我的更多文章</b></a></span>";
+        } 
+    }
+}

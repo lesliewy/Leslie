@@ -1,0 +1,85 @@
+===================================================if===========================================================
+if(expression)
+   statement
+else if(expression)
+   statement
+else if(expression)
+   statement
+else
+   statement
+// conclusion:   最后的那个else 是可选的.
+===================================================switch========================================================
+switch(a){
+case 1: 
+    printf("a is 1\n");
+    break;                    // 必须的，否则匹配此处后会继续执行.
+case 2: 
+    printf("a is 2\n");
+    break;
+case 3: 
+    printf("a is 3\n");
+    break;
+default: 
+    printf("error\n");
+    break;                   // 最好有，防止以后在default后面继续添加case.
+}
+// 多个case可以合并.
+switch(a){
+case 1: 
+    printf("a is 1\n");
+    break;
+case 2: 
+case 3: 
+case 4:
+    printf("a is 2 or 3 or 4\n");
+    break;
+default: 
+    printf("error\n");
+    break;
+}
+
+switch(a){
+case 1: 
+    printf("a is 1\n");
+    break;
+case 2:                                     // case 2: 这种情况如果将case写错的话,编译不会通过. 
+abc:                                        // 实际上带标签的语句都是可以的，这里编译不会报错，运行时一般也没什么问题.  
+    printf("a is 2 or 3 or 4\n");
+    break;
+case 3: printf("goto abc\n"); goto abc;     // 使用goto 跳转到abc标签,这是允许的. 显然，这种情况要避免使用. 
+defau1t:                                    // 由于label也是可以的,所以这里将l 写成了数字1也没什么问题,不过运行时如果所有的case都不匹配的话,不会执行.
+    printf("error\n");
+    break;
+}
+//conclusion:      switch 块中允许lable 标签, default不要写错了.
+
+===========================================break continue=================================================================================================
+switch(a){
+case 1:
+    printf("a is 1\n");
+    break;
+case 2:
+case 4:
+    switch(i){
+    case 1:
+        printf("i is 1.\n");
+        break;                 // 跳出最里层的switch, 由于fall through,会执行后面的default(也可能是其他case).
+    case 2:
+        printf("i is 2.\n");
+        break;
+    }
+default: 
+    printf("error\n");
+    break;
+}
+   for(a=0;a<3;a++){
+      printf("outer:%d\n",a);
+      int b=0;
+      for (b=0;b<5;b++){
+         printf("inner:%d\n",b);
+         if(b==3)
+            break;            // 跳出最里层的loop.
+      }
+      printf("now is outer.\n");
+   }
+// conclusion:     break 跳出最里层的loop(for,while,do..while), 最里层的switch. 嵌套的switch最好不要用,因为里层break了，外层会接着往下执行.

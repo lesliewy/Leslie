@@ -1,0 +1,2460 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html class=" widthauto" xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk">
+<title>转：expect的基本用法 - Shell -  ChinaUnix.net -</title>
+<meta name="google-site-verification" content="OJoEeACa37Td5C_TevGy7D9GrG9Pe407duCwm81ra6g">
+<link href="http://bbs.chinaunix.net/thread-594417-1-1.html" rel="canonical"><meta name="keywords" content="转：expect的基本用法">
+<meta name="description" content=" 转：expect的基本用法 ,ChinaUnix.net">
+<meta name="author" content="Discuz! Team and Comsenz UI Team">
+<meta name="copyright" content="2001-2011 Comsenz Inc.">
+<meta name="MSSmartTagsPreventParsing" content="True">
+<meta http-equiv="MSThemeCompatible" content="Yes">
+<!-- base href="http://bbs.chinaunix.net/" --><link rel="stylesheet" type="text/css" href="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/style_3_common.css"><link rel="stylesheet" type="text/css" href="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/style_3_forum_viewthread.css"><script src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/ga.js" async="" type="text/javascript"></script><script src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/ODM5OTE0Ng.js" charset="utf-8" type="text/javascript"></script><script type="text/javascript">var STYLEID = '3', STATICURL = 'static/', IMGDIR = 'static/image/common', VERHASH = 'CF6', charset = 'gbk', discuz_uid = '0', cookiepre = 'ndfU_2132_', cookiedomain = '', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'login|newthread|reply|tradeorder|activity|debate|nav|usergroups|task', creditnotice = '', defaultstyle = '', REPORTURL = 'aHR0cDovL2Jicy5jaGluYXVuaXgubmV0L3RocmVhZC01OTQ0MTctMS0xLmh0bWw=', SITEURL = 'http://bbs.chinaunix.net/', JSPATH = 'static/js/';</script>
+<script src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/common.js" type="text/javascript"></script><meta name="application-name" content="ChinaUnix.net">
+<meta name="msapplication-tooltip" content="ChinaUnix.net">
+<meta name="msapplication-task" content="name=论坛;action-uri=http://bbs.chinaunix.net/forum.php;icon-uri=http://bbs.chinaunix.net/static/image/common/bbs.ico">
+<link rel="archives" title="ChinaUnix.net" href="http://bbs.chinaunix.net/archiver/">
+<link rel="stylesheet" id="css_widthauto" type="text/css" href="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/style_3_widthauto.css">
+<script type="text/javascript">HTMLNODE.className += ' widthauto'</script>
+<script src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/forum.js" type="text/javascript" charset="gbk"></script>
+<link type="text/css" rel="stylesheet" href="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/bdsstyle.css"></head>
+<body id="nv_forum" class="pg_viewthread"><iframe style="display: none;" frameborder="0"></iframe><div id="bdshare_s"><iframe id="bdsIfr" style="position: absolute; display: none; z-index: 9999;" frameborder="0"></iframe><div style="display: none;" id="bdshare_l"><div id="bdshare_l_c"><h6>分享到</h6><ul><li><a href="#" class="bds_qzone qqkj">QQ空间</a></li><li><a href="#" class="bds_tsina xlwb">新浪微博</a></li><li><a href="#" class="bds_baidu bdsc">百度搜藏</a></li><li><a href="#" class="bds_renren rrw">人人网</a></li><li><a href="#" class="bds_tqq txwb">腾讯微博</a></li><li><a href="#" class="bds_kaixin001 kxw">开心网</a></li><li><a href="#" class="bds_tqf txpy">腾讯朋友</a></li><li><a href="#" class="bds_hi bdkj">百度空间</a></li><li><a href="#" class="bds_douban db">豆瓣网</a></li><li><a href="#" class="bds_tsohu shwb">搜狐微博</a></li><li><a href="#" class="bds_msn msn">MSN</a></li><li><a href="#" class="bds_qq qqsc">QQ收藏</a></li><li><a href="#" class="bds_taobao tjh">淘宝</a></li><li><a href="#" class="bds_tieba bdtb">百度贴吧</a></li><li><a href="#" class="bds_sohu shbsh">搜狐白社会</a></li><li><a href="#" class="bds_more">更多...</a></li></ul><p><a href="#" class="goWebsite">百度分享</a></p></div></div></div>
+<div id="append_parent"></div><div id="ajaxwaitid"></div>
+<!-- 自定义 -->		
+<!--头-->
+<!--广告位置名称：首页通栏 -->
+<div id="ADV_13039"></div>
+<!--2011.12.1修改 大版宽屏显示 但是莫名其妙设置中的用户组也宽屏了，打印了下gid为28.暂时不清楚为什么 -->
+<div class="wp head_top">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" align="left">
+<tbody><tr>
+<td>
+<a href="http://bbs.chinaunix.net/member.php?mod=logging&amp;action=login&amp;logsubmit=yes"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/login.gif"></a>
+&nbsp;&nbsp;<a href="http://sso.chinaunix.net/ForgotPassword?return_url=http://bbs.chinaunix.net/home.php?mod=spacecp">忘记密码</a>
+&nbsp;&nbsp;<a href="http://bbs.chinaunix.net/member.php?mod=register.php">免费注册</a>
+</td>
+<td align="right">
+<a href="http://bbs.chinaunix.net/listthread.php">查看新帖</a> |
+<a href="http://www.chinaunix.net/jh/"><font color="red">论坛精华区</font></a>
+</td>
+</tr>
+<tr><td colspan="3" style="background-color: rgb(0, 0, 0);" height="1"></td></tr>
+</tbody></table>
+</div>
+<div id="hd">
+<div class="wp">
+<!--LOGO和banner  -->
+<table style="clear: both; height: 90px;" width="100%">
+<tbody><tr>
+<td style="padding: 0pt;">
+<!--2011.12.27修改只有首页去www其他去bbs-->
+<a href="http://bbs.chinaunix.net/" title="ChinaUnix.net"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/logo.gif" alt="ChinaUnix.net" border="0"></a>
+</td>
+<td style="padding: 0pt;" align="center">
+<!--不同页面广告位 -->
+<div id="ADV_18508" style="display: block;"> <table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td style="padding: 0pt;"><a href="http://dtcc.it168.com/index.html" target="_blank"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/20120301093957828.jpg" height="80" border="0" width="760"></a></td></tr></tbody></table></div>
+	
+</td>
+</tr>
+</tbody></table>
+<!--<div id="nv">
+<a href="javascript:;" id="qmenu" onmouseover="showMenu({'ctrlid':'qmenu','pos':'34!','ctrlclass':'a','duration':2});">快捷导航</a>
+<ul> --><!-- <li id="mn_Ne30e" ><a href="plugin.php?id=auction" hidefocus="true" title="Auction"  >竞拍<span>Auction</span></a></li> --><!-- <li id="mn_N2ddf" ><a href="plugin.php?id=itpub_medal:medal_shop" hidefocus="true"  >商店</a></li> --><!-- <li id="mn_forum" ><a href="forum.php" hidefocus="true" title="BBS"  >论坛<span>BBS</span></a></li> --><!-- <li id="mn_N12a7" ><a href="misc.php?mod=ranklist" hidefocus="true" title="Ranklist"  >排行榜<span>Ranklist</span></a></li> --><!--</ul>
+</div> -->
+<div id="mu" class="cl">
+</div><!--搜索框去掉20111024 -->
+</div>
+</div>
+<!--2011.11.30如果是大版则宽屏显示 -->
+<div id="wp" class="wp">
+
+<table style="background: url(&quot;static/image/common/bg_menu_top.gif&quot;) repeat scroll 0% 0% transparent;" border="0" cellpadding="0" cellspacing="0" width="100%" align="center"> 
+<tbody>
+<tr><td colspan="2" height="2"></td></tr>
+<tr>
+<td valign="center" width="*" align="left">&nbsp;
+<font color="#666666"><strong>平台</strong></font>： 
+<a target="_blank" class="title2" href="http://bbs.chinaunix.net/"><font color="#5B7DB3">论坛</font></a>   
+<a target="_blank" class="title2" href="http://blog.chinaunix.net/"><font color="#5B7DB3">博客</font></a>
+<a target="_blank" class="title2" href="http://www.it168.com/itclub/"><font color="red">Club168</font></a>   
+<a target="_blank" class="title2" href="http://book.chinaunix.net/"><font color="#5B7DB3">读书</font></a>  
+<a target="_blank" class="title2" href="http://job.chinaunix.net/"><font color="#5B7DB3">人才</font></a> 
+<a target="_blank" class="title2" href="http://www.chinaunix.net/jh"><font color="#5B7DB3">精华</font></a>
+<a target="_blank" class="title2" href="http://wenku.it168.com/"><font color="red">文库</font></a>
+<a target="_blank" class="title2" href="http://selftest.chinaunix.net/"><font color="#5B7DB3">自测</font></a>  |
+<font color="#666666"><strong>频道</strong></font>：
+<a target="_blank" class="title2" href="http://os.chinaunix.net/"><font color="red">操作系统</font></a>   
+<a target="_blank" class="title2" href="http://tech.chinaunix.net/"><font color="#5B7DB3">开发</font></a>   
+<a target="_blank" class="title2" href="http://database.chinaunix.net/"><font color="#5B7DB3">数据库</font></a>    
+<a target="_blank" class="title2" href="http://storage.chinaunix.net/"><font color="#5B7DB3">存储</font></a>  
+<a target="_blank" class="title2" href="http://server.chinaunix.net/"><font color="#5B7DB3">服务器</font></a>  
+<a target="_blank" class="title2" href="http://net.chinaunix.net/"><font color="#5B7DB3">网络</font></a>   
+<a target="_blank" class="title2" href="http://news.chinaunix.net/"><font color="#5B7DB3">IT新闻</font></a>   
+<a target="_blank" class="title2" href="http://linux.chinaunix.net/"><font color="#5B7DB3">Linux</font></a> 
+<a target="_blank" class="title2" href="http://download.chinaunix.net/"><font color="#5B7DB3">下载</font></a>  
+<a target="_blank" class="title2" href="http://bbs.chinaunix.net/Power.php"><font color="#5B7DB3">Power用户组</font></a>
+</td>
+<td>
+<form target="_blank" method="get" action="http://s.chinaunix.net/bbs.php">
+<input name="q" size="15" maxlength="20" style="width: 60px;" type="text">
+<input name="title" value="fulltext" type="hidden">
+<input name="st" value="title" type="hidden">
+<input name="bbs" value="1" type="hidden">
+<input name="forums" value="all" type="hidden">
+<input value="搜索" type="submit">
+</form>
+</td>
+</tr>
+<tr><td colspan="2" height="2"></td></tr> 
+</tbody>
+</table><!--原广告位置 -->
+<!--<div style="margin-top:10px"></div> -->
+<!--广告位置移动这,去掉自带的 换为广告系统标签 -->
+<table height="20" border="0" cellpadding="0" cellspacing="0" width="960px"> 
+<tbody>
+<tr>
+<td align="center"><div style="display: block;" id="ADV_17278"><div style="margin-right: 10px;">·<a href="http://www.now.cn/?now_jinhong0809_it168" target="_blank"><font color="red"><b>买域名送域名 海外主机免备案</b></font></a></div></div></td>
+<td align="center"><div style="display: block;" id="ADV_18502"><div style="margin-right: 10px;">·<a href="http://bbs.chinaunix.net/thread-3679733-1-1.html" target="_blank"><font color="blue">2012年ChinaUnix社区Shell编程大赛！</font></a></div></div></td>
+<td align="center"><div style="display: block;" id="ADV_18503"><div style="margin-right: 10px;">·<a href="http://selftest.chinaunix.net/index.aspx?aut=3&amp;sort=-1" target="_blank"><font color="red">2012年3月计算机等级考试样题汇总</font></a></div></div></td>
+<td align="center"><div style="display: block;" id="ADV_18504"><div style="margin-right: 10px;">·<a href="http://bbs.chinaunix.net/thread-3680463-1-1.html" target="_blank"><font color="blue">系统管理员悲催运维生活大调查！</font></a></div></div></td>
+</tr>
+</tbody>
+</table>
+<script type="text/javascript">var fid = parseInt('24'), tid = parseInt('594417');</script>
+
+<script src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/forum_viewthread.js" type="text/javascript"></script>
+<script type="text/javascript">zoomstatus = parseInt(1);var imagemaxwidth = '700';var aimgcount = new Array();</script>
+
+<style id="diy_style" type="text/css"></style>
+<!--[diy=diynavtop]--><div id="diynavtop" class="area"></div><!--[/diy]-->
+<div id="pt" class="bm cl">
+<div class="z">
+<a href="http://www.chinaunix.net/" class="nvhm" title="首页"></a> <em>&#8250;</em> <a href="http://bbs.chinaunix.net/forum.php">论坛</a> <em>&#8250;</em> <a href="http://bbs.chinaunix.net/forum.php?gid=60">程序设计</a> <em>&#8250;</em> <a href="http://bbs.chinaunix.net/forum.php?mod=forumdisplay&amp;fid=24&amp;page=1">Shell</a> <em>&#8250;</em> <a href="http://bbs.chinaunix.net/thread-594417-1-1.html">转：expect的基本用法</a>
+</div>
+</div>
+
+
+
+<style id="diy_style" type="text/css"></style>
+<div class="wp">
+<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+</div>
+
+<div id="ct" class="wp cl">
+<div id="pgt" class="pgs mbm cl ">
+<div class="pgt"><div class="pg"><strong>1</strong><a href="http://bbs.chinaunix.net/thread-594417-2-1.html">2</a><a href="http://bbs.chinaunix.net/thread-594417-2-1.html" class="nxt">下一页</a></div></div>
+<span class="y pgb" id="visitedforums" onmouseover="$('visitedforums').id = 'visitedforumstmp';this.id = 'visitedforums';showMenu({'ctrlid':this.id,'pos':'34'})"><a href="http://bbs.chinaunix.net/forum.php?mod=forumdisplay&amp;fid=24&amp;page=1">最近访问板块</a></span>
+
+<!--增加板块跳转  -->
+<span style="float:right; padding:0px 0 4px 0; margin-top:5px">
+<select style=" padding:5px 0 4px 0" onchange="if(this.options[this.selectedIndex].value != '') {
+window.location=('forum-' + this.options[this.selectedIndex].value + '-1.html') }">
+<option selected="selected" value="">版块跳转</option>
+<optgroup label="--Linux操作系统"><option value="216">新手园地</option><option value="269">&nbsp; &nbsp; &nbsp; 硬件问题</option><option value="217">Linux系统管理</option><option value="218">Linux网络问题</option><option value="223">Linux环境编程</option><option value="271">Linux桌面系统</option><option value="221">国产Linux</option></optgroup><optgroup label="--Unix操作系统"><option value="5">BSD</option><option value="127">&nbsp; &nbsp; &nbsp; BSD文档中心</option><option value="9">AIX</option><option value="193">&nbsp; &nbsp; &nbsp; 新手入门</option><option value="124">&nbsp; &nbsp; &nbsp; AIX文档中心</option><option value="189">&nbsp; &nbsp; &nbsp; 资源下载</option><option value="188">&nbsp; &nbsp; &nbsp; Power高级应用</option><option value="187">&nbsp; &nbsp; &nbsp; IBM存储</option><option value="10">AS400</option><option value="6">Solaris</option><option value="128">&nbsp; &nbsp; &nbsp; Solaris文档中心</option><option value="8">HP-UX</option><option value="129">&nbsp; &nbsp; &nbsp; HP文档中心</option><option value="7">SCO UNIX</option><option value="130">&nbsp; &nbsp; &nbsp; SCO文档中心</option><option value="118">互操作专区</option><option value="12">IRIX</option><option value="11">Tru64 UNIX</option><option value="41">Mac OS X</option></optgroup><optgroup label="--IT运维架构"><option value="141">门户网站运维</option><option value="233">集群和高可用</option><option value="232">服务器应用</option><option value="235">监控和防护</option><option value="283">虚拟化技术</option><option value="185">架构设计</option><option value="285">行业应用和管理</option></optgroup><optgroup label="--IT基础设施"><option value="45">服务器及硬件技术</option><option value="184">&nbsp; &nbsp; &nbsp; 服务器资源下载</option><option value="180">云计算</option><option value="181">&nbsp; &nbsp; &nbsp; 云计算文档中心</option><option value="182">&nbsp; &nbsp; &nbsp; 云计算业界</option><option value="183">&nbsp; &nbsp; &nbsp; 云计算资源下载</option><option value="34">存储备份</option><option value="125">&nbsp; &nbsp; &nbsp; 存储文档中心</option><option value="126">&nbsp; &nbsp; &nbsp; 存储业界</option><option value="145">&nbsp; &nbsp; &nbsp; 存储资源下载</option><option value="194">&nbsp; &nbsp; &nbsp; Symantec技术交流区</option><option value="29">安全技术</option><option value="30">网络技术</option><option value="131">&nbsp; &nbsp; &nbsp; 网络技术文档中心</option></optgroup><optgroup label="--程序设计"><option value="23">C/C++</option><option value="84">&nbsp; &nbsp; &nbsp; GUI编程</option><option value="142">&nbsp; &nbsp; &nbsp; Functional编程</option><option value="224">内核源码</option><option value="220">&nbsp; &nbsp; &nbsp; 内核问题</option><option value="222">移动开发</option><option value="265">&nbsp; &nbsp; &nbsp; 移动开发技术资料</option><option value="24">Shell</option><option value="25">Perl</option><option value="26">Java</option><option value="133">&nbsp; &nbsp; &nbsp; Java文档中心</option><option value="27">PHP</option><option value="135">&nbsp; &nbsp; &nbsp; php文档中心</option><option value="55">Python</option><option value="132">&nbsp; &nbsp; &nbsp; Python文档中心</option><option value="116">Ruby</option><option value="226">CPU与编译器</option><option value="225">嵌入式开发</option><option value="227">驱动开发</option><option value="80">Web开发</option><option value="100">VoIP开发技术</option></optgroup><optgroup label="--数据库技术"><option value="17">MySQL</option><option value="136">&nbsp; &nbsp; &nbsp; MySQL文档中心</option><option value="21">Sybase</option><option value="19">Oracle</option><option value="18">PostgreSQL</option><option value="22">DB2</option><option value="20">Informix</option><option value="140">数据仓库与数据挖掘</option><option value="292">NoSQL技术</option></optgroup><optgroup label="--综合交流区"><option value="46">IT业界新闻与评论</option><option value="32">IT职业生涯</option><option value="293">&nbsp; &nbsp; &nbsp; 猎头招聘</option><option value="82">IT图书与评论</option><option value="156">&nbsp; &nbsp; &nbsp; CU技术图书大系</option><option value="247">&nbsp; &nbsp; &nbsp; Linux书友会</option><option value="54">二手交易</option><option value="249">下载共享</option><option value="250">Linux文档专区</option><option value="53">IT培训与认证</option><option value="295">&nbsp; &nbsp; &nbsp; 培训交流</option><option value="191">&nbsp; &nbsp; &nbsp; 认证培训</option></optgroup><optgroup label="--休闲生活"><option value="31">清茶斋</option><option value="115">投资理财</option><option value="39">运动地带</option><option value="40">快乐数码摄影</option><option value="168">&nbsp; &nbsp; &nbsp; 摄影器材</option><option value="134">&nbsp; &nbsp; &nbsp; 摄影比赛专区</option><option value="121">IT爱车族</option><option value="96">旅游天下</option></optgroup><optgroup label="--站务及频道"><option value="2">站务交流</option><option value="3">版主会议室</option><option value="51">博客SNS站务交流区</option><option value="123">CU活动专区</option><option value="207">&nbsp; &nbsp; &nbsp; Power活动专区</option><option value="169">&nbsp; &nbsp; &nbsp; 拍卖交流区</option><option value="97">频道交流区</option></optgroup></select>
+</span>
+
+<a id="newspecial" style="margin-top: 8px;" onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})" onclick="showWindow('newthread', 'forum.php?mod=post&amp;action=newthread&amp;fid=24')" href="javascript:;" title="发新帖"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/pn_post.png" alt="发新帖"></a>
+</div>
+
+
+
+<div id="postlist" class="pl bm">
+<table cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td class="pls ptm pbm" style="background: none repeat scroll 0% 0% rgb(152, 152, 186); border-bottom: 1px solid rgb(0, 0, 0);">
+<div class="hm">
+<span style="color:#fff">查看:</span> 
+<span style="color:#000">54753</span>
+<span class="pipe">|</span>
+
+<span style="color:#fff">回复:</span> 
+<span style="color:#000">12</span>
+</div>
+</td>
+<td class="plc ptm pbn" style="background-color: rgb(152, 152, 186); border-bottom: 1px solid rgb(0, 0, 0);">
+<div class="y">
+<a href="http://bbs.chinaunix.net/forum.php?mod=viewthread&amp;action=printable&amp;tid=594417" title="打印" target="_blank"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/print.png" alt="打印" class="vm"></a>
+<a href="http://bbs.chinaunix.net/forum.php?mod=redirect&amp;goto=nextoldset&amp;tid=594417" title="上一主题"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/thread-prev.png" alt="上一主题" class="vm"></a>
+<a href="http://bbs.chinaunix.net/forum.php?mod=redirect&amp;goto=nextnewset&amp;tid=594417" title="下一主题"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/thread-next.png" alt="下一主题" class="vm"></a>
+</div>
+
+
+<h1 class="ts">
+<a href="http://bbs.chinaunix.net/thread-594417-1-1.html" id="thread_subject">转：expect的基本用法</a>
+<!--2011.12.01更改class-->
+<span class="xw0 xs1">
+<!--<span class="xw0 xs1 xg1">-->
+&nbsp;<img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/locked.gif" alt="关闭" title="关闭" class="vm">
+<a href="http://bbs.chinaunix.net/thread-594417-1-1.html" onclick="return copyThreadUrl(this)" title="您的朋友访问此链接后，您将获得相应的积分奖励">[复制链接]</a>
+</span>					
+                    <!-- Baidu Button BEGIN -->
+                    <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" style="float:right;">
+                        <a title="分享到QQ空间" class="bds_qzone"></a><a title="分享到新浪微博" class="bds_tsina"></a><a title="分享到腾讯微博" class="bds_tqq"></a><a title="分享到人人网" class="bds_renren"></a>
+<a title="分享到豆瓣网" class="bds_douban"></a><a title="分享到淘宝" class="bds_taobao"></a><a title="分享到Facebook" class="bds_fbook"></a><a title="累计分享0次" class="shareCount">0</a>
+<span class="bds_more"></span><a title="累计分享0次" class="shareCount">0</a>
+                    </div>
+                	<!-- Baidu Button END -->					
+</h1>
+</td>
+</tr>
+</tbody></table>
+
+
+<!--1楼标题下面的两条线-->	
+<!-- 
+<table cellspacing="0" cellpadding="0" class="ad">
+<tr>
+<td class="pls" style="border-width:1px 0 1px 0; border-style:solid; border-color:#000; background:#fff"></td>
+<td class="plc" style="border-width:1px 0 1px 0; border-style:solid; border-color:#000; background:#fff"></td>
+</tr>
+</table>
+ --><div id="post_3964575" style="background-color:#E5EDF2"><table id="pid3964575" summary="pid3964575" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td class="pls" rowspan="2" style="background-color: rgb(240, 243, 250);">
+ <div class="pi" style=" border-bottom:none">
+<div class="authi"><a href="http://bbs.chinaunix.net/space-uid-7204490.html" target="_blank" class="xw1">mocou</a>
+
+</div>
+
+</div>
+<!--2011.12.01自定义头衔移到用户名下面头像上面  -->
+<div class="p_pop blk bui" id="userinfo3964575" style="display: none; margin-top: -11px;">
+<div class="m z">
+<div id="userinfo3964575_ma"></div>
+</div>
+<div class="i y">
+<div>
+<strong><a href="http://bbs.chinaunix.net/space-uid-7204490.html" target="_blank" class="xi2">mocou</a></strong>
+<em>当前离线</em>
+</div>
+<dl class="cl"><dt>空间积分</dt><dd>0 </dd><dt>信誉积分</dt><dd>105 </dd><dt>UID</dt><dd>7204490</dd><dt>阅读权限</dt><dd>100</dd><dt>积分</dt><dd>3157</dd><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=7204490&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">6513</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=7204490&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">15</a></dd><dt>可用积分</dt><dd>3157 </dd><dt>专家积分</dt><dd>111 </dd><dt>在线时间</dt><dd>99 小时</dd><dt>注册时间</dt><dd>2004-11-24</dd><dt>最后登录</dt><dd>2011-12-16</dd></dl>
+<div class="imicn">
+<a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=7204490&amp;do=profile" target="_blank" title="查看详细资料"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/userinfo.gif" alt="查看详细资料"></a>
+</div>
+<div id="avatarfeed"><span id="threadsortswait"></span></div>
+</div>
+</div>
+<div>
+<div class="avatar" onmouseover="showauthor(this, 'userinfo3964575')"><a href="http://bbs.chinaunix.net/space-uid-7204490.html" target="_blank"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/90_avatar_middle.jpg" onerror="this.onerror=null;this.src='http://passport.ixpub.net/images/noavatar_middle.gif'"></a></div>
+<p><em><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=17" target="_blank">荣誉版主</a></em></p>
+
+</div>
+<p><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/star_level3.gif" alt="Rank: 7"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/star_level2.gif" alt="Rank: 7"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/star_level1.gif" alt="Rank: 7"></p>
+<dl class="pil cl"><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=7204490&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">6513</a></dd><dt>主题</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=7204490&amp;do=thread&amp;type=thread&amp;view=me&amp;from=space" target="_blank" class="xi2">222</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=7204490&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">15</a></dd><dt>可用积分</dt><dd>3157 </dd><dt>专家积分</dt><dd>111 </dd><dt>在线时间</dt><dd>99 小时</dd><dt>注册时间</dt><dd>2004-11-24</dd><dt>最后登录</dt><dd>2011-12-16</dd></dl><!--2011.12.16注释原先的勋章显示 -->
+<!--<p class="md_ctrl">
+<a href="home.php?mod=medal">--><!--<img id="md_3964575_4" src="static/image/common/medal4.gif" alt="荣誉版主" title="" onmouseover="showMenu({'ctrlid':this.id, 'menuid':'md_4_menu', 'pos':'12!'});" />-->
+<!--</a>
+</p>
+ -->	
+<ul class="xl xl2 o cl">
+<!--修改文字部分20111026-->
+<!--
+<li class="callon"><a href="space-uid-7204490.html" target="_blank" title="串个门" class="xi2">串个门</a></li>
+<li class="buddy"><a href="home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=7204490&amp;handlekey=addfriendhk_7204490" id="a_friend_li_3964575" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">加好友</a></li>
+<li class="poke2"><a href="home.php?mod=spacecp&amp;ac=poke&amp;op=send&amp;uid=7204490" id="a_poke_li_3964575" onclick="showWindow(this.id, this.href, 'get', 0);" title="打招呼" class="xi2">打招呼</a></li>
+<li class="pm2"><a href="home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_7204490&amp;touid=7204490&amp;pmid=0&amp;daterange=2&amp;pid=3964575&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">发消息</a></li>
+ -->
+ <!--2011.12.05修改串门链接 -->
+<li class="callon"><a href="http://blog.chinaunix.net/space.php?uid=7204490&amp;do=home" target="_blank" title="串个门" class="xi2">串门</a></li>
+<li class="buddy"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=7204490&amp;handlekey=addfriendhk_7204490" id="a_friend_li_3964575" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">好友</a></li>
+<!--<li class="poke2"><a href="toblog.php?uid=7204490" class="xi2" target="_blank">博客</a></li>-->
+<li class="poke2"><a href="http://blog.chinaunix.net/dir.php?uid=7204490" class="xi2" target="_blank">博客</a></li> 
+<li class="pm2"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_7204490&amp;touid=7204490&amp;pmid=0&amp;daterange=2&amp;pid=3964575&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">消息</a></li>
+</ul>
+<dl class="pil cl"><dt>论坛徽章:</dt><dd>1</dd></dl><div style="padding:3px; margin-left:5px; margin-right:5px;"><img id="1175" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/medal4.gif" style="margin: 2px;" alt="荣誉版主
+日期:2011-11-23 16:44:17" title="荣誉版主
+日期:2011-11-23 16:44:17" width="24px"></div><!--2011.12.05新增禁止本版发言2011.12.17修改增加是否是本版版主且对管理员全部开放 -->
+</td>
+<td class="plc" style="background-color: rgb(240, 243, 250);">
+<div class="pi">
+<!--管理操作口移到这-->
+		
+<div id="fj" class="y">
+<label class="z">电梯直达</label>
+<input class="px p_fre z" size="2" onkeyup="$('fj_btn').href='forum.php?mod=redirect&amp;ptid=594417&amp;authorid=0&amp;postno='+this.value" onkeydown="if(event.keyCode==13) {window.location=$('fj_btn').href;return false;}" title="跳转到指定楼层" type="text">
+<a href="javascript:;" id="fj_btn" class="z" title="跳转到指定楼层"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/fj_btn.png" alt="跳转到指定楼层" class="vm"></a>
+</div>
+<strong>
+<a href="http://bbs.chinaunix.net/thread-594417-1-1.html" title="您的朋友访问此链接后，您将获得相应的积分奖励" id="postnum3964575" onclick="setCopy(this.href, '帖子地址复制成功');return false;"><em>1</em>楼</a>
+<!--以下新加开始 -->
+
+<!--收藏2011.12.01修改-->
+<a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=favorite&amp;type=thread&amp;id=594417" id="k_favorite" onclick="showWindow(this.id, this.href, 'get', 0);" onmouseover="this.title = $('favoritenumber').innerHTML + ' 人收藏'">[收藏(<span id="favoritenumber">0</span>)]</a>
+<!--评分-->
+<!--邀请-->
+
+<!--报告-->
+<a href="javascript:;" onclick="showWindow('miscreport3964575', 'misc.php?mod=report&amp;rtype=post&amp;rid=3964575&amp;tid=594417&amp;fid=24', 'get', -1);return false;">[报告]</a>
+<!--编辑-->
+
+<!--评分2011.12.29-->
+
+<!--评分2011.12.29-->
+					
+
+				
+
+<!--新加的结束-->	
+
+</strong>
+
+<div class="pti">
+<div class="pdbt">
+</div>
+<div class="authi">
+<img class="authicn vm" id="authicon3964575" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/online_member.gif">
+<em id="authorposton3964575">发表于 2005-08-16 10:29:27</em>
+<span class="pipe">|</span><a href="http://bbs.chinaunix.net/forum.php?mod=viewthread&amp;tid=594417&amp;page=1&amp;authorid=7204490" rel="nofollow">只看该作者</a>
+<span class="pipe">|</span><a href="http://bbs.chinaunix.net/forum.php?mod=viewthread&amp;tid=594417&amp;extra=page%3D1&amp;ordertype=1">倒序浏览</a>
+</div>
+</div>
+</div><div class="pct"><style type="text/css">.pcb{margin-right:0}</style><div class="pcb">
+<div class="t_fsz">
+<table cellpadding="0" cellspacing="0"><tbody><tr><td class="t_f" id="postmessage_3964575">
+一、概述<br>
+<br>
+我们通过Shell可以实现简单的控制流功能，如：循环、判断等。但是对于需要交互的场合则必须通过人工来干预，有时候我们可能会需要实现和交互程序如telnet服务器等进行交互的功能。而Expect就使用来实现这种功能的工具。<br>
+<br>
+Expect是一个免费的编程工具语言，用来实现自动和交互式任务进行通信，而无需人的干预。Expect的作者Don 
+Libes在1990年开始编写Expect时对Expect做有如下定义：Expect是一个用来实现自动交互功能的软件套件(Expect [is 
+a] software suite for automating interactive 
+tools)。使用它系统管理员的可以创建脚本用来实现对命令或程序提供输入，而这些命令和程序是期望从终端（terminal）得到输入，一般来说这些
+输入都需要手工输入进行的。Expect则可以根据程序的提示模拟标准输入提供给程序需要的输入来实现交互程序执行。甚至可以实现实现简单的BBS聊天机
+器人。 <img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/icon_smile.gif" smilieid="31" alt="" border="0"><br>
+<br>
+Expect是不断发展的，随着时间的流逝，其功能越来越强大，已经成为系统管理员的的一个强大助手。Expect需要Tcl编程语言的支持，要在系统上运行Expect必须首先安装Tcl。<br>
+<br>
+<br>
+二、Expect工作原理<br>
+<br>
+从最简单的层次来说，Expect的工作方式象一个通用化的Chat脚本工具。Chat脚本最早用于UUCP网络内，以用来实现计算机之间需要建立连接时进行特定的登录会话的自动化。<br>
+<br>
+Chat脚本由一系列expect-send对组成：expect等待输出中输出特定的字符，通常是一个提示符，然后发送特定的响应。例如下面的Chat
+脚本实现等待标准输出出现Login:字符串，然后发送somebody作为用户名；然后等待Password:提示符，并发出响应sillyme。<br>
+<br>
+<br>
+<div class="quote"><blockquote>Login: somebody Password: sillyme</blockquote></div><br>
+
+<br>
+
+<br>
+这个脚本用来实现一个登录过程，并用特定的用户名和密码实现登录。 <br>
+<br>
+Expect最简单的脚本操作模式本质上和Chat脚本工作模式是一样的。<br>
+<br>
+例子：<br>
+1、实现功能<br>
+下面我们分析一个响应chsh命令的脚本。我们首先回顾一下这个交互命令的格式。假设我们要为用户chavez改变登录脚本，要求实现的命令交互过程如下： <br>
+<br>
+<div class="quote"><blockquote># chsh chavez<br>
+Changing the login shell for chavez<br>
+Enter the new value, or press return for the default<br>
+Login Shell [/bin/bash]: /bin/tcsh<br>
+#</blockquote></div><br>
+可以看到该命令首先输出若干行提示信息并且提示输入用户新的登录shell。我们必须在提示信息后面输入用户的登录shell或者直接回车不修改登录shell。<br>
+<br>
+<br>
+2、下面是一个能用来实现自动执行该命令的Expect脚本： <br>
+<br>
+<div class="blockcode"><div id="code_ebb"><ol><li>#!/usr/bin/expect<br>
+</li><li># Change a login shell to tcsh<br>
+</li><li><br>
+</li><li>set user [lindex $argv 0]<br>
+</li><li>spawn chsh $user<br>
+</li><li>expect "]:"<br>
+</li><li>send "/bin/tcsh " <br>
+</li><li>expect eof<br>
+</li><li>exit</li></ol></div><em onclick="copycode($('code_ebb'));">复制代码</em></div><br>
+
+<br>
+这个简单的脚本可以解释很多Expect程序的特性。和其他脚本一样首行指定用来执行该脚本的命令程序，这里是/usr/bin/expect。程序第一行用来获得脚本的执行参数(其保存在数组$argv中，从0号开始是参数)，并将其保存到变量user中。<br>
+<br>
+第二个参数使用Expect的spawn命令来启动脚本和命令的会话，这里启动的是chsh命令，实际上命令是以衍生子进程的方式来运行的。<br>
+<br>
+随后的expect和send命令用来实现交互过程。脚本首先等待输出中出现]:字符串，一旦在输出中出现chsh输出到的特征字符串(一般特征字符串往
+往是等待输入的最后的提示符的特征信息)。对于其他不匹配的信息则会完全忽略。当脚本得到特征字符串时，expect将发送/bin/tcsh和一个回车
+符给chsh命令。最后脚本等待命令退出(chsh结束)，一旦接收到标识子进程已经结束的eof字符，expect脚本也就退出结束。<br>
+<br>
+3、决定如何响应<br>
+<br>
+管理员往往有这样的需求，希望根据当前的具体情况来以不同的方式对一个命令进行响应。我们可以通过后面的例子看到expect可以实现非常复杂的条件响应，而仅仅通过简单的修改预处理脚本就可以实现。下面的例子是一个更复杂的expect-send例子： <br>
+<br>
+<div class="blockcode"><div id="code_151"><ol><li>expect -re "\[(.*)]:"<br>
+</li><li>if {$expect_out(1,string)!="/bin/tcsh"} {<br>
+</li><li>send "/bin/tcsh" }<br>
+</li><li>send " "<br>
+</li><li>expect eof</li></ol></div><em onclick="copycode($('code_151'));">复制代码</em></div><br>
+
+<br>
+在这个例子中，第一个expect命令现在使用了-re参数，这个参数表示指定的的字符串是一个正则表达式，而不是一个普通的字符串。对于上面这个例子里
+是查找一个左方括号字符(其必须进行三次逃逸(escape)，因此有三个符号，因为它对于expect和正则表达时来说都是特殊字符)后面跟有零个或多
+个字符，最后是一个右方括号字符。这里.*表示表示一个或多个任意字符，将其存放在()中是因为将匹配结果存放在一个变量中以实现随后的对匹配结果的访
+问。<br>
+<br>
+当发现一个匹配则检查包含在[]中的字符串，查看是否为/bin/tcsh。如果不是则发送/bin/tcsh给chsh命令作为输入，如果是则仅仅发送一个回车符。这个简单的针对具体情况发出不同相响应的小例子说明了expect的强大功能。<br>
+<br>
+在一个正则表达时中，可以在()中包含若干个部分并通过expect_out数组访问它们。各个部分在表达式中从左到右进行编码，从1开始(0包含有整个匹配输出)。()可能会出现嵌套情况，这这种情况下编码从最内层到最外层来进行的。<br>
+<br>
+4、使用超时<br>
+<br>
+下一个expect例子中将阐述具有超时功能的提示符函数。这个脚本提示用户输入，如果在给定的时间内没有输入，则会超时并返回一个默认的响应。这个脚本接收三个参数：提示符字串，默认响应和超时时间(秒)。 <br>
+<br>
+<div class="blockcode"><div id="code_CQU"><ol><li>#!/usr/bin/expect<br>
+</li><li># Prompt function with timeout and default.<br>
+</li><li>set prompt [lindex $argv 0]<br>
+</li><li>set def [lindex $argv 1] <br>
+</li><li>set response $def<br>
+</li><li>set tout [lindex $argv 2]</li></ol></div><em onclick="copycode($('code_CQU'));">复制代码</em></div><br>
+脚本的第一部分首先是得到运行参数并将其保存到内部变量中。 <br>
+<br>
+<div class="blockcode"><div id="code_85K"><ol><li>send_tty "$prompt: "<br>
+</li><li>set timeout $tout<br>
+</li><li>expect " " {<br>
+</li><li>set raw $expect_out(buffer)<br>
+</li><li># remove final carriage return<br>
+</li><li>set response [string trimright "$raw" " "]<br>
+</li><li>}<br>
+</li><li>if {"$response" == "} {set response $def}<br>
+</li><li>send "$response "<br>
+</li><li># Prompt function with timeout and default.<br>
+</li><li>set prompt [lindex $argv 0]<br>
+</li><li>set def [lindex $argv 1] <br>
+</li><li>set response $def<br>
+</li><li>set tout [lindex $argv 2]</li></ol></div><em onclick="copycode($('code_85K'));">复制代码</em></div><br>
+
+<br>
+这是脚本其余的内容。可以看到send_tty命令用来实现在终端上显示提示符字串和一个冒号及空格。set timeout命令设置后面所有的expect命令的等待响应的超时时间为$tout(-l参数用来关闭任何超时设置)。<br>
+<br>
+然后expect命令就等待输出中出现回车字符。如果在超时之前得到回车符，那么set命令就会将用户输入的内容赋值给变脸raw。随后的命令将用户输入内容最后的回车符号去除以后赋值给变量response。 <br>
+<br>
+然后，如果response中内容为空则将response值置为默认值(如果用户在超时以后没有输入或者用户仅仅输入了回车符)。最后send命令将response变量的值加上回车符发送给标准输出。<br>
+<br>
+一个有趣的事情是该脚本没有使用spawn命令。 该expect脚本会与任何调用该脚本的进程交互。<br>
+<br>
+如果该脚本名为prompt，那么它可以用在任何C风格的shell中。<br>
+<br>
+<br>
+% set a='prompt "Enter an answer" silence 10'<br>
+Enter an answer: test<br>
+<br>
+% echo Answer was "$a"<br>
+Answer was test<br>
+prompt设定的超时为10秒。如果超时或者用户仅仅输入了回车符号，echo命令将输出 <br>
+<br>
+Answer was "silence"<br>
+<br>
+5、一个更复杂的例子<br>
+<br>
+下面我们将讨论一个更加复杂的expect脚本例子，这个脚本使用了一些更复杂的控制结构和很多复杂的交互过程。这个例子用来实现发送write命令给任意的用户，发送的消息来自于一个文件或者来自于键盘输入。 <br>
+<br>
+<div class="blockcode"><div id="code_oVB"><ol><li>#!/usr/bin/expect<br>
+</li><li># Write to multiple users from a prepared file<br>
+</li><li># or a message input interactively<br>
+</li><li><br>
+</li><li>if {$argc&lt;2} {<br>
+</li><li>send_user "usage: $argv0 file user1 user2 ... "<br>
+</li><li>exit<br>
+</li><li>}</li></ol></div><em onclick="copycode($('code_oVB'));">复制代码</em></div><br>
+send_user命令用来显示使用帮助信息到父进程(一般为用户的shell)的标准输出。 <br>
+<br>
+<div class="blockcode"><div id="code_YYL"><ol><li>set nofile 0<br>
+</li><li># get filename via the Tcl lindex function<br>
+</li><li>set file [lindex $argv 0]<br>
+</li><li>if {$file=="i"} { <br>
+</li><li>set nofile 1 <br>
+</li><li>} else { <br>
+</li><li># make sure message file exists<br>
+</li><li>if {[file isfile $file]!=1} { <br>
+</li><li>send_user "$argv0: file $file not found. "<br>
+</li><li>exit }}</li></ol></div><em onclick="copycode($('code_YYL'));">复制代码</em></div><br>
+
+<br>
+这部分实现处理脚本启动参数，其必须是一个储存要发送的消息的文件名或表示使用交互输入得到发送消的内容的"i"命令。<br>
+<br>
+变量file被设置为脚本的第一个参数的值，是通过一个Tcl函数lindex来实现的，该函数从列表/数组得到一个特定的元素。[]用来实现将函数lindex的返回值作为set命令的参数。<br>
+<br>
+如果脚本的第一个参数是小写的"i"，那么变量nofile被设置为1，否则通过调用Tcl的函数isfile来验证参数指定的文件存在，如果不存在就报错退出。<br>
+<br>
+可以看到这里使用了if命令来实现逻辑判断功能。该命令后面直接跟判断条件，并且执行在判断条件后的{}内的命令。if条件为false时则运行else后的程序块。 <br>
+<br>
+<div class="blockcode"><div id="code_qeA"><ol><li>set procs {}<br>
+</li><li># start write processes<br>
+</li><li>for {set i 1} {$i&lt;$argc}<br>
+</li><li>{incr i} {<br>
+</li><li>spawn -noecho write <br>
+</li><li>[lindex $argv $i] <br>
+</li><li>lappend procs $spawn_id<br>
+</li><li>}</li></ol></div><em onclick="copycode($('code_qeA'));">复制代码</em></div><br>
+最后一部分使用spawn命令来启动write进程实现向用户发送消息。这里使用了for命令来实现循环控制功能，循环变量首先设置为1，然后因此递增。
+循环体是最后的{}的内容。这里我们是用脚本的第二个和随后的参数来spawn一个write命令，并将每个参数作为发送消息的用户名。lappend命
+令使用保存每个spawn的进程的进程ID号的内部变量$spawn_id在变量procs中构造了一个进程ID号列表。 <br>
+<br>
+<div class="blockcode"><div id="code_9jo"><ol><li>if {$nofile==0} {<br>
+</li><li>setmesg [open "$file" "r"]<br>
+</li><li>} else {<br>
+</li><li>send_user "enter message,<br>
+</li><li>ending with ^D: " }</li></ol></div><em onclick="copycode($('code_9jo'));">复制代码</em></div><br>
+
+<br>
+最后脚本根据变量nofile的值实现打开消息文件或者提示用户输入要发送的消息。 <br>
+<br>
+<div class="blockcode"><div id="code_4A4"><ol><li>set timeout -1<br>
+</li><li>while 1 {<br>
+</li><li>if {$nofile==0} {<br>
+</li><li>if {[gets $mesg chars] == -1} break<br>
+</li><li>set line "$chars " <br>
+</li><li>} else {<br>
+</li><li>expect_user {<br>
+</li><li>-re " " {}<br>
+</li><li>eof break }<br>
+</li><li>set line $expect_out(buffer) }<br>
+</li><li><br>
+</li><li>foreach spawn_id $procs { <br>
+</li><li>send $line }<br>
+</li><li>sleep 1}<br>
+</li><li>exit</li></ol></div><em onclick="copycode($('code_4A4'));">复制代码</em></div><br>
+上面这段代码说明了实际的消息文本是如何通过无限循环while被发送的。while循环中的 if判断消息是如何得到的。在非交互模式下，下一行内容从消息文件中读出，当文件内容结束时while循环也就结束了。(break命令实现终止循环) 。 <br>
+<br>
+在交互模式下，expect_user命令从用户接收消息，当用户输入ctrl+D时结束输入，循环同时结束。 两种情况下变量$line都被用来保存下一行消息内容。当是消息文件时，回车会被附加到消息的尾部。<br>
+<br>
+foreach循环遍历spawn的所有进程，这些进程的ID号都保存在列表变量$procs中，实现分别和各个进程通信。send命令组成了
+foreach的循环体，发送一行消息到当前的write进程。while循环的最后是一个sleep命令，主要是用于处理非交互模式情况下，以确保消息
+不会太快的发送给各个write进程。当while循环退出时，expect脚本结束。<br>
+<br>
+<br>
+三、参考资源<br>
+<br>
+Expect软件版本深带有很多例子脚本，不但可以用于学习和理解expect脚本，而且是非常使用的工具。一般可以在/usr/doc
+/packages/expect/example看到它们，在某些linux发布中有些expect脚本保存在/usr/bin目录下。 <br>
+<br>
+Don Libes, Exploring Expect, O'Reilly &amp; Associates, 1995. <br>
+<br>
+John Ousterhout, Tcl and the Tk Toolkit, Addison-Wesley, 1994. <br>
+<br>
+一些有用的expect脚本<br>
+<br>
+autoexpect:这个脚本将根据自身在运行时用户的操作而生成一个expect脚本。它的功能某种程度上类似于在Emacs编辑器的键盘宏工具。一个自动创建的脚本可能是创建自己定制脚本的好的开始。<br>
+<br>
+kibitz:这是一个非常有用的工具。通过它两个或更多的用户可以连接到同一个shell进程。<br>
+<br>
+tkpasswd: 这个脚本提供了修改用户密码的GUI工具，包括可以检查密码是否是基于字典模式。这个工具同时是一个学习expect和tk的好实例。<br>
+<br>
+<br>
+另附：<br>
+<div class="quote"><blockquote>创建时间：2001-04-29 <br>
+文章属性：转载 <br>
+文章来源：中国科大BBS站 <br>
+文章提交：quack (quack_at_xfocus.org) <br>
+<br>
+[版权声明] <br>
+　　 <br>
+　　Copyright(c) 1999 <br>
+　　　　 <br>
+　　本教程由*葫芦娃*翻译，并做了适当的修改，可以自由的用于非商业目的。 <br>
+　　但Redistribution时必须拷贝本[版权声明]。　　　　　　 <br>
+<br>
+[BUG] <br>
+<br>
+　　有不少部分，翻译的时候不能作到“信，达”。当然了，任何时候都没有做到“雅”，希望各位谅解。 <br>
+<br>
+[原著] <br>
+　 <br>
+　　Don Libes: National Institute of Standards and Technology <br>
+　　　　libes@cme.nist.gov <br>
+<br>
+[目录] <br>
+　　 <br>
+　　1.摘要 <br>
+　　2.关键字 <br>
+　　3.简介 <br>
+　　4.Expect综述 <br>
+　　5.callback <br>
+　　6.passwd 和一致性检查 <br>
+　　7.rogue 和伪终端 <br>
+　　8.ftp <br>
+　　9.fsck <br>
+　　10.多进程控制：作业控制 <br>
+　　11.交互式使用Expect <br>
+　　12.交互式Expect编程 <br>
+　　13.非交互式程序的控制 <br>
+　　14.Expect的速度 <br>
+　　15.安全方面的考虑 <br>
+　　16.Expect资源 <br>
+　　17.参考书籍 <br>
+<br>
+1.[摘要] <br>
+<br>
+　 现代的Shell对程序提供了最小限度的控制(开始，停止，等等)，而把交互的特性留给了用户。 
+这意味着有些程序，你不能非交互的运行，比如说passwd。 
+有一些程序可以非交互的运行，但在很大程度上丧失了灵活性，比如说fsck。这表明Unix的工具构造逻辑开始出现问题。Expect恰恰填补了其中的一
+些裂痕，解决了在Unix环境中长期存在着的一些问题。 <br>
+<br>
+　 Expect使用Tcl作为语言核心。不仅如此，不管程序是交互和还是非交互的，Expect都能运用。这是一个小语言和Unix的其他工具配合起来产生强大功能的经典例子。 <br>
+　 <br>
+　 本部分教程并不是有关Expect的实现，而是关于Expect语言本身的使用，这主要也是通过不同的脚本描述例子来体现。其中的几个例子还例证了Expect的几个新特征。 <br>
+　 <br>
+2.[关键字] <br>
+　　 <br>
+　　Expect,交互，POSIX,程序化的对话，Shell,Tcl,Unix; <br>
+<br>
+3.[简介] <br>
+　 <br>
+　　一个叫做fsck的Unix文件系统检查程序，可以从Shell里面用-y或者-n选项来执行。　在手册[1]里面，-y选项的定义是象这样的。 <br>
+<br>
+　　“对于fsck的所有问题都假定一个“yes”响应；在这样使用的时候，必须特别的小心，因为它实际上允许程序无条件的继续运行，即使是遇到了一些非常严重的错误” <br>
+　　 <br>
+　　相比之下，-n选项就安全的多，但它实际上几乎一点用都没有。这种接口非常的糟糕，但是却有许多的程序都是这种风格。　文件传输程序ftp有一个选项可以禁止交互式的提问，以便能从一个脚本里面运行。但一旦发生了错误，它没有提供的处理措施。 <br>
+<br>
+　　Expect是一个控制交互式程序的工具。他解决了fsck的问题，用非交互的方式实现了所有交互式的功能。Expect不是特别为fsck设计的，它也能进行类似ftp的出错处理。 <br>
+<br>
+　　fsck和ftp的问题向我们展示了象sh,csh和别的一些shell提供的用户接口的局限性。　Shell没有提供从一个程序读和象一个程序写的
+功能。这意味着shell可以运行fsck但只能以牺牲一部分fsck的灵活性做代价。有一些程序根本就不能被执行。比如说，如果没有一个用户接口交互式
+的提供输入，就没法运行下去。其他还有象Telnet,crypt,su,rlogin等程序无法在shell脚本里面自动执行。还有很多其他的应用程序
+在设计是也是要求用户输入的。 <br>
+<br>
+　　Expect被设计成专门针和交互式程序的交互。一个Expect程序员可以写一个脚本来描述程序和用户的对话。接着Expect程序可以非交互的运
+行“交互式”的程序。写交互式程序的脚本和写非交互式程序的脚本一样简单。Expect还可以用于对对话的一部分进行自动化，因为程序的控制可以在键盘和
+脚本之间进行切换。 <br>
+<br>
+bes[2]里面有详细的描述。简单的说，脚本是用一种解释性语言写的。(也有C和C++的Expect库可供使用，但这超出了本文的范围).Expect提供了创建交互式进程和读写它们的输入和输出的命令。　Expect是由于它的一个同名的命令而命名的。 <br>
+<br>
+　　Expect语言是基于Tcl的。Tcl实际上是一个子程序库，这些子程序库可以嵌入到程序里从而提供语言服务。　最终的语言有点象一个典型的
+Shell语言。里面有给变量赋值的set命令，控制程序执行的if,for,continue等命令，还能进行普通的数学和字符串操作。当然了，还可以
+用exec来调用Unix程序。所有这些功能，Tcl都有。Tcl在参考书籍 Outerhour[3][4]里有详细的描述。 <br>
+<br>
+　　Expect是在Tcl基础上创建起来的，它还提供了一些Tcl所没有的命令。spawn命令激活一个Unix程序来进行交互式的运行。　send命
+令向进程发送字符串。expect命令等待进程的某些字符串。　expect支持正规表达式并能同时等待多个字符串，并对每一个字符串执行不同的操作。
+expect还能理解一些特殊情况，如超时和遇到文件尾。 <br>
+<br>
+　　expect命令和Tcl的case命令的风格很相似。都是用一个字符串去匹配多个字符串。(只要有可能，新的命令总是和已有的Tcl命令相似，以使得该语言保持工具族的继承性)。下面关于expect的定义是从手册[5]上摘录下来的。 <br>
+<br>
+　　　　　　expect　patlist1 action1 patlist2 action2..... <br>
+<br>
+　　　　该命令一直等到当前进程的输出和以上的某一个模式相匹配，或者等　　　　到时间超过一个特定的时间长度，或者等到遇到了文件的结束为止。 <br>
+　　　　 <br>
+　　　　如果最后一个action是空的，就可以省略它。 <br>
+<br>
+　　　　每一个patlist都由一个模式或者模式的表(lists)组成。如果有一个模式匹配成功，相应的action就被执行。执行的结果从expect返回。 <br>
+　　　　被精确匹配的字符串(或者当超时发生时，已经读取但未进行匹配的字符串)被存贮在变量expect_match里面。如果patlist是eof
+或者timeout,则发生文件结束或者超时时才执行相应的action.一般超时的时值是10秒，但可以用类似"set timeout 
+30"之类的命令把超时时值设定为30秒。 <br>
+　　　　 <br>
+　　　　下面的一个程序段是从一个有关登录的脚本里面摘取的。abort是在脚本的别处定义的过程，而其他的action使用类似与C语言的Tcl原语。 <br>
+<br>
+　　　　　　expect "*welcome*"　　　　　　　　break 　　　　 <br>
+　　　　　　　　　　 "*busy*"　　　　　　　　{print busy;continue} <br>
+　　　　　　　　　 "*failed*"　　　　　　　　abort　 <br>
+　　　　　　　　　 timeout　　　　　　　　abort <br>
+<br>
+　　　　模式是通常的C 
+Shell风格的正规表达式。模式必须匹配当前进程的从上一个expect或者interact开始的所有输出(所以统配符*使用的非常)的普遍。但是，
+一旦输出超过2000个字节，前面的字符就会被忘记，这可以通过设定match_max的值来改变。 <br>
+<br>
+　　expect命令确实体现了expect语言的最好和最坏的性质。特别是，expect命令的灵活性是以经常出现令人迷惑的语法做代价。除了关键字模
+式(比如说eof,timeout)那些模式表可以包括多个模式。这保证提供了一种方法来区分他们。但是分开这些表需要额外的扫描，如果没有恰当的用
+["]括起来，这有可能会把和当成空白字符。由于Tcl提供了两种字符串引用的方法：单引和双引，情况变的更糟。(在Tcl里面，如果不会出现二义性话，
+没有必要使用引号)。在expect的手册里面，还有一个独立的部分来解释这种复杂性。幸运的是：有一些很好的例子似乎阻止了这种抱怨。但是，这个复杂性
+很有可能在将来的版本中再度出现。为了增强可读性，在本文中，提供的脚本都假定双引号是足够的。 <br>
+<br>
+　　字符可以使用反斜杠来单独的引用，反斜杠也被用于对语句的延续，如果不加反斜杠的话，语句到一行的结尾处就结束了。这和Tcl也是一致的。Tcl在发
+现有开的单引号或者开的双引号时都会继续扫描。而且，分号可以用于在一行中分割多个语句。这乍听起来有点让人困惑，但是，这是解释性语言的风格，但是，这
+确实是Tcl的不太漂亮的部分。 <br>
+<br>
+5.[callback] <br>
+<br>
+　　令人非常惊讶的是，一些小的脚本如何的产生一些有用的功能。下面是一个拨电话号码的脚本。他用来把收费反向，以便使得长途电话对计算机计费。这个脚本
+用类似“expect callback.exp 
+12016442332”来激活。其中，脚本的名字便是callback.exp，而+1(201)644-2332是要拨的电话号码。 <br>
+<br>
+　　　　#first give the user some time to logout <br>
+　　　　exec sleep 4 <br>
+　　　　spawn tip modem <br>
+　　　　expect "*connected*" <br>
+　　　　send "ATD [llindex $argv 1] " <br>
+　　　　#modem takes a while to connect <br>
+　　　　set timeout 60 <br>
+　　　　expect "*CONNECT*" <br>
+<br>
+　　第一行是注释，第二行展示了如何调用没有交互的Unix程序。sleep 4会使程序阻塞4秒，以使得用户有时间来退出，因为modem总是会回叫用户已经使用的电话号码。 <br>
+<br>
+　　下面一行使用spawn命令来激活tip程序，以便使得tip的输出能够被expect所读取，使得tip能从send读输入。一旦tip说它已经连
+接上，modem就会要求去拨打大哥电话号码。(假定modem都是贺氏兼容的，但是本脚本可以很容易的修改成能适应别的类型的modem)。不论发生了
+什么，expect都会终止。如果呼叫失败，expect脚本可以设计成进行重试，但这里没有。如果呼叫成功，getty会在expect退出后检测到
+DTR，并且向用户提示loging:。(实用的脚本往往提供更多的错误检测)。 <br>
+<br>
+　　这个脚本展示了命令行参数的使用，命令行参数存贮在一个叫做argv的表里面(这和C语言的风格很象)。在这种情况下，第一个元素就是电话号码。方括号使得被括起来的部分当作命令来执行，结果就替换被括起来的部分。这也和C Shell的风格很象。 <br>
+<br>
+　　这个脚本和一个大约60K的C语言程序实现的功能相似。 <br>
+　　　　 <br>
+<br>
+6.[passwd和一致性检查] <br>
+<br>
+　　在前面，我们提到passwd程序在缺乏用户交互的情况下，不能运行，passwd会忽略I/O重定向，也不能嵌入到管道里边以便能从别的程序或者文
+件里读取输入。这个程序坚持要求真正的与用户进行交互。因为安全的原因，passwd被设计成这样，但结果导致没有非交互式的方法来检验passwd。这
+样一个对系统安全至关重要的程序竟然没有办法进行可靠的检验，真实具有讽刺意味。 <br>
+<br>
+　　passwd以一个用户名作为参数，交互式的提示输入密码。下面的expect脚本以用户名和密码作为参数而非交互式的运行。 <br>
+<br>
+　　　　spawn oasswd [lindex $argv 1] <br>
+　　　　set password [lindex $argv 2] <br>
+　　　　expect "*password:" <br>
+　　　　send "$password " <br>
+　　　　expect "*password:" <br>
+　　　　send "$password " <br>
+　　　　expect eof <br>
+<br>
+　　第一行以用户名做参数启动passwd程序，为方便起见，第二行把密码存到一个变量里面。和shell类似，变量的使用也不需要提前声明。 <br>
+<br>
+　　在第三行，expect搜索模式"*password:"，其中*允许匹配任意输入，所以对于避免指定所有细节而言是非常有效的。 上面的程序里没有action,所以expect检测到该模式后就继续运行。 <br>
+<br>
+　　一旦接收到提示后，下一行就就把密码送给当前进程。表明回车。(实际上，所有的C的关于字符的约定都支持)。上面的程序中有两个expect-
+send序列，因为passwd为了对输入进行确认，要求进行两次输入。在非交互式程序里面，这是毫无必要的，但由于假定passwd是在和用户进行交
+互，所以我们的脚本还是这样做了。 <br>
+<br>
+　　最后，"expect 
+eof"这一行的作用是在passwd的输出中搜索文件结束符，这一行语句还展示了关键字的匹配。另外一个关键字匹配就是timeout
+了，timeout被用于表示所有匹配的失败而和一段特定长度的时间相匹配。在这里eof是非常有必要的，因为passwd被设计成会检查它的所有I/O
+是否都成功了，包括第二次输入密码时产生的最后一个新行。 <br>
+<br>
+　　这个脚本已经足够展示passwd命令的基本交互性。另外一个更加完备的例子回检查别的一些行为。比如说，下面的这个脚本就能检查passwd程序的
+别的几个方面。所有的提示都进行了检查。对垃圾输入的检查也进行了适当的处理。进程死亡，超乎寻常的慢响应，或者别的非预期的行为都进行了处理。 <br>
+<br>
+　　　　spawn passwd [lindex $argv 1] <br>
+　　　　expect 　　　　eof　　　　　　　　　　　　{exit 1} 　　　　 <br>
+　　　　　　　　timeout　　　　　　　　　　　　{exit 2}　　　　 <br>
+　　　　　　　　"*No such user.*"　　　　{exit 3}　　　　 <br>
+　　　　　　　　"*New password:"　　　　 <br>
+　　　　send　"[lindex $argv 2 " <br>
+　　　　expect 　　　　eof　　　　　　　　　　　　{exit 4}　　　　 <br>
+　　　　　　　　timeout　　　　　　　　　　　　{exit 2}　　　　 <br>
+　　　　　　　　"*Password too long*"　　　　{exit 5}　　　　 <br>
+　　　　　　　　"*Password too short*"　　　　{exit 5}　　　　 <br>
+　　　　　　　　"*Retype ew password:" <br>
+　　　　send "[lindex $argv 3] " <br>
+　　　　expect 　　　　timeout　　　　　　　　　　　　{exit 2}　　　　 <br>
+　　　　　　　　"*Mismatch*"　　　　　　　　{exit 6}　　　　 <br>
+　　　　　　　　"*Password unchanged*"　　　　{exit 7}　　　　 <br>
+　　　　　　　　" "　　　　　　　　 <br>
+　　　　expect　　　　timeout　　　　　　　　　　　　{exit 2}　　　　 <br>
+　　　　　　　　"*"　　　　　　　　　　　　{exit 6}　　　　 <br>
+　　　　　　　　eof <br>
+<br>
+　　　 <br>
+　　这个脚本退出时用一个数字来表示所发生的情况。0表示passwd程序正常运行，1表示非预期的死亡，2表示锁定，等等。使用数字是为了简单起见。
+expect返回字符串和返回数字是一样简单的，即使是派生程序自身产生的消息也是一样的。实际上，典型的做法是把整个交互的过程存到一个文件里面，只有
+当程序的运行和预期一样的时候才把这个文件删除。否则这个log被留待以后进一步的检查。 <br>
+<br>
+　　这个passwd检查脚本被设计成由别的脚本来驱动。这第二个脚本从一个文件里面读取参数和预期的结果。对于每一个输入参数集，它调用第一个脚本并且
+把结果和预期的结果相比较。(因为这个任务是非交互的，一个普通的老式shell就可以用来解释第二个脚本)。比如说，一个passwd的数据文件很有可
+能就象下面一样。 <br>
+<br>
+　　　　passwd.exp　　　　3　　　　bogus　　　　-　　　　　　　　- <br>
+　　　　passwd.exp　　　　0　　　　fred　　　　abledabl　　　　abledabl <br>
+　　　　passwd.exp　　　　5　　　　fred　　　　abcdefghijklm　　　　- <br>
+　　　　passwd.exp　　　　5　　　　fred　　　　abc　　　　　　　　- <br>
+　　　　passwd.exp　　　　6　　　　fred　　　　foobar　　　　　　　　bar　　　　 <br>
+　　　　passwd.exp　　　　4　　　　fred　　　　^C　　　　　　　　- <br>
+<br>
+　　第一个域的名字是要被运行的回归脚本。第二个域是需要和结果相匹配的退出值。第三个域就是用户名。第四个域和第五个域就是提示时应该输入的密码。减号
+仅仅表示那里有一个域，这个域其实绝对不会用到。在第一个行中，bogus表示用户名是非法的，因此passwd会响应说：没有此用户。expect在退
+出时会返回3，3恰好就是第二个域。在最后一行中，^C就是被切实的送给程序来验证程序是否恰当的退出。 <br>
+<br>
+　　通过这种方法，expect可以用来检验和调试交互式软件，这恰恰是IEEE的POSIX 1003.2(shell和工具)的一致性检验所要求的。进一步的说明请参考Libes[6]。 <br>
+<br>
+7.[rogue 和伪终端] <br>
+<br>
+　　Unix用户肯定对通过管道来和其他进程相联系的方式非常的熟悉(比如说：一个shell管道)。expect使用伪终端来和派生的进程相联系。伪终端提供了终端语义以便程序认为他们正在和真正的终端进行I/O操作。 <br>
+<br>
+　　比如说，BSD的探险游戏rogue在生模式下运行，并假定在连接的另一端是一个可寻址的字符终端。可以用expect编程，使得通过使用用户界面可以玩这个游戏。 <br>
+<br>
+　　rogue这个探险游戏首先提供给你一个有各种物理属性，比如说力量值，的角色。在大部分时间里，力量值都是16，但在几乎每20次里面就会有一个力
+量值是18。很多的rogue玩家都知道这一点，但没有人愿意启动程序20次以获得一个好的配置。下面的这个脚本就能达到这个目的。 <br>
+<br>
+　　　　for {} {1} {} { <br>
+　　　　　　　　spawn rogue <br>
+　　　　　　　　expect "*Str:18*"　　　　break　　　　 <br>
+　　　　　　　　　　　 "*Str:16*"　　　　 <br>
+　　　　　　　　close <br>
+　　　　　　　　wait <br>
+　　　　} <br>
+　　　　interact <br>
+<br>
+　　第一行是个for循环，和C语言的控制格式很象。rogue启动后，expect就检查看力量值是18还是16，如果是16，程序就通过执行
+close和wait来退出。这两个命令的作用分别是关闭和伪终端的连接和等待进程退出。rogue读到一个文件结束符就推出，从而循环继续运行，产生一
+个新的rogue游戏来检查。 <br>
+<br>
+　　当一个值为18的配置找到后，控制就推出循环并跳到最后一行脚本。interact把控制转移给用户以便他们能够玩这个特定的游戏。 <br>
+<br>
+　　想象一下这个脚本的运行。你所能真正看到的就是20或者30个初始的配置在不到一秒钟的时间里掠过屏幕，最后留给你的就是一个有着很好配置的游戏。唯一比这更好的方法就是使用调试工具来玩游戏。 <br>
+<br>
+　　我们很有必要认识到这样一点：rogue是一个使用光标的图形游戏。expect程序员必须了解到：光标的运动并不一定以一种直观的方式在屏幕上体
+现。幸运的是，在我们这个例子里，这不是一个问题。将来的对expect的改进可能会包括一个内嵌的能支持字符图形区域的终端模拟器。 <br>
+<br>
+8.[ftp] <br>
+<br>
+　　我们使用expect写第一个脚本并没有打印出"Hello,World"。实际上，它实现了一些更有用的功能。它能通过非交互的方式来运行ftp。ftp是用来在支持TCP/IP的网络上进行文件传输的程序。除了一些简单的功能，一般的实现都要求用户的参与。 <br>
+<br>
+　　下面这个脚本从一个主机上使用匿名ftp取下一个文件来。其中，主机名是第一个参数。文件名是第二个参数。 <br>
+<br>
+　　　　　　　　spawn　　　　ftp　　　　[lindex $argv 1] <br>
+　　　　　　　　expect　"*Name*" <br>
+　　　　　　　　send　　　　　"anonymous " <br>
+　　　　　　　　expect　"*Password:*" <br>
+　　　　　　　　send [exec whoami] <br>
+　　　　　　　　expect "*ok*ftp&gt;*" <br>
+　　　　　　　　send "get [lindex $argv 2] " <br>
+　　　　　　　　expect "*ftp&gt;*" <br>
+<br>
+　　上面这个程序被设计成在后台进行ftp。虽然他们在底层使用和expect类似的机制，但他们的可编程能力留待改进。因为expect提供了高级语言，你可以对它进行修改来满足你的特定需求。比如说，你可以加上以下功能： <br>
+<br>
+　　　　：坚持－－如果连接或者传输失败，你就可以每分钟或者每小时，甚 <br>
+　　　　　　　　至可以根据其他因素，比如说用户的负载，来进行不定期的 <br>
+　　　　　　　　重试。 <br>
+　　　　：通知－－传输时可以通过mail,write或者其他程序来通知你，甚至 <br>
+　　　　　　　　可以通知失败。 <br>
+　　　　：初始化－每一个用户都可以有自己的用高级语言编写的初始化文件 <br>
+　　　　　　　　(比如说，.ftprc)。这和C shell对.cshrc的使用很类似。 <br>
+<br>
+　　expect还可以执行其他的更复杂的任务。比如说，他可以使用McGill大学的Archie系统。Archie是一个匿名的Telnet服务，它
+提供对描述Internet上可通过匿名ftp获取的文件的数据库的访问。通过使用这个服务，脚本可以询问Archie某个特定的文件的位置，并把它从
+ftp服务器上取下来。这个功能的实现只要求在上面那个脚本中加上几行就可以。 <br>
+<br>
+　　现在还没有什么已知的后台-ftp能够实现上面的几项功能，能不要说所有的功能了。在expect里面，它的实现却是非常的简单。“坚持”的实现只要
+求在expect脚本里面加上一个循环。“通知”的实现只要执行mail和write就可以了。“初始化文件”的实现可以使用一个命令，source 
+.ftprc，就可以了，在.ftprc里面可以有任何的expect命令。 <br>
+<br>
+　　虽然这些特征可以通过在已有的程序里面加上钩子函数就可以，但这也不能保证每一个人的要求都能得到满足。唯一能够提供保证的方法就是提供一种通用的语
+言。一个很好的解决方法就是把Tcl自身融入到ftp和其他的程序中间去。实际上，这本来就是Tcl的初衷。在还没有这样做之前，expect提供了一个
+能实现大部分功能但又不需要任何重写的方案。 <br>
+<br>
+9.[fsck] <br>
+<br>
+　　fsck是另外一个缺乏足够的用户接口的例子。fsck几乎没有提供什么方法来预先的回答一些问题。你能做的就是给所有的问题都回答"yes"或者都回答"no"。 <br>
+<br>
+　　下面的程序段展示了一个脚本如何的使的自动的对某些问题回答"yes"，而对某些问题回答"no"。下面的这个脚本一开始先派生fsck进程，然后对其中两种类型的问题回答"yes"，而对其他的问题回答"no"。 <br>
+<br>
+　　　　for {} {1} {} { <br>
+　　　　　　　　expect <br>
+　　　　　　　　　　　　eof　　　　　　　　break　　　　　　　　 <br>
+　　　　　　　　　　　　"*UNREF FILE*CLEAR?"　　　　{send "r "}　　　　 <br>
+　　　　　　　　　　　　"*BAD INODE*FIX?"　　　　{send "y "}　　　　 <br>
+　　　　　　　　　　　　"*?"　　　　　　　　　　　　{send "n "}　　　　 <br>
+　　　　} <br>
+<br>
+　　在下面这个版本里面，两个问题的回答是不同的。而且，如果脚本遇到了什么它不能理解的东西，就会执行interact命令把控制交给用户。用户的击键
+直接交给fsck处理。当执行完后，用户可以通过按"+"键来退出或者把控制交还给expect。如果控制是交还给脚本了，脚本就会自动的控制进程的剩余
+部分的运行。 <br>
+<br>
+　　　　for {} {1} {}{ <br>
+　　　　　　　　expect 　　　　　　　　　　　　 <br>
+　　　　　　　　　　　　eof　　　　　　　　break　　　　　　　　 <br>
+　　　　　　　　　　　　"*UNREF FILE*CLEAR?"　　　　{send "y "}　　　　 <br>
+　　　　　　　　　　　　"*BAD INODE*FIX?"　　　　{send "y "}　　　　 <br>
+　　　　　　　　　　　　"*?"　　　　　　　　　　　　{interact +}　　　　 <br>
+　　　　} <br>
+<br>
+　　如果没有expect，fsck只有在牺牲一定功能的情况下才可以非交互式的运行。fsck几乎是不可编程的，但它却是系统管理的最重要的工具。许多别的工具的用户接口也一样的不足。实际上，正是其中的一些程序的不足导致了expect的诞生。 <br>
+<br>
+<br>
+<br>
+10.[控制多个进程：作业控制] <br>
+<br>
+<br>
+　 expect的作业控制概念精巧的避免了通常的实现困难。其中包括了两个问题：一个是expect如何处理经典的作业控制，即当你在终端上按下^Z键时expect如何处理；另外一个就是expect是如何处理多进程的。 <br>
+<br>
+　 对第一个问题的处理是：忽略它。expect对经典的作业控制一无所知。比如说，你派生了一个程序并且发送一个^Z给它，它就会停下来(这是伪终端的完美之处)而expect就会永远的等下去。 <br>
+<br>
+　 但是，实际上，这根本就不成一个问题。对于一个expect脚本，没有必要向进程发送^Z。也就是说，没有必要停下一个进程来。expect仅仅是忽略了一个进程，而把自己的注意力转移到其他的地方。这就是expect的作业控制思想，这个思想也一直工作的很好。 <br>
+<br>
+　　从用户的角度来看是象这样的：当一个进程通过spawn命令启动时，变量spawn_id就被设置成某进程的描述符。由spawn_id描述的进程就
+被认为是当前进程。(这个描述符恰恰就是伪终端文件的描述符，虽然用户把它当作一个不透明的物体)。expect和send命令仅仅和当前进程进行交互。
+所以，切换一个作业所需要做的仅仅是把该进程的描述符赋给spawn_id。 <br>
+<br>
+　　这儿有一个例子向我们展示了如何通过作业控制来使两个chess进程进行交互。在派生完两个进程之后，一个进程被通知先动一步。在下面的循环里面，每
+一步动作都送给另外一个进程。其中，read_move和write_move两个过程留给读者来实现。(实际上，它们的实现非常的容易，但是，由于太长
+了所以没有包含在这里)。 <br>
+<br>
+　　　　spawn chess　　　　　　　　　　　　;# start player one <br>
+　　　　set id1　　　　$spawn_id <br>
+　　　　expect "Chess " <br>
+　　　　send "first "　　　　　　　　　　　　;# force it to go first <br>
+　　　　read_move <br>
+<br>
+　　　　spawn chess　　　　　　　　　　　　;# start player two <br>
+　　　　set id2　　　　$spawn_id <br>
+　　　　expect "Chess " <br>
+　　　　 <br>
+　　　　for {} {1} {}{ <br>
+　　　　　　　　send_move <br>
+　　　　　　　　read_move <br>
+　　　　　　　　set spawn_id　　　　$id1 <br>
+　　　　　　　　 <br>
+　　　　　　　　send_move <br>
+　　　　　　　　read_move <br>
+　　　　　　　　set spawn_id　　　　$id2 <br>
+　　　　} <br>
+<br>
+　　 
+有一些应用程序和chess程序不太一样，在chess程序里，的两个玩家轮流动。下面这个脚本实现了一个冒充程序。它能够控制一个终端以便用户能够登录
+和正常的工作。但是，一旦系统提示输入密码或者输入用户名的时候，expect就开始把击键记下来，一直到用户按下回车键。这有效的收集了用户的密码和用
+户名，还避免了普通的冒充程序的"Incorrect 
+password-tryagain"。而且，如果用户连接到另外一个主机上，那些额外的登录也会被记录下来。 <br>
+<br>
+　　　　spawn tip /dev/tty17　　　　　　　　;# open connection to <br>
+　　　　set tty $spawn_id　　　　　　　　;# tty to be spoofed <br>
+<br>
+　　　　spawn login <br>
+　　　　set login $spawn_id <br>
+<br>
+　　　　log_user 0 <br>
+　　　　 <br>
+　　　　for {} {1} {} { <br>
+　　　　　　　　set ready　[select $tty $login] <br>
+　　　　　　　　 <br>
+　　　　　　　　case $login in $ready { <br>
+　　　　　　　　　　　　set spawn_id $login <br>
+　　　　　　　　　　　　expect 　　　　　　　　 <br>
+　　　　　　　　　　　　　　{"*password*" "*login*"}{ <br>
+　　　　　　　　　　　　　　　　　 send_user $expect_match <br>
+　　　　　　　　　　　　　　　　　 set log 1 <br>
+　　　　　　　　　　　　　　　　 }　　　　 <br>
+　　　　　　　　　　　　　 "*"　　　　　　　　;# ignore everything else <br>
+　　　　　　　　　　　　set spawn_id　　　　$tty; <br>
+　　　　　　　　　　　　send $expect_match <br>
+　　　　　　　　} <br>
+　　　　　　　　case $tty in $ready { <br>
+　　　　　　　　　　　　set spawn_id　　　　$tty <br>
+　　　　　　　　　　　　expect "* *"{ <br>
+　　　　　　　　　　　　　　　　　　　　if $log { <br>
+　　　　　　　　　　　　　　　　　　　　　 send_user $expect_match <br>
+　　　　　　　　　　　　　　　　　　　　　 set log 0 <br>
+　　　　　　　　　　　　　　　　　　　　} <br>
+　　　　　　　　　　　　　　　　　　 }　　　　 <br>
+　　　　　　　　　　　　　　　　"*"　{ <br>
+　　　　　　　　　　　　　　　　　　　　send_user $expect_match <br>
+　　　　　　　　　　　　　　　　　　 } <br>
+　　　　　　　　　　　　set spawn_id 　　　　$login; <br>
+　　　　　　　　　　　　send $expect_match <br>
+　　　　　　　　} <br>
+　　　　} <br>
+　　　　　　　　 <br>
+<br>
+　　 
+这个脚本是这样工作的。首先连接到一个login进程和终端。缺省的，所有的对话都记录到标准输出上(通过send_user)。因为我们对此并不感兴
+趣，所以，我们通过命令"log_user 0"来禁止这个功能。(有很多的命令来控制可以看见或者可以记录的东西)。 <br>
+<br>
+　　 
+在循环里面，select等待终端或者login进程上的动作，并且返回一个等待输入的spawn_id表。如果在表里面找到了一个值的话，case就执
+行一个action。比如说，如果字符串"login"出现在login进程的输出中，提示就会被记录到标准输出上，并且有一个标志被设置以便通知脚本开
+始记录用户的击键，直至用户按下了回车键。无论收到什么，都会回显到终端上，一个相应的action会在脚本的终端那一部分执行。 <br>
+<br>
+　　 这些例子显示了expect的作业控制方式。通过把自己插入到对话里面，expect可以在进程之间创建复杂的I/O流。可以创建多扇出，复用扇入的，动态的数据相关的进程图。 <br>
+<br>
+　　 
+相比之下，shell使得它自己一次一行的读取一个文件显的很困难。shell强迫用户按下控制键(比如，^C,^Z)和关键字(比如fg和bg)来实现
+作业的切换。这些都无法从脚本里面利用。相似的是：以非交互方式运行的shell并不处理“历史记录”和其他一些仅仅为交互式使用设计的特征。这也出现了
+和前面哪个passwd程序的相似问题。相似的，也无法编写能够回归的测试shell的某些动作的shell脚本。结果导致shell的这些方面无法进行
+彻底的测试。 <br>
+<br>
+　　 
+如果使用expect的话，可以使用它的交互式的作业控制来驱动shell。一个派生的shell认为它是在交互的运行着，所以会正常的处理作业控制。它
+不仅能够解决检验处理作业控制的shell和其他一些程序的问题。还能够在必要的时候，让shell代替expect来处理作业。可以支持使用shell
+风格的作业控制来支持进程的运行。这意味着：首先派生一个shell，然后把命令送给shell来启动进程。如果进程被挂起，比如说，发送了一个^Z，进
+程就会停下来，并把控制返回给shell。对于expect而言，它还在处理同一个进程(原来那个shell)。 <br>
+<br>
+　　expect的解决方法不仅具有很大的灵活性，它还避免了重复已经存在于shell中的作业控制软件。通过使用shell，由于你可以选择你想派生的
+shell，所以你可以根据需要获得作业控制权。而且，一旦你需要(比如说检验的时候)，你就可以驱动一个shell来让这个shell以为它正在交互式
+的运行。这一点对于在检测到它们是否在交互式的运行之后会改变输出的缓冲的程序来说也是很重要的。 <br>
+<br>
+　　为了进一步的控制，在interact执行期间，expect把控制终端(是启动expect的那个终端，而不是伪终端)设置成生模式以便字符能够正
+确的传送给派生的进程。当expect在没有执行interact的时候，终端处于熟模式下，这时候作业控制就可以作用于expect本身。 <br>
+<br>
+11.[交互式的使用expect] <br>
+<br>
+　　在前面，我们提到可以通过interact命令来交互式的使用脚本。基本上来说，interact命令提供了对对话的自由访问，但我们需要一些更精细
+的控制。这一点，我们也可以使用expect来达到，因为expect从标准输入中读取输入和从进程中读取输入一样的简单。 
+但是，我们要使用expect_user和send_user来进行标准I/O，同时不改变spawn_id。 <br>
+<br>
+　　下面的这个脚本在一定的时间内从标准输入里面读取一行。这个脚本叫做timed_read，可以从csh里面调用，比如说，set answer="timed_read 30"就能调用它。 <br>
+<br>
+　　　　#!/usr/local/bin/expect -f <br>
+　　　　set timeout [lindex $argv 1] <br>
+　　　　expect_user "* " <br>
+　　　　send_user $expect_match <br>
+<br>
+　　 第三行从用户那里接收任何以新行符结束的任何一行。最后一行把它返回给标准输出。如果在特定的时间内没有得到任何键入，则返回也为空。 <br>
+<br>
+　　 
+第一行支持"#!"的系统直接的启动脚本。(如果把脚本的属性加上可执行属性则不要在脚本前面加上expect)。当然了脚本总是可以显式的
+用"expect scripot"来启动。在-c后面的选项在任何脚本语句执行前就被执行。比如说，不要修改脚本本身，仅仅在命令行上加上-c 
+"trace..."，该脚本可以加上trace功能了(省略号表示trace的选项)。 <br>
+<br>
+　　 在命令行里实际上可以加上多个命令，只要中间以";"分开就可以了。比如说，下面这个命令行： <br>
+<br>
+　　　　expect -c "set timeout 20;spawn foo;expect" <br>
+<br>
+　　　一旦你把超时时限设置好而且程序启动之后，expect就开始等待文件结束符或者20秒的超时时限。 
+如果遇到了文件结束符(EOF)，该程序就会停下来，然后expect返回。如果是遇到了超时的情况，expect就返回。在这两中情况里面，都隐式的杀
+死了当前进程。 <br>
+<br>
+　　 
+如果我们不使用expect而来实现以上两个例子的功能的话，我们还是可以学习到很多的东西的。在这两中情况里面，通常的解决方案都是fork另一个睡眠
+的子进程并且用signal通知原来的shell。如果这个过程或者读先发生的话，shell就会杀司那个睡眠的进程。 
+传递pid和防止后台进程产生启动信息是一个让除了高手级shell程序员之外的人头痛的事情。提供一个通用的方法来象这样启动多个进程会使shell脚
+本非常的复杂。 所以几乎可以肯定的是，程序员一般都用一个专门C程序来解决这样一个问题。 <br>
+<br>
+　　　expect_user,send_user,send_error(向标准错误终端输出)在比较长的，用来把从进程来的复杂交互翻译成简单交互的
+expect脚本里面使用的比较频繁。在参考[7]里面，Libs描述怎样用脚本来安全的包裹(wrap)adb，怎样把系统管理员从需要掌握adb的细
+节里面解脱出来，同时大大的降低了由于错误的击键而导致的系统崩溃。 <br>
+<br>
+　　　一个简单的例子能够让ftp自动的从一个私人的帐号里面取文件。在这种情况里，要求提供密码。 
+即使文件的访问是受限的，你也应该避免把密码以明文的方式存储在文件里面。把密码作为脚本运行时的参数也是不合适的，因为用ps命令能看到它们。有一个解
+决的方法就是在脚本运行的开始调用expect_user来让用户输入以后可能使用的密码。这个密码必须只能让这个脚本知道，即使你是每个小时都要重试
+ftp。 <br>
+<br>
+　　　即使信息是立即输入进去的，这个技巧也是非常有用。比如说，你可以写一个脚本，把你每一个主机上不同的帐号上的密码都改掉，不管他们使用的是不是同
+一个密码数据库。如果你要手工达到这样一个功能的话，你必须Telnet到每一个主机上，并且手工输入新的密码。而使用expect,你可以只输入密码一
+次而让脚本来做其它的事情。 <br>
+<br>
+　　　expect_user和interact也可以在一个脚本里面混合的使用。考虑一下在调试一个程序的循环时，经过好多步之后才失败的情况。一个
+expect脚本可以驱动哪个调试器，设置好断点，执行该程序循环的若干步，然后将控制返回给键盘。它也可以在返回控制之前，在循环体和条件测试之间来回
+的切换。 </blockquote></div><br>
+
+<br>
+
+<br>
+
+<br>
+文件ftp-down<br>
+<div class="blockcode"><div id="code_dNK"><ol><li>#!/usr/bin/expect -f<br>
+</li><li>set ipaddress [lindex $argv 0]<br>
+</li><li>set username [lindex $argv 1]<br>
+</li><li>set password [lindex $argv 2]<br>
+</li><li><br>
+</li><li>spawn ftp $ipaddress<br>
+</li><li>expect "*Name*" <br>
+</li><li>send "$username\n" <br>
+</li><li>expect "*Password:*" <br>
+</li><li>send "$password\n"<br>
+</li><li>expect "*ok*ftp&gt;*"<br>
+</li><li>send "get teste\n"<br>
+</li><li>expect "*ftp&gt;*"<br>
+</li><li>send "quit\n"<br>
+</li><li>expect eof</li></ol></div><em onclick="copycode($('code_dNK'));">复制代码</em></div><br>
+
+<br>
+执行时如下<br>
+<div class="blockcode"><div id="code_Ng1"><ol><li>./ftp-down 192.168.1.1 temp temp</li></ol></div><em onclick="copycode($('code_Ng1'));">复制代码</em></div><br>
+脚名名称&nbsp; &nbsp; FTP主机地址 用户名 密码<br>
+<br>
+[<i> 本帖最后由 mocou 于 2005-12-31 10:48 编辑 </i>]</td></tr></tbody></table>
+</div>
+<div id="comment_3964575" class="cm">
+</div>
+<script type="text/javascript">var auc_list_tmp = $('auc_list_tmp');if(auc_list_tmp !== null){document.write(auc_list_tmp.innerHTML);auc_list_tmp.innerHTML='';}
+function lalala(){
+	ajaxget('plugin.php?id=auction:involve&operation=view&tid=594417&page=1', 'list_ajax');
+	$('list_ajax').style.display = 'block';
+}
+if($('list_ajax')){setTimeout('lalala()', 1000);}
+</script><div id="post_rate_div_3964575"></div>
+</div></div>
+
+</td></tr>
+<tr><td class="plc plm" style="background-color: rgb(240, 243, 250);">
+
+<!--这原先是一楼的评分分享收藏的 现在删掉移到上面去 -->
+
+
+<!--//CHINAUNIX	文库推荐内容显示 at 20111118 by cao -->
+                        
+<div class="sign" style="max-height:500px;maxHeightIE:500px;">祈愿家人平安，快乐!</div>
+<div class="a_pb"><a href="http://bbs.chinaunix.net/thread-3680555-1-1.html" target="_blank" style="color: green;"><b>Linux/unix安全优化的讨论与案例分享</b></a>|<a target="_blank" href="http://bbs.chinaunix.net/thread-3679733-1-1.html" style="color: red;"><b>
+2012年ChinaUnix社区Shell编程大赛！</b></a> | <a href="http://bbs.chinaunix.net/thread-3688555-1-1.html" target="_blank" style="color: blue;"><b>游戏网站中常用MySQL架构讨论</b></a> |  <a href="http://bbs.chinaunix.net/thread-3689139-1-1.html" target="_blank" style="color: rgb(142, 35, 107);"><b>技术会诊12306拯救铁老大！</b></a> </div></td>
+</tr>
+<tr>
+<td class="pls" style=""></td>
+<td class="plc">
+<div>
+<!--管理操作口移到上面-->
+
+<!--这块原先是每层楼下的回复编辑现在删掉，移到上面去-->
+</div>
+
+</td>
+</tr>
+
+<!--2011.12.01修改 帖子最后一个回帖出现的粗的黑线，有程序部分取得最大pid做对比，参照forum_vithread.php第596行  -->
+<tr class="ad">
+<td class="pls" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);"></td>
+<td class="plc" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);">
+</td>
+</tr>
+</tbody></table>
+</div><div id="post_3964704" style=""><table id="pid3964704" summary="pid3964704" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td class="pls" rowspan="2" style="background-color: rgb(255, 255, 255);">
+ <div class="pi" style=" border-bottom:none">
+<div class="authi"><a href="http://bbs.chinaunix.net/space-uid-690127.html" target="_blank" class="xw1">lych</a>
+
+</div>
+
+</div>
+<!--2011.12.01自定义头衔移到用户名下面头像上面  -->
+<div style="margin-left:20px">半桶水</div><div class="p_pop blk bui" id="userinfo3964704" style="display: none; margin-top: -11px;">
+<div class="m z">
+<div id="userinfo3964704_ma"></div>
+</div>
+<div class="i y">
+<div>
+<strong><a href="http://bbs.chinaunix.net/space-uid-690127.html" target="_blank" class="xi2">lych</a></strong>
+<em>当前离线</em>
+</div>
+<dl class="cl"><dt>空间积分</dt><dd>0 </dd><dt>信誉积分</dt><dd>100 </dd><dt>UID</dt><dd>690127</dd><dt>阅读权限</dt><dd>30</dd><dt>积分</dt><dd>1019</dd><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=690127&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">2363</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=690127&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">0</a></dd><dt>可用积分</dt><dd>1019 </dd><dt>专家积分</dt><dd>0 </dd><dt>在线时间</dt><dd>2 小时</dd><dt>注册时间</dt><dd>2004-08-30</dd><dt>最后登录</dt><dd>2010-01-01</dd></dl>
+<div class="imicn">
+<a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=690127&amp;do=profile" target="_blank" title="查看详细资料"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/userinfo.gif" alt="查看详细资料"></a>
+</div>
+<div id="avatarfeed"><span id="threadsortswait"></span></div>
+</div>
+</div>
+<div>
+<div class="avatar" onmouseover="showauthor(this, 'userinfo3964704')"><a href="http://bbs.chinaunix.net/space-uid-690127.html" target="_blank"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/27_avatar_middle.jpg" onerror="this.onerror=null;this.src='http://passport.ixpub.net/images/noavatar_middle.gif'"></a></div>
+<p><em><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=12" target="_blank">家境小康</a></em></p>
+
+</div>
+<p id="g_up3964704" onmouseover="showMenu({'ctrlid':this.id, 'pos':'12!'});"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/star_level2.gif" alt="Rank: 2"></p>
+<div id="g_up3964704_menu" class="tip tip_4" style="display: none;">
+<div class="tip_horn"></div>
+<div class="tip_c">家境小康, 积分 1019, 距离下一级还需 981 积分</div>
+</div>
+<dl class="pil cl"><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=690127&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">2363</a></dd><dt>主题</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=690127&amp;do=thread&amp;type=thread&amp;view=me&amp;from=space" target="_blank" class="xi2">96</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=690127&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">0</a></dd><dt>可用积分</dt><dd>1019 </dd><dt>专家积分</dt><dd>0 </dd><dt>在线时间</dt><dd>2 小时</dd><dt>注册时间</dt><dd>2004-08-30</dd><dt>最后登录</dt><dd>2010-01-01</dd></dl><ul class="xl xl2 o cl">
+<!--修改文字部分20111026-->
+<!--
+<li class="callon"><a href="space-uid-690127.html" target="_blank" title="串个门" class="xi2">串个门</a></li>
+<li class="buddy"><a href="home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=690127&amp;handlekey=addfriendhk_690127" id="a_friend_li_3964704" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">加好友</a></li>
+<li class="poke2"><a href="home.php?mod=spacecp&amp;ac=poke&amp;op=send&amp;uid=690127" id="a_poke_li_3964704" onclick="showWindow(this.id, this.href, 'get', 0);" title="打招呼" class="xi2">打招呼</a></li>
+<li class="pm2"><a href="home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_690127&amp;touid=690127&amp;pmid=0&amp;daterange=2&amp;pid=3964704&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">发消息</a></li>
+ -->
+ <!--2011.12.05修改串门链接 -->
+<li class="callon"><a href="http://blog.chinaunix.net/space.php?uid=690127&amp;do=home" target="_blank" title="串个门" class="xi2">串门</a></li>
+<li class="buddy"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=690127&amp;handlekey=addfriendhk_690127" id="a_friend_li_3964704" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">好友</a></li>
+<!--<li class="poke2"><a href="toblog.php?uid=690127" class="xi2" target="_blank">博客</a></li>-->
+<li class="poke2"><a href="http://blog.chinaunix.net/dir.php?uid=690127" class="xi2" target="_blank">博客</a></li> 
+<li class="pm2"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_690127&amp;touid=690127&amp;pmid=0&amp;daterange=2&amp;pid=3964704&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">消息</a></li>
+</ul>
+<dl class="pil cl"><dt>论坛徽章:</dt><dd>0</dd></dl><div style="padding:3px; margin-left:5px; margin-right:5px;"></div><!--2011.12.05新增禁止本版发言2011.12.17修改增加是否是本版版主且对管理员全部开放 -->
+</td>
+<td class="plc" style="background-color: rgb(255, 255, 255);">
+<div class="pi">
+<!--管理操作口移到这-->
+		
+<strong>
+<a href="http://bbs.chinaunix.net/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=594417&amp;pid=3964704" title="您的朋友访问此链接后，您将获得相应的积分奖励" id="postnum3964704" onclick="setCopy(this.href, '帖子地址复制成功');return false;"><em>2</em>楼</a>
+<!--以下新加开始 -->
+
+<!--报告-->
+<a href="javascript:;" onclick="showWindow('miscreport3964704', 'misc.php?mod=report&amp;rtype=post&amp;rid=3964704&amp;tid=594417&amp;fid=24', 'get', -1);return false;">[报告]</a>
+<!--编辑-->
+
+<!--评分2011.12.29-->
+
+<!--评分2011.12.29-->
+					
+
+				
+
+<!--新加的结束-->	
+
+</strong>
+
+<div class="pti">
+<div class="pdbt">
+</div>
+<div class="authi">
+<img class="authicn vm" id="authicon3964704" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/online_member.gif">
+<em id="authorposton3964704">发表于 2005-08-16 10:53:25</em>
+<span class="pipe">|</span><a href="http://bbs.chinaunix.net/forum.php?mod=viewthread&amp;tid=594417&amp;page=1&amp;authorid=690127" rel="nofollow">只看该作者</a>
+</div>
+</div>
+</div><div class="pct"><div class="pcb">
+<h2>转：expect的基本用法</h2>
+<div class="t_fsz">
+<table cellpadding="0" cellspacing="0"><tbody><tr><td class="t_f" id="postmessage_3964704">
+辛苦啦，mocou mm！收藏！</td></tr></tbody></table>
+</div>
+<div id="comment_3964704" class="cm">
+</div>
+<div id="post_rate_div_3964704"></div>
+</div></div>
+
+</td></tr>
+<tr><td class="plc plm" style="background-color: rgb(255, 255, 255);">
+
+<!--//CHINAUNIX	文库推荐内容显示 at 20111118 by cao -->
+                        
+<div class="sign" style="max-height:500px;maxHeightIE:500px;">有啥也别有病，没啥也别没钱！<br>
+－－－－钱途光明</div>
+<div class="a_pb"><a href="http://bbs.chinaunix.net/thread-3680555-1-1.html" target="_blank" style="color: green;"><b>Linux/unix安全优化的讨论与案例分享</b></a>|<a target="_blank" href="http://bbs.chinaunix.net/thread-3679733-1-1.html" style="color: red;"><b>
+2012年ChinaUnix社区Shell编程大赛！</b></a> | <a href="http://bbs.chinaunix.net/thread-3688555-1-1.html" target="_blank" style="color: blue;"><b>游戏网站中常用MySQL架构讨论</b></a> |  <a href="http://bbs.chinaunix.net/thread-3689139-1-1.html" target="_blank" style="color: rgb(142, 35, 107);"><b>技术会诊12306拯救铁老大！</b></a> </div></td>
+</tr>
+<tr>
+<td class="pls" style="background-color: rgb(255, 255, 255);"></td>
+<td class="plc">
+<div>
+<!--管理操作口移到上面-->
+
+<!--这块原先是每层楼下的回复编辑现在删掉，移到上面去-->
+</div>
+
+</td>
+</tr>
+
+<!--2011.12.01修改 帖子最后一个回帖出现的粗的黑线，有程序部分取得最大pid做对比，参照forum_vithread.php第596行  -->
+<tr class="ad">
+<td class="pls" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);"></td>
+<td class="plc" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);">
+</td>
+</tr>
+</tbody></table>
+</div><div id="post_3965746" style="background-color:#E5EDF2"><table id="pid3965746" summary="pid3965746" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td class="pls" rowspan="2" style="background-color: rgb(240, 243, 250);">
+ <div class="pi" style=" border-bottom:none">
+<div class="authi"><a href="http://bbs.chinaunix.net/space-uid-20187152.html" target="_blank" class="xw1">寂寞烈火</a>
+
+</div>
+
+</div>
+<!--2011.12.01自定义头衔移到用户名下面头像上面  -->
+<div class="p_pop blk bui" id="userinfo3965746" style="display: none; margin-top: -11px;">
+<div class="m z">
+<div id="userinfo3965746_ma"></div>
+</div>
+<div class="i y">
+<div>
+<strong><a href="http://bbs.chinaunix.net/space-uid-20187152.html" target="_blank" class="xi2">寂寞烈火</a></strong>
+<em>当前离线</em>
+</div>
+<dl class="cl"><dt>空间积分</dt><dd>1513 </dd><dt>信誉积分</dt><dd>117 </dd><dt>UID</dt><dd>20187152</dd><dt>阅读权限</dt><dd>30</dd><dt>积分</dt><dd>1063</dd><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=20187152&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">29831</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=20187152&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">22</a></dd><dt>可用积分</dt><dd>1063 </dd><dt>专家积分</dt><dd>143 </dd><dt>在线时间</dt><dd>1586 小时</dd><dt>注册时间</dt><dd>2004-10-01</dd><dt>最后登录</dt><dd>2012-01-13</dd></dl>
+<div class="imicn">
+<a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=20187152&amp;do=profile" target="_blank" title="查看详细资料"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/userinfo.gif" alt="查看详细资料"></a>
+</div>
+<div id="avatarfeed"><span id="threadsortswait"></span></div>
+</div>
+</div>
+<div>
+<div class="avatar" onmouseover="showauthor(this, 'userinfo3965746')"><a href="http://bbs.chinaunix.net/space-uid-20187152.html" target="_blank"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/52_avatar_middle.jpg" onerror="this.onerror=null;this.src='http://passport.ixpub.net/images/noavatar_middle.gif'"></a></div>
+<p><em><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=12" target="_blank">家境小康</a></em></p>
+
+</div>
+<p id="g_up3965746" onmouseover="showMenu({'ctrlid':this.id, 'pos':'12!'});"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/star_level2.gif" alt="Rank: 2"></p>
+<div id="g_up3965746_menu" class="tip tip_4" style="display: none;">
+<div class="tip_horn"></div>
+<div class="tip_c">家境小康, 积分 1063, 距离下一级还需 937 积分</div>
+</div>
+<dl class="pil cl"><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=20187152&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">29831</a></dd><dt>主题</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=20187152&amp;do=thread&amp;type=thread&amp;view=me&amp;from=space" target="_blank" class="xi2">900</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=20187152&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">22</a></dd><dt>可用积分</dt><dd>1063 </dd><dt>专家积分</dt><dd>143 </dd><dt>在线时间</dt><dd>1586 小时</dd><dt>注册时间</dt><dd>2004-10-01</dd><dt>最后登录</dt><dd>2012-01-13</dd></dl><!--2011.12.16注释原先的勋章显示 -->
+<!--<p class="md_ctrl">
+<a href="home.php?mod=medal">--><!--<img id="md_3965746_1" src="static/image/common/medal1.gif" alt="荣誉会员" title="" onmouseover="showMenu({'ctrlid':this.id, 'menuid':'md_1_menu', 'pos':'12!'});" />-->
+<!--</a>
+</p>
+ -->	
+<ul class="xl xl2 o cl">
+<!--修改文字部分20111026-->
+<!--
+<li class="callon"><a href="space-uid-20187152.html" target="_blank" title="串个门" class="xi2">串个门</a></li>
+<li class="buddy"><a href="home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=20187152&amp;handlekey=addfriendhk_20187152" id="a_friend_li_3965746" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">加好友</a></li>
+<li class="poke2"><a href="home.php?mod=spacecp&amp;ac=poke&amp;op=send&amp;uid=20187152" id="a_poke_li_3965746" onclick="showWindow(this.id, this.href, 'get', 0);" title="打招呼" class="xi2">打招呼</a></li>
+<li class="pm2"><a href="home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_20187152&amp;touid=20187152&amp;pmid=0&amp;daterange=2&amp;pid=3965746&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">发消息</a></li>
+ -->
+ <!--2011.12.05修改串门链接 -->
+<li class="callon"><a href="http://blog.chinaunix.net/space.php?uid=20187152&amp;do=home" target="_blank" title="串个门" class="xi2">串门</a></li>
+<li class="buddy"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=20187152&amp;handlekey=addfriendhk_20187152" id="a_friend_li_3965746" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">好友</a></li>
+<!--<li class="poke2"><a href="toblog.php?uid=20187152" class="xi2" target="_blank">博客</a></li>-->
+<li class="poke2"><a href="http://blog.chinaunix.net/dir.php?uid=20187152" class="xi2" target="_blank">博客</a></li> 
+<li class="pm2"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_20187152&amp;touid=20187152&amp;pmid=0&amp;daterange=2&amp;pid=3965746&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">消息</a></li>
+</ul>
+<dl class="pil cl"><dt>论坛徽章:</dt><dd>1</dd></dl><div style="padding:3px; margin-left:5px; margin-right:5px;"><img id="1174" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/medal1.gif" style="margin: 2px;" alt="荣誉会员
+日期:2011-11-23 16:44:17" title="荣誉会员
+日期:2011-11-23 16:44:17" width="24px"></div><!--2011.12.05新增禁止本版发言2011.12.17修改增加是否是本版版主且对管理员全部开放 -->
+</td>
+<td class="plc" style="background-color: rgb(240, 243, 250);">
+<div class="pi">
+<!--管理操作口移到这-->
+		
+<strong>
+<a href="http://bbs.chinaunix.net/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=594417&amp;pid=3965746" title="您的朋友访问此链接后，您将获得相应的积分奖励" id="postnum3965746" onclick="setCopy(this.href, '帖子地址复制成功');return false;"><em>3</em>楼</a>
+<!--以下新加开始 -->
+
+<!--报告-->
+<a href="javascript:;" onclick="showWindow('miscreport3965746', 'misc.php?mod=report&amp;rtype=post&amp;rid=3965746&amp;tid=594417&amp;fid=24', 'get', -1);return false;">[报告]</a>
+<!--编辑-->
+
+<!--评分2011.12.29-->
+
+<!--评分2011.12.29-->
+					
+
+				
+
+<!--新加的结束-->	
+
+</strong>
+
+<div class="pti">
+<div class="pdbt">
+</div>
+<div class="authi">
+<img class="authicn vm" id="authicon3965746" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/online_member.gif">
+<em id="authorposton3965746">发表于 2005-08-16 14:17:27</em>
+<span class="pipe">|</span><a href="http://bbs.chinaunix.net/forum.php?mod=viewthread&amp;tid=594417&amp;page=1&amp;authorid=20187152" rel="nofollow">只看该作者</a>
+</div>
+</div>
+</div><div class="pct"><div class="pcb">
+<h2>转：expect的基本用法</h2>
+<div class="t_fsz">
+<table cellpadding="0" cellspacing="0"><tbody><tr><td class="t_f" id="postmessage_3965746">
+版主辛苦啦~~ <img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/icon_mrgreen.gif" smilieid="69" alt="" border="0"></td></tr></tbody></table>
+</div>
+<div id="comment_3965746" class="cm">
+</div>
+<div id="post_rate_div_3965746"></div>
+</div></div>
+
+</td></tr>
+<tr><td class="plc plm" style="background-color: rgb(240, 243, 250);">
+
+<!--//CHINAUNIX	文库推荐内容显示 at 20111118 by cao -->
+                        
+<div class="a_pb"><a href="http://bbs.chinaunix.net/thread-3680555-1-1.html" target="_blank" style="color: green;"><b>Linux/unix安全优化的讨论与案例分享</b></a>|<a target="_blank" href="http://bbs.chinaunix.net/thread-3679733-1-1.html" style="color: red;"><b>
+2012年ChinaUnix社区Shell编程大赛！</b></a> | <a href="http://bbs.chinaunix.net/thread-3688555-1-1.html" target="_blank" style="color: blue;"><b>游戏网站中常用MySQL架构讨论</b></a> |  <a href="http://bbs.chinaunix.net/thread-3689139-1-1.html" target="_blank" style="color: rgb(142, 35, 107);"><b>技术会诊12306拯救铁老大！</b></a> </div></td>
+</tr>
+<tr>
+<td class="pls" style=""></td>
+<td class="plc">
+<div>
+<!--管理操作口移到上面-->
+
+<!--这块原先是每层楼下的回复编辑现在删掉，移到上面去-->
+</div>
+
+</td>
+</tr>
+
+<!--2011.12.01修改 帖子最后一个回帖出现的粗的黑线，有程序部分取得最大pid做对比，参照forum_vithread.php第596行  -->
+<tr class="ad">
+<td class="pls" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);"></td>
+<td class="plc" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);">
+</td>
+</tr>
+</tbody></table>
+</div><div id="post_3966007" style=""><table id="pid3966007" summary="pid3966007" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td class="pls" rowspan="2" style="background-color: rgb(255, 255, 255);">
+ <div class="pi" style=" border-bottom:none">
+<div class="authi"><a href="http://bbs.chinaunix.net/space-uid-8721617.html" target="_blank" class="xw1">我爱钓鱼</a>
+
+</div>
+
+</div>
+<!--2011.12.01自定义头衔移到用户名下面头像上面  -->
+<div class="p_pop blk bui" id="userinfo3966007" style="display: none; margin-top: -11px;">
+<div class="m z">
+<div id="userinfo3966007_ma"></div>
+</div>
+<div class="i y">
+<div>
+<strong><a href="http://bbs.chinaunix.net/space-uid-8721617.html" target="_blank" class="xi2">我爱钓鱼</a></strong>
+<em>当前离线</em>
+</div>
+<dl class="cl"><dt>空间积分</dt><dd>823 </dd><dt>信誉积分</dt><dd>401 </dd><dt>UID</dt><dd>8721617</dd><dt>阅读权限</dt><dd>100</dd><dt>积分</dt><dd>24594</dd><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=8721617&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">33518</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=8721617&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">23</a></dd><dt>可用积分</dt><dd>24594 </dd><dt>专家积分</dt><dd>507 </dd><dt>在线时间</dt><dd>6948 小时</dd><dt>注册时间</dt><dd>2005-04-21</dd><dt>最后登录</dt><dd>2012-03-21</dd></dl>
+<div class="imicn">
+<a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=8721617&amp;do=profile" target="_blank" title="查看详细资料"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/userinfo.gif" alt="查看详细资料"></a>
+</div>
+<div id="avatarfeed"><span id="threadsortswait"></span></div>
+</div>
+</div>
+<div>
+<div class="avatar" onmouseover="showauthor(this, 'userinfo3966007')"><a href="http://bbs.chinaunix.net/space-uid-8721617.html" target="_blank"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/17_avatar_middle.jpg" onerror="this.onerror=null;this.src='http://passport.ixpub.net/images/noavatar_middle.gif'"></a></div>
+<p><em><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=20" target="_blank">广告杀手</a></em></p>
+
+</div>
+<p><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/star_level3.gif" alt="Rank: 8"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/star_level3.gif" alt="Rank: 8"></p>
+<dl class="pil cl"><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=8721617&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">33518</a></dd><dt>主题</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=8721617&amp;do=thread&amp;type=thread&amp;view=me&amp;from=space" target="_blank" class="xi2">1289</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=8721617&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">23</a></dd><dt>可用积分</dt><dd>24594 </dd><dt>专家积分</dt><dd>507 </dd><dt>在线时间</dt><dd>6948 小时</dd><dt>注册时间</dt><dd>2005-04-21</dd><dt>最后登录</dt><dd>2012-03-21</dd></dl><ul class="xl xl2 o cl">
+<!--修改文字部分20111026-->
+<!--
+<li class="callon"><a href="space-uid-8721617.html" target="_blank" title="串个门" class="xi2">串个门</a></li>
+<li class="buddy"><a href="home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=8721617&amp;handlekey=addfriendhk_8721617" id="a_friend_li_3966007" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">加好友</a></li>
+<li class="poke2"><a href="home.php?mod=spacecp&amp;ac=poke&amp;op=send&amp;uid=8721617" id="a_poke_li_3966007" onclick="showWindow(this.id, this.href, 'get', 0);" title="打招呼" class="xi2">打招呼</a></li>
+<li class="pm2"><a href="home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_8721617&amp;touid=8721617&amp;pmid=0&amp;daterange=2&amp;pid=3966007&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">发消息</a></li>
+ -->
+ <!--2011.12.05修改串门链接 -->
+<li class="callon"><a href="http://blog.chinaunix.net/space.php?uid=8721617&amp;do=home" target="_blank" title="串个门" class="xi2">串门</a></li>
+<li class="buddy"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=8721617&amp;handlekey=addfriendhk_8721617" id="a_friend_li_3966007" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">好友</a></li>
+<!--<li class="poke2"><a href="toblog.php?uid=8721617" class="xi2" target="_blank">博客</a></li>-->
+<li class="poke2"><a href="http://blog.chinaunix.net/dir.php?uid=8721617" class="xi2" target="_blank">博客</a></li> 
+<li class="pm2"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_8721617&amp;touid=8721617&amp;pmid=0&amp;daterange=2&amp;pid=3966007&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">消息</a></li>
+</ul>
+<dl class="pil cl"><dt>论坛徽章:</dt><dd>0</dd></dl><div style="padding:3px; margin-left:5px; margin-right:5px;"></div><!--2011.12.05新增禁止本版发言2011.12.17修改增加是否是本版版主且对管理员全部开放 -->
+</td>
+<td class="plc" style="background-color: rgb(255, 255, 255);">
+<div class="pi">
+<!--管理操作口移到这-->
+		
+<strong>
+<a href="http://bbs.chinaunix.net/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=594417&amp;pid=3966007" title="您的朋友访问此链接后，您将获得相应的积分奖励" id="postnum3966007" onclick="setCopy(this.href, '帖子地址复制成功');return false;"><em>4</em>楼</a>
+<!--以下新加开始 -->
+
+<!--报告-->
+<a href="javascript:;" onclick="showWindow('miscreport3966007', 'misc.php?mod=report&amp;rtype=post&amp;rid=3966007&amp;tid=594417&amp;fid=24', 'get', -1);return false;">[报告]</a>
+<!--编辑-->
+
+<!--评分2011.12.29-->
+
+<!--评分2011.12.29-->
+					
+
+				
+
+<!--新加的结束-->	
+
+</strong>
+
+<div class="pti">
+<div class="pdbt">
+</div>
+<div class="authi">
+<img class="authicn vm" id="authicon3966007" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/teammo.gif">
+<em id="authorposton3966007">发表于 2005-08-16 15:15:39</em>
+<span class="pipe">|</span><a href="http://bbs.chinaunix.net/forum.php?mod=viewthread&amp;tid=594417&amp;page=1&amp;authorid=8721617" rel="nofollow">只看该作者</a>
+</div>
+</div>
+</div><div class="pct"><div class="pcb">
+<h2>转：expect的基本用法</h2>
+<div class="t_fsz">
+<table cellpadding="0" cellspacing="0"><tbody><tr><td class="t_f" id="postmessage_3966007">
+kiss 莫愁姐姐 <img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/icon_mrgreen.gif" smilieid="69" alt="" border="0"></td></tr></tbody></table>
+</div>
+<div id="comment_3966007" class="cm">
+</div>
+<div id="post_rate_div_3966007"></div>
+</div></div>
+
+</td></tr>
+<tr><td class="plc plm" style="background-color: rgb(255, 255, 255);">
+
+<!--//CHINAUNIX	文库推荐内容显示 at 20111118 by cao -->
+                        
+<div class="sign" style="max-height:500px;maxHeightIE:500px;">渔我所欲也,摄影亦我所欲也....<br>
+快乐数码摄影群:14691286<br>
+<a href="http://babyplan.cublog.cn/" target="_blank"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/a87bf13332177e2ae1afb488a4f9011a.png" onload="if(this.width>screen.width*0.7) {this.resized=true; this.width=screen.width*0.7; this.alt='Click here to open new window\nCTRL+Mouse wheel to zoom in/out';}" onmouseover="if(this.width>screen.width*0.7) {this.resized=true; this.width=screen.width*0.7; this.style.cursor='hand'; this.alt='Click here to open new window\nCTRL+Mouse wheel to zoom in/out';}" onclick="if(!this.resized) {return true;} else {window.open(this.src);}" onmousewheel="return imgzoom(this);" alt="" border="0"></a></div>
+<div class="a_pb"><a href="http://bbs.chinaunix.net/thread-3680555-1-1.html" target="_blank" style="color: green;"><b>Linux/unix安全优化的讨论与案例分享</b></a>|<a target="_blank" href="http://bbs.chinaunix.net/thread-3679733-1-1.html" style="color: red;"><b>
+2012年ChinaUnix社区Shell编程大赛！</b></a> | <a href="http://bbs.chinaunix.net/thread-3688555-1-1.html" target="_blank" style="color: blue;"><b>游戏网站中常用MySQL架构讨论</b></a> |  <a href="http://bbs.chinaunix.net/thread-3689139-1-1.html" target="_blank" style="color: rgb(142, 35, 107);"><b>技术会诊12306拯救铁老大！</b></a> </div></td>
+</tr>
+<tr>
+<td class="pls" style="background-color: rgb(255, 255, 255);"></td>
+<td class="plc">
+<div>
+<!--管理操作口移到上面-->
+
+<!--这块原先是每层楼下的回复编辑现在删掉，移到上面去-->
+</div>
+
+</td>
+</tr>
+
+<!--2011.12.01修改 帖子最后一个回帖出现的粗的黑线，有程序部分取得最大pid做对比，参照forum_vithread.php第596行  -->
+<tr class="ad">
+<td class="pls" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);"></td>
+<td class="plc" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);">
+</td>
+</tr>
+</tbody></table>
+</div><div id="post_3966800" style="background-color:#E5EDF2"><table id="pid3966800" summary="pid3966800" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td class="pls" rowspan="2" style="background-color: rgb(240, 243, 250);">
+ <div class="pi" style=" border-bottom:none">
+<div class="authi"><a href="http://bbs.chinaunix.net/space-uid-11071356.html" target="_blank" class="xw1">heijude</a>
+
+</div>
+
+</div>
+<!--2011.12.01自定义头衔移到用户名下面头像上面  -->
+<div class="p_pop blk bui" id="userinfo3966800" style="display: none; margin-top: -11px;">
+<div class="m z">
+<div id="userinfo3966800_ma"></div>
+</div>
+<div class="i y">
+<div>
+<strong><a href="http://bbs.chinaunix.net/space-uid-11071356.html" target="_blank" class="xi2">heijude</a></strong>
+<em>当前离线</em>
+</div>
+<dl class="cl"><dt>空间积分</dt><dd>0 </dd><dt>信誉积分</dt><dd>100 </dd><dt>UID</dt><dd>11071356</dd><dt>阅读权限</dt><dd>10</dd><dt>积分</dt><dd>142</dd><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=11071356&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">225</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=11071356&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">0</a></dd><dt>可用积分</dt><dd>142 </dd><dt>专家积分</dt><dd>0 </dd><dt>在线时间</dt><dd>0 小时</dd><dt>注册时间</dt><dd>2005-07-11</dd><dt>最后登录</dt><dd>2007-06-26</dd></dl>
+<div class="imicn">
+<a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=11071356&amp;do=profile" target="_blank" title="查看详细资料"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/userinfo.gif" alt="查看详细资料"></a>
+</div>
+<div id="avatarfeed"><span id="threadsortswait"></span></div>
+</div>
+</div>
+<div>
+<div class="avatar" onmouseover="showauthor(this, 'userinfo3966800')"><a href="http://bbs.chinaunix.net/space-uid-11071356.html" target="_blank"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/noavatar_middle.gif" onerror="this.onerror=null;this.src='http://passport.ixpub.net/images/noavatar_middle.gif'"></a></div>
+<p><em><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=10" target="_blank">白手起家</a></em></p>
+
+</div>
+<p id="g_up3966800" onmouseover="showMenu({'ctrlid':this.id, 'pos':'12!'});"></p>
+<div id="g_up3966800_menu" class="tip tip_4" style="display: none;">
+<div class="tip_horn"></div>
+<div class="tip_c">白手起家, 积分 142, 距离下一级还需 58 积分</div>
+</div>
+<dl class="pil cl"><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=11071356&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">225</a></dd><dt>主题</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=11071356&amp;do=thread&amp;type=thread&amp;view=me&amp;from=space" target="_blank" class="xi2">21</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=11071356&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">0</a></dd><dt>可用积分</dt><dd>142 </dd><dt>专家积分</dt><dd>0 </dd><dt>在线时间</dt><dd>0 小时</dd><dt>注册时间</dt><dd>2005-07-11</dd><dt>最后登录</dt><dd>2007-06-26</dd></dl><ul class="xl xl2 o cl">
+<!--修改文字部分20111026-->
+<!--
+<li class="callon"><a href="space-uid-11071356.html" target="_blank" title="串个门" class="xi2">串个门</a></li>
+<li class="buddy"><a href="home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=11071356&amp;handlekey=addfriendhk_11071356" id="a_friend_li_3966800" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">加好友</a></li>
+<li class="poke2"><a href="home.php?mod=spacecp&amp;ac=poke&amp;op=send&amp;uid=11071356" id="a_poke_li_3966800" onclick="showWindow(this.id, this.href, 'get', 0);" title="打招呼" class="xi2">打招呼</a></li>
+<li class="pm2"><a href="home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_11071356&amp;touid=11071356&amp;pmid=0&amp;daterange=2&amp;pid=3966800&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">发消息</a></li>
+ -->
+ <!--2011.12.05修改串门链接 -->
+<li class="callon"><a href="http://blog.chinaunix.net/space.php?uid=11071356&amp;do=home" target="_blank" title="串个门" class="xi2">串门</a></li>
+<li class="buddy"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=11071356&amp;handlekey=addfriendhk_11071356" id="a_friend_li_3966800" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">好友</a></li>
+<!--<li class="poke2"><a href="toblog.php?uid=11071356" class="xi2" target="_blank">博客</a></li>-->
+<li class="poke2"><a href="http://blog.chinaunix.net/dir.php?uid=11071356" class="xi2" target="_blank">博客</a></li> 
+<li class="pm2"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_11071356&amp;touid=11071356&amp;pmid=0&amp;daterange=2&amp;pid=3966800&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">消息</a></li>
+</ul>
+<dl class="pil cl"><dt>论坛徽章:</dt><dd>0</dd></dl><div style="padding:3px; margin-left:5px; margin-right:5px;"></div><!--2011.12.05新增禁止本版发言2011.12.17修改增加是否是本版版主且对管理员全部开放 -->
+</td>
+<td class="plc" style="background-color: rgb(240, 243, 250);">
+<div class="pi">
+<!--管理操作口移到这-->
+		
+<strong>
+<a href="http://bbs.chinaunix.net/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=594417&amp;pid=3966800" title="您的朋友访问此链接后，您将获得相应的积分奖励" id="postnum3966800" onclick="setCopy(this.href, '帖子地址复制成功');return false;"><em>5</em>楼</a>
+<!--以下新加开始 -->
+
+<!--报告-->
+<a href="javascript:;" onclick="showWindow('miscreport3966800', 'misc.php?mod=report&amp;rtype=post&amp;rid=3966800&amp;tid=594417&amp;fid=24', 'get', -1);return false;">[报告]</a>
+<!--编辑-->
+
+<!--评分2011.12.29-->
+
+<!--评分2011.12.29-->
+					
+
+				
+
+<!--新加的结束-->	
+
+</strong>
+
+<div class="pti">
+<div class="pdbt">
+</div>
+<div class="authi">
+<img class="authicn vm" id="authicon3966800" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/online_member.gif">
+<em id="authorposton3966800">发表于 2005-08-16 17:18:53</em>
+<span class="pipe">|</span><a href="http://bbs.chinaunix.net/forum.php?mod=viewthread&amp;tid=594417&amp;page=1&amp;authorid=11071356" rel="nofollow">只看该作者</a>
+</div>
+</div>
+</div><div class="pct"><div class="pcb">
+<h2>转：expect的基本用法</h2>
+<div class="t_fsz">
+<table cellpadding="0" cellspacing="0"><tbody><tr><td class="t_f" id="postmessage_3966800">
+[quote]<i>原帖由 "我爱钓鱼"]kiss 莫愁姐姐 <img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/icon_mrgreen.gif" smilieid="69" alt="" border="0">[/quote 发表：</i><br>
+
+<br>
+没办法,被人先抢了 <img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/em16.gif" smilieid="140" alt="" border="0"></td></tr></tbody></table>
+</div>
+<div id="comment_3966800" class="cm">
+</div>
+<div id="post_rate_div_3966800"></div>
+</div></div>
+
+</td></tr>
+<tr><td class="plc plm" style="background-color: rgb(240, 243, 250);">
+
+<!--//CHINAUNIX	文库推荐内容显示 at 20111118 by cao -->
+                        
+<div class="a_pb"><a href="http://bbs.chinaunix.net/thread-3680555-1-1.html" target="_blank" style="color: green;"><b>Linux/unix安全优化的讨论与案例分享</b></a>|<a target="_blank" href="http://bbs.chinaunix.net/thread-3679733-1-1.html" style="color: red;"><b>
+2012年ChinaUnix社区Shell编程大赛！</b></a> | <a href="http://bbs.chinaunix.net/thread-3688555-1-1.html" target="_blank" style="color: blue;"><b>游戏网站中常用MySQL架构讨论</b></a> |  <a href="http://bbs.chinaunix.net/thread-3689139-1-1.html" target="_blank" style="color: rgb(142, 35, 107);"><b>技术会诊12306拯救铁老大！</b></a> </div></td>
+</tr>
+<tr>
+<td class="pls" style=""></td>
+<td class="plc">
+<div>
+<!--管理操作口移到上面-->
+
+<!--这块原先是每层楼下的回复编辑现在删掉，移到上面去-->
+</div>
+
+</td>
+</tr>
+
+<!--2011.12.01修改 帖子最后一个回帖出现的粗的黑线，有程序部分取得最大pid做对比，参照forum_vithread.php第596行  -->
+<tr class="ad">
+<td class="pls" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);"></td>
+<td class="plc" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);">
+</td>
+</tr>
+</tbody></table>
+</div><div id="post_3967296" style=""><table id="pid3967296" summary="pid3967296" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td class="pls" rowspan="2" style="background-color: rgb(255, 255, 255);">
+ <div class="pi" style=" border-bottom:none">
+<div class="authi"><a href="http://bbs.chinaunix.net/space-uid-99861.html" target="_blank" class="xw1">Hex</a>
+
+</div>
+
+</div>
+<!--2011.12.01自定义头衔移到用户名下面头像上面  -->
+<div style="margin-left:20px">牛魔王</div><div class="p_pop blk bui" id="userinfo3967296" style="display: none; margin-top: -11px;">
+<div class="m z">
+<div id="userinfo3967296_ma"></div>
+</div>
+<div class="i y">
+<div>
+<strong><a href="http://bbs.chinaunix.net/space-uid-99861.html" target="_blank" class="xi2">Hex</a></strong>
+<em>当前离线</em>
+</div>
+<dl class="cl"><dt>空间积分</dt><dd>0 </dd><dt>信誉积分</dt><dd>111 </dd><dt>UID</dt><dd>99861</dd><dt>阅读权限</dt><dd>20</dd><dt>积分</dt><dd>276</dd><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=99861&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">282</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=99861&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">0</a></dd><dt>可用积分</dt><dd>276 </dd><dt>专家积分</dt><dd>0 </dd><dt>在线时间</dt><dd>9 小时</dd><dt>注册时间</dt><dd>2002-11-13</dd><dt>最后登录</dt><dd>2012-03-16</dd></dl>
+<div class="imicn">
+<a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=99861&amp;do=profile" target="_blank" title="查看详细资料"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/userinfo.gif" alt="查看详细资料"></a>
+</div>
+<div id="avatarfeed"><span id="threadsortswait"></span></div>
+</div>
+</div>
+<div>
+<div class="avatar" onmouseover="showauthor(this, 'userinfo3967296')"><a href="http://bbs.chinaunix.net/space-uid-99861.html" target="_blank"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/61_avatar_middle.jpg" onerror="this.onerror=null;this.src='http://passport.ixpub.net/images/noavatar_middle.gif'"></a></div>
+<p><em><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=11" target="_blank">稍有积蓄</a></em></p>
+
+</div>
+<p id="g_up3967296" onmouseover="showMenu({'ctrlid':this.id, 'pos':'12!'});"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/star_level1.gif" alt="Rank: 1"></p>
+<div id="g_up3967296_menu" class="tip tip_4" style="display: none;">
+<div class="tip_horn"></div>
+<div class="tip_c">稍有积蓄, 积分 276, 距离下一级还需 224 积分</div>
+</div>
+<dl class="pil cl"><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=99861&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">282</a></dd><dt>主题</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=99861&amp;do=thread&amp;type=thread&amp;view=me&amp;from=space" target="_blank" class="xi2">32</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=99861&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">0</a></dd><dt>可用积分</dt><dd>276 </dd><dt>专家积分</dt><dd>0 </dd><dt>在线时间</dt><dd>9 小时</dd><dt>注册时间</dt><dd>2002-11-13</dd><dt>最后登录</dt><dd>2012-03-16</dd></dl><ul class="xl xl2 o cl">
+<!--修改文字部分20111026-->
+<!--
+<li class="callon"><a href="space-uid-99861.html" target="_blank" title="串个门" class="xi2">串个门</a></li>
+<li class="buddy"><a href="home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=99861&amp;handlekey=addfriendhk_99861" id="a_friend_li_3967296" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">加好友</a></li>
+<li class="poke2"><a href="home.php?mod=spacecp&amp;ac=poke&amp;op=send&amp;uid=99861" id="a_poke_li_3967296" onclick="showWindow(this.id, this.href, 'get', 0);" title="打招呼" class="xi2">打招呼</a></li>
+<li class="pm2"><a href="home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_99861&amp;touid=99861&amp;pmid=0&amp;daterange=2&amp;pid=3967296&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">发消息</a></li>
+ -->
+ <!--2011.12.05修改串门链接 -->
+<li class="callon"><a href="http://blog.chinaunix.net/space.php?uid=99861&amp;do=home" target="_blank" title="串个门" class="xi2">串门</a></li>
+<li class="buddy"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=99861&amp;handlekey=addfriendhk_99861" id="a_friend_li_3967296" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">好友</a></li>
+<!--<li class="poke2"><a href="toblog.php?uid=99861" class="xi2" target="_blank">博客</a></li>-->
+<li class="poke2"><a href="http://blog.chinaunix.net/dir.php?uid=99861" class="xi2" target="_blank">博客</a></li> 
+<li class="pm2"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_99861&amp;touid=99861&amp;pmid=0&amp;daterange=2&amp;pid=3967296&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">消息</a></li>
+</ul>
+<dl class="pil cl"><dt>论坛徽章:</dt><dd>0</dd></dl><div style="padding:3px; margin-left:5px; margin-right:5px;"></div><!--2011.12.05新增禁止本版发言2011.12.17修改增加是否是本版版主且对管理员全部开放 -->
+</td>
+<td class="plc" style="background-color: rgb(255, 255, 255);">
+<div class="pi">
+<!--管理操作口移到这-->
+		
+<strong>
+<a href="http://bbs.chinaunix.net/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=594417&amp;pid=3967296" title="您的朋友访问此链接后，您将获得相应的积分奖励" id="postnum3967296" onclick="setCopy(this.href, '帖子地址复制成功');return false;"><em>6</em>楼</a>
+<!--以下新加开始 -->
+
+<!--报告-->
+<a href="javascript:;" onclick="showWindow('miscreport3967296', 'misc.php?mod=report&amp;rtype=post&amp;rid=3967296&amp;tid=594417&amp;fid=24', 'get', -1);return false;">[报告]</a>
+<!--编辑-->
+
+<!--评分2011.12.29-->
+
+<!--评分2011.12.29-->
+					
+
+				
+
+<!--新加的结束-->	
+
+</strong>
+
+<div class="pti">
+<div class="pdbt">
+</div>
+<div class="authi">
+<img class="authicn vm" id="authicon3967296" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/online_member.gif">
+<em id="authorposton3967296">发表于 2005-08-16 19:21:31</em>
+<span class="pipe">|</span><a href="http://bbs.chinaunix.net/forum.php?mod=viewthread&amp;tid=594417&amp;page=1&amp;authorid=99861" rel="nofollow">只看该作者</a>
+</div>
+</div>
+</div><div class="pct"><div class="pcb">
+<h2>转：expect的基本用法</h2>
+<div class="t_fsz">
+<table cellpadding="0" cellspacing="0"><tbody><tr><td class="t_f" id="postmessage_3967296">
+太好了！正是我所要的！关于expect的中文资料很少啊！<br>
+另外，tcl好像也很少人用啊！</td></tr></tbody></table>
+</div>
+<div id="comment_3967296" class="cm">
+</div>
+<div id="post_rate_div_3967296"></div>
+</div></div>
+
+</td></tr>
+<tr><td class="plc plm" style="background-color: rgb(255, 255, 255);">
+
+<!--//CHINAUNIX	文库推荐内容显示 at 20111118 by cao -->
+                        
+<div class="sign" style="max-height:500px;maxHeightIE:500px;">Tell me where do I find someone like you girl....</div>
+<div class="a_pb"><a href="http://bbs.chinaunix.net/thread-3680555-1-1.html" target="_blank" style="color: green;"><b>Linux/unix安全优化的讨论与案例分享</b></a>|<a target="_blank" href="http://bbs.chinaunix.net/thread-3679733-1-1.html" style="color: red;"><b>
+2012年ChinaUnix社区Shell编程大赛！</b></a> | <a href="http://bbs.chinaunix.net/thread-3688555-1-1.html" target="_blank" style="color: blue;"><b>游戏网站中常用MySQL架构讨论</b></a> |  <a href="http://bbs.chinaunix.net/thread-3689139-1-1.html" target="_blank" style="color: rgb(142, 35, 107);"><b>技术会诊12306拯救铁老大！</b></a> </div></td>
+</tr>
+<tr>
+<td class="pls" style="background-color: rgb(255, 255, 255);"></td>
+<td class="plc">
+<div>
+<!--管理操作口移到上面-->
+
+<!--这块原先是每层楼下的回复编辑现在删掉，移到上面去-->
+</div>
+
+</td>
+</tr>
+
+<!--2011.12.01修改 帖子最后一个回帖出现的粗的黑线，有程序部分取得最大pid做对比，参照forum_vithread.php第596行  -->
+<tr class="ad">
+<td class="pls" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);"></td>
+<td class="plc" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);">
+</td>
+</tr>
+</tbody></table>
+</div><div id="post_3967299" style="background-color:#E5EDF2"><table id="pid3967299" summary="pid3967299" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td class="pls" rowspan="2" style="background-color: rgb(240, 243, 250);">
+ <div class="pi" style=" border-bottom:none">
+<div class="authi"><a href="http://bbs.chinaunix.net/space-uid-99861.html" target="_blank" class="xw1">Hex</a>
+
+</div>
+
+</div>
+<!--2011.12.01自定义头衔移到用户名下面头像上面  -->
+<div style="margin-left:20px">牛魔王</div><div class="p_pop blk bui" id="userinfo3967299" style="display: none; margin-top: -11px;">
+<div class="m z">
+<div id="userinfo3967299_ma"></div>
+</div>
+<div class="i y">
+<div>
+<strong><a href="http://bbs.chinaunix.net/space-uid-99861.html" target="_blank" class="xi2">Hex</a></strong>
+<em>当前离线</em>
+</div>
+<dl class="cl"><dt>空间积分</dt><dd>0 </dd><dt>信誉积分</dt><dd>111 </dd><dt>UID</dt><dd>99861</dd><dt>阅读权限</dt><dd>20</dd><dt>积分</dt><dd>276</dd><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=99861&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">282</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=99861&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">0</a></dd><dt>可用积分</dt><dd>276 </dd><dt>专家积分</dt><dd>0 </dd><dt>在线时间</dt><dd>9 小时</dd><dt>注册时间</dt><dd>2002-11-13</dd><dt>最后登录</dt><dd>2012-03-16</dd></dl>
+<div class="imicn">
+<a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=99861&amp;do=profile" target="_blank" title="查看详细资料"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/userinfo.gif" alt="查看详细资料"></a>
+</div>
+<div id="avatarfeed"><span id="threadsortswait"></span></div>
+</div>
+</div>
+<div>
+<div class="avatar" onmouseover="showauthor(this, 'userinfo3967299')"><a href="http://bbs.chinaunix.net/space-uid-99861.html" target="_blank"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/61_avatar_middle.jpg" onerror="this.onerror=null;this.src='http://passport.ixpub.net/images/noavatar_middle.gif'"></a></div>
+<p><em><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=11" target="_blank">稍有积蓄</a></em></p>
+
+</div>
+<p id="g_up3967299" onmouseover="showMenu({'ctrlid':this.id, 'pos':'12!'});"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/star_level1.gif" alt="Rank: 1"></p>
+<div id="g_up3967299_menu" class="tip tip_4" style="display: none;">
+<div class="tip_horn"></div>
+<div class="tip_c">稍有积蓄, 积分 276, 距离下一级还需 224 积分</div>
+</div>
+<dl class="pil cl"><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=99861&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">282</a></dd><dt>主题</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=99861&amp;do=thread&amp;type=thread&amp;view=me&amp;from=space" target="_blank" class="xi2">32</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=99861&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">0</a></dd><dt>可用积分</dt><dd>276 </dd><dt>专家积分</dt><dd>0 </dd><dt>在线时间</dt><dd>9 小时</dd><dt>注册时间</dt><dd>2002-11-13</dd><dt>最后登录</dt><dd>2012-03-16</dd></dl><ul class="xl xl2 o cl">
+<!--修改文字部分20111026-->
+<!--
+<li class="callon"><a href="space-uid-99861.html" target="_blank" title="串个门" class="xi2">串个门</a></li>
+<li class="buddy"><a href="home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=99861&amp;handlekey=addfriendhk_99861" id="a_friend_li_3967299" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">加好友</a></li>
+<li class="poke2"><a href="home.php?mod=spacecp&amp;ac=poke&amp;op=send&amp;uid=99861" id="a_poke_li_3967299" onclick="showWindow(this.id, this.href, 'get', 0);" title="打招呼" class="xi2">打招呼</a></li>
+<li class="pm2"><a href="home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_99861&amp;touid=99861&amp;pmid=0&amp;daterange=2&amp;pid=3967299&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">发消息</a></li>
+ -->
+ <!--2011.12.05修改串门链接 -->
+<li class="callon"><a href="http://blog.chinaunix.net/space.php?uid=99861&amp;do=home" target="_blank" title="串个门" class="xi2">串门</a></li>
+<li class="buddy"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=99861&amp;handlekey=addfriendhk_99861" id="a_friend_li_3967299" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">好友</a></li>
+<!--<li class="poke2"><a href="toblog.php?uid=99861" class="xi2" target="_blank">博客</a></li>-->
+<li class="poke2"><a href="http://blog.chinaunix.net/dir.php?uid=99861" class="xi2" target="_blank">博客</a></li> 
+<li class="pm2"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_99861&amp;touid=99861&amp;pmid=0&amp;daterange=2&amp;pid=3967299&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">消息</a></li>
+</ul>
+<dl class="pil cl"><dt>论坛徽章:</dt><dd>0</dd></dl><div style="padding:3px; margin-left:5px; margin-right:5px;"></div><!--2011.12.05新增禁止本版发言2011.12.17修改增加是否是本版版主且对管理员全部开放 -->
+</td>
+<td class="plc" style="background-color: rgb(240, 243, 250);">
+<div class="pi">
+<!--管理操作口移到这-->
+		
+<strong>
+<a href="http://bbs.chinaunix.net/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=594417&amp;pid=3967299" title="您的朋友访问此链接后，您将获得相应的积分奖励" id="postnum3967299" onclick="setCopy(this.href, '帖子地址复制成功');return false;"><em>7</em>楼</a>
+<!--以下新加开始 -->
+
+<!--报告-->
+<a href="javascript:;" onclick="showWindow('miscreport3967299', 'misc.php?mod=report&amp;rtype=post&amp;rid=3967299&amp;tid=594417&amp;fid=24', 'get', -1);return false;">[报告]</a>
+<!--编辑-->
+
+<!--评分2011.12.29-->
+
+<!--评分2011.12.29-->
+					
+
+				
+
+<!--新加的结束-->	
+
+</strong>
+
+<div class="pti">
+<div class="pdbt">
+</div>
+<div class="authi">
+<img class="authicn vm" id="authicon3967299" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/online_member.gif">
+<em id="authorposton3967299">发表于 2005-08-16 19:22:57</em>
+<span class="pipe">|</span><a href="http://bbs.chinaunix.net/forum.php?mod=viewthread&amp;tid=594417&amp;page=1&amp;authorid=99861" rel="nofollow">只看该作者</a>
+</div>
+</div>
+</div><div class="pct"><div class="pcb">
+<h2>转：expect的基本用法</h2>
+<div class="t_fsz">
+<table cellpadding="0" cellspacing="0"><tbody><tr><td class="t_f" id="postmessage_3967299">
+谢谢mocou！<br>
+好像还是个mm？俺对您的景仰有如黄河之水。。。。；）</td></tr></tbody></table>
+</div>
+<div id="comment_3967299" class="cm">
+</div>
+<div id="post_rate_div_3967299"></div>
+</div></div>
+
+</td></tr>
+<tr><td class="plc plm" style="background-color: rgb(240, 243, 250);">
+
+<!--//CHINAUNIX	文库推荐内容显示 at 20111118 by cao -->
+                        
+<div class="sign" style="max-height:500px;maxHeightIE:500px;">Tell me where do I find someone like you girl....</div>
+<div class="a_pb"><a href="http://bbs.chinaunix.net/thread-3680555-1-1.html" target="_blank" style="color: green;"><b>Linux/unix安全优化的讨论与案例分享</b></a>|<a target="_blank" href="http://bbs.chinaunix.net/thread-3679733-1-1.html" style="color: red;"><b>
+2012年ChinaUnix社区Shell编程大赛！</b></a> | <a href="http://bbs.chinaunix.net/thread-3688555-1-1.html" target="_blank" style="color: blue;"><b>游戏网站中常用MySQL架构讨论</b></a> |  <a href="http://bbs.chinaunix.net/thread-3689139-1-1.html" target="_blank" style="color: rgb(142, 35, 107);"><b>技术会诊12306拯救铁老大！</b></a> </div></td>
+</tr>
+<tr>
+<td class="pls" style=""></td>
+<td class="plc">
+<div>
+<!--管理操作口移到上面-->
+
+<!--这块原先是每层楼下的回复编辑现在删掉，移到上面去-->
+</div>
+
+</td>
+</tr>
+
+<!--2011.12.01修改 帖子最后一个回帖出现的粗的黑线，有程序部分取得最大pid做对比，参照forum_vithread.php第596行  -->
+<tr class="ad">
+<td class="pls" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);"></td>
+<td class="plc" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);">
+</td>
+</tr>
+</tbody></table>
+</div><div id="post_4302951" style=""><table id="pid4302951" summary="pid4302951" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td class="pls" rowspan="2" style="background-color: rgb(255, 255, 255);">
+ <div class="pi" style=" border-bottom:none">
+<div class="authi"><a href="http://bbs.chinaunix.net/space-uid-693896.html" target="_blank" class="xw1">xy-coordinate</a>
+
+</div>
+
+</div>
+<!--2011.12.01自定义头衔移到用户名下面头像上面  -->
+<div class="p_pop blk bui" id="userinfo4302951" style="display: none; margin-top: -11px;">
+<div class="m z">
+<div id="userinfo4302951_ma"></div>
+</div>
+<div class="i y">
+<div>
+<strong><a href="http://bbs.chinaunix.net/space-uid-693896.html" target="_blank" class="xi2">xy-coordinate</a></strong>
+<em>当前离线</em>
+</div>
+<dl class="cl"><dt>空间积分</dt><dd>0 </dd><dt>信誉积分</dt><dd>109 </dd><dt>UID</dt><dd>693896</dd><dt>阅读权限</dt><dd>30</dd><dt>积分</dt><dd>1811</dd><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=693896&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">1803</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=693896&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">5</a></dd><dt>可用积分</dt><dd>1813 </dd><dt>专家积分</dt><dd>0 </dd><dt>在线时间</dt><dd>382 小时</dd><dt>注册时间</dt><dd>2005-07-15</dd><dt>最后登录</dt><dd>2012-02-13</dd></dl>
+<div class="imicn">
+<a href="http://wpa.qq.com/msgrd?V=1&amp;Uin=226308607&amp;Site=ChinaUnix.net&amp;Menu=yes" target="_blank" title="QQ"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/qq.gif" alt="QQ"></a><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=693896&amp;do=profile" target="_blank" title="查看详细资料"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/userinfo.gif" alt="查看详细资料"></a>
+</div>
+<div id="avatarfeed"><span id="threadsortswait"></span></div>
+</div>
+</div>
+<div>
+<div class="avatar" onmouseover="showauthor(this, 'userinfo4302951')"><a href="http://bbs.chinaunix.net/space-uid-693896.html" target="_blank"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/96_avatar_middle.jpg" onerror="this.onerror=null;this.src='http://passport.ixpub.net/images/noavatar_middle.gif'"></a></div>
+<p><em><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=12" target="_blank">家境小康</a></em></p>
+
+</div>
+<p id="g_up4302951" onmouseover="showMenu({'ctrlid':this.id, 'pos':'12!'});"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/star_level2.gif" alt="Rank: 2"></p>
+<div id="g_up4302951_menu" class="tip tip_4" style="display: none;">
+<div class="tip_horn"></div>
+<div class="tip_c">家境小康, 积分 1811, 距离下一级还需 189 积分</div>
+</div>
+<dl class="pil cl"><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=693896&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">1803</a></dd><dt>主题</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=693896&amp;do=thread&amp;type=thread&amp;view=me&amp;from=space" target="_blank" class="xi2">170</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=693896&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">5</a></dd><dt>可用积分</dt><dd>1813 </dd><dt>专家积分</dt><dd>0 </dd><dt>在线时间</dt><dd>382 小时</dd><dt>注册时间</dt><dd>2005-07-15</dd><dt>最后登录</dt><dd>2012-02-13</dd></dl><ul class="xl xl2 o cl">
+<!--修改文字部分20111026-->
+<!--
+<li class="callon"><a href="space-uid-693896.html" target="_blank" title="串个门" class="xi2">串个门</a></li>
+<li class="buddy"><a href="home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=693896&amp;handlekey=addfriendhk_693896" id="a_friend_li_4302951" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">加好友</a></li>
+<li class="poke2"><a href="home.php?mod=spacecp&amp;ac=poke&amp;op=send&amp;uid=693896" id="a_poke_li_4302951" onclick="showWindow(this.id, this.href, 'get', 0);" title="打招呼" class="xi2">打招呼</a></li>
+<li class="pm2"><a href="home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_693896&amp;touid=693896&amp;pmid=0&amp;daterange=2&amp;pid=4302951&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">发消息</a></li>
+ -->
+ <!--2011.12.05修改串门链接 -->
+<li class="callon"><a href="http://blog.chinaunix.net/space.php?uid=693896&amp;do=home" target="_blank" title="串个门" class="xi2">串门</a></li>
+<li class="buddy"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=693896&amp;handlekey=addfriendhk_693896" id="a_friend_li_4302951" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">好友</a></li>
+<!--<li class="poke2"><a href="toblog.php?uid=693896" class="xi2" target="_blank">博客</a></li>-->
+<li class="poke2"><a href="http://blog.chinaunix.net/dir.php?uid=693896" class="xi2" target="_blank">博客</a></li> 
+<li class="pm2"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_693896&amp;touid=693896&amp;pmid=0&amp;daterange=2&amp;pid=4302951&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">消息</a></li>
+</ul>
+<dl class="pil cl"><dt>论坛徽章:</dt><dd>0</dd></dl><div style="padding:3px; margin-left:5px; margin-right:5px;"></div><!--2011.12.05新增禁止本版发言2011.12.17修改增加是否是本版版主且对管理员全部开放 -->
+</td>
+<td class="plc" style="background-color: rgb(255, 255, 255);">
+<div class="pi">
+<!--管理操作口移到这-->
+		
+<strong>
+<a href="http://bbs.chinaunix.net/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=594417&amp;pid=4302951" title="您的朋友访问此链接后，您将获得相应的积分奖励" id="postnum4302951" onclick="setCopy(this.href, '帖子地址复制成功');return false;"><em>8</em>楼</a>
+<!--以下新加开始 -->
+
+<!--报告-->
+<a href="javascript:;" onclick="showWindow('miscreport4302951', 'misc.php?mod=report&amp;rtype=post&amp;rid=4302951&amp;tid=594417&amp;fid=24', 'get', -1);return false;">[报告]</a>
+<!--编辑-->
+
+<!--评分2011.12.29-->
+
+<!--评分2011.12.29-->
+					
+
+				
+
+<!--新加的结束-->	
+
+</strong>
+
+<div class="pti">
+<div class="pdbt">
+</div>
+<div class="authi">
+<img class="authicn vm" id="authicon4302951" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/online_member.gif">
+<em id="authorposton4302951">发表于 2005-11-01 11:32:40</em>
+<span class="pipe">|</span><a href="http://bbs.chinaunix.net/forum.php?mod=viewthread&amp;tid=594417&amp;page=1&amp;authorid=693896" rel="nofollow">只看该作者</a>
+</div>
+</div>
+</div><div class="pct"><div class="pcb">
+<div class="t_fsz">
+<table cellpadding="0" cellspacing="0"><tbody><tr><td class="t_f" id="postmessage_4302951">
+终于搜索到了!<br>
+<br>
+<img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/em02.gif" smilieid="71" alt="" border="0"><br>
+不过,好象SCO506系统里没有呀!!!<br>
+哪儿有呀???<br>
+很想练练手!!!<br>
+:em11:<br>
+<br>
+[<i> 本帖最后由 xy-coordinate 于 2005-11-1 11:43 编辑 </i>]</td></tr></tbody></table>
+</div>
+<div id="comment_4302951" class="cm">
+</div>
+<div id="post_rate_div_4302951"></div>
+</div></div>
+
+</td></tr>
+<tr><td class="plc plm" style="background-color: rgb(255, 255, 255);">
+
+<!--//CHINAUNIX	文库推荐内容显示 at 20111118 by cao -->
+                        
+<div class="sign" style="max-height:500px;maxHeightIE:500px;"><font face="黑体 "><strong><font size="2"><font color="Red">书山有路勤为径,苦海无涯苦作舟!</font></font></strong></font></div>
+<div class="a_pb"><a href="http://bbs.chinaunix.net/thread-3680555-1-1.html" target="_blank" style="color: green;"><b>Linux/unix安全优化的讨论与案例分享</b></a>|<a target="_blank" href="http://bbs.chinaunix.net/thread-3679733-1-1.html" style="color: red;"><b>
+2012年ChinaUnix社区Shell编程大赛！</b></a> | <a href="http://bbs.chinaunix.net/thread-3688555-1-1.html" target="_blank" style="color: blue;"><b>游戏网站中常用MySQL架构讨论</b></a> |  <a href="http://bbs.chinaunix.net/thread-3689139-1-1.html" target="_blank" style="color: rgb(142, 35, 107);"><b>技术会诊12306拯救铁老大！</b></a> </div></td>
+</tr>
+<tr>
+<td class="pls" style="background-color: rgb(255, 255, 255);"></td>
+<td class="plc">
+<div>
+<!--管理操作口移到上面-->
+
+<!--这块原先是每层楼下的回复编辑现在删掉，移到上面去-->
+</div>
+
+</td>
+</tr>
+
+<!--2011.12.01修改 帖子最后一个回帖出现的粗的黑线，有程序部分取得最大pid做对比，参照forum_vithread.php第596行  -->
+<tr class="ad">
+<td class="pls" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);"></td>
+<td class="plc" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);">
+</td>
+</tr>
+</tbody></table>
+</div><div id="post_4303023" style="background-color:#E5EDF2"><table id="pid4303023" summary="pid4303023" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td class="pls" rowspan="2" style="background-color: rgb(240, 243, 250);">
+ <div class="pi" style=" border-bottom:none">
+<div class="authi"><a href="http://bbs.chinaunix.net/space-uid-8668.html" target="_blank" class="xw1">icesummit</a>
+
+</div>
+
+</div>
+<!--2011.12.01自定义头衔移到用户名下面头像上面  -->
+<div style="margin-left:20px">南极遥望者</div><div class="p_pop blk bui" id="userinfo4303023" style="display: none; margin-top: -11px;">
+<div class="m z">
+<div id="userinfo4303023_ma"></div>
+</div>
+<div class="i y">
+<div>
+<strong><a href="http://bbs.chinaunix.net/space-uid-8668.html" target="_blank" class="xi2">icesummit</a></strong>
+<em>当前离线</em>
+</div>
+<dl class="cl"><dt>空间积分</dt><dd>0 </dd><dt>信誉积分</dt><dd>100 </dd><dt>UID</dt><dd>8668</dd><dt>阅读权限</dt><dd>30</dd><dt>积分</dt><dd>1508</dd><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=8668&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">1827</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=8668&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">2</a></dd><dt>可用积分</dt><dd>1508 </dd><dt>专家积分</dt><dd>0 </dd><dt>在线时间</dt><dd>1 小时</dd><dt>注册时间</dt><dd>2004-11-24</dd><dt>最后登录</dt><dd>2009-04-28</dd></dl>
+<div class="imicn">
+<a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=8668&amp;do=profile" target="_blank" title="查看详细资料"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/userinfo.gif" alt="查看详细资料"></a>
+</div>
+<div id="avatarfeed"><span id="threadsortswait"></span></div>
+</div>
+</div>
+<div>
+<div class="avatar" onmouseover="showauthor(this, 'userinfo4303023')"><a href="http://bbs.chinaunix.net/space-uid-8668.html" target="_blank"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/68_avatar_middle.jpg" onerror="this.onerror=null;this.src='http://passport.ixpub.net/images/noavatar_middle.gif'"></a></div>
+<p><em><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=12" target="_blank">家境小康</a></em></p>
+
+</div>
+<p id="g_up4303023" onmouseover="showMenu({'ctrlid':this.id, 'pos':'12!'});"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/star_level2.gif" alt="Rank: 2"></p>
+<div id="g_up4303023_menu" class="tip tip_4" style="display: none;">
+<div class="tip_horn"></div>
+<div class="tip_c">家境小康, 积分 1508, 距离下一级还需 492 积分</div>
+</div>
+<dl class="pil cl"><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=8668&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">1827</a></dd><dt>主题</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=8668&amp;do=thread&amp;type=thread&amp;view=me&amp;from=space" target="_blank" class="xi2">86</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=8668&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">2</a></dd><dt>可用积分</dt><dd>1508 </dd><dt>专家积分</dt><dd>0 </dd><dt>在线时间</dt><dd>1 小时</dd><dt>注册时间</dt><dd>2004-11-24</dd><dt>最后登录</dt><dd>2009-04-28</dd></dl><ul class="xl xl2 o cl">
+<!--修改文字部分20111026-->
+<!--
+<li class="callon"><a href="space-uid-8668.html" target="_blank" title="串个门" class="xi2">串个门</a></li>
+<li class="buddy"><a href="home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=8668&amp;handlekey=addfriendhk_8668" id="a_friend_li_4303023" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">加好友</a></li>
+<li class="poke2"><a href="home.php?mod=spacecp&amp;ac=poke&amp;op=send&amp;uid=8668" id="a_poke_li_4303023" onclick="showWindow(this.id, this.href, 'get', 0);" title="打招呼" class="xi2">打招呼</a></li>
+<li class="pm2"><a href="home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_8668&amp;touid=8668&amp;pmid=0&amp;daterange=2&amp;pid=4303023&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">发消息</a></li>
+ -->
+ <!--2011.12.05修改串门链接 -->
+<li class="callon"><a href="http://blog.chinaunix.net/space.php?uid=8668&amp;do=home" target="_blank" title="串个门" class="xi2">串门</a></li>
+<li class="buddy"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=8668&amp;handlekey=addfriendhk_8668" id="a_friend_li_4303023" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">好友</a></li>
+<!--<li class="poke2"><a href="toblog.php?uid=8668" class="xi2" target="_blank">博客</a></li>-->
+<li class="poke2"><a href="http://blog.chinaunix.net/dir.php?uid=8668" class="xi2" target="_blank">博客</a></li> 
+<li class="pm2"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_8668&amp;touid=8668&amp;pmid=0&amp;daterange=2&amp;pid=4303023&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">消息</a></li>
+</ul>
+<dl class="pil cl"><dt>论坛徽章:</dt><dd>0</dd></dl><div style="padding:3px; margin-left:5px; margin-right:5px;"></div><!--2011.12.05新增禁止本版发言2011.12.17修改增加是否是本版版主且对管理员全部开放 -->
+</td>
+<td class="plc" style="background-color: rgb(240, 243, 250);">
+<div class="pi">
+<!--管理操作口移到这-->
+		
+<strong>
+<a href="http://bbs.chinaunix.net/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=594417&amp;pid=4303023" title="您的朋友访问此链接后，您将获得相应的积分奖励" id="postnum4303023" onclick="setCopy(this.href, '帖子地址复制成功');return false;"><em>9</em>楼</a>
+<!--以下新加开始 -->
+
+<!--报告-->
+<a href="javascript:;" onclick="showWindow('miscreport4303023', 'misc.php?mod=report&amp;rtype=post&amp;rid=4303023&amp;tid=594417&amp;fid=24', 'get', -1);return false;">[报告]</a>
+<!--编辑-->
+
+<!--评分2011.12.29-->
+
+<!--评分2011.12.29-->
+					
+
+				
+
+<!--新加的结束-->	
+
+</strong>
+
+<div class="pti">
+<div class="pdbt">
+</div>
+<div class="authi">
+<img class="authicn vm" id="authicon4303023" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/online_member.gif">
+<em id="authorposton4303023">发表于 2005-11-01 11:38:52</em>
+<span class="pipe">|</span><a href="http://bbs.chinaunix.net/forum.php?mod=viewthread&amp;tid=594417&amp;page=1&amp;authorid=8668" rel="nofollow">只看该作者</a>
+</div>
+</div>
+</div><div class="pct"><div class="pcb">
+<h2>要不大家写一个expect的简单例子</h2>
+<div class="t_fsz">
+<table cellpadding="0" cellspacing="0"><tbody><tr><td class="t_f" id="postmessage_4303023">
+比如说：要pkgrm掉系统中的某些包，这时候会提示你选择[y,n,q]等等。这样就可以练手啦。期待expect高手出手啊</td></tr></tbody></table>
+</div>
+<div id="comment_4303023" class="cm">
+</div>
+<div id="post_rate_div_4303023"></div>
+</div></div>
+
+</td></tr>
+<tr><td class="plc plm" style="background-color: rgb(240, 243, 250);">
+
+<!--//CHINAUNIX	文库推荐内容显示 at 20111118 by cao -->
+                        
+<div class="sign" style="max-height:500px;maxHeightIE:500px;"><font color="green"><b><br>
+让生命的河流激荡<br>
+让理想的翅膀飞越无尽峰峦<br>
+心中的远方<br>
+就从脚下启航<br>
+</b></font></div>
+<div class="a_pb"><a href="http://bbs.chinaunix.net/thread-3680555-1-1.html" target="_blank" style="color: green;"><b>Linux/unix安全优化的讨论与案例分享</b></a>|<a target="_blank" href="http://bbs.chinaunix.net/thread-3679733-1-1.html" style="color: red;"><b>
+2012年ChinaUnix社区Shell编程大赛！</b></a> | <a href="http://bbs.chinaunix.net/thread-3688555-1-1.html" target="_blank" style="color: blue;"><b>游戏网站中常用MySQL架构讨论</b></a> |  <a href="http://bbs.chinaunix.net/thread-3689139-1-1.html" target="_blank" style="color: rgb(142, 35, 107);"><b>技术会诊12306拯救铁老大！</b></a> </div></td>
+</tr>
+<tr>
+<td class="pls" style=""></td>
+<td class="plc">
+<div>
+<!--管理操作口移到上面-->
+
+<!--这块原先是每层楼下的回复编辑现在删掉，移到上面去-->
+</div>
+
+</td>
+</tr>
+
+<!--2011.12.01修改 帖子最后一个回帖出现的粗的黑线，有程序部分取得最大pid做对比，参照forum_vithread.php第596行  -->
+<tr class="ad">
+<td class="pls" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);"></td>
+<td class="plc" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);">
+</td>
+</tr>
+</tbody></table>
+</div><div id="post_4303763" style=""><table id="pid4303763" summary="pid4303763" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td class="pls" rowspan="2" style="background-color: rgb(255, 255, 255);">
+ <div class="pi" style=" border-bottom:none">
+<div class="authi"><a href="http://bbs.chinaunix.net/space-uid-7240187.html" target="_blank" class="xw1">cuci</a>
+
+</div>
+
+</div>
+<!--2011.12.01自定义头衔移到用户名下面头像上面  -->
+<div class="p_pop blk bui" id="userinfo4303763" style="display: none; margin-top: -11px;">
+<div class="m z">
+<div id="userinfo4303763_ma"></div>
+</div>
+<div class="i y">
+<div>
+<strong><a href="http://bbs.chinaunix.net/space-uid-7240187.html" target="_blank" class="xi2">cuci</a></strong>
+<em>当前离线</em>
+</div>
+<dl class="cl"><dt>空间积分</dt><dd>0 </dd><dt>信誉积分</dt><dd>104 </dd><dt>UID</dt><dd>7240187</dd><dt>阅读权限</dt><dd>100</dd><dt>积分</dt><dd>8925</dd><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=7240187&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">9428</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=7240187&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">5</a></dd><dt>可用积分</dt><dd>8925 </dd><dt>专家积分</dt><dd>192 </dd><dt>在线时间</dt><dd>1925 小时</dd><dt>注册时间</dt><dd>2004-07-30</dd><dt>最后登录</dt><dd>2012-02-10</dd></dl>
+<div class="imicn">
+<a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=7240187&amp;do=profile" target="_blank" title="查看详细资料"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/userinfo.gif" alt="查看详细资料"></a>
+</div>
+<div id="avatarfeed"><span id="threadsortswait"></span></div>
+</div>
+</div>
+<div>
+<div class="avatar" onmouseover="showauthor(this, 'userinfo4303763')"><a href="http://bbs.chinaunix.net/space-uid-7240187.html" target="_blank"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/87_avatar_middle.jpg" onerror="this.onerror=null;this.src='http://passport.ixpub.net/images/noavatar_middle.gif'"></a></div>
+<p><em><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=17" target="_blank">荣誉版主</a></em></p>
+
+</div>
+<p><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/star_level3.gif" alt="Rank: 7"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/star_level2.gif" alt="Rank: 7"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/star_level1.gif" alt="Rank: 7"></p>
+<dl class="pil cl"><dt>帖子</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=7240187&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2">9428</a></dd><dt>主题</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=7240187&amp;do=thread&amp;type=thread&amp;view=me&amp;from=space" target="_blank" class="xi2">397</a></dd><dt>精华</dt><dd><a href="http://bbs.chinaunix.net/home.php?mod=space&amp;uid=7240187&amp;do=thread&amp;type=digest&amp;view=me&amp;from=space" target="_blank" class="xi2">5</a></dd><dt>可用积分</dt><dd>8925 </dd><dt>专家积分</dt><dd>192 </dd><dt>在线时间</dt><dd>1925 小时</dd><dt>注册时间</dt><dd>2004-07-30</dd><dt>最后登录</dt><dd>2012-02-10</dd></dl><ul class="xl xl2 o cl">
+<!--修改文字部分20111026-->
+<!--
+<li class="callon"><a href="space-uid-7240187.html" target="_blank" title="串个门" class="xi2">串个门</a></li>
+<li class="buddy"><a href="home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=7240187&amp;handlekey=addfriendhk_7240187" id="a_friend_li_4303763" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">加好友</a></li>
+<li class="poke2"><a href="home.php?mod=spacecp&amp;ac=poke&amp;op=send&amp;uid=7240187" id="a_poke_li_4303763" onclick="showWindow(this.id, this.href, 'get', 0);" title="打招呼" class="xi2">打招呼</a></li>
+<li class="pm2"><a href="home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_7240187&amp;touid=7240187&amp;pmid=0&amp;daterange=2&amp;pid=4303763&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">发消息</a></li>
+ -->
+ <!--2011.12.05修改串门链接 -->
+<li class="callon"><a href="http://blog.chinaunix.net/space.php?uid=7240187&amp;do=home" target="_blank" title="串个门" class="xi2">串门</a></li>
+<li class="buddy"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=7240187&amp;handlekey=addfriendhk_7240187" id="a_friend_li_4303763" onclick="showWindow(this.id, this.href, 'get', 1, {'ctrlid':this.id,'pos':'00'});" title="加好友" class="xi2">好友</a></li>
+<!--<li class="poke2"><a href="toblog.php?uid=7240187" class="xi2" target="_blank">博客</a></li>-->
+<li class="poke2"><a href="http://blog.chinaunix.net/dir.php?uid=7240187" class="xi2" target="_blank">博客</a></li> 
+<li class="pm2"><a href="http://bbs.chinaunix.net/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_7240187&amp;touid=7240187&amp;pmid=0&amp;daterange=2&amp;pid=4303763&amp;tid=594417" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">消息</a></li>
+</ul>
+<dl class="pil cl"><dt>论坛徽章:</dt><dd>0</dd></dl><div style="padding:3px; margin-left:5px; margin-right:5px;"></div><!--2011.12.05新增禁止本版发言2011.12.17修改增加是否是本版版主且对管理员全部开放 -->
+</td>
+<td class="plc" style="background-color: rgb(255, 255, 255);">
+<div class="pi">
+<!--管理操作口移到这-->
+		
+<strong>
+<a href="http://bbs.chinaunix.net/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=594417&amp;pid=4303763" title="您的朋友访问此链接后，您将获得相应的积分奖励" id="postnum4303763" onclick="setCopy(this.href, '帖子地址复制成功');return false;"><em>10</em>楼</a>
+<!--以下新加开始 -->
+
+<!--报告-->
+<a href="javascript:;" onclick="showWindow('miscreport4303763', 'misc.php?mod=report&amp;rtype=post&amp;rid=4303763&amp;tid=594417&amp;fid=24', 'get', -1);return false;">[报告]</a>
+<!--编辑-->
+
+<!--评分2011.12.29-->
+
+<!--评分2011.12.29-->
+					
+
+				
+
+<!--新加的结束-->	
+
+</strong>
+
+<div class="pti">
+<div class="pdbt">
+</div>
+<div class="authi">
+<img class="authicn vm" id="authicon4303763" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/online_member.gif">
+<em id="authorposton4303763">发表于 2005-11-01 13:22:30</em>
+<span class="pipe">|</span><a href="http://bbs.chinaunix.net/forum.php?mod=viewthread&amp;tid=594417&amp;page=1&amp;authorid=7240187" rel="nofollow">只看该作者</a>
+</div>
+</div>
+</div><div class="pct"><div class="pcb">
+<div class="t_fsz">
+<table cellpadding="0" cellspacing="0"><tbody><tr><td class="t_f" id="postmessage_4303763">
+<div class="quote"><blockquote>原帖由 <i>Hex</i> 于 2005-8-16 19:21 发表<br>
+太好了！正是我所要的！关于expect的中文资料很少啊！<br>
+另外，tcl好像也很少人用啊！ </blockquote></div><br>
+
+<br>
+<a href="http://www.tclchina.com/" target="_blank">www.tclchina.com</a>,这里介绍expect和tcl，不过是内容不多，需要大家自己去开发：）</td></tr></tbody></table>
+</div>
+<div id="comment_4303763" class="cm">
+</div>
+<div id="post_rate_div_4303763"></div>
+</div></div>
+
+</td></tr>
+<tr><td class="plc plm" style="background-color: rgb(255, 255, 255);">
+
+<!--//CHINAUNIX	文库推荐内容显示 at 20111118 by cao -->
+                        
+<div class="sign" style="max-height:500px;maxHeightIE:500px;"><font color="red"><strong><font size="5"><a href="http://bbs.ylqonline.net/index.php?gid=11" target="_blank">welcome study together</a></font></strong></font><br>
+<br>
+<img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/4515_081127232328.jpg" onload="thumbImg(this)" alt="" height="226" width="325"></div>
+<div class="a_pb"><a href="http://bbs.chinaunix.net/thread-3680555-1-1.html" target="_blank" style="color: green;"><b>Linux/unix安全优化的讨论与案例分享</b></a>|<a target="_blank" href="http://bbs.chinaunix.net/thread-3679733-1-1.html" style="color: red;"><b>
+2012年ChinaUnix社区Shell编程大赛！</b></a> | <a href="http://bbs.chinaunix.net/thread-3688555-1-1.html" target="_blank" style="color: blue;"><b>游戏网站中常用MySQL架构讨论</b></a> |  <a href="http://bbs.chinaunix.net/thread-3689139-1-1.html" target="_blank" style="color: rgb(142, 35, 107);"><b>技术会诊12306拯救铁老大！</b></a> </div></td>
+</tr>
+<tr>
+<td class="pls" style="background-color: rgb(255, 255, 255);"></td>
+<td class="plc">
+<div>
+<!--管理操作口移到上面-->
+
+<!--这块原先是每层楼下的回复编辑现在删掉，移到上面去-->
+</div>
+
+</td>
+</tr>
+
+<!--2011.12.01修改 帖子最后一个回帖出现的粗的黑线，有程序部分取得最大pid做对比，参照forum_vithread.php第596行  -->
+<tr class="ad">
+<td class="pls" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);"></td>
+<td class="plc" style="border-width: 1px 0pt; border-style: solid; border-color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255);">
+</td>
+</tr>
+</tbody></table>
+</div>
+<div id="postlistreply" class="pl"><div id="post_new" class="viewthread_table" style="display: none"></div></div>
+</div>
+
+
+<form method="post" autocomplete="off" name="modactions" id="modactions">
+<input name="formhash" value="a5e69035" type="hidden">
+<input name="optgroup" type="hidden">
+<input name="operation" type="hidden">
+<input name="listextra" value="page%3D1" type="hidden">
+<input name="page" value="1" type="hidden">
+</form>
+
+<!--2011.12.01去掉mbm-->
+<div class="pgs mtm cl">
+<!--<div class="pgs mtm mbm cl">-->
+<div class="pg"><strong>1</strong><a href="http://bbs.chinaunix.net/thread-594417-2-1.html">2</a><a href="http://bbs.chinaunix.net/thread-594417-2-1.html" class="nxt">下一页</a></div><span class="pgb y" id="visitedforumstmp" onmouseover="$('visitedforums').id = 'visitedforumstmp';this.id = 'visitedforums';showMenu({'ctrlid':this.id,'pos':'21'})"><a href="http://bbs.chinaunix.net/forum.php?mod=forumdisplay&amp;fid=24&amp;page=1">返回列表</a></span>
+<a id="newspecialtmp" onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})" onclick="showWindow('newthread', 'forum.php?mod=post&amp;action=newthread&amp;fid=24')" href="javascript:;" title="发新帖"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/pn_post.png" alt="发新帖"></a>
+</div>
+
+<!--底部的导航-->
+<div id="pt" class="bm cl">
+<div class="z">
+<a href="http://www.chinaunix.net/" class="nvhm" title="首页">ChinaUnix.net</a> <em>&#8250;</em> <a href="http://bbs.chinaunix.net/forum.php">论坛</a> <em>&#8250;</em> <a href="http://bbs.chinaunix.net/forum.php?gid=60">程序设计</a> <em>&#8250;</em> <a href="http://bbs.chinaunix.net/forum.php?mod=forumdisplay&amp;fid=24&amp;page=1">Shell</a> <em>&#8250;</em> <a href="http://bbs.chinaunix.net/thread-594417-1-1.html">转：expect的基本用法</a>
+</div>
+</div>
+
+
+<!--[diy=diyfastposttop]--><div id="diyfastposttop" class="area"></div><!--[/diy]-->
+<script type="text/javascript">
+var postminchars = parseInt('2');
+var postmaxchars = parseInt('20000');
+var disablepostctrl = parseInt('0');
+</script>
+
+<div id="f_pst" class="pl bm bmw">
+<form method="post" autocomplete="off" id="fastpostform" action="forum.php?mod=post&amp;action=reply&amp;fid=24&amp;tid=594417&amp;extra=page%3D1&amp;replysubmit=yes&amp;infloat=yes&amp;handlekey=fastpost" onsubmit="return fastpostvalidate(this)">
+<table cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td class="pls">
+
+</td>
+<td class="plc">
+
+<span id="fastpostreturn"></span>
+
+
+<div class="cl">
+<div id="fastsmiliesdiv" class="y"><div id="fastsmiliesdiv_data"><div id="fastsmilies"></div></div></div><div class="hasfsl" id="fastposteditor">
+<div class="tedt mtn">
+<div class="bar">
+<span class="y">
+<a href="http://bbs.chinaunix.net/forum.php?mod=post&amp;action=reply&amp;fid=24&amp;tid=594417" onclick="return switchAdvanceMode(this.href)">高级模式</a>
+</span><script src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/seditor.js" type="text/javascript"></script>
+<div class="fpd">
+<a href="javascript:;" title="文字加粗" class="fbld">B</a>
+<a href="javascript:;" title="设置文字颜色" class="fclr" id="fastpostforecolor">Color</a>
+<a id="fastpostimg" href="javascript:;" title="图片" class="fmg">Image</a>
+<a id="fastposturl" href="javascript:;" title="添加链接" class="flnk">Link</a>
+<a id="fastpostquote" href="javascript:;" title="引用" class="fqt">Quote</a>
+<a id="fastpostcode" href="javascript:;" title="代码" class="fcd">Code</a>
+<a href="javascript:;" class="fsml" id="fastpostsml">Smilies</a>
+</div></div>
+<div class="area">
+<div class="pt hm">您需要登录后才可以回帖 <a href="http://bbs.chinaunix.net/member.php?mod=logging&amp;action=login&amp;logsubmit=yes" onclick="showWindow('login', this.href)" class="xi2">登录</a> | <a href="http://bbs.chinaunix.net/member.php?mod=register.php" class="xi2">注册</a> 
+<a href="http://bbs.chinaunix.net/connect.php?mod=login&amp;op=init&amp;referer=forum.php%3Fmod%3Dviewthread%26tid%3D594417%26extra%3Dpage%253D1%26page%3D1&amp;statfrom=login" target="_top" rel="nofollow"><img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/qq_login.gif" class="vm"></a>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<input name="formhash" value="a5e69035" type="hidden">
+<input name="subject" value="" type="hidden">
+<p class="ptm pnpost">
+<button type="button" onclick="showWindow('login', 'member.php?mod=logging&amp;action=login&amp;guestmessage=yes')" name="replysubmit" id="fastpostsubmit" class="pn pnc vm" value="replysubmit" tabindex="5" style="background:#9898BA; border:0"><strong>发表回复</strong></button>
+<label for="fastpostrefresh"><input id="fastpostrefresh" class="pc" type="checkbox">回帖后跳转到最后一页</label>
+<script type="text/javascript">if(getcookie('fastpostrefresh') == 1) {$('fastpostrefresh').checked=true;}</script>
+</p>
+<!--2011.12.01 -->
+</td>
+</tr>
+</tbody></table>
+</form>
+</div>
+
+<div id="visitedforums_menu" class="p_pop blk cl" style="display: none;">
+<table cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td id="v_forums">
+<h3 class="mbn pbn bbda xg1">浏览过的版块</h3>
+<ul class="xl xl1">
+<li><a href="http://bbs.chinaunix.net/forum-19-1.html">Oracle</a></li><li><a href="http://bbs.chinaunix.net/forum-9-1.html">AIX</a></li><li><a href="http://bbs.chinaunix.net/forum-23-1.html">C/C++</a></li></ul>
+</td>
+</tr>
+</tbody></table>
+</div>
+<div id="md_4_menu" class="tip tip_4" style="display: none;">
+<div class="tip_horn"></div>
+<div class="tip_c">
+<h4>荣誉版主</h4>
+<p></p>
+</div>
+</div>
+<div id="md_1_menu" class="tip tip_4" style="display: none;">
+<div class="tip_horn"></div>
+<div class="tip_c">
+<h4>荣誉会员</h4>
+<p></p>
+</div>
+</div>
+<script type="text/javascript">document.onkeyup = function(e){keyPageScroll(e, 0, 1, 'forum.php?mod=viewthread&tid=594417', 1);}</script>
+</div>
+
+<div class="wp mtn">
+<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+
+<!-- Baidu Button BEGIN -->
+<script src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/bds_s_v2.js" type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=442796"></script>
+<script src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/shell_v2.js" type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?t=" + new Date().getHours();
+</script>
+<!-- Baidu Button END -->	</div>
+
+<div style="width:960px; margin:0 auto; text-align:center; line-height:18px; padding:0 10px 10px 10px">
+<p>北京皓辰网域网络信息技术有限公司. 版权所有 京ICP证:060528号 北京市公安局海淀分局网监中心备案编号：1101082001<br>	
+广播电视节目制作经营许可证(京) 字第1234号  中国互联网协会会员&nbsp;&nbsp;联系我们：<img src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/adminmail.gif" height="12" border="0" width="139">
+<br>感谢所有关心和支持过ChinaUnix的朋友们    转载本站内容请注明原作者名及出处</p>
+</div>
+
+<table align="center">
+<tbody><tr>
+<td align="center">
+<a href="http://bbs.chinaunix.net/member.php?mod=clearcookies">清除 Cookies</a> - <a target="_blank" href="http://www.chinaunix.net/">ChinaUnix</a>
+ 	- <a target="_blank" href="http://bbs.chinaunix.net/archiver/">Archiver</a> - <a target="_blank" href="http://bbs.chinaunix.net/">WAP</a> - <a href="#top">TOP</a>
+</td>
+</tr>
+</tbody></table>
+
+<!--广告标签 -->
+<script type="text/javascript" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/599_004.js"></script><script type="text/javascript" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/599_003.js"></script><script type="text/javascript" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/599.js"></script>
+<script type="text/javascript" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/863.js"></script><script type="text/javascript" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/863_002.js"></script><script type="text/javascript" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/863_003.js"></script>
+
+<!--新版测试广告标签 -->
+<script type="text/javascript">
+var SeriesId='';
+var BrandId='';
+</script>
+<script type="text/javascript" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/599_002.js"></script>
+<script type="text/javascript" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/863_004.js"></script>
+
+    <!--//ITPUB 腾讯分析代码-->
+    &nbsp;&nbsp;<span id="tcss"></span><script type="text/javascript" src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/ping.js" charset="utf-8"></script><script type="text/javascript" reload="1">pgvMain({"discuzParams":{"r2":"8399146","ui":0,"rt":"forum","md":"viewthread","fi":"24","ti":"594417","pn":1},"virtualDomain":"bbs.chinaunix.net","extraParams":""});</script>            
+    
+<div id="g_upmine_menu" class="tip tip_3" style="display:none;">
+<div class="tip_c">
+积分 0, 距离下一级还需  积分
+</div>
+<div class="tip_horn"></div>
+</div>
+<script src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/home.htm" type="text/javascript"></script>
+<!--回顶部js2011.12.30-->
+<script language="javascript">
+ lastScrollY=0;
+ function heartBeat(){
+ var diffY;
+ if (document.documentElement && document.documentElement.scrollTop)
+     diffY = document.documentElement.scrollTop;
+ else if (document.body)
+     diffY = document.body.scrollTop
+ else
+     {/*Netscape stuff*/}
+ percent=.1*(diffY-lastScrollY);
+ if(percent>0)percent=Math.ceil(percent);
+ else percent=Math.floor(percent);
+ document.getElementById("full").style.top=parseInt(document.getElementById("full").style.top)+percent+"px";
+ lastScrollY=lastScrollY+percent;
+ if(lastScrollY<200)
+ {
+ document.getElementById("full").style.display="none";
+ }
+ else
+ {
+ document.getElementById("full").style.display="block";
+ }
+ }
+ var gkuan=document.body.clientWidth;
+ var ks=(gkuan-960)/2-30;
+ suspendcode="<div id=\"full\" style='right:4px;POSITION:absolute;TOP:500px;z-index:100;width:20px; height:50px;cursor:pointer;'><a href=\"javascript:void(0)\" onclick=\"window.scrollTo(0,0);\"></a></div>"
+ document.write(suspendcode);
+ window.setInterval("heartBeat()",1);
+ </script><div id="full" style="right: 4px; position: absolute; top: 564px; z-index: 100; width: 20px; height: 50px; cursor: pointer; display: none;"><a href="javascript:void(0)" onclick="window.scrollTo(0,0);"></a></div>
+
+<!-- 统计 START -->
+<script src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/pv.js" type="text/javascript"></script>
+<script type="text/javascript">
+function sendPV(){
+    var pvTrack = new PvTrack();
+    pvTrack.type = 35; // 频道类别ID
+    pvTrack.channel = 22; // 频道ID
+    pvTrack.pageType = 0;
+    pvTrack.track();
+}
+window.setTimeout("sendPV()", 0);
+</script>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20237423-2']);
+  _gaq.push(['_setDomainName', '.chinaunix.net']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<script type="text/javascript"> 
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js?0ee5e8cdc4d43389b3d1bfd76e83216b' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="expect%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95_files/h.js" type="text/javascript"></script>
+<!-- 统计 END -->
+
+</body></html>

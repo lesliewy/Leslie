@@ -1,0 +1,65 @@
+第一个shell:
+ remote 存在4个目录: A   A_BAK   B  B_BAK
+   将 A 中的 .chk 文件 和 与 .chk 文件名前缀相同的 .dat 文件 download,  同时mv至 A_BAK.    
+   将download的 .chk 文件 和 与 .chk 文件名前缀相同的 .dat 文件 转移至本地指定的目录.
+
+   有chk文件,但没有dat文件怎么办?
+ssh_sftp/bash/sftp_pes.sh  payadm1 10.9.10.17 /home/payadm1/wy//// /home/payadm1/wy/chkdata//// /home/payadm1/wy/temp_bak/ /home/payadm1/wy/temp/
+
+第二个shell:
+   将本地 C 目录下的所有文件上传到 remote 的 B 目录.   B_BAK是没有用到的.
+
+入库前先检查是否已经入库，如果已经入库就不需要入了;继续往下走.
+入库的时候要注意堵重. 
+
+ssh_sftp/bash/sftp_pes_upload.sh payadm1 10.9.10.17  /home/payadm1/wy/chkdata/1234_abc.dat /home/payadm1/wy/temp2
+
+
+
+投产注意: 
+1,  chmod a+x ssh_sftp/bash/sftp_pes_upload.sh   
+
+
+
+入库表结构:
+Column Description Type Length NULL? Remark
+PROV_CODE 机构省编码 VARCHAR2 3 N 
+CITY_CODE 机构市编码 VARCHAR2 4 
+GFIL_DT 获取日期 VARCHAR2 8 N                   文件名中 YYYYMMDD
+FIL_NM 文件名 VARCHAR2 60 N PRIMARY KEY
+FIL_FLG 状态 VARCHAR2 1 N 0：未获取
+1：已获取
+SFIL_DT 文件上送时间 VARCHAR2 14 N BOSS上送时间：   文件名中YYYYMMDDHH24MISS
+YYYYMMDDHH24MISS
+TM_SMP 时间戳 VARCHAR2 26 N 
+
+
+
+sftp 不支持mv操作.   支持rm rename
+
+
+用$?取返回: 紧跟在命令之后，先保存下来，否则后面就取不到了.
+sftp -b $sftpbatchfile $remoteuser@$remoteip:$remotedir &> $logfile
+sftpreturn=$?
+
+用户名 ip 错误sftp都是返回255.
+[payadm1@cslab-svr01 chkdata]$ sftp -b a.file payadm2@10.9.10.17:wy/temp2
+Permission denied (publickey,gssapi-with-mic,password).
+Couldn't read packet: Connection reset by peer
+[payadm1@cslab-svr01 chkdata]$ echo $?
+255
+
+指定的远程目录不存在, sftp 返回1;
+指定的远程目录下没有文件,同样会返回1;
+[payadm1@cslab-svr01 chkdata]$ sftp -b a.file payadm1@10.9.10.17:wy/temp3
+Couldn't stat remote file: No such file or directory
+File "/home/payadm1/wy/temp3" not found.
+[payadm1@cslab-svr01 chkdata]$ echo $?
+1
+
+basename  filename .chk
+
+
+
+
+

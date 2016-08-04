@@ -1,0 +1,19 @@
+==========================================================printf============================================================================================
+// old style
+printf("abcdefg"\
+"hijklmn"\
+"opq\n");                                 // abcdefghijklmnopq
+// 编译器后加特性.
+printf("abcdefg"
+"hijklmn"
+"opq\n");                                 // abcdefghijklmnopq
+// 可能导致的问题.
+   char* a[]={"abcdefg",
+              "hijklmn"
+              "opq"};
+   printf("in array:%s\n",a[1]);    // 编译器的特性可能导致错误.
+// conclusion:   printf 中不会自动添加 "\n",  没有"\n"就不会换行. 
+                 之前在每行末尾会有 \ , 现在没有也可以,所以可能导致容易出现问题。 例如上面初始化数组时，少写了一个",",则a[1]=abcdefghijklmn
+
+
+

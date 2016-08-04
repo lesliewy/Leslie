@@ -1,0 +1,263 @@
+div.comment-text
+{
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+div.voteReport{
+	background-color:#EEEEEE;
+	border:1px solid #CCCCCC;
+	padding: 3px;
+	right: 20px;
+	top: 20px;
+	position: absolute;
+	text-align:center;
+	/*
+	filter: alpha(opacity=75);
+	-moz-opacity: .75;
+	opacity: .75; */
+	/* display: none; */
+}
+
+.votingReport{
+	text-align: right;
+}
+
+div.commentBlogView
+{
+	display:block;
+	text-align: right;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	margin-top: 4px;
+  	margin-bottom: 4px;
+	clear:both;
+}
+
+div.commentTools{
+	border-bottom:1px solid #BCBCBC;
+	height:18px;
+}
+
+div.commentBlogView > div.show-comment, 
+div.commentBlogView > div.show-linkmore, 
+div.commentBlogView > div.show-hit, 
+div.jctools,
+div.show-feed, div.show-report, div.show-voteup, div.show-votedown
+{
+	display:inline;
+	float:right;
+	height:18px;
+	text-indent: 24px;
+	margin-left: 4px;
+	margin-right: 4px;
+	background-repeat:no-repeat;
+	background-position: 0 50%;
+	/* background-image:url(images/comments.gif); */
+}
+
+div.show-result{
+	display: none;
+	float:right;
+	height:18px;
+	text-indent: 24px;
+	margin-left: 4px;
+	margin-right: 4px;
+}
+
+div.commentBlogView > div.show-comment{
+	background-image:url(images/comments.gif);
+}
+
+div.commentBlogView > div.show-linkmore{
+	background-image:url(images/page_go.gif);
+}
+
+div.commentBlogView > div.show-hit{
+	background-image:url(images/chart_bar.gif);
+}
+
+div.show-feed
+{
+	width:18px;
+	background-image:none;
+}
+
+div.show-report{
+	background-image:url(images/comments_alert.gif);
+	background-repeat: no-repeat;
+	height:14px;
+	cursor:pointer;
+}
+div.show-voteup{
+	background-image:url(images/comments_voteup.gif);
+	background-repeat: no-repeat;
+	height:14px;
+	cursor:pointer;
+}
+div.show-votedown{
+	background-image:url(images/comments_votedown.gif);
+	background-repeat: no-repeat;
+	height:14px;
+	cursor:pointer;
+}
+
+div.jcfav
+{
+	background-image:url(images/star.png);
+}
+
+div.jcshare
+{
+	background-image:url(images/share.png);
+}
+
+div.jcemail
+{
+	background-image:url(images/email.png);
+}
+
+.jomentry1, .jomentry2 , #jc_commentFormDiv
+{
+	border-bottom: 1px solid #ddd;
+	padding: 8px 4px;
+	background-repeat:repeat-x;
+	background-position:top;
+	position:relative;
+	z-index: 1;
+}
+
+.jomentry1 blockquote, .jomentry2 blockquote
+{
+	margin: 10px;
+	padding-left: 5px;
+	border-left: 5px solid #ddd;
+}
+
+.jomentry1
+{		
+		color:#000000;
+    background-color: #f2f2f2;
+    background-image:url(images/topshade1.gif);
+}
+.jomentry2 , #jc_commentFormDiv
+{
+		color:#000000;
+    background-color: #FFFFF2;
+    background-image:url(images/topshade2.gif);
+}
+
+.jomauthor
+{
+		color:inherit;
+    background-color: #F5F5C1;
+    border-bottom: 1px solid #FFDE00;
+    background-image:none;
+}
+
+#jc_commentsDiv blockquote
+{
+  color: #747474;
+	background-color:inherit;
+  padding-left: 30px;
+}
+
+#write_comment_title
+{
+	margin-top:14px;
+}
+
+.avatarImg
+{
+	float: right;
+	padding: 2px;
+}
+
+.avatarImg img
+{
+	border:1px solid #ddd
+}
+
+#jc_name, #jc_website, #jc_email, #jc_title, #jc_comment, #jc_password
+{
+	width: 98%;
+	padding: 4px;
+	margin: 0ex;
+}
+
+#jc_name, #jc_website, #jc_email, #jc_password
+{
+	width: 50%;
+}
+
+#jc_commentForm
+{
+    padding-top: 2px;
+    padding-bottom: 6px;
+}
+
+
+#jc_commentForm label
+{
+    font-weight:bold;
+    padding-top: 6px;
+    padding-bottom: 4px;
+    display: block;
+}
+
+#jc_commentForm button, #jc_captchaImg
+{
+    margin-top: 6px;
+    margin-bottom: 4px;
+}
+
+/* Trackbacks */
+#trackback_link, #feed_link
+{
+	height:16px;
+	vertical-align:middle;
+	text-align:left;
+	cursor:pointer;
+	font-size:90%;
+}
+
+#trackback_link a, #feed_link a
+{
+	border-bottom:dashed 1px #CACACA;
+}
+
+#trackback_link img, #feed_link img
+{
+	vertical-align:middle;
+	padding-right:2px;
+	padding-left:2px;
+}
+
+#write_comment_heading
+{
+	margin-top:20px;
+	margin-bottom:30px;
+}
+
+.comment_action{
+	background-color:#EEEEEE;
+	border-color:#CCCCCC rgb(153, 153, 153) rgb(153, 153, 153) rgb(204, 204, 204);
+	border-style:solid;
+	border-width:1px;
+	color:#333333;
+	display:-moz-inline-box;
+	font-family:Tahoma,Arial,Helvetica;
+	font-size:100%;
+	margin:1px;
+/*	padding:2px; */
+	vertical-align:middle;
+	white-space:nowrap;
+	position:absolute;
+	right:0px;
+	top:0px;
+}
+
+#jc_commentForm label.subscribe, #jc_commentForm label.agree {
+font-style:normal;
+font-weight:normal;
+}

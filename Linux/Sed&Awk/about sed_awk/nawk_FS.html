@@ -1,0 +1,385 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<!-- This HTML file has been created by texi2html 1.54
+     from nawk.texi on 17 July 1998 -->
+
+<title>The AWK Manual - Field Separators</title>
+<link href="http://people.cs.uu.nl/piet/docs/nawk/nawk_24.html" rel="Next">
+<link href="http://people.cs.uu.nl/piet/docs/nawk/nawk_22.html" rel="Previous">
+<link href="http://people.cs.uu.nl/piet/docs/nawk/nawk_toc.html" rel="ToC">
+
+<script defer="defer" src="nawk_FS_files/aptureTmmBookmarklet.js" id="aptureExtension"></script><script defer="defer" src="nawk_FS_files/storage.js" charset="utf-8" type="text/javascript"></script><style type="text/css">a img,a{cursor:pointer;}img{cursor:auto;}.aptureTMMGutterWrapperQuirks{top:expression(this.parentNode.offsetHeight / 2);}.aptureTMMSelection::selection{background:#5499DE none 0 0;color:#fff;-webkit-border-radius:3px!important;}.aptureTMMSelection::-moz-selection{background:#5499DE none 0 0;color:#fff;-webkit-border-radius:3px!important;}.aptureTMMSelected::selection{background:#06c none 0 0;color:#fff;-webkit-border-radius:3px!important;}.aptureTMMSelected::-moz-selection{background:#06c none 0 0;color:#fff;-webkit-border-radius:3px!important;}#aptureD a.aptureTMMCloseButton{float:right;width:16px;height:16px;background-image:url(http://cdn.apture.com/media/imgs/close_gray.png);cursor:pointer;background-repeat:no-repeat;margin-top:1px;margin-right:3px;}#aptureD a.aptureTMMCloseButton:hover{background-image:url(http://cdn.apture.com/media/imgs/close_red.png);background-repeat:no-repeat;}#aptureD .aptureTMMResults{background-color:#efefef;-webkit-box-shadow:2px 3px 5px #333;-moz-box-shadow:2px 3px 5px #333;border-color:#555;border-style:solid;border-width:1px;overflow:hidden;}#aptureD .aptureTMMResult{clear:both;position:relative;background-color:#FFF;}#aptureD .aptureTMMResult .aptureThumb{float:left;width:32px;height:32px;}#aptureD .aptureTMMWikiMoreLink{float:left;padding-top:2px!important;font:11px helvetica,arial!important;color:#06c!important;position:relative;}#aptureD span.aptureTMMSourceInfo,#aptureD span.aptureTMMSourceInfo span,#aptureD span.aptureTMMSourceInfo div{font-variant:small-caps;float:right;color:#999;font-size:12px!important;}#aptureD .aptureTMMSourceInfo .aptureTMMSourceName{padding-right:4px;padding-left:4px;}#aptureD .aptureTMMRichWikipediaArticleItem .aptureThumb{width:100px;height:100px;}#aptureD .aptureTMMRichMediaListViewer .aptureThumb,#aptureD .aptureTMMRichMediaListViewer .aptureThumb:hover,#aptureD .aptureTMMRichMediaListViewer .aptureThumb:active,#aptureD .aptureTMMRichMediaListViewer .aptureThumb:visited{border:1px solid #303030;background-color:white;}#aptureD .aptureTMMRichMediaListViewer .aptureTMMListThumb{position:relative;float:left;clear:none;background-color:transparent;border-bottom:0;border:2px solid transparent;padding:1px;margin-right:4px;margin-left:4px;margin-top:2px;margin-bottom:2px;}#aptureD .aptureTMMRichMediaListViewer .aptureTMMListThumbHover{border:3px solid #555;padding:0;background:transparent;}#aptureD .aptureTMMRichMediaListViewer{border:1px solid #303030;user-select:none;-webkit-user-select:none;-moz-user-select:none;}#aptureD .aptureTMMRichMediaListViewer .aptureTMMRichImageListNav{-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;}#aptureD .aptureTMMRichMediaListViewer .aptureTMMThumbOpen{border:3px solid;padding:0;}#aptureD .aptureTMMRichMediaListViewer .aptureTMMThumbOpen .aptureThumb{border-color:black;}#aptureD .aptureTMMRichMediaListViewer .aptureTMMSlideshowLoadingDiv{position:absolute;top:0;left:0;background-color:black;}#aptureD .aptureTMMRichMediaListViewer .aptureTMMSlideshowInnerLoadingDiv .aptureTMMLoader{color:white;font:"Helvetica Neue",Helvetica;font-weight:normal;}#aptureD .aptureTMMRichMediaListViewer .aptureTMMImageNav{width:90px;position:absolute;cursor:pointer;}#aptureD .aptureTMMRichMediaListViewer .aptureImageViewer{background-color:white;}#aptureD .aptureTMMRichImageListNav .aptureTMMRichImageListNavIconWrapper{position:relative;float:left;overflow:hidden;}#aptureD .aptureTMMRichImageListNav .aptureTMMRILNavBtn{float:left;width:14px;height:22px;margin-top:5px;}#aptureD .aptureTMMRichImageListNav .aptureThumb{height:70px;width:70px;-webkit-box-shadow:rgba(0,0,0,0.31) 0 0 10px 1px;-moz-box-shadow:rgba(0,0,0,0.31) 0 0 10px 1px;}#aptureD .aptureTMMRichImageListNav .aptureThumb,#aptureD .aptureTMMRichImageListNav .aptureThumb *{cursor:url(http://cdn.apture.com/media/imgs/crsr/magnify_in.gif),pointer!important;}#aptureD .aptureTMMRichMediaListViewer .aptureTMMRichMediaListCaption{position:absolute;}#aptureD .aptureTMMRichMediaListCaption{background-color:white;border:1px solid white;font:12px Helvetica;}#aptureD .aptureTMMResult a.aptureVideoThumbPreview{width:96px;height:72px;border:1px solid #ccc;}#aptureD .aptureTMMResult .aptureVideoThumbPreview .aptureTMMVideoPreviewPlay{background-image:none;width:96px;height:72px;position:absolute;left:0;top:0;background-repeat:no-repeat;background-position:36px 24px;background-image:url(http://cdn.apture.com/media/imgs/play_button.png);}#aptureD .aptureTMMResult .aptureThumbBadge{display:none!important;}#aptureD .aptureTMMLoading{text-align:center;padding-top:30px;font:bold 13px Helvetica;text-shadow:#FFF 0 1px 1px!important;width:374px;}#aptureD .aptureTMMImageBorders{border:1px solid #CCC;}#aptureD .aptureTMMBar{background:url(http://cdn.apture.com/media/imgs/prstg_shadow.png) 0 35px repeat-x;height:46px;left:0;margin:0;padding:0;position:fixed;overflow:hidden;width:100%;-webkit-transition:top .6s ease-out,opacity .3s ease-out;text-shadow:none;}#aptureD .aptureTMMBar a{font:10pt 'Helvetica Neue',Helvetica;text-decoration:none;padding:0 5px;}#aptureD .aptureTMMBarInnerDiv{border-bottom:0 solid #000;height:35px;overflow:hidden;position:relative;}#aptureD a.aptureTMMFavIcon{width:16px;height:16px;}#aptureD a.aptureTMMBarLogo:link,#aptureD a.aptureTMMBarLogo:hover,#aptureD a.aptureTMMBarLogo:active{background:no-repeat 0 50%;top:1px!important;height:35px;position:absolute!important;padding:0!important;}#aptureD a.aptureTMMBarLogoIE6,#aptureD a.aptureTMMBarLogoIE6:hover,#aptureD a.aptureTMMBarLogoIE6:active{height:35px!important;top:1px!important;position:absolute!important;text-decoration:none!important;padding:0!important;}#aptureD a.aptureTMMBarTitle,#aptureD a.aptureTMMBarTitle:hover,#aptureD a.aptureTMMBarTitle:active{position:absolute!important;width:auto!important;top:3px!important;text-decoration:none!important;font:22px "Helvetica Neue",Helvetica,Arial!important;font-weight:bold!important;padding:0!important;cursor:pointer;}#aptureD .aptureTMMInput{position:absolute!important;top:6px!important;margin:1px;height:17px;width:254px;font-size:13px!important;font-family:'Helvetica Neue',Helvetica;background:white url(http://cdn.apture.com/media/imgs/tmmSearchSprite.png?v1) no-repeat scroll 0 0!important;border:1px solid #888!important;padding:2px 3px 2px 22px!important;outline:0;-webkit-transition:border-color .1s ease-out;}#aptureD .aptureTMMInputQuirks{height:23px;width:276px;}#aptureD .aptureTMMInput:focus,#aptureD .aptureTMMInputFocused{margin:0;border-width:2px!important;border-color:#1E84FF!important;}#aptureD .aptureTMMInputFocusedQuirks{height:25px;}#aptureD div.aptureTMMSurvey{padding:5px 2px 5px 8px;clear:both;background-color:#dde3ff;}#aptureD .aptureTMMSurveyIcon{float:left!important;padding:4px;background-color:#dde3ff;}#aptureD .aptureTMMSurveyContent{font:bold 11px Helvetica!important;color:#444;background-color:#dde3ff;margin:1px 4px!important;padding:1px 4px!important;}#aptureD .aptureTMMSurveyLink{font:12px Helvetica!important;padding-right:12px!important;background:url(http://cdn.apture.com/media/imgs/external.gif?v5) no-repeat right top!important;color:#06c!important;font-weight:bold!important;cursor:pointer!important;}#aptureD .aptureTMMSurveyLink:hover{color:#008!important;}#aptureD .aptureTMMShare{position:absolute!important;height:35px;margin:0;padding:0;}#aptureD a.aptureTMMShareLink,#aptureD a.aptureTMMShareLink:hover,#aptureD a.aptureTMMShareLink:active{margin:0!important;height:35px!important;padding:0!important;display:block!important;float:left!important;position:relative!important;cursor:pointer!important;text-decoration:none!important;}#aptureD .aptureTMMShareClearDiv{cursor:pointer;position:absolute;height:35px;margin:0;padding:0;left:0;top:0;}#aptureD .aptureTMMShareIcon{cursor:pointer;margin:6px 0 0 9px;padding:0;position:absolute;background-image:url(http://cdn.apture.com/media/imgs/share/share_icons.gif);height:24px;width:24px;}#aptureD .aptureTMMShareBackground{cursor:pointer;position:absolute;height:35px;width:20px;margin:0;padding:0;left:0;top:0;background-color:#f00;}#aptureD .aptureTMMShareCountDiv{position:absolute;font-family:arial!important;font-size:11px!important;color:#047;font-weight:bold!important;}#aptureD .aptureTMMShareCountDivOutline{color:#fff!important;}#aptureD .aptureTMMShareText{color:white;position:absolute;left:39px;overflow:hidden;height:14px;margin:0;padding:0;font-family:helvetica;font-size:11px;cursor:pointer;text-decoration:none!important;}#aptureD div.aptureTMMToutLink{margin:0!important;height:35px!important;overflow:hidden!important;padding:0 3px!important;display:block!important;float:left!important;position:absolute!important;cursor:pointer!important;text-decoration:none!important;}#aptureD .aptureTMMToutIcon{cursor:pointer;margin:6px 0 0 0!important;padding:0!important;float:left;height:24px!important;width:24px!important;}#aptureD .aptureTMMToutTooltipImage{position:absolute!important;width:75px;height:49px;z-index:2147483647!important;padding:0!important;margin:0;}#aptureD .aptureTMMHideButton{width:15px;height:35px;float:left;}#aptureD .aptureTMMHideButtonBorder{border-right:1px solid #888;position:absolute;}#aptureD .aptureTMMHideButtonFixed{position:fixed;top:0;left:0;}#aptureD .aptureTMMShowButtonCover{width:14px;height:35px;background-color:white;top:0;left:0;}#aptureD .aptureTMMHideButtonHidden .aptureTMMShowButtonCover,#aptureD .aptureTMMHideButtonHidden,#aptureD .aptureTMMHideButtonHidden .aptureTMMHideButtonBorder{-webkit-border-bottom-right-radius:5px 5px;-webkit-border-top-right-radius:5px 5px;-moz-border-radius-bottomright:5px 5px;-moz-border-radius-topright:5px 5px;border-bottom-right-radius:5px 5px;border-top-right-radius:5px 5px;}#aptureD .aptureTMMHideArrowPosition{position:absolute;left:1px;top:9.5px;}#aptureD .aptureTMMHideArrow{background-image:url(http://cdn.apture.com/media/imgs/vertical_chevron.png?v2);background-position:0 0;background-repeat:no-repeat;height:17px;width:12px;font-size:1px;}#aptureD .aptureTMMHideButtonHidden .aptureTMMHideArrow{background-position:0 -18px;}#aptureD .aptureTTStyleGray .aptureTMMTabBar{background:transparent;}#aptureD .aptureTTStyleGray .aptureTMMTab{border:1px solid transparent;}#aptureD .aptureTTStyleGray .aptureTMMTabTitle,#aptureD .aptureTTStyleGray .aptureTMMTabCount{color:#555!important;text-shadow:none!important;}#aptureD .aptureTTStyleGray .aptureTMMStar{color:#fff!important;}#aptureD .aptureTTStyleGray .aptureTMMTabMouseOver .aptureTMMTabTitle,#aptureD .aptureTTStyleGray .aptureTMMTabMouseOver .aptureTMMTabCount{color:white!important;}#aptureD .aptureSearchTTIndicator{font:bold 14px Helvetica;text-shadow:#fff 0 0 2px;margin-top:5px;color:#222!important;}#aptureD .aptureHighlightMarker{position:absolute;height:1px;width:1px;background:transparent;z-index:200000000;}#aptureD .aptureRichThumb img.aptureThumbImg{width:auto;height:auto;}#aptureD .aptureTMMDefinitionResult{background-color:#feffe4;}#aptureD .aptureTMMLoader{font:14px Helvetica;font-weight:bold;}#aptureD .aptureTMMLoaderSmall{background-repeat:no-repeat;height:16px;width:16px;float:left;margin-right:4px;}#aptureD .aptureTMMLoaderSmallWhite{background-image:url(http://cdn.apture.com/media/imgs/throbber_states.png?v2);}#aptureD .aptureTMMLoaderSmallBlack{background-image:url(http://cdn.apture.com/media/imgs/throbber_states.png?v2);}#aptureD .aptureNotificationOverlay{position:absolute;bottom:0;left:0;background:#f7fabb;width:100%;-webkit-box-shadow:#CCC 0 -5px 5px -3px;-moz-box-shadow:0 -5px 5px -3px #CCC;box-shadow:0 -5px 5px -3px #CCC;}#aptureD .aptureNotificationClose{position:absolute;top:-22px;left:15px;height:22px;width:26px;background-position:0 0;background-image:url(http://cdn.apture.com/media/imgs/notificationOverlayClose.png);}#aptureD .aptureNotificationOpen{background-position:-26px 0;}#aptureD .aptureNotificationContent{padding:10px;}#aptureD .aptureNotificationContent *{font-family:Helvetica;font-size:12px;color:#555;line-height:17px;}</style><style type="text/css">#aptureD,#aptureD ABBR,#aptureD ACRONYM,#aptureD ADDRESS,#aptureD B,#aptureD BIG,#aptureD BLOCKQUOTE,#aptureD CAPTION,#aptureD CENTER,#aptureD CITE,#aptureD CODE,#aptureD DD,#aptureD DIV,#aptureD DL,#aptureD DT,#aptureD EM,#aptureD EMBED,#aptureD FONT,#aptureD FORM,#aptureD H1,#aptureD H2,#aptureD H3,#aptureD H4,#aptureD H5,#aptureD H6,#aptureD I,#aptureD IFRAME,#aptureD IMG,#aptureD LABEL,#aptureD LEGEND,#aptureD LI,#aptureD MAP,#aptureD OBJECT,#aptureD OL,#aptureD P,#aptureD PRE,#aptureD SMALL,#aptureD SPAN,#aptureD STRIKE,#aptureD STRONG,#aptureD SUB,#aptureD SUP,#aptureD TABLE,#aptureD TBODY,#aptureD TD,#aptureD TFOOT,#aptureD TH,#aptureD THEAD,#aptureD TR,#aptureD TT,#aptureD U,#aptureD UL,#aptureD a,#aptureD a:link,#aptureD a:hover,#aptureD a:visited,#aptureD a:active{border:0;background:transparent none;color:black;padding:0;text-align:left;font:normal medium serif;text-shadow:none;}div#aptureD,#aptureD DIV,#aptureD TABLE,#aptureD TR,#aptureD TH,#aptureD TD{height:auto;width:auto;}#aptureD,#aptureD *{border-collapse:none;margin:0;font:normal normal normal 12px/normal;text-transform:none;text-decoration:none;clear:none;cursor:auto;float:none;outline:none;letter-spacing:normal;word-spacing:normal;text-indent:0;white-space:normal;vertical-align:baseline;position:static;}#aptureD TABLE{border-collapse:collapse;}#aptureD TD{vertical-align:bottom;}#aptureD span,#aptureD img{display:inline;}#aptureD p,#aptureD div{display:block;}#aptureD div{overflow:visible;}#aptureD ul,#aptureD ol{padding-left:20px;}#aptureD a,#aptureD a:link,#aptureD a:hover,#aptureD a:visited,#aptureD a:active{display:inline;color:blue;text-decoration:underline;cursor:pointer;}#aptureD a:visited{color:purple;}#aptureD a:active{color:red;}#aptureD input{width:auto;border:0;background:transparent none;-webkit-box-sizing:content-box;}.aptureWPMessage{font:11px Helvetica,sans-serif;color:#999;padding:0 10px;}.aptureWPMessage strong{color:black;padding-left:15px!important;background-image:url(http://cdn.apture.com/media/imgs/link_icons.gif?v12)!important;background-repeat:no-repeat!important;background-position:left -350px;}#aptureD .aptureMessage{color:#333;border:1px solid;margin:10px 0;overflow:auto;position:absolute;z-index:12345;}#aptureD .aptureMessageInfo{background-color:#e9f5fd;border-color:#bcd;}#aptureD .aptureMessageInfoYellow{background-color:#FFFBCC;border-color:#E6DB55;}#aptureD .aptureMessageSuccess{background-color:#e8f0d9;border-color:#a7c46c;}#aptureD .aptureMessageAlert{background-color:#f7d9df;border-color:#e58099;}#aptureD .aptureMessage h4{font:bold 12px/18px Helvetica,sans-serif;border:solid #fff;border-width:1px 0 0 1px;margin:0;padding:9px 9px 6px 9px;}#aptureD .aptureMessageCloseBtn{width:20px;height:20px;margin-right:5px;cursor:pointer;float:right;background:transparent url(http://cdn.apture.com/media/imgs/add_edit_delete.gif?v2) no-repeat right -35px;}#aptureD .aptureMessage div,#aptureD .aptureMessage span{font:11px/18px Helvetica,sans-serif;}#aptureD .aptureMessage p{font:11px/18px Helvetica,sans-serif;border:solid #fff;border-width:0 0 0 1px;margin:0;padding:0 9px 6px 9px;}#aptureD .aptureMessage a{font:11px/18px Helvetica,sans-serif!important;color:#06c!important;font-weight:bold!important;text-decoration:none!important;}#aptureD .aptureMessage a:hover{text-decoration:underline!important;}#aptureD .aptureMessage a:active{color:#04a!important;}#aptureD .aptureDimLayer{position:fixed;top:0;left:0;background-color:black;}#aptureD .apturePopup{position:absolute;width:0;height:0;z-index:10002;overflow:hidden;}#aptureD .apturePopupHighlight{position:absolute;border:2px solid orange;top:5px;left:9px;}#aptureD .aptureCloseAll{position:fixed;top:0;right:0;width:75px;z-index:10345;background-color:#f0f0f0;padding:2px;cursor:pointer;}#aptureD .aptureCloseAll span{font:12px/17px Helvetica;padding-right:2px;cursor:pointer;}#aptureD .aptureStretchRow img{width:100%;height:100%;display:block;}#aptureD .apturePopupButton{cursor:pointer;float:right;display:block;width:25px;height:20px;overflow:hidden;margin:0;background-image:url(http://cdn.apture.com/media/imgs/title_icons.png?6)!important;background-repeat:no-repeat;}#aptureD .apturePopupButtonDark{cursor:pointer;float:right;width:25px;height:20px;overflow:hidden;margin:0 1px;background:url(http://cdn.apture.com/media/imgs/darktitle_icons.png?6) no-repeat left top;}#aptureD .aptureMHTitleSignout{cursor:pointer!important;float:right!important;font-family:Helvetica!important;font-size:11px!important;font-weight:bold!important;color:#FFF!important;text-decoration:none!important;margin-top:3px!important;margin-right:9px!important;text-shadow:#000 0 -1px 1px!important;}#aptureD .aptureMHTitleSignout:hover{text-decoration:underline!important;}#aptureD .aptureMHTitleSignedInAs{float:right!important;font-family:Helvetica!important;font-size:11px!important;color:#FFF!important;margin-top:3px!important;margin-right:6px!important;text-shadow:#000 0 -1px 1px!important;}#aptureD .apturePrefButton{float:left;width:15px;height:13px;margin-left:1px;cursor:pointer;overflow:hidden;background:url(http://cdn.apture.com/media/imgs/footer_icons.png?2) no-repeat left top;}#aptureD .aptureActionBarButtons{float:right;width:100px;height:15px;margin-top:-16px;}#aptureD .aptureFooterPopupButton{cursor:pointer;float:right;overflow:hidden;width:15px;height:13px;margin-right:1px;background:url(http://cdn.apture.com/media/imgs/footer_icons.png?2) no-repeat left top;}#aptureD .aptureActionBar{position:absolute;height:15px;text-align:center;}#aptureD .aptureFeedback{width:65px!important;}#aptureD a.aptureQuickSurvey{display:block!important;height:10px!important;margin:3px auto!important;width:115px!important;}#aptureD a.aptureQuickSurvey{background:url(http://cdn.apture.com/media/imgs/quick-survey.gif) left top!important;}#aptureD a.aptureQuickSurvey span{display:none;}#aptureD a.aptureQuickSurvey:hover{background-position:left -10px!important;}#aptureD a.aptureQuickSurvey:active{background-position:left -20px!important;}#aptureD span.aptureTMMPopupFooterMsg{color:#222;font-family:helvetica;font-size:12px;padding:5px;}#aptureD a.aptureDontShowAgain{font:bold 12px Helvetica;text-decoration:none;color:#00F;float:right;}#aptureD a.aptureDontShowAgain:hover{text-decoration:underline;}#aptureD .aptureActionText{font:bold 12px Helvetica,sans-serif;color:#6d6d6d;padding-right:3px;float:right;}#aptureD .aptureAdBackground{position:absolute;background:url(http://cdn.apture.com/media/imgs/ad_bg.gif) repeat-x left top;}#aptureD .aptureEmbedShareType{clear:both;padding-top:2px;}#aptureD .aptureEmbedShareType span{float:left;width:50px;color:#666;font:bold 12px Helvetica;}#aptureD .aptureEmbedShareType input{float:left;width:220px;background-color:white;border:1px solid #ccc;font-size:11px;}#aptureD .aptureSuperEmbedFooter .aptureSuperEmbedBranding{float:left;display:inline!important;height:18px!important;margin-left:5px!important;width:55px!important;background:url(http://cdn.apture.com/media/imgs/_superEmbedAptureLogo.png) no-repeat left top!important;}#aptureD .aptureSuperEmbedFooter .aptureSuperEmbedShare{float:right;height:16px;width:48px;background:url(http://cdn.apture.com/media/imgs/share/button.gif?v2) no-repeat left top!important;}#aptureD .aptureSuperEmbedFooter .aptureSuperEmbedCreate{float:right;width:96px;height:16px;margin-right:3px;background:url(http://cdn.apture.com/media/imgs/share/button.gif?v2) no-repeat -48px top!important;}#aptureD .aptureSuperEmbedFooter .aptureSuperEmbedBranding span,#aptureD .aptureSuperEmbedFooter .aptureSuperEmbedShare span,#aptureD .aptureSuperEmbedFooter .aptureSuperEmbedCreate span{display:none;}#aptureD .apturePopup .aptureScrollClip,#aptureD .aptureHorizontalScroll .aptureScrollClip{position:absolute;z-index:2;}#aptureD .aptureSuperEmbedScroll{z-index:9!important;}#aptureD .apturePopup .aptureScrollClip,#aptureD .aptureSuperEmbedScroll .aptureScrollClip{top:6px!important;}#aptureD .aptureSuperEmbedScroll .aptureRelatedBack,#aptureD .aptureSuperEmbedScroll .aptureRelatedNext{position:absolute!important;background-image:url(http://cdn.apture.com/media/imgs/pagination.gif)!important;height:45px!important;display:block;cursor:pointer!important;overflow:hidden!important;z-index:4!important;top:5px!important;}#aptureD .aptureSuperEmbedScroll .aptureRelatedBack{width:15px!important;left:1px!important;background-position:left top!important;}#aptureD .aptureSuperEmbedScroll .aptureRelatedBack:hover{background-position:left -45px!important;}#aptureD .aptureSuperEmbedScroll .aptureRelatedNext{width:15px!important;background-position:right top!important;right:1px!important;}#aptureD .aptureSuperEmbedScroll .aptureRelatedNext:hover{background-position:right -45px!important;}#aptureD .aptureTitle{color:#000!important;font-weight:bold!important;text-decoration:none!important;text-shadow:#FFF 0 1px 1px!important;}#aptureD .aptureTitleTextInactive .aptureTitle{color:#666!important;}#aptureD .aptureTitleSourceText{color:#6d6d6d;text-shadow:#FFF 0 1px 1px;font-weight:bold;}#aptureD .apturePopupTitle{position:absolute;left:15px;top:10px;height:20px;}#aptureD .apturePopupBackground{font:14px Helvetica!important;font-weight:bold!important;color:#444;text-align:center;vertical-align:middle;}#aptureD .aptureTitleBarDark .aptureTitleText{color:#fff;text-shadow:#000 0 -1px 1px;}#aptureD .aptureFlashBlocker{position:absolute;}#aptureD .aptureBold{font-weight:bold;}#aptureD .aptureCursorPointer{cursor:pointer;}#aptureD .aptureLeft{float:left;}#aptureD .aptureRelative{position:relative;}#aptureD .aptureAbsolute{position:absolute;}.aptureEventCatchingOverlay{position:absolute;top:0;left:0;z-index:2147483642;width:100%;height:100%;display:none;}span.aptureLinkIcon,span.aptureLink,a.aptureLink{display:inline!important;margin:0!important;padding:0!important;border:0!important;float:none!important;}span.aptureLink{-khtml-border-radius:4px;-moz-border-radius:4px;border-radius:4px;cursor:pointer!important;}.aptureLink:hover a{text-decoration:underline!important;}.aptureLink span.aptureLinkIcon{padding-left:11px!important;background-image:url(http://cdn.apture.com/media/imgs/link_icons.gif?v12)!important;background-repeat:no-repeat!important;}.aptureLinkHover,.aptureLinkHover *{background-color:#ddebf8!important;}.aptureLinkDown,.aptureLinkDown *{background-color:#bbd6f1!important;}.aptureLinkOpen,.aptureLinkOpen *{background-color:#59d!important;color:#fff!important;}.aptureLinkOpenDown,.aptureLinkOpenDown *{background-color:#37b!important;color:#fff!important;}#aptureD .apturePopupIcon{vertical-align:top;width:18px;height:18px;float:left;}#aptureD .aptureNeedFlash{margin-top:5px;}#aptureD .aptureNeedFlash,#aptureD .aptureNeedFlash *{font:11px Helvetica,sans-serif!important;}#aptureD embed.aptureEmbed{left:0;}#aptureD .aptureImageViewer{overflow:hidden;}#aptureD .aptureAdvertisement{border:0 none;margin:0;padding-left:2px;background:transparent url(http://cdn.apture.com/media/imgs/housing2.gif) no-repeat scroll 0 0;cursor:pointer;position:absolute;width:205px;height:61px;-moz-background-clip:border;-moz-background-origin:padding;-moz-background-inline-policy:continuous;}#aptureD .aptureAdvertisementImage{margin:0;padding:0;padding-left:5px;position:absolute;right:5px;bottom:6px;cursor:pointer;}#aptureD .aptureAdvertisementClose{margin:0;padding:0;position:absolute;right:5px;top:4px;cursor:pointer;}#aptureD .aptureAdvertisementHomeLink{border:medium none;margin:0;padding:0;position:absolute;left:5px;top:4px;width:122px;height:10px;text-decoration:none;cursor:pointer;}#aptureD .aptureThumb{overflow:hidden;position:relative;width:60px;height:40px;background:white;}#aptureD .aptureThumb img.aptureThumbImg{width:100%;}#aptureD .aptureThumb,#aptureD .aptureThumb *{cursor:pointer;}#aptureD .aptureThumbBadge{position:absolute;left:0;top:0;}#aptureD .aptureNextIcon{padding-right:10px!important;background:url(http://cdn.apture.com/media/imgs/arrows.gif?v3) no-repeat right -114px!important;}#aptureD a.aptureNextIcon:hover{background:url(http://cdn.apture.com/media/imgs/arrows.gif?v3) no-repeat right -129px!important;}#aptureD a.apturePrevIcon{background:url(http://cdn.apture.com/media/imgs/wikinavarrows.gif) no-repeat scroll 0 0!important;background-position:0 0!important;padding-left:10px!important;}#aptureD a.apturePrevIcon:hover{background-position:0 -18px!important;}#aptureD .aptureTitle,#aptureD .aptureTitleSourceText,#aptureD .aptureTitleText{font:bold 11px Helvetica!important;vertical-align:top;cursor:default;}#aptureD .aptureTitleText{height:15px;overflow:hidden;padding-left:10px;cursor:default;margin-top:4px;}#aptureD .aptureLicense{font:10px Helvetica;color:#999;background-color:#444!important;text-align:right;overflow:hidden;width:auto;}#aptureD .aptureSSLicense{top:6px;height:12px;right:6px;background:transparent!important;}#aptureD .aptureSSLicenseC,#aptureD .aptureSSLicenseCC,#aptureD .aptureSSLicenseGFDL,#aptureD .aptureSSLicensePD{background:url(http://cdn.apture.com/media/imgs/slideshowLicenses.png) no-repeat scroll 0 0 transparent!important;}#aptureD .aptureSSLicenseC{background-position:-6px 0!important;padding-left:17px;}#aptureD .aptureSSLicenseCC{background-position:-6px -12px!important;padding-left:19px;}#aptureD .aptureSSLicenseGFDL{background-position:-0px -24px!important;padding-left:24px;}#aptureD .aptureSSLicensePD{background-position:-6px -36px!important;padding-left:18px;}#aptureD .aptureLoading{text-align:center;font:10px Helvetica;background-color:white;}#aptureD .aptureSlideshowIndicator{background-image:url(http://cdn.apture.com/media/imgs/slideshow_overlay.gif)!important;position:absolute;left:5px;bottom:5px;height:28px;width:28px;background-position:-84px 0;cursor:pointer;opacity:.75;filter:alpha(opacity=75);}#aptureD .aptureScrollClip{position:absolute;overflow:hidden;}#aptureD .aptureScrollView{position:absolute;}#aptureD .aptureRelatedOverlay{position:relative;float:left;margin-right:5px;width:66px;height:45px;}#aptureD .aptureRelatedTarget{position:absolute;overflow:hidden;width:60px;height:40px;}#aptureD .aptureRelatedCaption div{font:bold 11px Helvetica,sans-serif;text-align:center;}#aptureD .aptureRelatedCaption{padding:.25em;position:absolute;background-color:#333;z-index:8;}#aptureD .aptureHorizontalScroll .aptureRelatedBack,#aptureD .aptureHorizontalScroll .aptureRelatedNext{cursor:pointer;position:absolute;background-image:url(http://cdn.apture.com/media/imgs/arrows.gif?v3);width:9px;height:11px;overflow:hidden;z-index:4;top:20px;}#aptureD .aptureRelatedBack{left:2px;background-position:left -30px;}#aptureD .aptureRelatedNext{background-position:left top;right:2px;}#aptureD .aptureCaptionTriangle{position:absolute;z-index:7;top:47px;background:url(http://cdn.apture.com/media/imgs/arrows.gif?v3) no-repeat 0 -60px;width:9px;height:5px;}#aptureD .aptureTTArrow{height:28px;width:28px;position:absolute;background-image:url(http://cdn.apture.com/media/imgs/tooltip_arrow.gif?v4);background-repeat:no-repeat;}#aptureD .aptureTTAlignBelow .aptureTTArrow{background-position:0 0;}#aptureD .aptureTTAlignRight .aptureTTArrow{background-position:-28px 0;}#aptureD .aptureTTAlignLeft .aptureTTArrow{background-position:-56px 0;}</style></head>
+<body><div id="aptureD"><div></div><div style="cursor: pointer; position: absolute; z-index: 2147483647; display: none; left: 515px; top: 81px;"><div style="position: absolute; top: 0px; left: 0pt; visibility: visible; opacity: 1;"><img src="nawk_FS_files/LM-base.png" style="cursor: pointer;"><div style="cursor: pointer; position: absolute; width: 0pt; height: 27px; background-image: url(&quot;http://cdn.apture.com/media/imgs/search_tooltip/progress-bar.png&quot;); left: 5px; top: 4px;"></div><img src="nawk_FS_files/LM-text-gloss.png" style="cursor: pointer; position: absolute; top: 0pt; left: 0pt;"></div><img src="nawk_FS_files/LM-logo-icon.png" style="cursor: pointer; position: absolute; top: 0px; left: 85px; height: 20px; width: 18px;"></div></div>
+<p>Go to the <a href="http://people.cs.uu.nl/piet/docs/nawk/nawk_1.html">first</a>, <a href="http://people.cs.uu.nl/piet/docs/nawk/nawk_22.html">previous</a>, <a href="http://people.cs.uu.nl/piet/docs/nawk/nawk_24.html">next</a>, <a href="http://people.cs.uu.nl/piet/docs/nawk/nawk_127.html">last</a> section, <a href="http://people.cs.uu.nl/piet/docs/nawk/nawk_toc.html">table of contents</a>.
+</p><p></p><hr><p>
+
+
+</p><h2><a name="SEC26" href="http://people.cs.uu.nl/piet/docs/nawk/nawk_toc.html#TOC26">Specifying how Fields are Separated</a></h2>
+<p>
+<a name="IDX73"></a>
+<a name="IDX74"></a>
+<a name="IDX75"></a>
+<a name="IDX76"></a>
+
+</p>
+<p>
+(This section is rather long; it describes one of the most fundamental
+operations in <code>awk</code>.  If you are a novice with <code>awk</code>, we
+recommend that you re-read this section after you have studied the
+section on regular expressions, section <a href="http://people.cs.uu.nl/piet/docs/nawk/nawk_44.html#SEC47">Regular Expressions as Patterns</a>.)
+
+</p>
+<p>
+The way <code>awk</code> splits an input record into fields is controlled by
+the <strong>field separator</strong>, which is a single character or a regular
+expression.  <code>awk</code> scans the input record for matches for the
+separator; the fields themselves are the text between the matches.  For
+example, if the field separator is <samp>`oo'</samp>, then the following line:
+
+</p>
+
+<pre>moo goo gai pan
+</pre>
+
+<p>
+would be split into three fields: <samp>`m'</samp>, <samp>`&nbsp;g'</samp> and <samp>`&nbsp;gai&nbsp;
+pan'</samp>.
+
+</p>
+<p>
+The field separator is represented by the built-in variable <code>FS</code>.
+Shell programmers take note!  <code>awk</code> does not use the name <code>IFS</code>
+which is used by the shell.
+</p>
+<p>
+You can change the value of <code>FS</code> in the <code>awk</code> program with the
+assignment operator, <samp>`='</samp> (see section <a href="http://people.cs.uu.nl/piet/docs/nawk/nawk_63.html#SEC66">Assignment Expressions</a>).
+Often the right time to do this is at the beginning of execution,
+before any input has been processed, so that the very first record
+will be read with the proper separator.  To do this, use the special
+<code>BEGIN</code> pattern
+(see section <a href="http://people.cs.uu.nl/piet/docs/nawk/nawk_52.html#SEC55"><code>BEGIN</code> and <code>END</code> Special Patterns</a>).
+For example, here we set the value of <code>FS</code> to the string
+<code>","</code>:
+</p>
+
+<pre>awk 'BEGIN { FS = "," } ; { print $2 }'
+</pre>
+
+<p>
+Given the input line,
+
+</p>
+
+<pre>John Q. Smith, 29 Oak St., Walamazoo, MI 42139
+</pre>
+
+<p>
+this <code>awk</code> program extracts the string <samp>`&nbsp;29 Oak St.'</samp>.
+
+</p>
+<p>
+<a name="IDX77"></a>
+<a name="IDX78"></a>
+Sometimes your input data will contain separator characters that don't
+separate fields the way you thought they would.  For instance, the
+person's name in the example we've been using might have a title or
+suffix attached, such as <samp>`John Q. Smith, LXIX'</samp>.  From input
+containing such a name:
+
+</p>
+
+<pre>John Q. Smith, LXIX, 29 Oak St., Walamazoo, MI 42139
+</pre>
+
+<p>
+the previous sample program would extract <samp>`&nbsp;LXIX'</samp>, instead of
+<samp>`&nbsp;29 Oak St.'</samp>.  If you were expecting the program to print the
+address, you would be surprised.  So choose your data layout and
+separator characters carefully to prevent such problems.
+
+</p>
+<p>
+As you know, by default, fields are separated by whitespace sequences
+(spaces and tabs), not by single spaces: two spaces in a row do not
+delimit an empty field.  The default value of the field separator is a
+string <code>" "</code> containing a single space.  If this value were
+interpreted in the usual way, each space character would separate
+fields, so two spaces in a row would make an empty field between them.
+The reason this does not happen is that a single space as the value of
+<code>FS</code> is a special case: it is taken to specify the default manner
+of delimiting fields.
+
+</p>
+<p>
+If <code>FS</code> is any other single character, such as <code>","</code>, then
+each occurrence of that character separates two fields.  Two consecutive
+occurrences delimit an empty field.  If the character occurs at the
+beginning or the end of the line, that too delimits an empty field.  The
+space character is the only single character which does not follow these
+rules.
+
+</p>
+<p>
+More generally, the value of <code>FS</code> may be a string containing any
+regular expression.  Then each match in the record for the regular
+expression separates fields.  For example, the assignment:
+</p>
+
+<pre>FS = ", \t"
+</pre>
+
+<p>
+makes every area of an input line that consists of a comma followed by a
+space and a tab, into a field separator.  (<samp>`\t'</samp> stands for a
+tab.)
+</p>
+<p>
+For a less trivial example of a regular expression, suppose you want
+single spaces to separate fields the way single commas were used above.
+You can set <code>FS</code> to <code>"[&nbsp;]"</code>.  This regular expression
+matches a single space and nothing else.
+
+</p>
+<p>
+<a name="IDX79"></a>
+<a name="IDX80"></a>
+<code>FS</code> can be set on the command line.  You use the <samp>`-F'</samp> argument to
+do so.  For example:
+
+</p>
+
+<pre>awk -F, '<var>program</var>' <var>input-files</var>
+</pre>
+
+<p>
+sets <code>FS</code> to be the <samp>`,'</samp> character.  Notice that the argument uses
+a capital <samp>`F'</samp>.  Contrast this with <samp>`-f'</samp>, which specifies a file
+containing an <code>awk</code> program.  Case is significant in command options:
+the <samp>`-F'</samp> and <samp>`-f'</samp> options have nothing to do with each other.
+You can use both options at the same time to set the <code>FS</code> argument
+<em>and</em> get an <code>awk</code> program from a file.
+</p>
+<p>
+The value used for the argument to <samp>`-F'</samp> is processed in exactly the
+same way as assignments to the built-in variable <code>FS</code>.  This means that
+if the field separator contains special characters, they must be escaped
+appropriately.  For example, to use a <samp>`\'</samp> as the field separator, you
+would have to type:
+
+</p>
+
+<pre># same as FS = "\\" 
+awk -F\\\\ '...' files ...
+</pre>
+
+<p>
+Since <samp>`\'</samp> is used for quoting in the shell, <code>awk</code> will see
+<samp>`-F\\'</samp>.  Then <code>awk</code> processes the <samp>`\\'</samp> for escape
+characters (see section <a href="http://people.cs.uu.nl/piet/docs/nawk/nawk_56.html#SEC59">Constant Expressions</a>), finally yielding
+a single <samp>`\'</samp> to be used for the field separator.
+
+</p>
+<p>
+As a special case, in compatibility mode
+(see section <a href="http://people.cs.uu.nl/piet/docs/nawk/nawk_102.html#SEC105">Invoking <code>awk</code></a>), if the
+argument to <samp>`-F'</samp> is <samp>`t'</samp>, then <code>FS</code> is set to the tab
+character.  (This is because if you type <samp>`-F\t'</samp>, without the quotes,
+at the shell, the <samp>`\'</samp> gets deleted, so <code>awk</code> figures that you
+really want your fields to be separated with tabs, and not <samp>`t'</samp>s.
+Use <samp>`-v FS="t"'</samp> on the command line if you really do want to separate
+your fields with <samp>`t'</samp>s.)
+</p>
+<p>
+For example, let's use an <code>awk</code> program file called <tt>`baud.awk'</tt>
+that contains the pattern <code>/300/</code>, and the action <samp>`print $1'</samp>.
+Here is the program:
+
+</p>
+
+<pre>/300/   { print $1 }
+</pre>
+
+<p>
+Let's also set <code>FS</code> to be the <samp>`-'</samp> character, and run the
+program on the file <tt>`BBS-list'</tt>.  The following command prints a
+list of the names of the bulletin boards that operate at 300 baud and
+the first three digits of their phone numbers:
+</p>
+
+<pre>awk -F- -f baud.awk BBS-list
+</pre>
+
+<p>
+It produces this output:
+
+</p>
+
+<pre>aardvark     555
+alpo
+barfly       555
+bites        555
+camelot      555
+core         555
+fooey        555
+foot         555
+macfoo       555
+sdace        555
+sabafoo      555
+</pre>
+
+<p>
+Note the second line of output.  If you check the original file, you will
+see that the second line looked like this:
+
+</p>
+
+<pre>alpo-net     555-3412     2400/1200/300     A
+</pre>
+
+<p>
+The <samp>`-'</samp> as part of the system's name was used as the field
+separator, instead of the <samp>`-'</samp> in the phone number that was
+originally intended.  This demonstrates why you have to be careful in
+choosing your field and record separators.
+
+</p>
+<p>
+The following program searches the system password file, and prints
+the entries for users who have no password:
+
+</p>
+
+<pre>awk -F: '$2 == ""' /etc/passwd
+</pre>
+
+<p>
+Here we use the <samp>`-F'</samp> option on the command line to set the field
+separator.  Note that fields in <tt>`/etc/passwd'</tt> are separated by
+colons.  The second field represents a user's encrypted password, but if
+the field is empty, that user has no password.
+
+</p>
+<p>
+According to the POSIX standard, <code>awk</code> is supposed to behave
+as if each record is split into fields at the time that it is read.
+In particular, this means that you can change the value of <code>FS</code>
+after a record is read, but before any of the fields are referenced.
+The value of the fields (i.e. how they were split) should reflect the
+old value of <code>FS</code>, not the new one.
+
+</p>
+<p>
+However, many implementations of <code>awk</code> do not do this.  Instead,
+they defer splitting the fields until a field reference actually happens,
+using the <em>current</em> value of <code>FS</code>!  This behavior can be difficult
+to diagnose. The following example illustrates the results of the two methods.
+(The <code>sed</code> command prints just the first line of <tt>`/etc/passwd'</tt>.)
+
+</p>
+
+<pre>sed 1q /etc/passwd | awk '{ FS = ":" ; print $1 }'
+</pre>
+
+<p>
+will usually print
+
+</p>
+
+<pre>root
+</pre>
+
+<p>
+on an incorrect implementation of <code>awk</code>, while <code>gawk</code>
+will print something like
+
+</p>
+
+<pre>root:nSijPlPhZZwgE:0:0:Root:/:
+</pre>
+
+<p>
+There is an important difference between the two cases of <samp>`FS = " "'</samp>
+(a single blank) and <samp>`FS = "[ \t]+"'</samp> (which is a regular expression
+matching one or more blanks or tabs).  For both values of <code>FS</code>, fields
+are separated by runs of blanks and/or tabs.  However, when the value of
+<code>FS</code> is <code>" "</code>, <code>awk</code> will strip leading and trailing whitespace
+from the record, and then decide where the fields are.  
+
+</p>
+<p>
+For example, the following expression prints <samp>`b'</samp>:
+
+</p>
+
+<pre>echo ' a b c d ' | awk '{ print $2 }'
+</pre>
+
+<p>
+However, the following prints <samp>`a'</samp>:
+
+</p>
+
+<pre>echo ' a b c d ' | awk 'BEGIN { FS = "[ \t]+" } ; { print $2 }'
+</pre>
+
+<p>
+In this case, the first field is null.
+
+</p>
+<p>
+The stripping of leading and trailing whitespace also comes into
+play whenever <code>$0</code> is recomputed.  For instance, this pipeline
+
+</p>
+
+<pre>echo '   a b c d' | awk '{ print; $2 = $2; print }'
+</pre>
+
+<p>
+produces this output:
+
+</p>
+
+<pre>   a b c d
+a b c d
+</pre>
+
+<p>
+The first <code>print</code> statement prints the record as it was read,
+with leading whitespace intact.  The assignment to <code>$2</code> rebuilds
+<code>$0</code> by concatenating <code>$1</code> through <code>$NF</code> together,
+separated by the value of <code>OFS</code>.  Since the leading whitespace
+was ignored when finding <code>$1</code>, it is not part of the new <code>$0</code>.
+Finally, the last <code>print</code> statement prints the new <code>$0</code>.
+
+</p>
+<p>
+The following table summarizes how fields are split, based on the
+value of <code>FS</code>.
+
+</p>
+<dl compact="compact">
+
+<dt><code>FS == " "</code>
+</dt><dd>
+Fields are separated by runs of whitespace.  Leading and trailing
+whitespace are ignored.  This is the default.
+
+</dd><dt><code>FS == <var>any single character</var></code>
+</dt><dd>
+Fields are separated by each occurrence of the character.  Multiple
+successive occurrences delimit empty fields, as do leading and
+trailing occurrences.
+
+</dd><dt><code>FS == <var>regexp</var></code>
+</dt><dd>
+Fields are separated by occurrences of characters that match <var>regexp</var>.
+Leading and trailing matches of <var>regexp</var> delimit empty fields.
+</dd></dl>
+
+<p></p><hr><p>
+</p><p>Go to the <a href="http://people.cs.uu.nl/piet/docs/nawk/nawk_1.html">first</a>, <a href="http://people.cs.uu.nl/piet/docs/nawk/nawk_22.html">previous</a>, <a href="http://people.cs.uu.nl/piet/docs/nawk/nawk_24.html">next</a>, <a href="http://people.cs.uu.nl/piet/docs/nawk/nawk_127.html">last</a> section, <a href="http://people.cs.uu.nl/piet/docs/nawk/nawk_toc.html">table of contents</a>.
+
+
+</p><script>if(!window.apture){window.apture_onload=function(){apture.initPlugin(); apture.pluginPushAptureConfig({pluginSupportsPrefsEvent: true}); };}</script><iframe style="position: absolute; top: 0px; right: 0px; width: 0pt; height: 0pt;" frameborder="0"></iframe></body></html>

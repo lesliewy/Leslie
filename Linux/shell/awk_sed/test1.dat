@@ -1,0 +1,8 @@
+
+IGNORECASE  this is
+macro    match
+colon   leslie1:colon lesle2
+quote   leslie1"quote lesle2
+MACRO   uppercase
+
+leslie1 " 1 " 2 "3 "4

@@ -1,0 +1,1025 @@
+==================================================gcc 常用参数说明=======================================================================================
+第一步 C在预处理结束后停止编译过程：
+gcc -E hello.c -o hello.i
+预处理的宏定义插入到hello.i中     ==比如程序中RAND_MAX替换为整数2147483647（本机),即2^31-1;去掉所有的注释;将包含的头文件中内容引入.
+
+第二步 将预处理输出文件汇编.
+gcc -S hello.i -o hello.s
+
+第三步、是将hello.s编译为目标代码，这可以通过使用-c参数来完成：
+gcc -c hello.s -o hello.o
+也可以通过源文件直接生成
+gcc -c hello.c
+或者 gcc -c hello.c -o abc.o
+
+第三步、是将生成的目标文件链接成可执行文件：
+gcc hello.o -o hello
+也可以通过源文件直接生成
+gcc -o hello hello.c
+
+== 一般使用 gcc -o QUICKSORT.out QUICKSORT.c -g -std=c99  
+
+* 使用gcc 编译多个文件.
+1. 多个文件一起编译
+用法：#gcc testfun.c test.c -o test
+作用：将testfun.c和test.c分别编译后链接成test可执行文件。
+
+2. 分别编译各个源文件，之后对编译后输出的目标文件链接。
+用法：
+#gcc -c testfun.c //将testfun.c编译成testfun.o
+#gcc -c test.c //将test.c编译成test.o
+#gcc -o testfun.o test.o -o test //将testfun.o和test.o链接成test, 此法只要编译修改的文件即可.
+
+3, 使用make.
+
+
+
+警告：
+
+1、-pedantic 选项，那么使用了扩展语法的地方将产生相应的警告信息
+
+2、-Wall 使用它能够使GCC产生尽可能多的警告信息
+
+3、-Werror，它要求GCC将所有的警告当成错误进行处理
+
+库依赖：
+
+1、Linux下的大多数函数都默认:
+
+头文件放到/usr/include/目录下
+
+而库文件则放到/usr/lib/目录下
+
+2、GCC在编译时必须有自己的办法来查找所需要的头文件和库文件。
+
+-I选项可以向GCC的头文件搜索路径中添加新的目录,还可以使用 C_INCLUDE_PATH环境变量来指定查找目录, 顺序是 -I 、 -isystem 、C_INCLUDE_PATH 环境变量
+
+例如，如果在/home/xiaowp/include/目录下有编译时所需要的头文件，为了让GCC能够顺利地找到它们，就可以使用-I选项：
+
+gcc -o test test.c -I /home/xiaowp/include
+
+-L选项向GCC的库文件搜索路径中添加新的目录
+
+例如，如果在/home/xiaowp/lib/目录下有链接时所需要的库文件libfoo.so，为了让GCC能够顺利地找到它，可以使用下面的命令
+
+gcc -o test test.c -L /home/xiaowp/lib -lfoo
+
+值得好好解释一下的是-l选项，它指示GCC去连接库文件libfoo.so。
+
+Linux下的库文件在命名时有一个约定，那就是应该以lib三个字母开头，由于所有的库文件都遵循了同样的规范，因此在用-l选项指定链接的库文件名时可以省去lib三个字母，也就是说GCC在对-lfoo进行处理时，会自动去链接名为libfoo.so的文件。
+
+-static选项，强制使用静态链接库
+
+如果在/home/xiaowp/lib/目录下有链接时所需要的库文件libfoo.so和libfoo.a
+
+为了让GCC在链接时只用到静态链接库，可以使用下面的命令：
+
+gcc -o test test.c -L /home/xiaowp/lib -static -lfoo
+
+选项-O可以告诉GCC同时减小代码的长度和执行时间，其效果等价于-O1。
+
+在这一级别上能够进行的优化类型虽然取决于目标处理器，但一般都会包括线程跳转（Thread Jump）和延迟退栈（Deferred Stack Pops）两种优化。
+
+选项-O2告诉GCC除了完成所有-O1级别的优化之外，同时还要进行一些额外的调整工作，如处理器指令调度等。
+
+选项-O3则除了完成所有-O2级别的优化之外，还包括循环展开和其它一些与处理器特性相关的优化工作。
+
+通常来说，数字越大优化的等级越高，同时也就意味着程序的运行速度越快。
+
+许多Linux程序员都喜欢使用-O2选项，因为它在优化长度、编译时间和代码大小之间，取得了一个比较理想的平衡点。
+
+time ./test 查看程序执行时间
+
+优化虽然能够给程序带来更好的执行性能，但在如下一些场合中应该避免优化代码：
+
+程序开发的时候优化等级越高，消耗在编译上的时间就越长，因此在开发的时候最好不要使用优化选项，只有到软件发行或开发结束的时候，才考虑对最终生成的代码进行优化。
+
+资源受限的时候一些优化选项会增加可执行代码的体积，如果程序在运行时能够申请到的内存资源非常紧张（如一些实时嵌入式设备），那就不要对代码进行优化，因为由这带来的负面影响可能会产生非常严重的后果。
+
+跟踪调试的时候在对代码进行优化的时候，某些代码可能会被删除或改写，或者为了取得更佳的性能而进行重组，从而使跟踪和调试变得异常困难。
+
+加速：
+
+使用管道代替编译中临时文件,
+
+-pipe 加速编译
+
+gcc -pipe foo.c -o foo
+
+GCC常用选项
+
+-c 通知GCC取消链接步骤，即编译源码并在最后生成目标文件；
+
+-Dmacro 定义指定的宏，使它能够通过源码中的#ifdef进行检验；
+
+-E 不经过编译预处理程序的输出而输送至标准输出；
+
+-g3 获得有关调试程序的详细信息，它不能与-o选项联合使用；
+
+-Idirectory 在包含文件搜索路径的起点处添加指定目录；
+
+-llibrary 提示链接程序在创建最终可执行文件时包含指定的库；
+
+-O、-O2、-O3 将优化状态打开，该选项不能与-g选项联合使用；
+
+-S 要求编译程序生成来自源代码的汇编程序输出；
+
+-v 启动所有警报；
+
+-Wall 在发生警报时取消编译操作，即将警报看作是错误；
+
+-Werror 在发生警报时取消编译操作，即把报警当作是错误；
+
+-w 禁止所有的报警。 
+
+======================================================gdb 常用参数说明===================================================================================
+提要
+        gdb    [-help] [-nx] [-q] [-batch] [-cd=dir] [-f] [-b bps]
+              [-tty=dev] [-s symfile] [-e prog] [-se prog] [-c
+              core] [-x cmds] [-d dir] [prog[core|procID]]
+
+描述
+        调试器（如GDB）的目的是允许你在程序运行时进入到某个程序内部去看看该程序在做什么，或者在该程序崩溃时它在做什么。
+
+        GDB主要可以做4大类事（加上一些其他的辅助工作），以帮助用户在程序运行过程中发现bug。
+
+          o  启动您的程序，并列出可能会影响它运行的一些信息
+          o  使您的程序在特定条件下停止下来
+          o  当程序停下来的时候，检查发生了什么
+          o  对程序做出相应的调整，这样您就能尝试纠正一个错误并继续发现其它错误
+
+        您能使用GDB调试用C、C++、Modula-2写的程序。等GNU Fortran编译器准备好过后，GDB将提供对Fortran的支持
+
+        GDB通过在命令行方式下输入gdb来执行。启动过后，GDB会从终端读取命令，直到您输入GDB命令quit使GDB退出。您能通过GDB命令help获取在线帮助。
+
+        您能以无参数无选项的形式运行GDB，不过通常的情况是以一到两个参数运行GDB，以待调试的可执行程序名为参数
+        gdb 程序名
+
+        您能用两个参数来运行GDB，可执行程序名与core文件(译注：不知道怎么翻译好，就不翻译了)。
+        gdb 程序名 core
+
+        您可以以进程ID作为第二个参数，以调式一个正在运行的进程
+        gdb 程序名 1234
+        将会把gdb附在进程1234之上(除非您正好有个文件叫1234，gdb总是先查找core文件)
+
+       下面是一些最常用的GDB命令:
+
+       file [filename]
+              装入想要调试的可执行文件
+
+       kill [filename]
+              终止正在调试的程序
+
+       break [file:]function
+              在(file文件的)function函数中设置一个断点
+              break          : 查看当前程序停在的位置.
+              break main     : 在函数main处设置一个断点.
+              break 80       : 在第80行设置一个断点.
+
+       clear
+              删除一个断点，这个命令需要指定代码行或者函数名作为参数,  ***  一般不记得具体行号的情况下,可以使用delete ，参数是断点的索引值（info break查看).
+
+       run [arglist]
+              运行您的程序 (如果指定了arglist,则将arglist作为参数运行程序)
+
+       bt Backtrace: 显示程序堆栈信息
+
+       print expr
+              打印表达式的值
+
+       continue
+              继续运行您的程序 (在停止之后，比如在一个断点之后)  *** 可以从循环中跳出.
+
+       list
+              列出产生执行文件的源代码的一部分.
+              list main : 查看函数main处代码.
+              list 20,80 : 查看20－80行源码.
+
+       next
+              单步执行 (在停止之后); *** 跳过函数调用,但是不跳过循环.   如果有循环，会进入循环内部一次次的执行,而c(continue)则会跳过循环，直接显示结果.
+
+       nexti
+              执行下一行的源代码中的一条汇编指令
+
+       set
+              设置变量的值。例如：set nval=54 将把54保存到nval变量中
+
+       step
+              单步执行 (在停止之后); 进入函数调用
+
+       stepi
+              继续执行程序下一行源代码中的汇编指令。如果是函数调用，这个命令将进入函数的内部，单步执行函数中的汇编代码
+
+       watch
+              使你能监视一个变量的值而不管它何时被改变
+
+       rwatch
+              指定一个变量，如果这个变量被读，则暂停程序运行，在调试器中显示信息，并等待下一个调试命令。参考rwatch和watch命令
+
+       awatch
+              指定一个变量，如果这个变量被读或者被写，则暂停程序运行，在调试器中显示信息，并等待下一个调试命令。参考rwatch和watch命令
+
+       Ctrl-C
+              在当前位置停止执行正在执行的程序，断点在当前行
+
+       disable
+              禁止断点功能，这个命令需要禁止的断点在断点列表索引值作为参数
+
+       display
+              在断点的停止的地方，显示指定的表达式的值。(显示变量)
+              display   ：       显示已经设置为 display 的变量的值.
+              display program_name   : 显示变量 program_name 的值.
+
+       undisplay
+              删除一个display设置的变量显示。这个命令需要将display list中的索引做参数
+
+       enable
+              允许断点功能，这个命令需要允许的断点在断点列表索引值作为参数
+
+       finish
+              继续执行，直到当前函数返回
+
+       ignore
+              忽略某个断点制定的次数。例：ignore 4 23 忽略断点4的23次运行，在第24次的时候中断
+
+       info [name]
+              查看name信息
+
+       load
+              动态载入一个可执行文件到调试器
+
+       xbreak
+              在当前函数的退出的点上设置一个断点
+
+       whatis
+              显示变量的值和类型
+
+       ptype
+              显示变量的类型
+
+       return
+              强制从当前函数返回
+
+       txbreak
+              在当前函数的退出的点上设置一个临时的断点(只可使用一次)
+
+       make
+              使你能不退出 gdb 就可以重新产生可执行文件
+
+       shell
+              使你能不离开 gdb 就执行 UNIX shell 命令
+
+       help [name]
+              显示GDB命令的信息，或者显示如何使用GDB的总体信息
+
+       quit
+              退出gdb.
+
+       要得到所有使用GDB的资料，请参考Using GDB: A Guide to the GNU
+       Source-Level  Debugger,  by Richard M. Stallman and Roland
+       H. Pesch.  当用info查看的时候，也能看到相同的文章
+
+选项
+        任何参数而非选项指明了一个可执行文件及core 文件(或者进程ID)；所
+        遇到的第一个未关联选项标志的参数与 '-se' 选项等价，第二个，如果存
+        在，且是一个文件的名字，则等价与 '-c' 选项。许多选项都有一个长格式
+        与短格式；都会在这里表示出来。如果你把一个长格式截短，只要不引起歧
+        义，那么它还是可以被识别。(如果你愿意，你可以使用 '+' 而非 '-' 标
+        记选项参数，不过我们在例子中仍然遵从通常的惯例)
+
+        -help
+
+       -h     列出所有选项，并附简要说明。  
+
+       -symbols=file
+
+       -s file
+              读出文件（file）中的符号表。
+
+       -write
+              开通(enable)往可执行文件和核心文件写的权限。
+
+       -exec=file
+
+       -e file
+              在适当时候把File作为可执行的文件执行，来检测与core dump结合的数据。
+       －se File
+              从File读取符号表并把它作为可执行文件。
+       －core File
+       -c File
+              把File作为core dump来执行。
+       －command=File
+       -x File
+              从File中执行GDB命令。
+       －directory=Directory
+       -d Directory
+              把Dicrctory加入源文件搜索的路径中。
+       -nx
+       -n
+              不从任何.gdbinit初始化文件中执行命令。通常情况下，这些文件中的命令是在所有命令选项和参数处理完后才执行。
+       -quiet
+       -q
+              "Quiet".不输入介绍和版权信息。这些信息输出在batch模式下也被关闭。
+       -batch
+              运行batch模式。在处理完所有用'-x'选项指定的命令文件(还有'.gdbi-nit',如果没禁用)后退出，并返回状态码0.如果在命令文件中的命令被
+执行时发生错误，则退出，并返回状态码非0.batch模式对于运行GDB作为过滤器也许很有用,比如要从另一台电脑上下载并运行一个程序;为了让这些更有用,当
+在batch模式下运行时,消息:Program exited normally.(不论什么时候,一个程序在GDB控制下终止运行,这条消息都会正常发出.),将不会发出.
+       -cd=Directory
+              运行GDB,使用Directory作为它的工作目录,取代当前工作目录.
+       -fullname
+       -f
+              当Emacs让GDB作为一个子进程运行时,设置这个选项.它告诉GDB每当一个堆栈结构(栈帧)显示出来(包括每次程序停止)就用标准的,认同的方式
+输出文件全名和行号.这里,认同的格式看起来像两个' 32'字符,紧跟文件名,行号和字符位置(由冒号,换行符分隔).Emacs同GDB的接口程序使用这两个' 32'字
+符作为一个符号为框架来显示源代码.
+       -b Bps
+              设置行速(波特率或bits/s).在远程调试中GDB在任何串行接口中使用的行速.
+       -tty=Device
+              使用Device作为你程序运行的标准输入输出.
+
+
+gdb主要调试的是C/C++的程序。要调试C/C++的程序，首先在编译时，必须要把调试信息加到可执行文件中。使用编译器(cc/gcc/g++)的 -g 参数即可。如：
+
+[david@DAVID david]$ gcc -g hello.c -o hello
+
+[david@DAVID david]$ g++ -g hello.cpp -o hello
+
+如果没有-g，将看不见程序的函数名和变量名，代替它们的全是运行时的内存地址。当用-g把调试信息加入，并成功编译目标代码以后，看看如何用gdb来调试。
+
+启动gdb的方法有以下几种：
+
+1. gdb <program>
+program也就是执行文件，一般在当前目录下。
+
+2. gdb <program> core
+用gdb同时调试一个运行程序和core文件，core是程序非法执行后，core dump后产生的文件。
+
+3. gdb <program> <PID>
+如果程序是一个服务程序，那么可以指定这个服务程序运行时的进程ID。gdb会自动attach上去，并调试它。program应该在PATH环境变量中搜索得到。
+
+gdb启动时，可以加上一些gdb的启动开关，详细的开关可以用gdb -help查看。下面只列举一些比较常用的参数：
+
+-symbols <file>
+
+-s <file>
+
+从指定文件中读取符号表。
+
+-se file
+
+从指定文件中读取符号表信息，并把它用在可执行文件中。
+
+-core <file>
+
+-c <file>
+
+调试时core dump的core文件。
+
+-directory <directory>
+
+-d <directory>
+
+加入一个源文件的搜索路径。默认搜索路径是环境变量中PATH所定义的路径。
+
+4.1.1  gdb的命令概貌
+启动gdb后，进入gdb的调试环境中，就可以使用gdb的命令开始调试程序了。gdb的命令可以使用help命令来查看，如下所示：  
+
+[david@DAVID david]$ gdb
+
+GNU gdb Red Hat Linux (5.3post-0.20021129.18rh)
+
+Copyright 2003 Free Software Foundation, Inc.
+
+gdb is free software, covered by the GNU General Public License, and you are
+
+welcome to change it and/or distribute copies of it under certain conditions.
+
+Type "show copying" to see the conditions.
+
+There is absolutely no warranty for gdb.  Type "show warranty" for details.
+
+This gdb was configured as "i386-redhat-Linux-gnu".
+
+(gdb) help
+
+List of classes of commands:
+
+aliases -- Aliases of other commands
+
+breakpoints -- Making program stop at certain points
+
+data -- Examining data
+
+files -- Specifying and examining files
+
+internals -- Maintenance commands
+
+obscure -- Obscure features
+
+running -- Running the program
+
+stack -- Examining the stack
+
+status -- Status inquiries
+
+support -- Support facilities
+
+tracepoints -- Tracing of program execution without stopping the program
+
+user-defined -- User-defined commands
+
+ 
+
+Type "help" followed by a class name for a list of commands in that class.
+
+Type "help" followed by command name for full documentation.
+
+Command name abbreviations are allowed if unambiguous.
+
+(gdb)
+
+gdb的命令很多，gdb将之分成许多种类。help命令只是列出gdb的命令种类，如果要看其中的命令，可以使用help <class> 命令。如：
+
+(gdb) help data
+
+也可以直接用help [command]来查看命令的帮助。
+
+gdb中，输入命令时，可以不用输入全部命令，只用输入命令的前几个字符就可以了。当然，命令的前几个字符应该标志着一个惟一的命令，在Linux下，可以按两次TAB键来补齐命令的全称，如果有重复的，那么gdb会把它全部列出来。
+
+示例一：在进入函数func时，设置一个断点。可以输入break func，或是直接输入b func。
+
+(gdb) b func
+
+Breakpoint 1 at 0x804832e: file test.c, line 5.
+
+(gdb)
+
+示例二：输入b按两次TAB键，你会看到所有b开头的命令。
+
+(gdb) b
+
+backtrace  break  bt
+
+要退出gdb时，只用输入quit或其简称q就行了。
+
+4.1.2  gdb中运行Linux的shell程序
+在gdb环境中，可以执行Linux的shell命令：
+
+shell <command string>
+
+调用Linux的shell来执行<command string>，环境变量SHELL中定义的Linux的shell将会用来执行<command string>。如果SHELL没有定义，那就使用Linux的标准shell：/bin/sh(在Windows中使用Command.com或 cmd.exe)。
+
+还有一个gdb命令是make：
+
+make <make-args>
+
+可以在gdb中执行make命令来重新build自己的程序。这个命令等价于shell make <make-args>。 
+
+4.1.3  在gdb中运行程序
+当以gdb <program>方式启动gdb后，gdb会在PATH路径和当前目录中搜索<program>的源文件。如要确认gdb是否读到源文件，可使用l或list命令，看看gdb是否能列出源代码。
+
+在gdb中，运行程序使用r或是run命令。程序的运行，有可能需要设置下面四方面的事。
+
+1. 程序运行参数
+set args 可指定运行时参数。如：
+
+set args 10 20 30 40 50
+
+show args 命令可以查看设置好的运行参数。
+
+2. 运行环境
+path <dir> 可设定程序的运行路径。
+
+show paths 查看程序的运行路径。
+
+set environment varname [=value] 设置环境变量。如：
+
+set env USER=hchen
+
+show environment [varname] 查看环境变量。
+
+3. 工作目录
+cd <dir> 相当于shell的cd命令。
+
+pwd 显示当前的所在目录。
+
+4. 程序的输入输出
+info terminal 显示程序用到的终端的模式。
+
+使用重定向控制程序输出。如：
+
+run > outfile
+
+tty命令可以指写输入输出的终端设备。如：
+
+tty /dev/ttyb
+
+4.1.4  调试已运行的程序
+调试已经运行的程序有两种方法：
+
+●       在Linux下用ps(第一章已经对ps作了介绍)查看正在运行的程序的PID(进程ID)，然后用gdb <program> PID格式挂接正在运行的程序。
+
+●       先用gdb <program>关联上源代码，并进行gdb，在gdb中用attach命令来挂接进程的PID，并用detach来取消挂接的进程。
+
+4.1.5  暂停/恢复程序运行
+调试程序中，暂停程序运行是必需的，gdb可以方便地暂停程序的运行。可以设置程序在哪行停住，在什么条件下停住，在收到什么信号时停往等，以便于用户查看运行时的变量，以及运行时的流程。
+
+当进程被gdb停住时，可以使用info program 来查看程序是否在运行、进程号、被暂停的原因。
+
+在gdb中，有以下几种暂停方式：断点(BreakPoint)、观察点(WatchPoint)、捕捉点(CatchPoint)、信号(Signals)及线程停止(Thread Stops)。
+
+如果要恢复程序运行，可以使用c或是continue命令。
+
+1. 设置断点(BreakPoint)  
+用break命令来设置断点。有下面几种设置断点的方法：
+
+break <function>
+
+在进入指定函数时停住。C++中可以使用class::function或function(type,type)格式来指定函数名。
+
+break <linenum>
+
+在指定行号停住。
+
+break +offset
+
+break -offset
+
+在当前行号的前面或后面的offset行停住。offiset为自然数。
+
+break filename:linenum
+
+在源文件filename的linenum行处停住。
+
+break filename:function
+
+在源文件filename的function函数的入口处停住。
+
+break *address
+
+在程序运行的内存地址处停住。
+
+break
+
+该命令没有参数时，表示在下一条指令处停住。
+
+break ... if <condition>
+
+condition表示条件，在条件成立时停住。比如在循环体中，可以设置break if i=100，表示当i为100时停住程序。
+
+查看断点时，可使用info命令，如下所示(注：n表示断点号)：
+
+info breakpoints [n]
+
+info break [n] 
+
+2. 设置观察点(WatchPoint)  
+观察点一般用来观察某个表达式(变量也是一种表达式)的值是否变化了。如果有变化，马上停住程序。有下面的几种方法来设置观察点： 
+
+watch <expr>
+
+为表达式(变量)expr设置一个观察点。一旦表达式值有变化时，马上停住程序。    
+
+rwatch <expr>
+
+当表达式(变量)expr被读时，停住程序。   
+
+awatch <expr>
+
+当表达式(变量)的值被读或被写时，停住程序。
+
+info watchpoints
+
+列出当前设置的所有观察点。
+
+3. 设置捕捉点(CatchPoint)
+可设置捕捉点来补捉程序运行时的一些事件。如载入共享库(动态链接库)或是C++的异常。设置捕捉点的格式为：
+
+catch <event>
+
+当event发生时，停住程序。event可以是下面的内容：
+
+●       throw  一个C++抛出的异常 (throw为关键字)。
+
+●       catch  一个C++捕捉到的异常 (catch为关键字)。
+
+●       exec  调用系统调用exec时(exec为关键字，目前此功能只在HP-UX下有用)。
+
+●       fork  调用系统调用fork时(fork为关键字，目前此功能只在HP-UX下有用)。
+
+●       vfork  调用系统调用vfork时(vfork为关键字，目前此功能只在HP-UX下有)。
+
+●       load 或 load <libname>  载入共享库(动态链接库)时 (load为关键字，目前此功能只在HP-UX下有用)。
+
+●       unload 或 unload <libname>  卸载共享库(动态链接库)时 (unload为关键字，目前此功能只在HP-UX下有用)。
+
+tcatch <event>
+
+只设置一次捕捉点，当程序停住以后，应点被自动删除。
+
+4. 维护停止点
+上面说了如何设置程序的停止点，gdb中的停止点也就是上述的三类。在gdb中，如果觉得已定义好的停止点没有用了，可以使用delete、clear、disable、enable这几个命令来进行维护。
+
+Clear
+
+清除所有的已定义的停止点。
+
+clear <function>
+
+clear <filename:function>
+
+清除所有设置在函数上的停止点。
+
+clear <linenum>
+
+clear <filename:linenum>
+
+清除所有设置在指定行上的停止点。
+
+delete [breakpoints] [range...]
+
+删除指定的断点，breakpoints为断点号。如果不指定断点号，则表示删除所有的断点。range 表示断点号的范围(如:3-7)。其简写命令为d。
+
+比删除更好的一种方法是disable停止点。disable了的停止点，gdb不会删除，当还需要时，enable即可，就好像回收站一样。
+
+disable [breakpoints] [range...]
+
+disable所指定的停止点，breakpoints为停止点号。如果什么都不指定，表示disable所有的停止点。简写命令是dis.
+
+enable [breakpoints] [range...]
+
+enable所指定的停止点，breakpoints为停止点号。
+
+enable [breakpoints] once range...
+
+enable所指定的停止点一次，当程序停止后，该停止点马上被gdb自动disable。
+
+enable [breakpoints] delete range...
+
+enable所指定的停止点一次，当程序停止后，该停止点马上被gdb自动删除。
+
+5. 停止条件维护
+前面在介绍设置断点时，提到过可以设置一个条件，当条件成立时，程序自动停止。这是一个非常强大的功能，这里，专门介绍这个条件的相关维护命令。
+
+一般来说，为断点设置一个条件，可使用if关键词，后面跟其断点条件。并且，条件设置好后，可以用condition命令来修改断点的条件(只有break和watch命令支持if，catch目前暂不支持if)。
+
+condition <bnum> <expression>
+
+修改断点号为bnum的停止条件为expression。
+
+condition <bnum>
+
+清除断点号为bnum的停止条件。
+
+还有一个比较特殊的维护命令ignore，可以指定程序运行时，忽略停止条件几次。
+
+ignore <bnum> <count>
+
+表示忽略断点号为bnum的停止条件count次。
+
+6. 为停止点设定运行命令
+可以使用gdb提供的command命令来设置停止点的运行命令。也就是说，当运行的程序在被停住时，我们可以让其自动运行一些别的命令，这很有利行自动化调试。
+
+commands [bnum]
+
+... command-list ...
+
+end
+
+为断点号bnum指定一个命令列表。当程序被该断点停住时，gdb会依次运行命令列表中的命令。
+
+例如：
+
+break foo if x>0
+
+commands
+
+printf "x is %d\n",x
+
+continue
+
+end
+
+断点设置在函数foo中，断点条件是x>0，如果程序被断住后，也就是一旦x的值在foo函数中大于0，gdb会自动打印出x的值，并继续运行程序。
+
+如果要清除断点上的命令序列，那么只要简单地执行一下commands命令，并直接在输入end就行了。
+
+7. 断点菜单
+在C ++中，可能会重复出现同一个名字的函数若干次(函数重载)。在这种情况下，break <function>不能告诉gdb要停在哪个函数的入口。当然，可以使用break <function(type)>，也就是把函数的参数类型告诉gdb，以指定一个函数。否则的话，gdb会列出一个断点菜单供用户选择所需要的断点。只要输入菜单列表中的编号就可以了。如：
+
+(gdb) b String::after
+
+[0] cancel
+
+[1] all
+
+[2] file:String.cc; line number:867
+
+[3] file:String.cc; line number:860
+
+[4] file:String.cc; line number:875
+
+[5] file:String.cc; line number:853
+
+[6] file:String.cc; line number:846
+
+[7] file:String.cc; line number:735
+
+> 2 4 6
+
+Breakpoint 1 at 0xb26c: file String.cc, line 867.
+
+Breakpoint 2 at 0xb344: file String.cc, line 875.
+
+Breakpoint 3 at 0xafcc: file String.cc, line 846.
+
+Multiple breakpoints were set.
+
+Use the "delete" command to delete unwanted
+
+breakpoints.
+
+(gdb)   
+
+可见，gdb列出了所有after的重载函数，选一下列表编号就行了。0表示放弃设置断点，1表示所有函数都设置断点。
+
+8. 恢复程序运行和单步调试
+当程序被停住后，可以用continue命令恢复程序的运行直到程序结束，或下一个断点到来。也可以使用step或next命令单步跟踪程序。
+
+continue [ignore-count]
+
+c [ignore-count]
+
+fg [ignore-count]
+
+恢复程序运行，直到程序结束，或是下一个断点到来。ignore-count表示忽略其后的断点次数。continue，c，fg三个命令都是一样的意思。
+
+step <count>
+
+单步跟踪，如果有函数调用，它会进入该函数。进入函数的前提是，此函数被编译有debug信息。很像VC等工具中的step in。后面可以加count也可以不加，不加表示一条条地执行，加表示执行后面的count条指令，然后再停住。
+
+next <count>
+
+同样单步跟踪，如果有函数调用，它不会进入该函数(很像VC等工具中的step over)。后面可以加count也可以不加，不加表示一条条地执行，加表示执行后面的count条指令，然后再停住。
+
+set step-mode
+
+set step-mode on
+
+打开step-mode模式。在进行单步跟踪时，程序不会因为没有debug信息而不停住。这个参数有很利于查看机器码。
+
+set step-mod off
+
+关闭step-mode模式。
+
+finish
+
+运行程序，直到当前函数完成返回。并打印函数返回时的堆栈地址和返回值及参数值等信息。
+
+until 或 u
+
+当厌倦了在一个循环体内单步跟踪时，这个命令可以运行程序直到退出循环体。
+
+stepi 或 si
+
+nexti 或 ni
+
+单步跟踪一条机器指令。一条程序代码有可能由数条机器指令完成，stepi和nexti可以单步执行机器指令。与之一样有相同功能的命令是display/i $pc，当运行完这个命令后，单步跟踪会在显示出程序代码的同时显示出机器指令(也就是汇编代码)。
+
+9. 信号(Signals)
+信号是一种软中断，是一种处理异步事件的方法。
+
+一般来说，操作系统都支持许多信号，尤其是Linux，比较重要的应用程序一般都会处理信号。Linux定义了许多信号，比如SIGINT表示中断字符信号，也就是Ctrl+C的信号，SIGBUS表示硬件故障的信号；SIGCHLD表示子进程状态改变信号；SIGKILL表示终止程序运行的信号等。信号量编程是UNIX下非常重要的一种技术。
+
+gdb有能力在调试程序的时候处理任何一种信号。可以告诉gdb需要处理哪一种信号；可以要求gdb收到所指定的信号时，马上停住正在运行的程序，以供用户进行调试。可用gdb的handle命令来完成这一功能。
+
+handle <signal> <keywords...>
+
+在gdb 中定义一个信号处理。信号<signal>可以以SIG开头或不以SIG开头，可以定义一个要处理信号的范围(如：SIGIO- SIGKILL，表示处理从SIGIO信号到SIGKILL的信号，其中包括SIGIO，SIGIOT，SIGKILL三个信号)，也可以使用关键字 all来标明要处理所有的信号。一旦被调试的程序接收到信号，运行程序马上会被gdb停住，以供调试。其<keywords>可以是以下几种关键字中的一个或多个。
+
+nostop
+
+当被调试的程序收到信号时，gdb不会停住程序的运行，但会显示出消息告诉用户收到这种信号。
+
+stop
+
+当被调试的程序收到信号时，gdb会停住程序。
+
+print
+
+当被调试的程序收到信号时，gdb会显示出一条信息。
+
+noprint
+
+当被调试的程序收到信号时，gdb不会告诉用户收到信号的信息。
+
+Pass
+
+noignore
+
+当被调试的
+
+=============================================gdb====================================================================================================
+在你调试程序时，当程序被停住时，你可以使用print命令（简写命令为p），或是同义命令inspect来查看当前程序的运行数据。print命令的格式是：   
+
+    print <expr>
+    print /<f> <expr>
+<expr>是表达式，是你所调试的程序的语言的表达式（GDB可以调试多种编程语言），<f>是输出的格式，比如，如果要把表达式按16进制的格式输出，那么就是/x。
+一、表达式
+
+print和许多GDB的命令一样，可以接受一个表达式，GDB会根据当前的程序运行的数据来计算这个表达式，既然是表达式，那么就可以是当前程序运行中的const常量、变量、函数等内容。可惜的是GDB不能使用你在程序中所定义的宏。表达式的语法应该是当前所调试的语言的语法，由于C/C++是一种大众型的语言，所以，本文中的例子都是关于C/C++的。（而关于用GDB调试其它语言的章节，我将在后面介绍）   
+    在表达式中，有几种GDB所支持的操作符，它们可以用在任何一种语言中。   
+    @        是一个和数组有关的操作符，在后面会有更详细的说明。       
+    ::         指定一个在文件或是一个函数中的变量。       
+    {<type>} <addr>        表示一个指向内存地址<addr>的类型为type的一个对象。       
+二、程序变量
+
+    在GDB中，你可以随时查看以下三种变量的值：
+        1、全局变量（所有文件可见的）
+        2、静态全局变量（当前文件可见的）
+        3、局部变量（当前Scope可见的）       
+    如果你的局部变量和全局变量发生冲突（也就是重名），一般情况下是局部变量会隐藏全局变量，也就是说，如果一个全局变量和一个函数中的局部变量同名时，如果当前停止点在函数中，用print显示出的变量的值会是函数中的局部变量的值。如果此时你想查看全局变量的值时，你可以使用“::”操作符：   
+      file::variable
+    function::variable
+    可以通过这种形式指定你所想查看的变量，是哪个文件中的或是哪个函数中的。例如，查看文件f2.c中的全局变量x的值：
+    (gdb) p 'f2.c'::x   
+    当然，“::”操作符会和C++中的发生冲突，GDB能自动识别“::” 是否C++的操作符，所以你不必担心在调试C++程序时会出现异常。   
+    另外，需要注意的是，如果你的程序编译时开启了优化选项，那么在用GDB调试被优化过的程序时，可能会发生某些变量不能访问，或是取值错误码的情况。这个是很正常的，因为优化程序会删改你的程序，整理你程序的语句顺序，剔除一些无意义的变量等，所以在GDB调试这种程序时，运行时的指令和你所编写指令就有不一样，也就会出现你所想象不到的结果。对付这种情况时，需要在编译程序时关闭编译优化。一般来说，几乎所有的编译器都支持编译优化的开关，例如，GNU的C/C++编译器GCC，你可以使用“-gstabs”选项来解决这个问题。关于编译器的参数，还请查看编译器的使用说明文档。   
+三、数组
+
+    有时候，你需要查看一段连续的内存空间的值。比如数组的一段，或是动态分配的数据的大小。你可以使用GDB的“@”操作符，“@”的左边是第一个内存的地址的值，“@”的右边则你你想查看内存的长度。例如，你的程序中有这样的语句：    
+        int *array = (int *) malloc (len * sizeof (int));       
+    于是，在GDB调试过程中，你可以以如下命令显示出这个动态数组的取值：
+
+        p *array@len
+
+    @的左边是数组的首地址的值，也就是变量array所指向的内容，右边则是数据的长度，其保存在变量len中，其输出结果，大约是下面这个样子的：   
+        (gdb) p *array@len
+        $1 = {2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40}
+
+    如果是静态数组的话，可以直接用print数组名，就可以显示数组中所有数据的内容了。
+四、输出格式
+
+    一般来说，GDB会根据变量的类型输出变量的值。但你也可以自定义GDB的输出的格式。例如，你想输出一个整数的十六进制，或是二进制来查看这个整型变量的中的位的情况。要做到这样，你可以使用GDB的数据显示格式：   
+    x 按十六进制格式显示变量。
+    d 按十进制格式显示变量。
+    u 按十六进制格式显示无符号整型。
+    o 按八进制格式显示变量。
+    t 按二进制格式显示变量。
+    a 按十六进制格式显示变量。
+    c 按字符格式显示变量。
+    f 按浮点数格式显示变量。
+
+        (gdb) p i
+        $21 = 101          
+        (gdb) p/a i
+        $22 = 0x65       
+        (gdb) p/c i
+        $23 = 101 'e'       
+        (gdb) p/f i
+        $24 = 1.41531145e-43       
+        (gdb) p/x i
+        $25 = 0x65       
+        (gdb) p/t i
+        $26 = 1100101
+五、查看内存
+
+    你可以使用examine命令（简写是x）来查看内存地址中的值。x命令的语法如下所示：   
+    x/<n/f/u> <addr>    
+    n、f、u是可选的参数。   
+    n 是一个正整数，表示显示内存的长度，也就是说从当前地址向后显示几个地址的内容。
+    f 表示显示的格式，参见上面。如果地址所指的是字符串，那么格式可以是s，如果地十是指令地址，那么格式可以是i。
+    u 表示从当前地址往后请求的字节数，如果不指定的话，GDB默认是4个bytes。u参数可以用下面的字符来代替，b表示单字节，h表示双字节，w表示四字节，g表示八字节。当我们指定了字节长度后，GDB会从指内存定的内存地址开始，读写指定字节，并把其当作一个值取出来。   
+    <addr>表示一个内存地址。
+
+n/f/u三个参数可以一起使用。例如：   
+    命令：x/3uh 0x54320 表示，从内存地址0x54320读取内容，h表示以双字节为一个单位，3表示三个单位，u表示按十六进制显示。   
+六、自动显示
+
+    你可以设置一些自动显示的变量，当程序停住时，或是在你单步跟踪时，这些变量会自动显示。相关的GDB命令是display。
+    display <expr>
+    display/<fmt> <expr>
+    display/<fmt> <addr>   
+    expr是一个表达式，fmt表示显示的格式，addr表示内存地址，当你用display设定好了一个或多个表达式后，只要你的程序被停下来，GDB会自动显示你所设置的这些表达式的值。   
+    格式i和s同样被display支持，一个非常有用的命令是：   
+       display/i $pc   
+    $pc是GDB的环境变量，表示着指令的地址，/i则表示输出格式为机器指令码，也就是汇编。于是当程序停下后，就会出现源代码和机器指令码相对应的情形，这是一个很有意思的功能。   
+    下面是一些和display相关的GDB命令：   
+    undisplay <dnums...>
+    delete display <dnums...>
+    删除自动显示，dnums意为所设置好了的自动显式的编号。如果要同时删除几个，编号可以用空格分隔，如果要删除一个范围内的编号，可以用减号表示（如：2-5）   
+    disable display <dnums...>
+    enable display <dnums...>
+    disable和enalbe不删除自动显示的设置，而只是让其失效和恢复。   
+    info display
+    查看display设置的自动显示的信息。GDB会打出一张表格，向你报告当然调试中设置了多少个自动显示设置，其中包括，设置的编号，表达式，是否enable。
+
+一、显示源代码
+
+GDB 可以打印出所调试程序的源代码，当然，在程序编译时一定要加上-g的参数，把源程序信息编译到执行文件中。不然就看不到源程序了。当程序停下来以后，GDB会报告程序停在了那个文件的第几行上。你可以用list命令来打印程序的源代码。还是来看一看查看源代码的GDB命令吧。   
+    list <linenum>         显示程序第linenum行的周围的源程序。  list 20,80   : 显示源程序中的20－80行代码. 
+    list <function>         显示函数名为function的函数的源程序。       
+    list        显示当前行后面的源程序。   
+    list -         显示当前行前面的源程序。
+
+一般是打印当前行的上5行和下5行，如果显示函数是是上2行下8行，默认是10行，当然，你也可以定制显示的范围，使用下面命令可以设置一次显示源程序的行数。
+
+set listsize <count>        设置一次显示源代码的行数。       
+    show listsize       查看当前listsize的设置。       
+
+list命令还有下面的用法：
+
+list <first>, <last>        显示从first行到last行之间的源代码。   
+    list , <last>        显示从当前行到last行之间的源代码。       
+    list +         往后显示源代码。       
+
+一般来说在list后面可以跟以下这们的参数：
+
+<linenum>   行号。
+    <+offset>   当前行号的正偏移量。
+    <-offset>   当前行号的负偏移量。
+    <filename:linenum> 哪个文件的哪一行。
+    <function> 函数名。
+    <filename:function> 哪个文件中的哪个函数。
+    <*address> 程序运行时的语句在内存中的地址。   
+二、搜索源代码
+
+不仅如此，GDB还提供了源代码搜索的命令：
+
+forward-search <regexp>，search <regexp>        向前面搜索。
+
+reverse-search <regexp> 全部搜索。
+
+其中<regexp>是正则表达式，也主一个字符串的匹配模式，关于正则表达式，我就不在这里讲了，还请各位查看相关资料。
+三、指定源文件的路径
+
+某些时候，用-g编译过后的执行程序中只是包括了源文件的名字，没有路径名。GDB提供了可以让你指定源文件的路径的命令，以便GDB进行搜索。
+
+directory <dirname ... >，dir <dirname ... >         加一个源文件路径到当前路径的前面。如果你要指定多个路径，
+
+UNIX下你可以使用“:”，Windows下你可以使用“;”分隔。
+    directory        清除所有的自定义的源文件搜索路径信息。   
+    show directories         显示定义了的源文件搜索路径。       
+四、源代码的内存
+
+你可以使用info line命令来查看源代码在内存中的地址。info line后面可以跟“行号”，“函数名”，“文件名:行号”，“文件名:函数名”，这个命令会打印出所指定的源码在运行时的内存地址，如：
+
+        (gdb) info line tst.c:func
+        Line 5 of "tst.c" starts at address 0x8048456 <func+6> and ends at 0x804845d <func+13>.
+
+还有一个命令（disassemble）你可以查看源程序的当前执行时的机器码，这个命令会把目前内存中的指令dump出来。如下面的示例表示查看函数func的汇编代码。
+
+        (gdb) disassemble func
+        Dump of assembler code for function func:
+        0x8048450 <func>:       push   %ebp
+        0x8048451 <func+1>:     mov    %esp,%ebp
+        0x8048453 <func+3>:     sub    $0x18,%esp
+        0x8048456 <func+6>:     movl   $0x0,0xfffffffc(%ebp)
+        0x804845d <func+13>:    movl   $0x1,0xfffffff8(%ebp)
+        0x8048464 <func+20>:    mov    0xfffffff8(%ebp),%eax
+        0x8048467 <func+23>:    cmp    0x8(%ebp),%eax
+        0x804846a <func+26>:    jle    0x8048470 <func+32>
+        0x804846c <func+28>:    jmp    0x8048480 <func+48>
+        0x804846e <func+30>:    mov    %esi,%esi
+        0x8048470 <func+32>:    mov    0xfffffff8(%ebp),%eax
+        0x8048473 <func+35>:    add    %eax,0xfffffffc(%ebp)
+        0x8048476 <func+38>:    incl   0xfffffff8(%ebp)
+        0x8048479 <func+41>:    jmp    0x8048464 <func+20>
+        0x804847b <func+43>:    nop
+        0x804847c <func+44>:    lea    0x0(%esi,1),%esi
+        0x8048480 <func+48>:    mov    0xfffffffc(%ebp),%edx
+        0x8048483 <func+51>:    mov    %edx,%eax
+        0x8048485 <func+53>:    jmp    0x8048487 <func+55>
+        0x8048487 <func+55>:    mov    %ebp,%esp
+        0x8048489 <func+57>:    pop    %ebp
+        0x804848a <func+58>:    ret
+        End of assembler dump.
+
+=================================================gdb 记录======================================================================
+1,启动gdb
+  a) 必须通过命令： gcc -o MAX_HEAPIFY.out MAX_HEAPIFY.c -g   -g选项必须有.否则 gdb MAX_HEAPFIFY.out后,无法读取源文件，即list命令不显示源代码. 
+
+2,关于list
+  a) list 8   list 1,20    都是合法的.
+  b) set list 20           设置每次显示20行.
+
+3,关于core文件
+  a) 如果执行命令： ulimit -c unlimited     设置core 文件的最大值.   则再执行.out文件报错时会有 "core dumped". 再执行gdb a.out core,会将错误信息打印出来.
+
+
+
+查看命令:help all  
+查看info 命令具体使用: help info
+
+
+=================================================taglist=================================================================================
+1.常用命令,在vi中使用
+   :TlistToggle   打开窗口
+   :help taglist.txt 帮助说明
+   :ctrl 2个w，左右窗口切换
+   vim会通过tags文件中的索引来定位
+   在tags文件所在的目录运行vim打开源文件.c或者.h
+   a. 把光标移到要查看的变量或函数的位置,ctrl ]便可以跳转到变量或函数定义的位置,ctrl o返回,使用前现用 ctags *.c来生成tag文件.
+   b. 光标停在头文件引用的地方,按gf键可跳转到该头文件,ctrl o返回
+   c. 将光标停放在函数或者变量的位置,gd会高亮出当前文件中所有的函数或者变量,按n查看下一个
+   d. gg光标返回到文件的顶部
+
