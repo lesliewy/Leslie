@@ -688,6 +688,7 @@ lowercase.  This can be shortened to "guu".  "gUgU" is shortened to "gUU" and
 
 				g~~ 
 <	Some GIRLS have Fun    ---->   sOME girls HAVE fUN ~
+@wy@ 转换大小写. gu gU   guiw gUiw
 
 ==============================================================================
 *10.9*	Using an external program
