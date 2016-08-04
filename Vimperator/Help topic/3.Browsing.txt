@@ -1,0 +1,237 @@
+Browsing
+Contents
+Opening web pages
+Navigating
+Reloading
+Stopping
+Writing
+Quitting The current directory
+
+Vimperator overrides nearly all Firefox keys in order to make browsing more
+pleasant for Vim users. On the rare occasions when you want to pass a keystroke
+to Firefox, or to the web page, and have it retain its original meaning you
+have 2 possibilities:
+
+ignore-all-keys<S-Esc><Insert><S-Esc><Insert>
+            Disable all Vimperator keys including <Esc> and
+            pass them to the next event handler. This is especially useful if
+            JavaScript controlled forms (e.g., the RichEdit form fields of
+            Gmail) don't work anymore or you want to work with web apps like
+            Google Reader which have a lot of useful shortcuts themselves. To
+            exit this mode, press <S-Esc> again.
+
+ignore-keyii
+            If you only need to pass a single key to a JavaScript form field or another
+            extension prefix the key with i. Also works to unshadow Firefox
+            shortcuts like <C-o> which are otherwise hidden in Vimperator.
+
+openingOpening web pages
+
+o:o:open:o[pen] [arg1], [arg2], …o
+            Open one or more URLs in the current tab.
+            Multiple URLs can be separated with 'urlseparator' (default: ", " Note that the
+            space after the comma is required.)
+            The first URL is opened in the current tab, and all other URLs are
+            opened in new tabs.
+            Each token is analyzed and in this order:
+                Opened as a local file if it is an existing relative or absolute filename.
+                    :open /etc/fstab shows the file system table.
+                    :open ../other/foo.html in your home directory opens /home/other/foo.html
+            
+                 Opened with the specified search engine if the
+                 token looks like a search string and the first word
+                 is the name of a search engine (
+                 :open wikipedia linus torvalds opens the Wikipedia entry for
+                 linus torvalds). The short name of a search engine
+                 is automatically guessed from its name. If you want
+                 to set a custom name, you can change it with
+                 :dialog searchengines.
+            
+                Opened with the default search engine or keyword
+                (specified with the 'defsearch' option) if the first
+                word is no search engine (:open linus torvalds
+                opens a Google search for linus torvalds).
+           
+               Passed directly to Firefox in all other cases
+               (:open www.osnews.com, www.slashdot.org
+               opens OSNews in the current, and Slashdot in a new
+               background tab).
+        
+            You can use :open -tags linux torvalds to complete bookmarks with
+            tag "linux" and which contain "torvalds". Note that -tags support is only
+            available for tab completion, not for the actual command.
+            The items which are completed on <Tab> are specified in the 'complete'
+            option.
+
+t:t:tabopen:tabnew:tabopen[!] [arg1], [arg2], …t
+            Just like :open but also uses a new tab for the first URL. When
+            used with [!], the tabopen value of the 'activate' option is negated.
+
+T
+            Show a :tabopen prompt containing the current URL. Useful if you want to
+            go somewhere by editing the URL of the current page.
+            * 这个可能有用.
+
+:tabdu :tabduplicate :[count]tabdu[plicate][!]
+            Duplicates current tab [count] times. Uses tabopen value of the 'activate'
+            option to determine if the last cloned tab should be activated. When used with
+            [!], tabopen value is negated.
+            * 类似我在xshell ssh 中设置的<S+m>.
+O
+            Show an :open prompt containing the current URL. Useful if you want to
+            go somewhere by editing the URL of the current page.
+            * 一般我也是选择 T.
+
+w:winopen:wopen:wino[pen][!] [arg1], [arg2], …w
+        Just like :tabopen but opens the resulting web page(s) in a new window.
+        * 这个我基本上不用.    
+
+W
+            Open one or more URLs in a new window based on current location. Works like
+            w but preselects current URL in the :winopen query.
+
+<MiddleMouse>p
+            Open (put) a URL based on the current clipboard contents in the current buffer.
+            You can also just select (for non-X11 users: copy) some non-URL text, and
+            search for it with the default search engine or keyword (specified by the
+            'defsearch' option) with p.
+        
+P
+            Open (put) a URL based on the current clipboard contents in a new buffer. Works
+            like p but opens a new tab.
+        
+            Whether the new buffer is activated, depends on the 'activate' option.
+
+gP
+            Open (put) a URL based on the current clipboard contents in a new buffer.
+            Works like P but inverts the 'activate' option.
+
+<C-x>[count]<C-x>
+            Decrements the last number in URL by 1, or by [count] if given. Negative
+            numbers are not supported, as this is not generally useful, so the number cannot
+            be decremented past 0.
+
+<C-a>[count]<C-a>
+        Increments the last number in URL by 1, or by [count] if given.
+        * 这2个差不多,对URL中最右边的数字进行递增减.
+
+~
+            Open home directory. You can also use the hints and have the probably fastest
+            file browser on earth. :)
+            * 估计是没见过TC.
+
+navigating
+
+H<C-o>CTRL-O:ba:back:[count]ba[ck] [url]:ba[ck]!CTRL-o
+            Go [count] pages back in the browser history. If [url] is specified go back to
+            the first matching URL. The special version :back! goes to the beginning
+            of the browser history.
+            * 习惯用H.        
+
+L<C-i>CTRL-i:fo:fw:forward:[count]fo[rward] [url]:fo[rward]!CTRL-i
+            Go [count] pages forward in the browser history. If [url] is specified go
+            forward to the first matching URL. The special version :forward! goes to
+            the end of the browser history.
+
+:ju:jumps:ju[mps]
+        List all jumps aka current tab's history aka session history.
+            Current history position is marked with >, jump numbers are counters to be used
+            with :back (above zero record) or :forward (below zero record).
+
+gh
+        Go home. Opens the homepage in the current tab.
+
+gH
+            Go home in a new tab. Opens the homepage in a new tab. Whether the new tab is
+            activated or not depends on the 'activate' option.
+
+gu[count]gu
+        Go to [count]th parent directory.
+        Pressing gu repeatedly would ascend the URL in this order:
+            http://www.example.com/path/to/file.txt?query=value#anchor
+            http://www.example.com/path/to/file.txt?query=value
+            http://www.example.com/path/to/file.txt
+            http://www.example.com/path/to/
+            http://www.example.com/path/
+            http://www.example.com/
+            http://example.com/
+
+gU
+        Go to the root of the web site.
+            gU on http://www.example.com/dir1/dir2/file.htm opens
+            http://www.example.com/.
+            When browsing a local directory, it goes to the root directory.
+        * 这两个也比较常用,原来是转换大小写用的.         
+
+reloading
+r
+        Force reloading of the current web page.
+        * 这个比较常用.
+R
+        Force reloading of the current web page skipping the cache.
+      
+:re:reload:re[load][!]
+            Reload current web page. Forces reloading of the current page. If [!] is given,
+            skip the cache.
+        
+:reloada:reloadall:reloada[ll][!]
+        Reload all pages. Forces reloading of all pages. If [!] is given, skip the cache.
+        * 这个也有用, 
+
+Stopping
+
+<C-c><C-c>
+        Stop loading the current web page. This only works if there is no selection, otherwise the
+           selected text is copied to the clipboard. Usually this duality isn't a problem, as while
+           a page is loading, there is seldom a text to copy.
+        * 这个也比较常用.        
+
+:st:stop:st[op]
+        Stop loading the current web page.
+
+
+:stopa:stopall:stopa[ll]
+        Stop loading all web pages.
+
+writing save-file Writing
+:w:write:sav:saveas:sav[eas][!] [file]
+            Save current web page to disk. If [file] is omitted, save to the page's
+            default filename. Existing documents will only be overwritten if [!] is given.
+   *最好就是:w 别写文件名,  :w 相当于 <C+S>.        
+
+quittingsave-sessionQuitting
+
+:q:quit:q[uit]
+            Quit current tab. If this is the last tab in the window, close the window. If
+            this was the last window, close Vimperator. When quitting Vimperator, the
+            session is not stored.
+
+:qa:qall:quita:quitall:quita[ll]
+            Quit Vimperator. Quit Vimperator, no matter how many tabs/windows are open.
+            The session is not stored.
+
+:wc:wclose:winc:winclose:winc[lose]
+        Close window.
+
+:winon:winonly:winon[ly]
+        Close all other windows.
+
+:xa:xall:wq:wqa:wqall:wqa[ll]:xa[ll]
+            Save the session and quit. Quit Vimperator, no matter how many tabs/windows
+            are open. The session is stored. :wq is different from Vim, as it
+            closes the window instead of just one tab by popular demand. Complain on the
+            mailing list if you want to change that.
+
+ZQ
+        Quit and don't save the session. Works like :qall.
+    
+ZZ
+            Quit and save the session. Quit Vimperator, no matter how many tabs/windows
+            are open. The session is stored. Works like :xall.
+
+The current directory
+:chd:chdir:cd:cd [-|path]
+        Change the current directory. :cd - changes to the last directory.
+
+:pw:pwd:pw[d]
+        Print the current directory name.

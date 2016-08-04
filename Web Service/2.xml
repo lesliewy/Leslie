@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--指定使用的schema, xsi:schemaLocation 指定的只是一个hint,并不强制要求. -->
+<purchaseOrder orderDate="2003-09-22"
+  xmlns="http://www.Monson-Haefel.com/jwsbook"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.Monson-Haefel.com/jwsbook
+                      http://www.Monson-Haefel.com/jwsbook/po.xsd
+
+                      http://www.w3.org/2001/XMLSchema-instance
+                      http://www.w3.org/2001/XMLSchema.xsd">
+

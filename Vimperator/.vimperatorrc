@@ -1,0 +1,9 @@
+"3.8.1 (created: 2013/11/21 23:49:14)
+" 在firefox中用 :mkv 生成的;
+
+source! /home/leslie/.vimperatorrc.local
+
+" vim: set ft=vimperator:
+
+set nextpattern=\\bnext\\b,下一页,^>$,^(>>|»)$,^(>|»),(>|»)$,\\bmore\\b
+set previouspattern=\\bprev|previous\\b,上一页,^<$,^(<<|«)$,^(<|«),(<|«)$

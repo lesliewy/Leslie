@@ -1,0 +1,867 @@
+Options
+ContentsSetting optionsSetting Firefox optionsList of options
+
+
+    Vimperator has a number of internal variables and switches which can be set to
+    achieve special effects. These options come in 5 forms:
+
+
+booleancan only be on or offnumberhas a numeric valuestringhas a string valuecharlistlike a string but with unique charactersstringlista comma-separated list of strings
+
+set-optionSetting options
+
+:set:se:se[t]
+        Show all options that differ from their default value.
+    
+
+:se[t] all
+        Show all options.
+    
+
+:se[t] {option}?
+        Show value of {option}.
+    
+
+:se[t] {option} [бн]
+        Toggle optionset, switch it on.Number optionshow value.String optionshow value.
+    
+
+:se[t] no{option} [бн]
+        Toggle option: Reset, switch it off.
+    
+
+:se[t] {option}! [бн]:se[t] inv{option} [бн]
+        Toggle option: Invert value.
+    
+
+:se[t] inv{option}={value} [бн]:se[t] {option}!={value} [бн]
+        For list options, toggle the specified values.
+
+        If the option is a list, the given values are toggled. Given
+        :set opt=foo,bar
+        then,
+        :set opt!=foo,baz
+        has the same result as
+        :set opt=bar,baz
+    
+
+:set-default:se[t] {option}& [бн]
+        Reset option to its default value.
+    
+
+:se[t] all&
+        Set all options to their default value.
+    
+
+:set-args:se[t] {option}={value} [бн]
+        
+            Set string or number option to {value}.
+            For numeric options the value must be given in decimal.
+            The old value can be inserted by typing <Tab>.
+        
+    
+
+:set+=:se[t] {option}+={value} [бн]
+        
+            Add the {value} to a number option, or append the {value}
+            to a string option.  When the option is a comma separated list, a
+            comma is added, unless the value was empty. If the option is a list
+            of flags, superfluous flags are removed.  When adding a flag that
+            was already present the option value doesn't change.
+        
+    
+
+:set^=:se[t] {option}^={value} [бн]
+        
+            Multiply the {value} to a number option, or prepend the
+            {value} to a string option. When the option is a comma
+            separated list, a comma is added, unless the value was empty.
+        
+    
+
+:set-=:se[t] {option}-={value} [бн]
+        
+            Subtract the {value} from a number option, or remove the
+            {value} from a string option if it is there. If the
+            {value} is not found in a string option, there is no error or
+            warning. When the option is a comma separated list, a comma is
+            deleted, unless the option becomes empty. When the option is a list
+            of flags, {value} must be exactly as they appear in the option.
+            Remove flags one by one to avoid problems.
+        
+    
+
+:setlocal:setl:setl[ocal]:setl[ocal] all:setl[ocal] {option}?:setl[ocal] {option}:setl[ocal] no{option}:setl[ocal] inv{option}:setl[ocal] {option}&:setl[ocal] all&:setl[ocal] {option}={value}:setl[ocal] {option}+={value}:setl[ocal] {option}^={value}:setl[ocal] {option}-={value}
+        
+            The same as :set command, but operates on current tab options
+            only. See :set for details.
+        
+    
+
+:setglobal:setg:setg[lobal]:setg[lobal] all:setg[lobal] {option}?:setg[lobal] {option}:setg[lobal] no{option}:setg[lobal] inv{option}:setg[lobal] {option}&:setg[lobal] all&:setg[lobal] {option}={value}:setg[lobal] {option}+={value}:setg[lobal] {option}^={value}:setg[lobal] {option}-={value}
+        
+            The same as :set command, but operates on global options only.
+            See :set for details.
+        
+    
+
+expand-environment-varexpand-env:set_env
+
+
+    Environment variables are expanded for path options like 'cdpath' and
+    'runtimepath'. The variable notation is $VAR (terminated by a non-word
+    character) or ${VAR}. %VAR% is also supported on Windows.
+
+
+Firefox-optionspreferencesSetting Firefox options
+
+Firefox options can be viewed and set with the following commands:
+
+:prefs:preferences:pref[erences]
+        
+            Show the Firefox preferences dialog. You can change the browser
+            preferences from this dialog. Be aware that not all Firefox
+            preferences work, because Vimperator overrides some key bindings and
+            changes Firefox's GUI.
+        
+    
+
+:prefs!:preferences!:pref[erences]!
+        
+            Opens about:config in the current tab where you can change advanced Firefox
+            preferences.
+        
+    
+
+:set!:set-!:se[t]! {preference}={value}
+        
+            Change any Firefox {preference} (those in the about:config
+            window). You can also reset/delete those preferences with
+            :set! preference&.
+        
+    
+
+overridden-preferences
+
+
+    Vimperator sets several Firefox preferences at startup. If this is undesirable,
+    they can be changed to a different value in your RC file using
+    :set! preference=value
+
+
+The following preferences are set:
+
+
+    dom.popup_allowed_events
+    accessibility.typeaheadfind.autostart
+    accessibility.typeaheadfind
+
+
+
+
+list-optionsList of options
+
+'act''activate''activate' 'act'stringlist(default: addons,downloads,extoptions,help,homepage,quickmark,tabopen,paste)
+        
+        Define when tabs are automatically activated. Available items:
+
+        allAll tabs created by any commands and mappingsaddons:addo[ns] commanddownloads:downl[oads] commandextoptions:exto[ptions] commandhelp:h[elp] commandhomepagegH mappingquickmarkgo and gn mappingstabopen:tabopen[!] commandpasteP and gP mappings
+
+    
+
+
+'ac''autocomplete''autocomplete' 'ac'boolean(default: true)
+        
+        If set, automatically list completions while typing.
+        Warning: Setting this option might be slow on older hardware, so turn that option off if you experience unwanted slowdowns.
+    
+
+
+$CDPATH'cd''cdpath''cdpath' 'cd'string
+            (default: equivalent to $CDPATH or ,,)
+        
+        
+            List of directories searched when executing the :cd
+            command. This is only used for relative paths if an absolute path is
+            specified then the option is ignored.
+        
+    
+
+
+'cpt''complete''complete' 'cpt'charlist(default: slf)
+        
+        Items which are completed at the :open prompts. Available items:
+
+        sSearch engines and keyword URLsfLocal fileslFirefox location bar entries (bookmarks and history sorted in an intelligent way)bBookmarkshHistorySSearch engine suggestionstOpen tabs
+
+        
+            The order is important, so :set complete=bs would list bookmarks first,
+            and then any available quick searches.
+        
+
+        Warning: 
+            Using b and h can make completion very slow if there are many items.
+        
+    
+
+
+'ds''defsearch''defsearch' 'ds'string(default: google)
+        
+        
+            Sets the default search engine. The default search engine name is
+            used in the :open [arg] command if [arg] neither
+            looks like a URL nor like a specified search engine/keyword.
+        
+
+        
+            This means that if you set 'defsearch' to youtube,
+            then :open arnold schwarzenegger will be exactly the same as
+            :open youtube arnold schwarzenegger. Therefore, you need
+            to add a keyword or search engine youtube first.
+        
+
+        
+            If 'defsearch' is empty, then Firefox will always attempt to
+            open the raw [arg].
+        
+    
+
+
+'editor''editor'string(default: gvim -f)
+        
+        
+            Set the external text editor.
+            Sets the editor to run when <C-i> is pressed in Insert and TextArea
+            modes.
+        
+
+        Warning: 
+            Vimperator will not behave correctly if the editor forks its own
+            process, such as with gvim without the -f argument.
+        
+    
+
+
+'noex''noexrc''ex''exrc''exrc' 'ex'boolean(default: off)
+        
+        
+            Allow reading of an RC file in the current directory. This file is
+            sourced in addition to, and after, your default RC file.
+        
+    
+
+
+'eht''extendedhinttags''extendedhinttags' 'eht'string(default: //input[not(@type='hidden')] | //xhtml:input[not(@type='hidden')] |
+//a | //xhtml:a | //area | //xhtml:area | //iframe | //xhtml:iframe |
+//textarea | //xhtml:textarea | //button | //xhtml:button | //select |
+//xhtml:select |
+//*[@onclick or @onmouseover or @onmousedown or @onmouseup or @oncommand or @role='link'])
+        
+        The XPath string of hintable elements activated by ;.
+    
+
+
+'noeb''noerrorbells''eb''errorbells''errorbells' 'eb'boolean(default: off)
+        
+        Ring the bell when an error message is displayed.
+    
+
+
+'ei''eventignore''eventignore'stringlist(default: )
+        
+        
+            A list of autocommand event names which should be ignored. If the list contains
+            the value all then all events are ignored.
+        
+    
+
+'enc''encoding''encoding'string(default: UTF-8)
+        
+        
+            Changes the character encoding of the current buffer. Valid only for
+            the current page.
+        
+    'app''apptab''apptab' 'app'boolean(default: false)
+        
+        Transform the current tab into an app tab. Firefox always displays
+            app tabs at the left of all tabs and minimizes it to its favicon.
+        
+    
+
+
+'fenc''fileencoding''fileencoding'string(default: UTF-8)
+        
+        Changes the character encoding that Vimperator uses to read and write files.
+    
+
+
+'nofc''nofocuscontent''fc''focuscontent''focuscontent' 'fc'boolean(default: off)
+        
+        
+            Focus the content after a page has loaded. This is useful if you
+            always want to stay in Normal mode when browsing between web sites.
+            When on, it blurs any textbox which often is
+            automatically focused on page load.  If you usually like
+            'focuscontent' but sometimes you'd like to focus the first
+            input field, you can use gi to jump to it.
+        
+        Note: Some pages use JavaScript to focus the textfield, then 'focuscontent'
+        might not work as expected.
+    
+
+
+'fh''followhints''followhints' 'fh'number(default: 0)
+        
+        Change the behaviour of <Return> in Hints mode.
+
+        Possible values:
+
+        0Follow the first hint as soon as typed text uniquely identifies it.1Follow the selected hint on <Return>.2Follow the selected hint on <Return> only if it's been <Tab>-selected.
+    
+
+
+'nofs''nofullscreen''fs''fullscreen''fullscreen' 'fs'boolean(default: off)
+        
+        
+            Show the current window fullscreen. Also hide certain GUI elements like the
+            statusline.
+        
+    
+
+
+'hf''helpfile''helpfile' 'hf'string(default: intro)
+        
+        
+            Name of the main help file. This is the tail component of the chrome
+            URL as displayed in the status line when viewing the page.
+        
+    
+
+'hc''hintchars''hintchars' 'hc'string(default: 0123456789)
+        
+        
+            Controls which characters are used to generate hint labels.
+            Case-sensitive.
+        
+    
+
+'hin''hintinputs''hintinputs' 'hin'stringlist(default: label,value)
+        
+        
+            When generating hints for input elements that do not have an
+            explicit caption, this specifies the methods to try and generate a
+            textual hint. It tries the options in the order that you give, and
+            uses the first that it finds.
+        
+
+        valueThe hint is the value displayed in a text input, or the selected option for a dropdown.labelThe value of an explicit label for the input, this will not match most manually added labels that are found on sites.name The name of the input will be used, although the name is not designed for user consumption, it is frequently very similar to the label.
+    
+
+
+'hm''hintmatching''hintmatching' 'hm'string(default: contains)
+        
+        Change the hint matching algorithm during Hints mode.
+
+        Possible values:
+
+        containsThe typed characters are split on whitespace, and these character groups have to match anywhere inside the text of the link.wordstartswithThe typed characters are matched with the beginning of the first word (see 'wordseparators') in the link as long as possible. If no matches occur in the current word, then the matching is continued at the beginning of the next word. The words are worked through in the order they appear in the link. If the typed characters contain spaces, then the characters are split on whitespace. These character groups are then matched with the beginning of the words, beginning at the first one and continuing with the following words in the order they appear in the link.firstlettersBehaves like wordstartswith, but non-matching words aren't overleaped.customDelegate to a custom function: liberator.plugins.customHintMatcher(hintString)
+    
+
+
+'ht''hinttags''hinttags' 'ht'string(default: //input[not(@type='hidden')] | //xhtml:input[not(@type='hidden')] | //a | //xhtml:a | //area | //xhtml:area | //iframe | //xhtml:iframe | //textarea | //xhtml:textarea | //button | //xhtml:button | //select | //xhtml:select | //*[@onclick or @onmouseover or @onmousedown or @onmouseup or @oncommand or @role='link'or @role='button' or @role='checkbox' or @role='combobox' or @role='listbox' or @role='listitem' or @role='menuitem' or @role='menuitemcheckbox' or @role='menuitemradio' or @role='option' or @role='radio' or @role='scrollbar' or @role='slider' or @role='spinbutton' or @role='tab' or @role='textbox' or @role='treeitem' or @tabindex])
+        
+        XPath string of hintable elements activated by f and F
+    
+
+
+'hto''hinttimeout''hinttimeout' 'hto'number(default: 0)
+        
+        
+            Timeout before automatically following a non-unique numerical hint. Set to 0
+            (the default) to only follow numeric hints after pressing <Return> or
+            when the hint is unique.
+        
+    
+
+
+'hi''history''history' 'hi'number(default: 500)
+        
+        Number of Ex commands and search patterns to store in the command-line history.
+    
+
+
+'noprivate''private''private'boolean(default: off)
+        
+        
+            Set the private browsing option. In private browsing mode
+            history, cache files, cookies, form data, passwords, download list
+            entries, local and URL marks, command-line history and macros are
+            available only for the duration of the private browsing session and
+            deleted when returning to normal browsing mode.
+        
+    
+
+
+'nohls''nohlsearch''hls''hlsearch''hlsearch' 'hls'boolean(default: off)
+        
+        Highlight previous search pattern matches
+    
+
+
+'noic''noignorecase''ic''ignorecase''ignorecase' 'ic'boolean(default: on)
+        
+        Ignore case in search patterns.
+    
+
+
+'nois''noincsearch''is''incsearch''incsearch' 'is'boolean(default: on)
+        
+        Show where the search pattern matches as it is typed.
+
+        Note: Incremental searching currently only works in the forward direction.
+    
+
+
+'noim''noinsertmode''im''insertmode''insertmode' 'im'boolean(default: on)
+        
+        
+            Use Insert mode as the default for text areas. This is useful if you
+            want to use the known Firefox interface for editing text areas.
+            Input fields default to this behaviour irrespective of this option's
+            setting.
+        
+
+        
+            Textarea mode can be entered with <C-t> from Insert mode.
+            
+        
+    
+
+
+
+'status''status'stringlist(default: input,location,bookmark,history,tabcount,position)
+        
+        Determines which elements to show in the status bar.
+
+        Possible values:
+
+        inputA partial command like 'g' if you just start typing 'gg'locationThe URL of the currently loaded pagebookmark?: indicates current page has been bookmarkedhistory<>: go backward and forward in history indicatorstabcount[N/M]: N is the index of the currently selected tab and M is
+                                    the total number of tabs in the current window.positionThe vertical scroll position
+    
+
+
+'nolks''nolinksearch''lks''linksearch''linksearch' 'lks'boolean(default: off)
+        
+        
+            Limit the search to hyperlink text.  This includes (X)HTML elements
+            with an href atrribute and XLink simple links.
+        
+    
+
+
+'nolpl''lpl''noloadplugins''loadplugins''loadplugins' 'lpl'boolean(default: on)
+        
+        
+            Load plugin scripts when starting up. When on, yet unloaded plugins
+            are automatically loaded after the vimperatorrc file has been
+            sourced. To load plugins earlier, use the :loadplugins
+            command within the vimperatorrc.
+        
+    
+
+
+'maxitems''maxitems'number(default: 20)
+        
+        Maximum number of items to display at once in a listing.
+    
+
+
+'msgs''messages''messages' 'msgs'number(default: 100)
+        
+        Number of messages to store in the message history.
+    
+
+
+'mto''messagetimeout''messagetimeout' 'mto'number(default: 5000)
+        
+        
+            Timeout before hiding informational messages in milliseconds. If
+            you have ever missed a message, you can always just type
+            :messages to view the last messages.
+            You can also disable this timeout completely by setting it to -1.
+        
+    
+
+
+'nextpattern''nextpattern'stringlist(default: \bnext,^>$,^(>>|?)$,^(>|?),(>|?)$,\bmore\b)
+        
+        
+            Patterns to use when guessing the 'next' page in a document
+            sequence when the user hits ]]. Each pattern, in order, is
+            matched against all links in the page with the first match being
+            used. The patterns are case insensitive regular expressions and the
+            link elements are those defined by 'hinttags'.
+        
+    
+
+
+'newtab''newtab'stringlist(default: )
+        
+        
+            Define which Ex commands output the result in a new tab
+            automatically. You can also use :tab command to manually
+            output a command in a new tab.
+        
+
+        The possible values:
+
+        allAll commandsaddons:addo[ns] commanddownloads:downl[oads] commandextoptions:exto[ptions] commandhelp:h[elp] commandjavascript:javascript! or :js! commandprefs:pref[erences]! or :prefs! command
+
+    
+
+
+'noonline''online''online'boolean(default: on)
+        
+        Show and set the 'work offline' behavior.
+    
+
+
+'pageinfo''pa''pageinfo' 'pa'charlist(default: gfm)
+        
+        Desired info in the :pageinfo output.
+
+        Available items:
+
+        gGeneral infofFeedsmMeta tags
+
+        
+            The order of the options defines the order in which they appear in
+            the result.
+        
+    
+
+
+'pps''popups''popups' 'pps'stringlist(default: tab)
+        
+        
+            Define where to show requested popup windows.  Does not apply to
+            windows which are opened by middle clicking a link, they always open
+            in a new tab.
+        
+
+        Possible values:
+
+        tabOpen popups in a new tabwindowOpen popups in a new windowresizedOpen resized popups in a new window
+
+        
+            If neither tab nor window is provided, all popups open in the current tab.
+            tab and window are mutually exclusive, and the last one listed is
+            effective.
+        
+
+        Note: This option does not change the popup blocker of Firefox in any way.
+    
+
+
+'previouspattern''previouspattern'stringlist(default: \bprev|previous\b,^<$,^(<<|?)$,^(<|?),(<|?)$)
+        
+        
+            Patterns to use when guessing the 'previous' page in a document
+            sequence when the user hits [[. Each pattern, in order, is
+            matched against all links in the page with the first match being
+            used. The patterns are case insensitive regular expressions and the
+            link elements are those defined by 'hinttags'.
+        
+    
+
+
+$VIMPERATOR_RUNTIME'rtp''runtimepath''runtimepath' 'rtp'stringlist
+            (default: $VIMPERATOR_RUNTIME or
+    Unix, Mac: ~/.vimperator,
+    Windows: ~/vimperator)
+        
+        List of directories searched for runtime files:
+
+        
+            colors/
+            macros/
+            plugin/
+        
+
+        Example:
+
+        :set runtimepath=~/myvimperator,~/.vimperator
+
+        
+            This will search for plugins in both
+            ~/myvimperator/plugin and
+            ~/.vimperator/plugin
+        
+
+        
+            On startup, if the environment variable $VIMPERATOR_RUNTIME does not
+            exist, Vimperator will set it to match this value.
+        
+    
+
+
+'si''sanitizeitems''sanitizeitems' 'si'stringlist(default: cache,commandline,cookies,formdata,history,marks,sessions)
+        
+        The default list of private items to sanitize.
+
+        cache       Cachecommandline Command-line historycookies     Cookiesdownloads   Download historyformdata    Saved form and search historyhistory     Browsing historymarks       Local and URL marksmacros      Saved macrosofflineapps Offline website datapasswords   Saved passwordssessions    Authenticated sessionssitesettingsSite preferences
+
+        
+            When history items are sanitized :open,
+            :tabopen and :winopen command-line
+            history entries are also removed.
+        
+    
+
+
+'sts''sanitizetimespan''sanitizetimespan' 'sts'number(default: 1)
+        
+        
+            The default sanitizer time span. Only items created within this timespan are
+            deleted.
+        
+
+        Note: This only applies to cookies, history, formdata, and downloads.
+
+        0Everything1Last hour2Last two hours3Last four hours4Today
+    
+
+
+'scr''scroll''scroll' 'scr'number(default: 0)
+        
+        
+            Number of lines to scroll with <C-u> and <C-d>
+            commands.  The number of lines scrolled defaults to half the window
+            size.  When a [count] is specified to the <C-u> or
+            <C-d> commands this is used to set the value of
+            'scroll' and also used for the current command. The value can
+            be reset to half the window height with :set scroll=0.
+        
+    
+
+
+'nosb''noscrollbars''sb''scrollbars''scrollbars' 'sb'boolean(default: on)
+        
+        Show or hide the scrollbars in the main content window. If the
+        document has a frameset, then only the outermost scrollbars are affected.
+
+        Note: This option requires a page reload to take effect.
+    
+
+
+'nosi''nosmallicons''si''smallicons''smallicons' 'si'boolean(default: on)
+        
+        Defines the icon size in the main toolbar.
+    
+
+
+'shell''sh''shell' 'sh'string(default: _$SHELL_ or "sh", Windows: "cmd.exe")
+        
+        Shell to use for executing :! and :run commands.
+    
+
+
+'shellcmdflag''shcf''shellcmdflag' 'shcf'string
+            (default: -c, Windows: /c)
+        
+        Flag passed to shell when executing :! and :run commands.
+
+        bash -c gvim
+    
+
+
+'nosmd''noshowmode''smd''showmode''showmode' 'smd'boolean(default: on)
+        
+        Show the current mode in the command line.
+    
+
+
+'ssli''showstatuslinks''showstatuslinks' 'ssli'number(default: 1)
+        
+        
+            Show the destination of the link under the cursor in the status bar.
+            Also links which are focused by keyboard commands like
+            <Tab> are shown.
+        
+
+        Possible values:
+
+        0Don't show link destination1Show the link in the status line2Show the link in the command line
+    
+
+
+'noscs''nosmartcase''scs''smartcase''smartcase' 'scs'boolean(default: on)
+        
+        
+            Override the 'ignorecase' option if the pattern contains
+            uppercase characters.  This is only used if the 'ignorecase'
+            option is set.
+        
+    
+
+
+'suggestengines''suggestengines'stringlist(default: google)
+        
+        
+            Set the search engines which can be used for completion suggestions.
+            Add S to the 'complete' option if you want to use
+            this feature.
+        
+
+        Warning: 
+            This feature could make tab-completion slower because it needs to
+            wait for changes, so use it only if you have a fast internet
+            connection.
+        
+    
+
+
+'notn''notabnumbers''tn''tabnumbers''tabnumbers' 'tn'boolean(default: off)
+        
+        
+            Tab numbers appear as small numbers in the right corner of tabs.
+            They can be used to quickly get the position of a tab, which can
+            be used by other commands like 12gt to to to tab number 12.
+        
+    
+
+
+'titlestring''titlestring'string(default: Vimperator)
+        
+        
+            Change the title of the browser window.  Vimperator changes the
+            browser title from Title of web page - Mozilla Firefox
+            to Title of web page - Vimperator.  If you don't like
+            that, you can restore it with:
+        
+        :set titlestring=Mozilla Firefox
+    
+
+
+'gui''toolbars''toolbars' 'gui'stringlist(default: )
+        
+        Show or hide Firefox's GUI elements like the menu bar, toolbars or the tab bar.
+        Note: Since everything in Firefox is basically a toolbar, the 'toolbars' and 'gui'
+            aliases are equivalent and can be used interchangeably. :set gui=none,tabs
+            might read better for some, whereas :set toolbars=nonavigation might be better
+            in other cases.
+        
+
+        This option is designed to allow full UI customization with Firefox's capabilities,
+            as well as with Vimperator's. Therefore the default value :set gui= just
+            means that we don't touch any GUI elements by default. If you want a truely minimal
+            GUI, you can - however - just use :set gui=none in your .vimperatorrc file.
+
+        Individual elements can be shown with :set toolbars=<toolbar> and hidden with
+            :set toolbars=no<toolbar>. If you want to toggle the display of an element,
+            just use :set toolbars=inv<toolbar>, which also provides a good basis for
+            adding some mappings to quickly toggle certain elements.
+        
+
+        Supported elements:
+
+        menuMenu BartabsTab Bar Warning: Due to a bug, currently gets shown again by FirefoxnavigationMain toolbar which contains buttons for navigating back/forward as well as the location box.bookmarksBookmark baraddonsOptional add-on bar at the bottom. By default, only shown if there are addons using it.
+
+        In order to quickly change the whole GUI, Vimperator provides two more meta elements:
+        allShow as much GUI as possiblenoneHide all GUI
+
+        Since the elements are processed sequentially, you can combine these items
+        to change the whole GUI really quickly. E.g. to just show the tab bar, but
+        no other GUI elements, use :set gui=none,tabs.
+
+
+    
+
+
+'noum''nousermode''um''usermode''usermode' 'um'boolean(default: off)
+        
+        Show current website with a minimal style sheet to make it easily accessible.
+
+        Note: This is a local option for now, a global value may be supported in the future.
+    
+
+
+'urlseparator''urlseparator'string(default: ,\\s)
+        
+        
+            Set the separator regex used to separate multiple URL args. Multiple
+            arguments can be specified for :open, and similar commands,
+            using this regex as the separator. Using whitespace alone is not
+            generally useful since it is often contained in a single argument.
+            E.g., :open linus torvalds should perform a single search
+            for the key words linus and torvalds. If this
+            is set to the empty string then these arguments will never be split.
+
+        
+        
+            If regex special character is used as url separator, it has to be escaped.
+            For instance, | should be escaped as \\|.
+        
+    
+
+
+'verbose','vbs''verbose' 'vbs'number(default: 1)
+        
+        
+            Define which info messages are displayed.  When bigger than zero,
+            Vimperator will give messages about what it is doing.  These can be
+            viewed at any time with the :messages command. The highest
+            value is 15, being the most verbose mode.
+        
+        
+    
+
+
+'novb''novisualbell''vb''visualbell''visualbell' 'vb'boolean(default: off)
+        
+        
+            Use visual bell instead of beeping on errors. The visual bell style is
+            controlled by :hi Bell.
+        
+
+        
+            To disable both the audible and visual bells use :set visualbell
+            and :hi Bell display: none;
+        
+    
+
+
+'wim''wildmode''wildmode' 'wim'stringlist(default: list:full)
+        
+        
+            Defines how command-line completion works.  It is a comma-separated
+            list of parts, where each part specifies what to do for each
+            consecutive use of the completion key.  The first part specifies the
+            behavior for the first use of the completion key, the second part
+            for the second use, etc.
+        
+
+        These are the possible values for each part:
+
+        Complete only the first match.fullComplete the next full match. After the last, the original string is used.longestComplete till the longest common string.listWhen more than one match, list all matches.list:fullWhen more than one match, list all matches and complete the first match.list:longest
+                When more than one match, list all matches and
+                complete till the longest common string. When there
+                is only a single match, it is fully completed
+                regardless of the case.
+            
+
+    
+
+
+'wsp''wordseparators''wordseparators' 'wsp'string(default: [\.,!\?:;/\\"\^\$%&?\(\)\[\]\\<a>\\</a><>#\\*\+\\|=~ _\\-])
+        
+        
+            A regex which defines the word separators which are used for the
+            'hintmatching' types wordstartswith and
+            "firstletters" to split the words in the text of a link.
+        
+    
+
+'ani''animations' 'animations' 'ani'boolean(default: false)
+        
+        animation on/off.

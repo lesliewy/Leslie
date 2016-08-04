@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<po:purchaseOrder orderDate="2003-09-22"
+ xmlns:po="http://www.Monson-Haefel.com/jwsbook">
+                 <accountName>Amazon.com</accountName>
+                 <accountNumber>923</accountNumber>
+                 <shipAddress>
+                        <name>AMAZON.COM</name>
+                        <street>1850 Mercer Drive</street>
+                        <city>Lexington</city>
+                        <state>KY</state>
+                        <zip>40511</zip>
+                  </shipAddress>
+                  <billAddress>
+                        <name>Amazon.com</name>
+                        <street>1516 2nd Ave</street>
+                        <city>Seattle</city>
+                        <state>WA</state>
+                        <zip>90952</zip>
+                   </billAddress>
+                   <book>
+                        <title>J2EE Web Services</title>
+                        <quantity>300</quantity>
+                        <wholesale-price>24.99</wholesale-price>
+                   </book>
+ <total>8997.00</total>
+</po:purchaseOrder>

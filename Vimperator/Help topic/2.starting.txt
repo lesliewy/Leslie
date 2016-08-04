@@ -1,0 +1,111 @@
+starting.html
+starting
+Starting Vimperator
+Contents
+Initialization
+Saving settings
+Restarting
+
+startup-options
+    Command-line options can be passed to Vimperator via the -vimperator Firefox
+    option. These are passed as a single string argument.
+    E.g., firefox -vimperator ++cmd 'set exrc' +u 'tempRcFile' ++noplugin
+
++c+c {command}
+            Execute a single Ex command after all initialization has been performed. See
+            initialization.
+        This option can be specified multiple times.
+
+++cmd++cmd {command}
+            Execute a single Ex command before any initialization has been performed. See
+            initialization.
+
+        This option can be specified multiple times.
+
++u+u {rcfile}
+            The file {rcfile} is used for user initialization commands. If {rcfile} is
+            "NORC" then no startup initialization is performed except for the loading of
+            plugins, i.e., steps 1. and 2. in initialization are skipped. If {rcfile}
+            is "NONE" then plugin loading is also skipped.
+
+++noplugin++noplugin
+        Prevents plugin scripts from being loaded at startup. See 'loadplugins'.
+
+initialization startup
+Initialization
+
+At startup, Vimperator completes the following tasks in order. 
+
+     Vimperator can perform user initialization commands. When
+    one of the following is successfully located, it is executed,
+    and no further locations are tried.
+        
+            $VIMPERATOR_INIT
+                $VIMPERATOR_INIT ¡ª May contain a single Ex command (e.g.,
+                ":source file").
+            
+            $MY_VIMPERATORRC
+                ~/_vimperatorrc ¡ª Windows only. If this file exists, its contents
+                are executed and $MY_VIMPERATORRC set to its path.
+            
+            
+                ~/.vimperatorrc ¡ª If this file exists, its contents are executed.
+            
+        
+    
+    
+        If 'exrc' is set and the +u command-line option was not
+        specified, then any RC file in the current directory is also
+        sourced.
+    
+    
+        All directories in 'runtimepath' are searched for a
+        "plugin" subdirectory and all yet unloaded plugins are loaded.
+        For each plugin directory, all *.{js,vimp} files (including
+        those in further subdirectories) are sourced alphabetically. No
+        plugins will be sourced if:
+
+        
+            'noloadplugins' is set.
+            the ++noplugin command-line option was specified.
+            the +u=NONE command-line option specified set.
+        
+
+        Any particular plugin will not be loaded if it has already been
+        loaded (e.g., by an earlier :loadplugins command).
+    
+
+
+The user's ~ (i.e., "home") directory is determined as follows:
+
+
+    On Unix and Mac, the environment variable  $HOME is used.
+    
+        On Windows, Vimperator checks for the existence of
+        %HOME%, then %USERPROFILE%, and then
+        %HOMEDRIVE%%HOMEPATH%. It uses the first one it
+        finds.
+    
+
+
+save-settingsSaving settings
+
+:mkv:mkvimperatorrc:mkv[imperatorrc][!] [file]
+        
+            Write current key mappings and changed options to [file]. If no
+            [file] is specified then ~/.vimperatorrc is written unless this file
+            already exists. The special version :mkvimperatorrc! will overwrite
+            [file] if it exists.
+        
+
+        
+            Warning: this differs from Vim's behavior which defaults to writing the file
+            in the current directory.
+        
+    
+
+
+restartingRestarting
+
+:res:restart:res[tart]
+        Force Firefox to restart. Useful when installing extensions.

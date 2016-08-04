@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- targetNamespace指明本schema中元素的namespace, 在正常的xml文件中,会有xmlns指向这个xsd, xmlns 的值就是这个targetNamespace.
+  -- 默认的ns是http://www.w3.org/2001/XMLSchema, 固定的. complexType element simpleType 都是这个namespace下面的.
+  -- elementFormDefault: 任何local element(不是直接在schema下面的element,如Name Boy,可能在complexType下面,如PurchaseOrder) 都必须加prefix; global element本来就是必须加的.
+  -- 同理还有attributesFormDefault. 
+  -- complexType simpleType 叫做定义类型(define);  element attribute 属于声明(declare). 即 compleType definition,element/attribute declaration.
+-->
+<schema 
+	targetNamespace="http://hello1.ws.suning.com/schema"
+	elementFormDefault="qualified"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:Q1="http://www.openapplications.org/oagis/9"
+   xmlns:hello1="http://hello1.ws.suning.com/schema">
+
+    <!-- 引用其他的schema -->
+    <import namespace="http://www.openapplications.org/oagis/9" schemaLocation="../OAGIS/9.0/Resources/Components/Common/Meta.xsd" ></import>
+    <!-- include 进其他的schema, 一般用于 xsd 比较大的时候,用于拆分.
+      -- include 进来的schema必须具有相同的targetNamespace,不需要namespace属性, 和targetNamespace一致.
+    -->
+    <include schemaLocation="http://www.Monson-Haefel.com/jwsbook/po.xsd" />
+
+
+    <!-- 一个complexType 里可以包含多个simpleType 和 complexType 
+      -- USAddress 就在这个schema中,可以直接引用,也可以用namespace hello1
+      -- string、unsignedShort、float这些都是schema的内置类型
+      -- complexType 中是可以设置attribute的. use attribute可以设置"required"、"optional"(默认的,后面可以再加default属性)、prohibited(表示该attribute不能再使用)" 1.xml 就符合这里的PurchaseOrder.  
+      --                                                           "fixed": 取固定值, 不能与default同时出现.
+      --             simpleType 中不可以设置 attribute.
+                     可以使用attribute group.
+      -- element 可以设置出现次数. minOccurs、maxOccurs 默认都是1.
+    -->
+    <complexType name="PurchaseOrder">
+       <sequence>
+          <element name="accountName"   type="string" />
+          <element name="accountNumber" type="unsignedShort" />
+          <element name="shipAddress"   type="USAddress" />
+          <element name="billAddress"   type="hello1:USAddress" />
+          <element name="book"          type="hello1:Book" minOccurs="0" maxOccurs="unbounded" />
+          <element name="total"         type="float" />
+       </sequence>
+       <attribute name="orderDate" type="date" use="required"/>
+       <!-- attribute group -->
+       <attribute name="shipBy">
+          <simpleType>
+            <restriction base="string">
+              <enumeration value="air"/>
+              <enumeration value="land"/>
+              <enumeration value="any"/>
+            </restriction>
+          </simpleType>
+       </attribute>
+
+    </complexType>
+    
+    <!-- sequence:元素必须是按照这个顺序,与 all 不同 -->
+    <complexType name="Address">
+       <sequence>
+         <element name="name" type="string"/>
+         <element name="street" type="string" maxOccurs="unbounded"/>
+         <element name="city" type="string"/>
+         <element name="country" type="string"/>
+       </sequence>
+       <attribute name="category" type="string" default="business"/>
+    </complexType>
+
+    <complexType name="USAddress">
+       <sequence>
+          <element name="name"    type="string" />
+          <element name="street"  type="string" maxOccurs="unbounded"/>
+          <element name="city"    type="string" />
+          <element name="state"   type="string" />
+          <element name="zip"     type="string" />
+       </sequence>
+    </complexType>
+    
+    <!--complexType的继承: extension: 类似于java中的extends.
+      --                   restriction: 重新定义. 相当于一个新的. simpleType的常用, complexType少用.
+    -->
+    <complexType name="UKAddress" >
+       <complexContent>
+          <extension base="mh:Address">
+             <sequence>
+                <element name="postcode" type="string"/>
+             </sequence>
+          </extension>
+       </complexContent>
+    </complexType>
+    <!-- BriefUSAddress 只有name street zip 3个element, street 的maxoccurs 由 unbounded 修改为 1. -->
+    <complexType name="BriefUSAddress">
+      <complexContent>
+        <restriction base="mh:USAddress">
+          <sequence>
+            <element name="name" type="string"/>
+            <element name="street" type="string"/>
+            <element name="zip" type="string"/>
+          </sequence>
+          <attribute name="category" type="string" default="business"/>
+        </restriction>
+      </complexContent>
+    </complexType>
+
+    <complexType name="Book">
+       <sequence>
+         <element name="title"           type="string" />
+         <element name="quantity"        type="unsignedShort" />
+         <element name="wholesale-price" type="float" />
+       </sequence>
+    </complexType>
+
+    <!-- all: 元素出现顺序是随意的; maxOccurs 总是为1; 不能包含其他的非单element(包含sequence or all) -->
+    <complexType name="USAddress_all">
+       <all>
+          <element name="name"    type="string" />
+          <element name="street"  type="string" />
+          <element name="city"    type="string" minOccurs="0"/>
+          <element name="state"   type="string" minOccurs="0"/>
+          <element name="zip"     type="string" />
+       </all>
+       <!-- 不可以在all group 后面添加其他的element了, all 必须是单独的一个. -->
+       <sequence>
+          <xsd:element ref="comment" minOccurs="0" maxOccurs="unbounded"/>
+       <sequence>
+    </complexType>
+   
+    <!-- choice:子element只能有一个出现,要么是 BriefUSAddress, 要么是 singleUSAddress -->
+    <complexType name="USAddress_choice">
+      <sequence>
+        <choice>
+          <group   ref="BriefUSAddress"/>
+          <element name="singleUSAddress" type="USAddress"/>
+        </choice>
+        <element ref="comment" minOccurs="0"/>
+        <element name="name"  type="name"/>
+      </sequence>
+      <attribute name="orderDate" type="date"/>
+    </complexType>
+
+    <complexType name="HelloWorldComplex1">
+    	<complexContent>
+    		<extension base="Q1:BusinessObjectDocumentType">
+    			<sequence>
+    				<element name="greeting1" type="string" minOccurs="0" maxOccurs="unbounded"></element>
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="HelloWorldComplexReturn1">
+    	<complexContent>
+    		<extension base="Q1:BusinessObjectDocumentType">
+    			<sequence>
+    				<element name="GreetingReturn1" type="int" minOccurs="0" maxOccurs="unbounded"></element>
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <!-- global Element: 必须要指定type,不能使用ref; 不能包含minOccurs maxOccurs use 这些attribute; -->
+    <element name="HelloWorldComplex1" type="hello1:HelloWorldComplex1"></element>
+
+    <element name="HelloWorldComplexReturn1" type="hello1:HelloWorldComplexReturn1"></element>
+
+    <simpleType name="name">
+    	<restriction base="string"></restriction>
+    </simpleType>
+
+    <simpleType name="boy">
+    	<restriction base="boolean"></restriction>
+    </simpleType>
+                                    
+    <!--simpleType的继承
+      -- Total 取值范围 [0,100000).
+      -- 可用的facet: minInclusive minExclusive maxInclusive maxExclusive pattern enumeration
+    -->
+    <simpleType name="Total">
+      <restriction base="float">
+        <pattern value="[0-9]+\.[0-9]{2}" />
+        <minInclusive value="0"/>
+        <maxExclusive value="100000"/>
+      </restriction>
+    </simpleType>
+    <simpleType name="USState">
+       <restriction base="string">
+          <enumeration value="AK"/> <!-- Alaska   -->
+          <enumeration value="AL"/> <!-- Alabama  -->
+          <enumeration value="AR"/> <!-- Arkansas -->
+          <!-- and so on -->
+       </restriction>
+    </simpleType>
+
+    <!-- 用whitespace做分隔: <listOfMyTotal>3.25 8.88 9.31</listOfMyTotal> 所以,如果是string就要注意了. -->
+    <simpleType name="listOfMyTotal">
+      <list itemType="Total"/>
+    </simpleType>
+
+
+    <element name="Name" type="hello1:name"></element>
+
+    <element name="Boy" type="hello1:boy"></element>
+
+    <complexType name="NameStrArray">
+    	<complexContent>
+    		<extension base="Q1:BusinessObjectDocumentType">
+    			<sequence>
+    				<element name="nameStrArray" type="string" minOccurs="0" maxOccurs="unbounded"></element>
+               <!-- 引用其他地方创建的element, 无需再创建相同的了. ref 的 element 必须是-->
+               <element ref="Name" minOccurs="0"/>
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="IsBoyArray">
+    	<complexContent>
+    		<extension base="Q1:BusinessObjectDocumentType">
+    			<sequence>
+    				<element name="isBoyArray" type="string" minOccurs="0" maxOccurs="unbounded"></element>
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <element name="NameStrArray" type="hello1:NameStrArray"></element>
+
+    <element name="IsBoyArray" type="hello1:IsBoyArray"></element>
+</schema>

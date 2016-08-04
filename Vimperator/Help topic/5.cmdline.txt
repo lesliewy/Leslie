@@ -1,0 +1,42 @@
+Command-line mode
+Contents
+Command-line editing
+Command-line completion
+
+Command-line mode is used to enter Ex commands (:) and text search patterns
+(/ and ?).
+::
+            Start Command-line mode. In Command-line mode, you can perform extended
+            commands, which may require arguments.
+
+Command-line editing
+<C-c><C-c>
+        Quit Command-line mode without executing.
+        * 这个跟shell里面差不多,这里效果同 <Esc>.
+
+<C-]>
+        Expand a command-line abbreviation.
+
+c_<Up><Up>
+            Recall the previous command line from the history list which matches the
+            current command line.
+    
+c_<Down><Down>
+            Recall the next command line from the history list which matches the current
+            command line.
+        *直接按方向键 上  下.
+
+c_<S-Up>c_<PageUp><S-Up><PageUp>
+        Recall the previous command line from the history list.
+
+c_<S-Down>c_<PageDown><S-Down><PageDown>
+        Recall the next command line from the history list.
+
+Command-line completion
+c_<Tab><Tab>
+            Complete the word in front of the cursor according to the behavior specified in
+            'wildmode'. If 'wildmode' contains "list" and there are multiple matches then
+            the completion menu window is opened.
+
+c_<S-Tab><S-Tab>
+        Complete the previous full match when 'wildmode' contains "full".

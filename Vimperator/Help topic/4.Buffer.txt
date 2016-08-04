@@ -1,0 +1,225 @@
+Buffer
+Contents
+Buffer information
+Motion commands
+Jumping to elements
+Zooming
+Working with frames
+Copying text
+Alternate style sheets
+
+Vimperator holds exactly one buffer object for each tab. It is usually an
+(X)HTML document with advanced features.
+
+Buffer information
+<C-g>
+            Print the current file name. Also shows some additional file information like
+            file size or the last modified date.
+
+g<C-g>
+        Print file information. Same as :pageinfo.
+        * 这个比较有用,我还没用过.
+
+:pa:pageinfo:pa[geinfo]
+        Show various page information. See :help pageinfo for available options.
+
+gf
+            Toggle between rendered and source view. Alternates the page in the current tab
+            between a normally rendered view and the internal editor source view.
+
+gF
+        
+            View source with an external editor. Opens the source code of the current web
+            site with the external editor specified by the 'editor' option. For now the
+            external editor must be able to download and open files from a remote URL.
+
+:vie:viewsource:vie[wsource][!] [url]
+            View source code of current document. If [url] is specified then view the
+            source of that document. When [!] is given, it is opened with the external
+            editor.
+
+motion scrolling
+Motion commands
+^0
+            Scroll to the absolute left of the document. Unlike in Vim, 0 and ^
+            work exactly the same way.
+$
+        Scroll to the absolute right of the document
+        * 如果页面很宽的话,这2个也常用.
+
+<Home>gg[count]gg
+            Go to the top of the document. When used with [count] like in 35gg, it
+            scrolls to 35% of the document.
+
+<End>G[count]G
+            Go to the end of the document. When used with [count] like in 35G, it
+            scrolls to 35% of the document.
+
+N%{count}%
+        Scroll to {count} percent of the document.
+
+<Left>h[count]h
+            Scroll document to the left. If [count] is specified then move [count] times as
+            much to the left.
+            If the document cannot scroll more, a beep is emitted (unless 'visualbell' is
+            set).
+
+<C-e><Down>j[count]j
+            Scroll document down. If [count] is specified then move [count] times as much
+            down.
+            If the document cannot scroll more, a beep is emitted (unless 'visualbell' is
+            set).
+            * 这里的<C-e>和j效果一样,但在Vim中是完全不一样的.        
+
+<C-y><Up>k[count]k
+            Scroll document up. If [count] is specified then move [count] times as much up.
+            If the document cannot scroll more, a beep is emitted (unless 'visualbell' is
+            set).
+
+<Right>l[count]l
+            Scroll document to the right. If [count] is specified then move [count] times
+            as much to the right.
+            If the document cannot scroll more, a beep is emitted (unless 'visualbell' is
+            set).
+
+<C-d>[count]<C-d>
+            Scroll window downwards in the buffer. The number of lines is set by the
+            'scroll' option which defaults to half a page. If [count] is given 'scroll' is
+            first set to this value.
+
+<C-u>[count]<C-u>
+            Scroll window upwards in the buffer. The number of lines is set by the
+            'scroll' option which defaults to half a page. If [count] is given 'scroll' is
+            first set to this value.
+
+<S-Space><PageUp><C-b>[count]<C-b>
+        Scroll up a full page. Scroll window [count] pages Backwards (upwards) in the buffer.
+
+<Space><PageDown><C-f>[count]<C-f>
+        Scroll down a full page. Scroll window [count] pages Forwards (downwards) in the buffer.
+
+Jumping to elements
+<Tab>
+        Advance keyboard focus to the next element.
+
+<S-Tab><S-Tab>
+        Rewind keyboard focus to the previous element.
+
+gi  [count]gi
+            Focus last used input field. If there is no last input field, it focuses the
+            first input field. When used with [count] it directly jumps to the [count]th input
+            field.
+        * 这功能不错,之前一直用的f/F,来输入.        
+
+]f[count]]f
+            Focus next frame. Transfer keyboard focus to the [count]th next frame in
+            order. The newly focused frame is briefly colored red. Does not wrap.
+
+[f[count][f
+            Focus previous frame. Transfer keyboard focus to the [count]th previous frame
+            in order. The newly focused frame is briefly colored red. Does not wrap.
+
+
+]][count]]]
+            Follow the link labeled next or >
+            if it exists. Useful when browsing forums or
+            documentation. Change 'nextpattern' to modify its
+            behavior. It follows relations between files too.
+[[[count][[
+            Follow the link labeled prev,
+            previous or < if it exists. Useful
+            when browsing forums or documentation. Change
+            'previouspattern' to modify its behavior. It
+            follows relations between files too.
+        * 这2个[[ , ]] 很有用.  可以修改pattern:
+        * 默认的nextpattern=\\bnext\\b,^>$,^(>>|?)$,^(>|?),(>|?)$,\\bmore\\b 
+            previouspattern=\\bprev|previous\\b,^<$,^(<<|?)$,^(<|?),(<|?)$
+
+Zooming
+The zooming commands are dependent on two properties -- a zoom range and a
+series of levels within that range.
+
+The absolute value of the page zoom is limited to a value within the configured
+zoom range (default: 30%--300%). The zoom levels are used by
+zi/zo, and similar commands, to change the zoom value in steps. The
+default zoom levels are 30%, 50%, 67%, 80%, 90%, 100%, 110%, 120%, 133%, 150%,
+170%, 200%, 240%, 300%.
+
+The available zoom range can be changed by setting the
+'zoom.minPercent' and
+'zoom.maxPercent' Firefox
+preferences. The zoom levels can be changed using the
+'toolkit.ZoomManager.zoomLevels'
+preference.
+
+Note: 
+    'toolkit.ZoomManager.zoomLevels' is specified as a list of
+    values between 0 and 1, not as a percentage.
+
++zi[count]zi
+        Enlarge text zoom of current web page. Mnemonic: zoom in.
+
+zm[count]zm
+        Enlarge text zoom of current web page by a larger amount. Mnemonic: zoom more.
+
+-zo[count]zo
+        Reduce text zoom of current web page. Mnemonic: zoom out.
+
+zr[count]zr
+        Reduce text zoom of current web page by a larger amount. Mnemonic: zoom reduce.
+
+zz[count]zz
+            Set text zoom value of current web page. Zoom value can be between 30% and 300%.
+            If it is omitted, text zoom is reset to 100%.
+
+zI[count]zI
+        Enlarge full zoom of current web page. Mnemonic: zoom in.
+
+zM[count]zM
+        Enlarge full zoom of current web page by a larger amount. Mnemonic: zoom more.
+
+zO[count]zO
+        Reduce full zoom of current web page. Mnemonic: zoom out.
+
+zR[count]zR
+        Reduce full zoom of current web page by a larger amount. Mnemonic: zoom reduce.
+
+zZ[count]zZ
+        
+            Set full zoom value of current web page. Zoom value can be between 30 and
+            300%. If it is omitted, full zoom is reset to 100%.
+
+:zo:zoom:zo[om][!] [value]:zo[om][!] +{value} | -{value}
+            Set zoom value of current web page. [value] can be an absolute value
+            between 30% and 300% or a relative value if prefixed with "-" or "+". If
+            [value] is omitted, zoom is reset to 100%.
+            Normally this command operates on the text zoom; if used with [!], it
+            operates on full zoom.
+         * 这一组记住zi/zo/zz/zm value , 我觉得就足够了.        
+
+Working with frames
+:frameo:frameonly:frameo[nly]
+        Show only the current frame's page.
+
+copying yanking Copying text
+
+When running in X11, the text of the following commands is not only
+copied to the clipboard but is also put into the X11 selection, which
+can be pasted with the middle mouse button:
+yy
+            Yank current location to the clipboard. When running in X11 the location is
+            also put into the selection, which can be pasted with the middle mouse button.
+
+YY
+        Copy currently selected text to the system clipboard.
+      * 这2个都copy到了系统的clipboard,  可以在其他程序中直接<C-V>
+
+Alternate style sheets
+
+Page authors may specify alternate style sheets for an HTML document. Users can
+then switch between these various style sheets, selecting their favorite.
+
+:pagest:pagestyle:pagest[yle] [stylesheet]
+            Select the author style sheet to apply. If [stylesheet] is not specified
+            the page's default style sheet is used.
+        All author styling can be removed by setting the 'usermode' option.

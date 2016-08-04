@@ -1,0 +1,15 @@
+Insert mode
+ContentsInsert-mode special keys
+    Insert mode is used to enter text in text boxes and text areas. When
+    'insertmode' is set, focusing on a text area immediately switches to
+    Insert mode.
+
+i_i
+        Starts Insert mode in text areas when 'insertmode' is not set.
+
+Insert-mode special keys
+i_<C-i><C-i>
+        Launch the external editor. See the 'editor' option.
+
+i_<C-]><C-]>
+        Expand an Insert-mode abbreviation.

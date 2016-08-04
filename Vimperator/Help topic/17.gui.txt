@@ -1,0 +1,124 @@
+Vimperator's GUI
+ContentsMenusDialogsAdd-onsSidebarStatus barToolbars
+
+
+    Although Vimperator offers the most frequently used Firefox functionality via
+    Ex and Normal mode commands there may be times when directly accessing the GUI
+    is required. There are commands for accessing the menu system, standard dialogs
+    and the sidebar.
+
+
+menuMenus
+
+:emenu:emenu {menu}
+        
+            Execute {menu} from the command line. This command provides command-line access
+            to all menu items available from the main Firefox menubar. {menu} is a
+            hierarchical path to the menu item with each submenu separated by a period.
+            E.g. :emenu File.Open File¡­
+        
+    
+
+
+dialogsDialogs
+
+:addo:addons:addo[ns]
+        
+            Show available Firefox Extensions and Themes.
+            You can add/remove/disable browser extensions from this dialog.
+            Be aware that not all Firefox extensions work, because Vimperator overrides
+            some key bindings and changes Firefox's GUI.
+        
+    
+
+
+:dia:dialog:dia[log] [Firefox-dialog]
+        Open a Firefox dialog.
+
+        Available dialogs:
+        aboutAbout Mozilla Firefox;addbookmarkAdd bookmark for the current pageaddonsManage Add-onsbookmarksList your bookmarkscheckupdatesCheck for updatescleardataClear private datacookiesList your cookiesconsoleJavaScript consolecustomizetoolbarCustomize the ToolbardominspectorDOM InspectordownloadsManage DownloadshistoryList your historyimportImport Preferences, Bookmarks, History, etc. from other browsersopenfileOpen the file selector dialogpageinfoShow information about the current pagepagesourceView page sourcepasswordsView saved passwordsplacesPlaces Organizer: Manage your bookmarks and historypreferencesShow Firefox preferences dialogprintpreviewPreview the page before printingprintsetupSetup the page size and orientation before printingprintShow print dialogsaveframeSave frame to disksavepageSave page to disksearchenginesManage installed search enginesselectionsourceView selection source
+    
+
+
+:dl:downl:downloads:downl[oads]
+        
+            Show progress of current downloads. Open the original Firefox download dialog
+            in a new tab. Here, downloads can be paused, canceled and resumed.
+        
+    
+
+
+
+extensionsadd-onsAdd-ons
+
+:exta:extadd:exta[dd] {file}
+        Install an extension. {file} is an extension XPInstall file (*.xpi).
+    
+
+
+:extde:extdelete:extde[lete] {extension}:extde[lete]!
+        
+            Uninstall an extension. {extension} is the extension's name. When [!] is given
+            all extensions are uninstalled.
+        
+    
+
+
+:extd:extdisable:extd[isable] {extension}:extd[isable]!
+        
+            Disable an extension. {extension} is the extension's name. When [!] is given
+            all extensions are disabled.
+        
+    
+
+
+:exte:extenable:exte[nable] {extension}:exte[nable]!
+        
+            Enable an extension. {extension} is the extension's name. When [!] is given all
+            extensions are enabled.
+        
+    
+
+
+:extens:extensions:extens[ions]
+        List all installed extensions.
+    
+
+
+:exto:extoptions:extp:extpreferences:exto[ptions][!] {extension}:extp[references][!] {extension}
+        
+            Open the preferences dialog for an extension. If [!] is given, open a dialog,
+            otherwise open a buffer. See also 'newtab'.
+        
+    
+
+
+sidebarSidebar
+
+:sbcl:sbclose:sbcl[ose]
+        Close the sidebar window.
+    
+
+
+:sbope:sbopen:sb:sbar:sideb:sidebar:sidebar {name}
+        
+            Open the sidebar window. {name} is any of the menu items listed under the
+            standard Firefox View->Sidebar menu. Add-ons, Preferences and Downloads are
+            also available in the sidebar.
+        
+    
+
+
+status-linestatus-barStatus bar
+
+
+    The status line appears at the bottom right of each window. The 'status'
+    option can be used to specify which elements appear in the status bar and in which order.
+
+
+
+toolbarToolbars
+
+
+    Vimperator allows quickly changing visible toolbars.
+    See the 'toolbars' option for details.

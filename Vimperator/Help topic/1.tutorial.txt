@@ -1,0 +1,243 @@
+tutorial.html
+tutorialQuick-start tutorial
+    This is a quickstart tutorial to help get new users up and running
+    in Vimperator. It is not intended as a full reference explaining all
+    features.
+
+modalVimperator's modal interface
+
+    Vimperator's power, like Vim's, comes from it's modal interface. Keys have
+    different meanings depending on which mode the browser is in. Vimperator has
+    several modes, but the 2 most important are Normal mode and
+    Command-line mode.
+
+    When Vimperator starts, it is in Normal mode by default. This is probably where
+    you will spend the majority of your time.
+
+    The other core mode of Vimperator, Command-line mode, can be entered from
+    Normal mode by typing a : (colon). You will frequently see Vimperator
+    commands start with a :, indicating that what follows is a command.
+
+    To return to Normal mode from Command-line mode, type <Esc>. Pressing
+    <Esc> will also return you to Normal mode from most other modes in
+    Vimperator.
+
+getting-helpGetting help
+
+    Vim is a great editor but it's not much of a web browser. So even seasoned Vim
+    users will probably have to look at Vimperator documentation sooner or later.
+    Most of the documentation for Vimperator's features are easily found using the
+    :help command. For example, you can find help on the :help command
+    by typing
+:help :help
+
+    Similarly, help on configurable options is available with
+    :help 'option_name'. (Note the single quotes
+    around the option name as in Vim.) Information on all available
+    options is, predictably, :help options.
+    And you can find out about the gt and gT mapping with
+:help gt
+:help gT
+    Finally, in addition to the help system itself, :exusage, :viusage
+    and :optionusage are useful quick-reference commands.
+
+living-mouselessMouseless
+
+– or how I learned to stop worrying and love the 80+ buttons I already have.
+
+    The efficiency of Vimperator, as with the legendary editor it was inspired by,
+    relies on the user being able to keep his fingers on the keyboard where they
+    can do the most good. While there are some areas where the mouse is clearly
+    superior at, such as GUI design or some games, Vimperator acts on the
+    assumption that a web browser doesn't have to be one of those. However,
+    the mouse is of course fully supported if you prefer moving this little rodent.
+
+keyboard-scrollingScrolling
+
+    Scrolling the browser window is done with simple keystrokes:
+
+    j/k –
+        scroll window down/up by one line, respectively
+    
+    h/l –
+        scroll window left/right
+    
+    <Space>/<C-b> –
+        scroll down/up by one page
+    
+    <C-d>/<C-u> –
+        scroll down/up by 1/2 page
+    * 还是喜欢半页的翻.    
+
+    Your standard buttons (<Up>/<Down>/<PgUp>/<PgDn>) will
+    also work as expected.
+
+history-navigationtab-navigationHistory and tabs
+
+    History navigation (e.g., Back, Forward) are done similarly to
+    scrolling.
+
+    <C-o>/<C-i> –
+        move Back/Forward in the current window/tab's history, respectively
+    * 习惯用H/L,这样容易记住.
+
+    Move between tabs using these keystrokes which may also be familiar to tabbing
+    Vimmers.
+
+    gt/<C-n> –
+        go to the next tab
+    
+    gT/<C-p> –
+        go to the previous tab
+    
+    g0/g$ –
+        go to the first/last tab
+    
+    d –
+        close the active tab (delete the buffer)
+    * 上面这几个都比较常用. 2gT: 回到前一个的前一个tab. 但是不能使用2gt,不明白为什么.    
+
+    To open a web page in a new tab, use the :tabopen url. To open a URL in
+    the current tab, use :open. The Normal mode mappings t and o,
+    respectively, map to these commands, so the following pairs of sequences are
+    equivalent:
+
+
+:open my.webmail.com
+omy.webmail.com
+
+:tabopen vimperator.org
+tvimperator.org
+    *  习惯用<C-T>,然后Alt+D or Alt+L 来输入url.
+
+hints-tutorialSome hints about surfing…
+
+    So now you can navigate around in Vimperator. But wait… how do you open a
+    page or tab linked in a web page? How do you click on all those links
+    without your tailed friend?
+
+    The answer is hints. Activating hints displays a number next to every link
+    Vimperator can find. To follow the link, simply type the number corresponding
+    to the hint, a white number inside a red square by default.
+
+    For text links, there's an additional shortcut; you can type some text
+    contained in the link and Vimperator will search all the links it can find and
+    only hint the matching links, further narrowing down the list. If the text you
+    type uniquely identifies any given link, Vimperator will follow that link
+    immediately without any further user input.
+
+    Whichever way you choose to indicate your target link, once Vimperator has
+    highlighted the link you want, simply hit <Enter> to open it.
+
+    The most common hint mode is called quick-hints.
+    To activate QuickHint mode, press either f or F. The lower-case
+    f will open the resulting link in the current tab, while the upper-case
+    F will open it in a new tab.
+    * 如果是f:  要看网页，是在当前tab打开还是new tab 打开.
+    * 如果是F： 一定在new tab打开,不会自动跳转到new tab.  所以最好用F.
+
+    To test it, try this link: Vimperator Homepage.
+    Activate QuickHint mode with f or F to highlight all currently
+    visible links. Then start typing the text of the link. The link should be
+    uniquely identified soon, and Vimperator will open it. Once you're done,
+    remember to use <C-o> (History Back) or d (Delete Buffer)
+    to return here, depending on which key you used to activate QuickHint mode.
+
+Common issues
+
+    Say you get half-way done typing in a new URL, only to remember that you've
+    already got that page open in the previous tab. Your command line might look
+    something like this:
+
+:open my.partial.url/fooba
+
+    You can exit the command line and access the already loaded page with the
+    following:
+
+<Esc>
+    *  就是用 <Esc> 回到正常模式.
+
+vimperatorrcSaving for posterity - vimperatorrc
+
+    Once you get Vimperator set up with your desired options, maps, and commands,
+    you'll probably want them to be available the next time you open Vimperator.
+    Continuing the Vim theme, this is done with a vimperatorrc file.
+
+    To save your current settings and allow them to be loaded automatically
+    next time you start Vimperator, issue the :mkv command.
+
+    This will create the file $HOME/.vimperatorrc containing your settings.
+    It is a simple text file, just like a vimrc file and can be easily
+    edited to suit your preferences.
+    * 默认的nextpattern=\\bnext\\b,^>$,^(>>|?)$,^(>|?),(>|?)$,\\bmore\\b 
+            previouspattern=\\bprev|previous\\b,^<$,^(<<|?)$,^(<|?),(<|?)$
+
+quitting-without-menusFind the exit nearest you
+
+    Vimperator supports all of Vim's classic methods of exiting.
+
+    :xall – command to quit and save the current browsing
+        session for next time; the default.
+    
+    :qall – command to quit without saving the session
+    
+    ZZ – Normal mode mapping equivalent to :xall
+    * 一般用ZZ, 相当于之前我常用的 <A+Space>+C.    
+    ZQ – Normal mode mapping equivalent to :qall
+    
+whither-Firefox
+Where did Firefox go?
+    You might feel pretty disoriented now. Don't worry. This is still Firefox
+    underneath. Here are some ways Vimperator allows Firefox to shine through. See
+    the :help for these commands and mappings for more information on how to
+    make the best use of them.
+
+    :dialog –
+        To access some of Firefox's many dialog windows, you can use the
+        :dialog command. See :help :dialog.
+    
+    :bmarks –
+        Vimperator provides a new interface to bookmarks, but they're still your
+        standard Firefox bookmarks under the hood. :bmark will add a new
+        bookmark, while :bmarks will list the bookmarks currently defined.
+    
+    :history –
+        It's exactly what it sounds like. This command will display a colorized,
+        scrollable and clickable list of the locations in Vimperator's history.
+    
+    :emenu –
+        Access the Firefox menus through the Vimperator command line.
+
+    Feel free to explore at this point. If you use the :tabopen command,
+    remember to use the gt/gT mappings to get back to this page. If
+    using the :open command, use the history keys (e.g., H) to return.
+    If you get hopelessly lost, just type :help and click the
+    Tutorial link to return.
+
+removal
+Get me out of here!
+    If you've given it a fair shot and determined … TODO
+
+    The Vimperator way to do this is with the command :addons. Issuing this
+    command brings up the Firefox Add-ons dialog window; you can then remove it as
+    normal, selecting Vimperator from the list and clicking (yes, clicking)
+    Uninstall.
+    * :dialog addons 和 :addons 一样, 基本上:dialog 已经很全了.
+
+    Alternatively, you can do this the old-fashioned way: re-enable the menubar,
+    as above, with :set toolbars=menu, and select Add-ons from the Tools menu.
+
+support
+I'm interested… but lost!
+    Vimperator has an energetic and growing user base. If you've run into a problem
+    that you can't seem to solve with Vimperator, or if you think you might have
+    found a bug, please let us know! There is support available on the
+    wiki
+    or in the #vimperator IRC
+    channel on freenode.
+
+    If you have any feature requests or (even better) offers to help, we'd love to
+    hear from you as well. Developers work on Vimperator whenever possible, but we
+    are neither infinite nor omnipotent; please bear with us. If you can't wait for
+    us to get around to it, rest assured patches are welcome! See the
+    developer page for more information

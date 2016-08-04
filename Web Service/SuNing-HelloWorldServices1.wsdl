@@ -1,0 +1,145 @@
+<!-- 只能使用UTF-8或者UTF-16 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!--* targetNamespace 指明该WSDL中的elements的命名空间, 一般non-null. message、portType、binding 中的 name 属性默认是targetNamespace:name.
+  --* 通常会把wsdl设置成默认namespace,这样就不用每个都写成 wsdl: 了. xmlns="http://schemas.xmlsoap.org/wsdl/" 
+-->
+<wsdl:definitions name="SuNing-HelloWorldServices1"
+	 targetNamespace="http://hello1.ws.suning.com/"
+	 xmlns:hello1="http://hello1.ws.suning.com/" 
+	 xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+	 xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	 xmlns:xsd1="http://hello1.ws.suning.com/schema"
+	 xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" >
+  <!--* Types 用来定义数据类型, 可以 import,也可以直接定义 -->
+  <wsdl:types>
+  	  <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  		  <xsd:import namespace="http://hello1.ws.suning.com/schema"
+  		  	schemaLocation="../../xsd/suning/SNHelloWorldSchema1.xsd">
+  		  </xsd:import>
+  		  <xsd:simpleType name="ISBN">
+          <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{9}[0-9Xx]" />
+          </xsd:restriction>
+        </xsd:simpleType>
+        <xsd:complexType name="IntArray">
+           <xsd:sequence>
+              <xsd:element name="arg" type="xsd:int" maxOccurs="unbounded"/>
+           </xsd:sequence>
+        </xsd:complexType>
+        <!-- 定义fault message 的detail. -->
+        <xsd:element name="InvalidIsbnFaultDetail" >
+           <xsd:complexType>
+             <xsd:sequence>
+               <xsd:element name="offending-value" type="xsd:string"/>
+               <xsd:element name="conformance-rules" type="xsd:string" />
+             </xsd:sequence>
+           </xsd:complexType>
+        </xsd:element>
+  	  </xsd:schema>
+  </wsdl:types>
+  
+  <!-- 引用其他的wsdl -->
+  <import namespace="http://www.Monson-Haefel.com/jwsbook/BookQuote"
+     location="http://www.Monson-Haefel.com/jwsbook/BookPrice.wsdl"/>
+
+  <!--* 定义入参、出参; fault message;
+    --* 如果是simple built-in types, 可以用: <part name="price" type="xsd:float" />
+    --* 不管出参、入参都可以有多个 part.
+    --* 如果 part 属性是name/element,则是document-style; 如果是name/type,则是RPC-style.
+  -->
+  <wsdl:message name="HelloWorldComplex1">
+  	  <wsdl:part name="HelloWorldComplex1"   element="xsd1:HelloWorldComplex1"></wsdl:part>
+  	  <wsdl:part name="isbn" type="xsd:string"/>
+  	  <wsdl:part name="quantity" type="xsd:int"/>
+  </wsdl:message>
+  
+  <wsdl:message name="HelloWorldComplexReturn1">
+     <wsdl:part name="HelloWorldComplexReturn1"  element="xsd1:HelloWorldComplexReturn1"></wsdl:part>
+  </wsdl:message>
+
+  <wsdl:message name="Names">
+  	  <wsdl:part name="NamesPart" element="xsd1:NameStrArray"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="Boys">
+     <wsdl:part name="BoysPart" element="xsd1:IsBoyArray"></wsdl:part>
+  </wsdl:message>
+  
+  <message name="InvalidArgumentFault">
+    <part name="error_message" element="hello1:InvalidIsbnFaultDetail" />
+  </message>
+
+  <!--* 定义webservice接口,实现部分在 binding 和 service 部分. 
+    --* 可以定义多个portType.
+    --* operation中可以定义1个或多个fault.
+  -->
+  <wsdl:portType name="SuNing-HelloWorldServices1">
+  	  <!-- 有input/output, 属于request/response 模式 -->
+     <wsdl:operation name="SayHello">
+        <wsdl:input message="hello1:HelloWorldComplex1" name="HelloWorldComplex1"/>
+        <wsdl:output message="hello1:HelloWorldComplexReturn1" name="HelloWorldComplexReturn1"/>
+        <fault name="InvalidArgumentFault" message="mh:InvalidArgumentFault"/>
+        <fault name="SecurityFault" message="mh:SecurityFault"/>
+     </wsdl:operation>
+     
+     <wsdl:operation name="isBoy">
+     	  <wsdl:input message="hello1:Names" name="Names"></wsdl:input>
+     	  <wsdl:output message="hello1:Boys" name="Boys"></wsdl:output>
+     </wsdl:operation>
+     
+     <!-- 只有input, 属于One-Way模式, 异步模式,不需要返回 -->
+     <operation name="SubmitPurchaseOrder">
+        <input name="order" message="mh:SubmitPurchaseOrderMessage"/>
+     </operation>
+  </wsdl:portType>
+  
+  <!--* 绑定portType 和 operation. 
+    --* binding 相关的有两个命名空间: wsdl(http://schemas.xmlsoap.org/wsdl/)  和 soap(http://schemas.xmlsoap.org/wsdl/soap/).
+        wsdl: binding/operation/input/output    soap:binding/operation
+    --* J2EE Web Services 仅支持 soad:binding,不支持http:binding mime:binding.
+  -->
+  <wsdl:binding name="SuNing-HelloWorldServices1SOAP" type="hello1:SuNing-HelloWorldServices1">
+  	  <!-- soap信息: operation style是document(rpc); 传输soap报文的 protocol 是http,j2ee web services 仅支持http, 这里transport的值固定 -->
+     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+     <!-- operation 和下面的 input output 是和 portType 中的对应的. -->
+     <wsdl:operation name="SayHello">
+     	  <!-- http header 中的 SOAPAction 和这里保持一致 -->
+        <soap:operation soapAction="http://hello1.ws.suning.com/SayHello"/>
+        <wsdl:input name="HelloWorldComplex1">
+        	  <!-- use 属性必须是 literal, 如果是rpc style,这里还必须要有namespace="http://hello1.ws.suning.com/" 和targetNamespace保持一致 -->
+           <soap:body use="literal"/>
+        </wsdl:input>
+        <wsdl:output name="HelloWorldComplexReturn1">
+           <soap:body use="literal"/>
+        </wsdl:output>
+        <!-- 定义fault -->
+        <wsdl:fault name="InvalidArgumentFault">
+           <soapbind:fault name="InvalidArgumentFault" use="literal" />
+        </wsdl:fault>
+     </wsdl:operation>
+     <wsdl:operation name="isBoy">
+        <soap:operation soapAction="http://hello1.ws.suning.com/isBoy"/>
+        <wsdl:input name="Names">
+           <soap:body use="literal"/>
+        </wsdl:input>
+        <wsdl:output name="Boys">
+           <soap:body use="literal"/>
+        </wsdl:output>
+     </wsdl:operation>
+  </wsdl:binding>
+  
+  <!--* 可以包含多个port, 一个 port 对应一个Web Service -->
+  <wsdl:service name="SuNing-HelloWorldServices1">
+  	  <!-- URL 和 port 进行绑定: binding值即为要绑定的binding名字.
+  	    -- 可以用http/https.
+  	  -->
+     <wsdl:port name="HelloWorldServices1" binding="hello1:SuNing-HelloWorldServices1SOAP">
+        <soap:address location="http://localhost/webapp/wcs/services/HelloWorldServices1"/>
+     </wsdl:port>
+     <wsdl:port name="BookPrice_Failover_Port" binding="mh:BookPrice_Binding">
+        <soap:address location="http://www.monson-haefel.org/jwsbook/BookPrice" />
+     </wsdl:port>
+     <wsdl:port name="SubmitPurchaseOrder_Port" binding="mh:SubmitPurchaseOrder_Binding">
+        <soap:address location="https://www.monson-haefel.org/jwsbook/po" />
+     </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

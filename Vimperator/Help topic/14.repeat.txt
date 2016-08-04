@@ -1,0 +1,153 @@
+Repeating commands
+Contents
+Single repeats
+Macros
+Using scripts
+Profiling
+
+Vimperator can repeat a number of commands and record macros.
+single-repeatSingle repeats
+
+.[count].
+            Repeat the last keyboard mapping [count] times. Note that, unlike in Vim, this
+            does not apply solely to editing commands, mainly because Vimperator doesn't
+            have them.
+
+@:[count]@:
+        Repeat the last Ex command [count] times.
+
+macros complex-repeatMacros
+
+qq{0-9a-zA-Z}
+        
+            Record a key sequence into a macro.
+            Available macros are {0-9a-zA-Z} (uppercase to append).
+            Type q to stop recording.
+        
+    
+
+
+:macros:mac[ros] [pat]
+        
+            List recorded macros matching the optional regular expression [pat]. If
+            no regex is given, list all macros.
+        
+    
+
+
+:delmac:delmacros:delmac[ros] {args}:delmac[ros]!
+        
+            Delete recorded macros matching the regular expression {args}. If [!] is given
+            all macros are deleted.
+        
+    
+
+
+@:play:pl[ay] {arg}[count]@{arg}
+        
+            Plays the contents of macro with name {arg} [count] times. The @ mapping
+            only accepts {0-9a-z} as {arg}.
+        
+    
+
+
+@@[count]@@
+        Replay the last executed macro [count] times.
+    
+
+
+
+using-scriptsUsing scripts
+
+:so:source:so[urce][!] {file}
+        
+            Read Ex commands, JavaScript, or CSS from {file}. You can either source files
+            which mostly contain Ex commands like map < gt and put JavaScript code
+            within a:
+        
+
+        
+js <<EOF
+hello = function () {
+   alert("Hello world");
+}
+EOF
+
+
+        
+            Or you can alternatively source a file which ends in .js. These files are
+            automatically sourced as pure JavaScript files.
+        
+
+        
+            Note: In both cases you must add functions to the global window object like
+            shown above, functions written as:
+        
+
+
+function hello2() {
+    alert("Hello world");
+}
+
+        are only available within the scope of the script.
+
+        
+            The .vimperatorrc file in your home directory and any
+            files in ~/.vimperator/plugin/ are always
+            sourced at startup. ~ is supported as a
+            shortcut for the $HOME directory. If [!] is
+            specified, errors are not printed.
+        
+    
+
+
+:lpl:loadplugins:loadplugins
+        
+            Load all unloaded plugins immediately. Because plugins are automatically
+            loaded after vimperatorrc is sourced, this command must be placed early
+            in the vimperatorrc file if vimperatorrc also includes commands that are
+            implemented by plugins. Additionally, this command allows for sourcing
+            new plugins without restarting Vimperator.
+        
+    
+
+
+:ru:runtime:runt[ime][!] {file} бн
+        
+            Source the specified file from each directory in 'runtimepath'. Example:
+        
+        :runtime plugin/foobar.vimp
+        
+            Only the first found file is sourced. When [!] is given, all found files are
+            sourced.
+        
+    
+
+
+:scrip:scriptnames:scrip[tnames]
+        List all sourced script names, in the order they were first sourced.
+    
+
+
+:fini:finish:fini[sh]
+        
+            Stop sourcing a script file. This can only be called from within a Vimperator
+            script file.
+        
+    
+
+
+profileprofilingProfiling
+
+:time:[count]time[!] {code|:command}
+        
+            Profile a piece of code or a command. Run {code} [count] times (default: 1)
+            and returns the elapsed time. {code} is always passed to JavaScript's eval(),
+            which might be slow, so take the results with a grain of salt.
+        
+
+        If {code} starts with a :, it is executed as a Vimperator command.
+
+        
+            Use the special version with [!] if you just want to run any command multiple
+            times without showing profiling statistics.

@@ -1,0 +1,145 @@
+Marks
+Contents
+    Vimperator supports a number of different marks:
+    Bookmarks which allow you to mark a web page as one of your favorites for easy access.
+    QuickMarks allow you to define up to 62 (a-zA-Z0-9) web sites (or groups of web sites) which you visit most often.
+    Local marks to store the position within a web page.
+    History is also a special type of marks, as Vimperator automatically remembers sites which you have visited in the past.
+
+Bookmarks
+a:bma:bmark:bma[rk][!] [-title=title] [-keyword=kw] [-tags=tag1,tag2] [url]a
+        Add a bookmark.
+        The following options are interpreted:
+            -title="custom title" (short option: -t)
+            -tags=comma,separated,tag,list (short option: -T)
+            -keyword=keyword (short option: -k)
+            If [!] is present, a new bookmark is always added. Otherwise, the first
+            bookmark matching [url] is updated.
+            When creating a new bookmark, if [-title] isn't given, either the web
+            page's title or URL is used. You can omit the optional [url] argument, so
+            just do :bmark to bookmark the currently loaded web page with a default
+            title and without any tags.
+
+A
+            Toggle bookmarked state of current URL. Add/remove a bookmark for the current
+            location, depending on if it is already bookmarked or not. In contrast to the
+            :bmark command, the bookmark is just starred which means it is placed
+            in the Unfiled Bookmarks Folder instead of the bookmarks menu.
+
+:bmarks:bmarks[!] [filter]
+            List or open multiple bookmarks. Open the message window at the bottom of the
+            screen with all bookmarks which match [filter] either in the title or
+            URL. You can then use extended hint commands like ;o to open the desired
+            bookmark.
+            The special version :bmarks! works the same as :bmarks except it
+            opens all the found bookmarks in new tabs.
+        Filter can also contain the following options:
+            -tags=comma,separated,tag,list (short option: -T)
+            -keyword=keyword (short option: -k)
+            -max=N (short options: -m)
+
+:delbm:delbmarks:delbm[arks] [url]:delbm[arks]!
+            Delete a bookmark. Deletes all bookmarks which match the [url]. If
+            omitted, [url] defaults to the URL of the current buffer. Use <Tab>
+            key on a string to complete the URL which you want to delete.
+        If ! is specified then all bookmarks will be deleted.
+
+History
+<C-o>[count]<C-o>
+            Go to an older position in the jump list. The jump list is just the browser
+            history for now. If [count] is specified go back [count] pages.
+
+<C-i>[count]<C-i>
+            Go to a newer position in the jump list. The jump list
+            is just the browser history for now. If [count]
+            is specified go forward [count] pages.
+
+<M-Left><A-Left>H[count]H
+        Go back in the browser history. If [count] is specified go back [count] pages.
+
+<M-Right><A-Right>L[count]L
+            Go forward in the browser history. If [count] is specified go forward [count]
+            pages.
+
+:ba:back:[count]ba[ck] [url]:[count]ba[ck]!
+            Go back in the browser history. If [count] is specified go back [count] pages.
+            The special version :back! goes to the beginning of the browser history.
+
+:fw:fo:forward:[count]fo[rward] [url]:[count]fo[rward]!
+            Go forward in the browser history. If [count] is specified go forward [count]
+            pages.
+            The special version :forward! goes to the end of the browser history.
+
+:hs:hist:history:hist[ory][!] [-max=N] [-remove] [filter]
+            Show recently visited URLs. Open the message window at the bottom of the screen
+            with all history items which match [filter] either in the title or URL.
+            The special version :history! works the same as :history except
+            it opens all the found items in new tabs.
+        Filter can also contain the following options:
+            -max=N (short options: -m)
+            -remove (short options: -r)
+            With the [-remove] option all history items which match [filter] either
+            in the title or URL are removed from the history.
+            If no filter is given, the 1000 last entries are deleted.
+
+QuickMarks
+goa-zA-Z0-9
+            Jump to a QuickMark in the current tab. Open any QuickMark in the current tab.
+            You can mark any URLs with M{a-zA-Z0-9}. These QuickMarks are
+            persistent across browser sessions.
+
+gna-zA-Z0-9
+            Jump to a QuickMark in a new tab. Works like
+            go{a-zA-Z0-9} but opens the QuickMark in a
+            new tab. Whether the new tab is activated or not depends
+            on the 'activate' option.
+            Mnemonic: Go in a new tab. gt would make more
+            sense but is already taken.
+
+Ma-zA-Z0-9
+            Add new QuickMark for current URL. You can go to a
+            marked URL in the current tab with
+            go{a-zA-Z0-9} or in a new tab with
+            gn{a-zA-Z0-9}. These QuickMarks are
+            persistent across browser sessions.
+         * 看来mark只能在页面之间来跳转,我还以为也像vim中那样定位到哪一行.  往下看...
+
+:delqm:delqmarksmarks:delqm[arks]!
+        Delete the specified QuickMarks. QuickMarks are presented as a list.
+        Examples:
+            :delqmarks Aa b p deletes QuickMarks A, a, b and p
+            :delqmarks b-p deletes all QuickMarks in the range b to p
+            :delqmarks! deletes all QuickMarks
+
+:qma:qmarka-zA-Z0-9
+            Mark a URL with a letter for quick access. You can also mark whole groups
+            like this:
+             :qmark f http://forum1.com, http://forum2.com, imdb some artist
+
+:qmarks:qmarks [arg]
+            Show all QuickMarks. If [arg] is specified then
+            limit the list to those QuickMarks mentioned.
+Local marks
+ma-zA-Z
+            Set mark at the cursor position. Marks a-z are local to the buffer, whereas
+            A-Z are valid between buffers.
+
+'a-zA-Z
+            Jump to the mark. Marks a-z are local to the buffer, whereas A-Z are valid
+            between buffers.
+            * 跟Vim中一样,不过这个只能在一个页面里mark.
+
+:delm:delmarksmarks:delm[arks]!
+        Delete the specified marks. Marks are presented as a list.
+        Examples:
+            :delmarks Aa b p deletes marks A, a, b and p
+            :delmarks b-p deletes all marks in the range b to p
+            :delmarks! deletes all marks for the current buffer
+
+:ma:marka-zA-Z
+        Mark current location within the web page.
+
+:marks:marks [arg]
+            Show all location marks of the current web page. If
+            [arg] is specified then limit the list to those
+            marks mentioned

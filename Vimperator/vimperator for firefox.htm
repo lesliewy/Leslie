@@ -1,0 +1,1150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+
+
+  <title>介绍一款for firefox的插件&mdash;&mdash;vimperator&mdash;&mdash;X里上网不再依赖鼠标 - 红联Linux门户 - 中国领先的Linux技术网站 - 网站导航 - Linux通用技术 - 我与Linux的故事</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+
+  <meta name="keywords" content="linux,Linux论坛,linux安装,Linux下载,Linux软件下载,Fedora,Ubuntu,SuSE,红旗,Redhat,Debian,linux资料,服务器,unix">
+
+  <meta name="description" content="红联Linux门户是专业的Linux技术网站，用户遍布全国各地，拥有大批的Linux专家与工程师，汇集海量Linux信息，是中国Linux人的网上家园。">
+
+  <link href="http://www.linuxdiyf.com/rss.php" title="RSS" type="application/rss+xml" rel="alternate">
+
+  <style type="text/css">
+<!--
+body,td,th {
+font-size: 12px;
+font-family: Geneva, Arial, Helvetica, sans-serif;
+}
+body {
+margin-left: 0px;
+margin-top: 0px;
+margin-right: 0px;
+margin-bottom: 0px;
+}
+a:link
+{
+color: #22229C;text-decoration: none;
+}
+a:visited
+{
+color: #22229C;text-decoration: none;
+}
+a:hover, a:active
+{
+color: #FF4400;
+}
+textarea,input,object	{ 
+font-size: 12px;
+font-family: Geneva, Arial, Helvetica, sans-serif;
+}
+select { font-size: 11px;}
+img {border:0;}
+.style1 {color: #FFFFFF}
+.big {font-size: 14px;}
+.name {font-size: 24px; line-height: 34px; font-weight: bold; color:red}
+.title {  font-size: 20px; line-height: 32px; font-weight: bold}
+.message {font-size: 14px;line-height: 24px;}
+.quotetop {width:100%;margin:0px auto 0px auto;font-weight:bold;color:#000000; }
+.quotemain {width:100%;border:1px inset #DDDDDD;padding:5px;margin:0px auto 8px auto;color:#465584;background-color:#FFFFFC; font-family:Courier New; }
+.codetop {width:100%;margin:0px auto 0px auto;font-weight:bold;color:#000000; }
+.codemain {width:100%;border:1px inset #DDDDDD;padding:5px;margin:0px auto 8px auto;color:#465584;background-color:#E9F1F8; font-family:Courier New; }
+td {
+font-size: 12px;
+font-family: Geneva, Arial, Helvetica, sans-serif;
+}
+td {
+font-size: 12px;
+font-family: Geneva, Arial, Helvetica, sans-serif;
+}
+td {
+font-size: 12px;
+font-family: Geneva, Arial, Helvetica, sans-serif;
+}
+.title {  font-size: 20px; line-height: 32px; font-weight: bold}
+.title {  font-size: 20px; line-height: 32px; font-weight: bold}
+.message {font-size: 14px;line-height: 24px;}
+.message {font-size: 14px;line-height: 24px;}
+-->
+  </style>
+  <script language="JavaScript"> 
+<!--
+function checkAll(str,checked) {
+    var a = document.getElementsByName(str);
+    var n = a.length;
+
+    for (var i = 0; i < n; i++) {
+        a[i].checked = checked;
+    }
+    em_size(str);
+}
+
+function download(str, i, first) {
+    var a = document.getElementsByName(str);
+    var n = a.length;
+
+    for (var i = i; i < n; i++) {
+        if(a[i].checked) {
+            window.location=a[i].value;
+            if (first)
+                timeout = 6000;
+            else
+                timeout = 500;
+            i++;
+            window.setTimeout("download('"+str+"', "+i+", 0)", timeout);
+            break;
+        }
+    }
+
+}
+
+function copy(str) {
+    var a = document.getElementsByName(str);
+    var n = a.length;
+    var ed2kcopy = document.getElementById("ed2kcopy_"+str)
+    ed2kcopy.innerHTML = ""
+    for (var i = 0; i < n; i++) {
+        if(a[i].checked)
+        {
+            ed2kcopy.innerHTML += a[i].value;
+            ed2kcopy.innerHTML += "<br />";
+        }
+    }
+        var rng = document.body.createTextRange();
+        rng.moveToElementText(ed2kcopy)
+        rng.scrollIntoView();
+        rng.select();
+        rng.execCommand("Copy");
+        rng.collapse(false);
+}
+
+function em_size(str) {
+    var a = document.getElementsByName(str);
+    var n = a.length;
+    try {
+        var input_checkall = document.getElementById("checkall_"+str);
+        var size = 0;
+        input_checkall.checked = true ;
+        for (var i=0; i < n; i++) {
+            if (a[i].checked) {
+                var piecesArray = a[i].value.split( "|" );
+                size += piecesArray[3]*1;
+            } else {
+                input_checkall.checked = false;
+            }
+        }
+        test = document.getElementById("size_"+str);
+        test.innerHTML = gen_size(size, 3, 2);
+    } catch (e) {
+
+    }
+}
+
+function gen_size(val, li, sepa ) {
+    sep = Math.pow(10, sepa); //小数点后的位数
+    li = Math.pow(10, li); //开始截断的长度
+    retval  = val;
+    unit    = 'Bytes';
+    if (val >= li*1000000000) {
+        val = Math.round( val / (1099511627776/sep) ) / sep;
+        unit  = 'TB';
+    } else if (val >= li*1000000) {
+        val = Math.round( val / (1073741824/sep) ) / sep;
+        unit  = 'GB';
+    } else if (val >= li*1000) {
+        val = Math.round( val / (1048576/sep) ) / sep;
+        unit  = 'MB';
+    } else if (val >= li) {
+        val = Math.round( val / (1024/sep) ) / sep;
+        unit  = 'KB';
+    }
+    return val + unit;
+}
+//-->
+  </script>
+</head>
+<body>
+
+
+<div align="center">
+<table border="1" bordercolor="#bcd0ed" cellpadding="0" cellspacing="0" height="19" width="960">
+
+  <tbody>
+    <tr>
+
+      <td style="font-size: 12px; font-family: Geneva,Arial,Helvetica,sans-serif;" bgcolor="#e9f1f8" height="19" width="753">
+　<b><a href="http://www.linuxdiyf.com/"><font color="#000000">首页</font></a></b>　<a href="http://www.linuxdiyf.com/articlelist.php?id=2"><font color="#000000">Linux通用技术</font></a> - 
+      <a href="http://www.linuxdiyf.com/articlelist.php?id=47">
+      <font color="#000000">Linux发行版技术</font></a> - 
+      <a href="http://www.linuxdiyf.com/articlelist.php?id=15">
+      <font color="#000000">企业应用</font></a> - 
+      <a href="http://www.linuxdiyf.com/articlelist.php?id=12">
+      <font color="#000000">实验室</font></a></td>
+
+      <td style="font-size: 12px; font-family: Geneva,Arial,Helvetica,sans-serif;" bgcolor="#e9f1f8" height="19" width="205">
+　<a target="_blank" href="http://www.linuxdiyf.com/bbs/"><font color="#000000">Linux论坛</font></a> -
+      <img src="http://www.linuxdiyf.com/it/home.gif" border="0" height="13" width="15">
+      <b>
+      <a href="http://www.linuxdiyf.com/articlelist.php">
+      <font color="#000000">网站导航</font></a></b></td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<table bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" height="100" width="960">
+
+  <tbody>
+    <tr>
+
+      <td style="font-size: 12px; font-family: Geneva,Arial,Helvetica,sans-serif;" align="center" bgcolor="#ffffff" width="192">
+      <p align="left">
+      <a href="http://www.linuxdiyf.com/">
+      <img src="http://www.linuxdiyf.com/bbs/images/default/hllinuxlogo.gif" border="0" height="66" width="189"></a></p>
+      </td>
+
+      <td style="font-size: 12px; font-family: Geneva,Arial,Helvetica,sans-serif;" align="center" bgcolor="#ffffff" width="761"><a href="http://www.yutianedu.com/list.asp?Unid=9909" target="_blank"><img src="http://www.linuxdiyf.com/it/yutianedug.gif" alt="誉天红帽认证架构师RHCA培训" border="0"></a></td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+</div>
+
+
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="960">
+
+  <tbody>
+    <tr>
+
+    <td height="30" width="70">您的位置：</td>
+
+    <td nowrap="nowrap"><a href="http://www.linuxdiyf.com/index.php">首页</a> &gt;&gt; <a href="http://www.linuxdiyf.com/articlelist.php">网站导航</a> &gt;&gt; <a href="http://www.linuxdiyf.com/articlelist.php?id=2">Linux通用技术</a> &gt;&gt; <a href="http://www.linuxdiyf.com/articlelist.php?id=54">我与Linux的故事</a> &gt;&gt; 查看内容 －<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-185973-1-1.html">Linux学习推荐阅读</a> －<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-195538-1-1.html">最新Linux教程发布下载</a> －<b><a href="http://www.linuxdiyf.com/bbs/">发布信息</a></b></td>
+
+  </tr>
+
+  </tbody>
+</table>
+
+
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="960">
+
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+
+      <script language="JavaScript">
+function dozoom(size){
+document.getElementById('zoom').style.fontSize=size+'px'
+}
+      </script>
+
+      <a href="http://www.boxue.com.cn/" target="_blank"><img src="http://www.linuxdiyf.com/it/boxue.gif" border="0"></a>
+      <table align="center" border="0" cellpadding="0" cellspacing="0" width="960">
+
+        <tbody>
+          <tr>
+
+  <td height="1" valign="top"></td>
+
+  <td height="1"></td>
+
+  <td bgcolor="#648eb2" height="1" valign="top" width="1"></td>
+
+  <td bgcolor="#648eb2" height="1" valign="top"></td>
+
+  <td bgcolor="#648eb2" height="1" valign="top" width="1"></td>
+
+          </tr>
+
+          <tr>
+
+            <td valign="top">
+
+
+            <table bgcolor="#648eb2" border="0" cellpadding="0" cellspacing="1" width="100%">
+
+              <tbody>
+                <tr>
+
+                  <td bgcolor="#f9f9f9">
+                  <table border="0" cellpadding="4" cellspacing="4" width="100%">
+
+
+                    <tbody>
+                      <tr>
+                        <td class="title" align="center">介绍一款for firefox的插件&mdash;&mdash;vimperator&mdash;&mdash;X里上网不再依赖鼠标</td>
+                      </tr>
+
+                      <tr>
+                        <td align="center" bgcolor="#c0c0c0" height="1"></td>
+                      </tr>
+
+
+                      <tr>
+
+                        <td align="center">Tuzki发布于 
+2010-11-26 | 
+                        <script language="JavaScript" type="text/JavaScript" src="http://www.linuxdiyf.com/function.php?action=view&amp;tid=188429&amp;views=2535"></script>次阅读
+&nbsp;&nbsp;字号: <a href="javascript:dozoom(16)">大</a>&nbsp;<a href="javascript:dozoom(14)">中</a>&nbsp;<a href="javascript:dozoom(12)">小</a>&nbsp;&nbsp;(网友评论&nbsp;<font color="red">29</font>&nbsp;条)&nbsp;<a href="http://www.linuxdiyf.com/bbs/viewthread.php?tid=188429" target="_blank">我要评论</a>
+                        </td>
+
+                      </tr>
+
+                      <tr>
+
+                        <td>
+                        <table style="table-layout: fixed;" border="0" cellpadding="2" cellspacing="2" width="100%">
+
+                          <tbody>
+                            <tr>
+
+                              <td class="message" id="zoom">
+                              <script type="text/javascript"><!--
+google_ad_client = "pub-8023555791144639";
+/* 728x90, 创建于 11-2-19 */
+google_ad_slot = "2442677665";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+                              </script>
+                              <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+                              </script><br>
+[i=s] 本帖最后由 Tuzki 于 2010-11-30 12:55 编辑 <br>
+
+                              <br>
+
+顾名思义，就是让你的firefox像vim一样好使，不再依赖鼠标！！<br>
+
+下载网站：<br>
+
+                              <a href="http://vimperator.org/vimperator" target="_blank">http://vimperator.org/vimperator</a><br>
+
+                              <br>
+
+其实刚装好时重启FF，我惊呆了&mdash;&mdash;工具栏菜单栏地址栏都不见了，只有窗口：<br>
+
+                              <br>
+
+还好主页还在，不然就真out了。<br>
+
+随便打了个字母搜索以后，我试着用j向下移动，竟然成功了！兴奋之余，我还是搜索了一下这个插件的使用。现在把一些基本的操作分享给大家。<br>
+
+                              <br>
+
+                              <br>
+
+安装vimperator插件以后的浏览器会和在tty里的vim一样，在底部出现白底黑字的提示输入命令的一行，倒数第二行则是当前标签的地址or鼠标指针所在链接的地址。<br>
+
+以下命令如不说明皆为普通模式(即命令模式),如不清楚,请常按esc，有益健康<br>
+
+                              <br>
+
+j/k		向下/上滚屏一行(上下移动滚轴)<br>
+
+h/l		向左/右滚屏一列(左右移动滚轴)<br>
+
+C-d(down)	向下滚半屏<br>
+
+C-u(up)		向上滚半屏<br>
+
+C-f/C-b		向前/后滚动<br>
+
+$/^		嘿嘿，这个大家自己猜猜<br>
+
+                              <br>
+
+:ls		列出当前所有buffer(即标签)的标题和url<br>
+
+gf		查看页面源代码<br>
+
+g<c-g>		查看页面信息<br>
+
+                              <br>
+
+:o [name]	如果[name]为地址则在当前标签打开网页(输入时不输入[])；如果为关键词则在当前标签用默认搜索引擎搜索关键词;如果留空白则打开空白标签。哦，还有，普通模式下，可以直接按o键<br>
+
+		例如打开百度：<br>
+
+		:o <a href="http://www.baidu.com" target="_blank">www.baidu.com</a><br>
+
+		技巧：首次得输入完整域名<a href="http://www.baidu.com" target="_blank">www.baidu.com</a>，在那之后打开就可以按<tab>键补全：<br>
+
+		:o baidu<tab>	(如果有多个选项，按<tab>就可以选择)<br>
+
+		<br>
+
+		搜索"Tuzki"：<br>
+
+		:o Tuzki<br>
+
+                              <br>
+
+:t [name]	用法同:o命令,但转至新标签。哦还有，普通模式下，可以直接按t键<br>
+
+:w/:winopen [name]	用法同:o，但转至新窗口。哦还有，普通模式下，可以直接按w键(发现规律没?)<br>
+
+                              <br>
+
+gg/G		到页首/尾<br>
+
+50gg		到当前页面的50%处<br>
+
+                              <br>
+
+f		为当前屏幕内的链接编号，接着输入相应数字，则在当前标签页打开数字指向的链接。位数不足补回车键<br>
+                              <span style="color: rgb(255, 0, 0);">
+H/L		进入当前标签的前一个/后一个历史标签</span><br style="color: rgb(255, 0, 0);">
+                              <span style="color: rgb(255, 0, 0);">C-o/C-i
+同上 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp; 感觉用这个更方便，但是还是喜欢上面的,容易记.</span><br>
+                              <span style="color: rgb(255, 0, 0);">
+F		作用同f但是是后台新标签页打开 &nbsp; &nbsp; &nbsp;就是在当前窗口打开tab，但不跳转到新标签.</span><br>
+
+                              <br>
+                              <span style="color: rgb(255, 0, 0);">
+gt/gT		转到下/上一个标签页</span><br>
+                              <span style="color: rgb(255, 0, 0);">
+b3&lt;回车&gt;	转到第三个标签页</span><br>
+
+g0/g$		转到第一个/最后一个标签<br>
+
+gu		到url的上一层目录：<br>
+
+		从<a href="http://www.w.org/1/2/3" target="_blank">http://www.w.org/1/2/3</a>到<a href="http://www.w.org/1/2" target="_blank">http://www.w.org/1/2</a><br>
+                              <span style="color: rgb(255, 0, 0);">
+gU		到url的根目录</span><br>
+
+                              <br>
+
+d		关闭当前标签页(试试D有何不同)<br>
+
+:2bd/2d		关闭当前及右/左边临近的标签<br>
+                              <span style="color: rgb(255, 0, 0);">
+2u		重新新建打开最近关闭的2个标签(最多10个)</span><br>
+
+                              <br>
+
+ZZ		关闭浏览器窗口,保存页面(但我觉得没保存)<br>
+
+:q		这个也自己猜猜吧<br>
+
+ZQ		关闭窗口，不保存页面<br>
+
+                              <br>
+
+a&lt;回车&gt;		将当前标签加入书签<br>
+
+y		复制当前标签页的地址到剪贴板<br>
+
+p		在当前标签页打开剪贴板内的地址<br>
+
+P		同上，不过却是在新标签页打开。大家琢磨一下如何在新窗口打开吧，呵呵<br>
+
+                              <br>
+
+i,v,y		按i进入insert模式，不过貌似只能移动光标&hellip;&hellip;然后按v进入可视模式，移动光标选择文本，y复制选择的文本到剪贴板<br>
+
+[n]gi		n为数字(不用输入[])，光标定位进入当前页面的第n个输入框进行编辑,不输入数字默认进入第一个<br>
+
+                              <br>
+
+/ [name]&lt;回车&gt;	往下搜索关键字。n/N就不用赘述了吧<br>
+
+? [name]&lt;回车&gt;	:-)这个不用我赘述了吧<br>
+
+*/#		往下/上搜索光标处单词<br>
+
+                              <br>
+
+:zi&lt;回车&gt;	放大页面<br>
+:zo&lt;回车&gt; 缩小页面 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: rgb(255, 0, 0);">用 :zo &nbsp; &nbsp;88 &nbsp; &nbsp; &nbsp; 缩放为88%.</span><br>
+                              <span style="color: rgb(255, 0, 0);">
+r		重新载入当前页(刷新)</span><br>
+
+C-c		停止载入当前页<br>
+
+                              <br>
+
+;y		注意是&ldquo;分号&rdquo;！输入过后会出现输入f命令那样的界面，别着急，你只需输入数字就可以copy其对应地址到剪贴板<br>
+
+;t		和F很貌似哦，但有小小的区别：此命令执行后，会同时转至打开的标签，而非后台<br>
+
+                              <br>
+
+:restart	重启浏览器<br>
+
+:perf		调出首选项对话框<br>
+
+:perf!		调出about:config<br>
+
+:addon		调出附加组件对话框。试试:addons，看看有什么区别<br>
+
+:dialog downloads	调出下载列表<br>
+
+:dialog console	调出控制台<br>
+
+                              <br>
+
+:se go=mT	m，开启菜单栏；T，开启工具栏；=后面空白则恢复初始状态<br>
+
+:se editor=gvim	设置默认编辑器为gvim。用gi进入编辑框过后，C-i就可以打开编辑器输入或者修改内容啦！<br>
+
+                              <br style="color: rgb(255, 0, 0);">
+                              <span style="color: rgb(255, 0, 0);">
+:help index        查看命令索引。</span><br>
+
+                              <br>
+
+如有疑问，<span style="color: rgb(255, 0, 0);">以:help为准 </span><br>
+
+                              <br>
+
+小结<br>
+
+Tip:<br>
+
+在使用C-i打开编辑器并完成编辑后，可以使用:wq保存进浏览器，也可以:w [filename]保存到自己的home目录；<br>
+
+我这篇帖子就是用gvim编辑的，否则我还真不知道在浏览器自带的编辑器里编辑如何用tab缩进。嘿嘿&hellip;&hellip;<br>
+
+另外，vimperator似乎不支持javascript，特别是f,F,;y,;t,gi等命令，<c-i>也不能呼出gvim等外部编辑器。所以在使用webqq、登录qq空间、个别的邮箱时还是得用上鼠标；<br>
+
+GNU/Linux用户问题不大，windows用户会有一些问题；<br>
+
+多按<esc>！！！多按<tab>！！！<br>
+
+                              <br>
+其实我们可以像在vim里一样用:![command]执行外部命令，不信试试:!ls和:cd
+[dirname]看看。vim熟练的话学vimperator事半功倍，vimperator的使用也可以促进vim的熟练。比如我就通过
+vimperator知道了vim下可以使用:t在新标签打开文件，并使用<tab>,gt等键切换。<br>
+
+                              <br>
+就到这儿吧，我实在是恨不得把所有的命令写下来，但考虑到自身实力和阅读者的耐心，还是暂时搁置一段时间吧。我所列出的仅仅是满足日常浏览网页时的常用命
+令，冰山一角而已，如果想要vim进阶还是参看vim的help或者manpage或者去vimperator的主页吧:0w5ty(1 <br>
+
+                              <br>
+
+一句话，学linux需要的是汗水<br>
+
+                              <br>
+
+啊，刚看了看，写得真水，还有错误。<br>
+
+添加了几个快捷键：直接按o,t,w；<br>
+
+修正了&ldquo;冒号&rdquo;一词，应为&ldquo;分号&rdquo;；<br>
+
+改正个别词语，使语句通顺。<br>
+                              <br>
+                              <a href="http://www.linuxdiyf.com/bbs/attachments/forumid_54/1011270158e1d45a592e393ca3.png" target="_blank"><img src="http://www.linuxdiyf.com/bbs/attachments/forumid_54/1011270158e1d45a592e393ca3.png" border="0" width="400"></a></tab></tab></esc></c-i></tab></tab></tab></c-g></td>
+
+                            </tr>
+
+             
+                          </tbody>
+                        </table>
+
+                        </td>
+
+                      </tr>
+
+                      <tr>
+
+                        <td>
+                        <table style="table-layout: fixed;" border="0" cellpadding="2" cellspacing="2" width="100%">
+
+                          <tbody>
+                            <tr>
+                              <td>
+                              <p align="center">
+                              <script type="text/javascript"><!--
+google_ad_client = "pub-8023555791144639";
+/* 336x280, 创建于 09-12-16 */
+google_ad_slot = "5017353970";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+                              </script>
+                              <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+                              </script></p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                        </td>
+
+                      </tr>
+
+                      <tr>
+
+                        <td align="right"><a href="http://www.linuxdiyf.com/bbs/viewthread.php?tid=188429" target="_blank">【已有<b><font color="red">29</font></b>位网友发表了看法】</a>&nbsp;<a href="javascript:window.print()">【打印】</a>&nbsp;<a href="javascript:window.close()">【关闭】</a></td>
+
+                      </tr>
+
+                    </tbody>
+                  </table>
+
+                  </td>
+
+                </tr>
+
+              </tbody>
+            </table>
+
+            <br>
+
+            <table bgcolor="#648eb2" border="0" cellpadding="0" cellspacing="1" width="100%">
+
+              <tbody>
+                <tr>
+
+                  <td bgcolor="#f9f9f9">
+                  <table border="0" cellpadding="1" cellspacing="1" width="100%">
+
+
+                    <tbody>
+                      <tr>
+
+                        <td bgcolor="#bcd0ed" height="20">&nbsp;相关评论</td>
+
+                      </tr>
+
+
+                      <tr>
+
+                        <td>
+                        <table style="table-layout: fixed;" align="right" border="0" cellpadding="2" cellspacing="2" width="100%">
+
+                          <tbody>
+                            <tr>
+
+                              <td bgcolor="#eeeeee">作者: shenhao0129&nbsp;发布日期: 
+2010-11-27</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td>这个插件我原来看过到，不过也只是简单的看来一下英文的介绍就略过去了</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td bgcolor="#eeeeee">作者: lihongwu1987&nbsp;发布日期: 
+2010-11-27</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td>哈哈，这个有趣！</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td bgcolor="#eeeeee">作者: Drcede&nbsp;发布日期: 
+2010-11-27</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td>相当不错</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td bgcolor="#eeeeee">作者: mingfai123&nbsp;发布日期: 
+2010-11-27</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td>有意思</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td bgcolor="#eeeeee">作者: shenhao0129&nbsp;发布日期: 
+2010-11-27</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td>有空我再玩玩，反正习惯了vim,试试这个也不错</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td bgcolor="#eeeeee">作者: himila&nbsp;发布日期: 
+2010-11-27</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td>[i=s] 本帖最后由 himila 于 2010-11-27 16:43 编辑 <br>
+
+                              <br>
+
+确实不错。。。也不影响以前的使用习惯。。<br>
+
+没有菜单栏，需要的话可以用设置命令打开： set go=mTbr<br>
+
+最好用3.0版，人性化很多。界面也好看点。</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td bgcolor="#eeeeee">作者: Tuzki&nbsp;发布日期: 
+2010-11-27</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td>3.0？？？？</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td bgcolor="#eeeeee">作者: lihongwu1987&nbsp;发布日期: 
+2010-11-27</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td>G，哈哈。</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td bgcolor="#eeeeee">作者: lihongwu1987&nbsp;发布日期: 
+2010-11-27</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td>感觉有的时候f后直接输入数字打开链接会不管用，还得输入文本，是吗？</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td bgcolor="#eeeeee">作者: Tuzki&nbsp;发布日期: 
+2010-11-27</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td><b> <a href="http://www.linuxdiyf.com/bbs/redirect.php?goto=findpost&amp;pid=1291033&amp;ptid=188429" target="_blank">10#</a> <i>lihongwu1987</i> </b><br>
+
+                              <br>
+
+                              <br>
+
+把输入法切换为英文就可以了</td>
+
+                            </tr>
+
+                          </tbody>
+                        </table>
+
+                        </td>
+
+                      </tr>
+
+                      <tr>
+
+                        <td bgcolor="#bcd0ed">
+                        <table border="0" cellpadding="2" cellspacing="2" width="100%">
+
+                          <tbody>
+                            <tr>
+
+                              <td height="20">共有评论数 29/每页显示数 10</td>
+
+                              <td align="right">
+                              <script language="JavaScript" type="text/JavaScript" src="http://www.linuxdiyf.com/page.php?num=29&amp;perpage=10&amp;phpfile=e&amp;htmlfile=&amp;id=188429&amp;page=1&amp;dirfid=54&amp;dirdateline=1290786367&amp;dirtype=2&amp;usehtml=0&amp;htmlupdatetime=10080"></script></td>
+
+                            </tr>
+
+                          </tbody>
+                        </table>
+
+                        </td>
+
+                      </tr>
+
+
+                    </tbody>
+                  </table>
+
+                  </td>
+
+                </tr>
+
+              </tbody>
+            </table>
+
+            <br>
+
+            <a name="reply"></a>
+            <table bgcolor="#648eb2" border="0" cellpadding="0" cellspacing="1" width="100%">
+
+              <tbody>
+                <tr>
+
+                  <td bgcolor="#f9f9f9">
+                  <table border="0" cellpadding="1" cellspacing="1" width="100%">
+
+
+                    <tbody>
+                      <tr>
+
+                        <td bgcolor="#bcd0ed" height="20">&nbsp;我要评论</td>
+
+                      </tr>
+
+
+                      <tr>
+
+                        <td>
+                        <table style="table-layout: fixed;" align="right" border="0" cellpadding="4" cellspacing="4" width="100%">
+
+                          <form name="form1" method="post" action="http://www.linuxdiyf.com/function.php?action=reply"></form>
+
+                          <tbody>
+                            <tr>
+
+                              <td>发表评论，与各位同人交流。</td>
+
+                            </tr>
+
+                            <tr>
+
+                              <td>
+                              <input name="tid" id="tid" value="188429" type="hidden">
+                              <input name="fid" id="fid" value="54" type="hidden">
+                              <input name="replysubmit" id="replysubmit" value="我要评论" type="submit"></td>
+
+                            </tr>
+
+
+                          </tbody>
+                        </table>
+
+                        </td>
+
+                      </tr>
+
+
+                    </tbody>
+                  </table>
+
+                  </td>
+
+                </tr>
+
+              </tbody>
+            </table>
+
+            </td>
+
+
+            <td width="1%"></td>
+
+
+            <td bgcolor="#648eb2" valign="top" width="1"></td>
+
+            <td bgcolor="#eeeeee" valign="top" width="20%">
+            <table border="0" cellpadding="4" cellspacing="0" width="100%">
+
+              <tbody>
+                <tr>
+                  <td bgcolor="#bcd0ed">&nbsp;热点主题</td>
+
+                </tr>
+
+                <tr>
+                  <td bgcolor="#999999" height="1"></td>
+                </tr>
+
+                <tr>
+                  <td height="5"></td>
+                </tr>
+
+                <tr>
+                  <td>
+                  <table style="table-layout: fixed;" border="0" cellpadding="2" cellspacing="2" width="100%">
+
+                    <tbody>
+                      <tr>
+
+                        <td valign="top" width="8">&middot;</td>
+                        <td><a href="http://www.linuxdiyf.com/viewarticle.php?id=188448" target="_blank" title="我是不是得了下载狂症？">我是不是得了下载狂症？</a></td>
+
+                      </tr>
+
+                      <tr>
+
+                        <td valign="top" width="8">&middot;</td>
+                        <td><a href="http://www.linuxdiyf.com/viewarticle.php?id=188633" target="_blank" title="今天被宿友&ldquo;骗了&rdquo;&hellip;&hellip;">今天被宿友&ldquo;骗了&rdquo;&hellip;&hellip;</a></td>
+
+                      </tr>
+
+                      <tr>
+
+                        <td valign="top" width="8">&middot;</td>
+                        <td><a href="http://www.linuxdiyf.com/viewarticle.php?id=188566" target="_blank" title="Shell编程学习">Shell编程学习</a></td>
+
+                      </tr>
+
+                      <tr>
+
+                        <td valign="top" width="8">&middot;</td>
+                        <td><a href="http://www.linuxdiyf.com/viewarticle.php?id=188500" target="_blank" title="对二个朋友进行Linux潜力测试">对二个朋友进行Linux潜力测</a></td>
+
+                      </tr>
+
+                    </tbody>
+                  </table>
+
+                  </td>
+                </tr>
+
+                <tr>
+                  <td height="5"></td>
+                </tr>
+
+              </tbody>
+            </table>
+
+
+            <table border="0" cellpadding="4" cellspacing="0" width="100%">
+
+              <tbody>
+                <tr>
+                  <td bgcolor="#bcd0ed">&nbsp;最新主题</td>
+
+                </tr>
+
+                <tr>
+                  <td bgcolor="#999999" height="1"></td>
+                </tr>
+
+                <tr>
+                  <td height="5"></td>
+                </tr>
+
+                <tr>
+                  <td>
+                  <table style="table-layout: fixed;" border="0" cellpadding="2" cellspacing="2" width="100%">
+
+                    <tbody>
+                      <tr>
+
+                        <td valign="top" width="8">&middot;</td>
+                        <td><a href="http://www.linuxdiyf.com/viewarticle.php?id=188633" target="_blank" title="今天被宿友&ldquo;骗了&rdquo;&hellip;&hellip;">今天被宿友&ldquo;骗了&rdquo;&hellip;&hellip;</a></td>
+
+                      </tr>
+
+                      <tr>
+
+                        <td valign="top" width="8">&middot;</td>
+                        <td><a href="http://www.linuxdiyf.com/viewarticle.php?id=188566" target="_blank" title="Shell编程学习">Shell编程学习</a></td>
+
+                      </tr>
+
+                      <tr>
+
+                        <td valign="top" width="8">&middot;</td>
+                        <td><a href="http://www.linuxdiyf.com/viewarticle.php?id=188500" target="_blank" title="对二个朋友进行Linux潜力测试">对二个朋友进行Linux潜力测</a></td>
+
+                      </tr>
+
+                      <tr>
+
+                        <td valign="top" width="8">&middot;</td>
+                        <td><a href="http://www.linuxdiyf.com/viewarticle.php?id=188448" target="_blank" title="我是不是得了下载狂症？">我是不是得了下载狂症？</a></td>
+
+                      </tr>
+
+                    </tbody>
+                  </table>
+
+                  </td>
+                </tr>
+
+                <tr>
+                  <td height="5"></td>
+                </tr>
+
+              </tbody>
+            </table>
+
+
+            <table border="0" cellpadding="4" cellspacing="0" width="100%">
+
+              <tbody>
+                <tr>
+                  <td bgcolor="#bcd0ed">&nbsp;关注热点</td>
+
+                </tr>
+
+                <tr>
+                  <td bgcolor="#999999" height="1"></td>
+                </tr>
+
+                <tr>
+                  <td height="5"></td>
+                </tr>
+
+                <tr>
+                  <td>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                  <table style="table-layout: fixed;" align="right" border="0" cellpadding="2" cellspacing="2" width="100%">
+
+                    <tbody>
+                      <tr>
+                        <td>
+                        <p><img src="http://www.linuxdiyf.com/bbs/images/Beijing2008/folder_new.gif" border="0" height="25" width="18"> 
+                        <b>Linux紧张辩论</b><br>
+
+和全球40万Linux爱好者热讨当今最热门的开源话题,寻找同城Linux人,发表你的见解...</p>
+
+&middot; <a target="_blank" href="http://www.linuxdiyf.com/bbs/faq.php?action=faq&amp;id=35"><u>最新主题与激烈辩论主题，5分钟前由系统自动更新！</u></a><br>
+
+&middot; <a target="_blank" href="http://www.linuxdiyf.com/bbs/faq.php?action=faq&amp;id=41"><u>24小时热点Top20与一周热点Top20主题，15分钟前由系统自动更新！</u></a><br>
+
+                        <p>下载1000部免费Linux教程,参与Linux社区文档的建设...</p>
+
+                        <p align="center">
+                        <a target="_blank" href="http://www.linuxdiyf.com/bbs/forum-6-1.html"><img src="http://www.linuxdiyf.com/it/download.gif" border="0" height="31" width="126"></a></p>
+
+                        <img src="http://www.linuxdiyf.com/bbs/images/Beijing2008/folder_hot.gif" border="0" height="25" width="18"> 
+                        <b>各省Linux人：</b>
+                        <p>
+                        <a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97918-1-2.html">北京</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97921-1-2.html">上海</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97919-1-2.html">天津</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97922-1-2.html">重庆</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97959-1-1.html">广东</a><br>
+
+                        <a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97958-1-1.html">湖北</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97965-1-1.html">四川</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97939-1-1.html">安徽</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97957-1-1.html">湖南</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97933-1-1.html">河北</a><br>
+
+                        <a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97956-1-1.html">江西</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97937-1-1.html">河南</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97964-1-1.html">陕西</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97936-1-1.html">山东</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97955-1-1.html">福建</a><br>
+
+                        <a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97938-1-1.html">江苏</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97940-1-1.html">浙江</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97934-1-1.html">山西</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97931-1-2.html">吉林</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97932-1-1.html">辽宁</a><br>
+
+                        <a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97927-1-2.html">广西</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97926-1-2.html">宁夏</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97963-1-1.html">甘肃</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97966-1-1.html">贵州</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97967-1-1.html">云南</a><br>
+
+                        <a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97924-1-2.html">新疆</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97925-1-2.html">西藏</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97935-1-1.html">青海</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97960-1-1.html">台湾</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97961-1-1.html">海南</a><br>
+
+                        <a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97928-1-2.html">香港</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97929-1-2.html">澳门</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97923-1-2.html">内蒙古</a>　<a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-97930-1-2.html">黑龙江</a></p>
+                        <p>
+                        <b><a target="_blank" href="http://www.linuxdiyf.com/articlelist.php?id=63">Linux精华文档</a></b>　<b><a target="_blank" href="http://www.linuxdiyf.com/bbs/forum-57-1.html"><font color="#ff0000">Linux同城人(交友)</font></a></b></p>
+                        <p>
+                        <b><a target="_blank" href="http://www.linuxdiyf.com/bbs/thread-192908-1-1.html">Linux爱好者在－全国高校</a></b></p>
+                        <p>
+                        <b>热门栏目推荐：</b><a target="_blank" href="http://www.linuxdiyf.com/articlelist.php?id=11">Linux业界新闻</a></p>
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+
+                  </td>
+                </tr>
+
+
+                <tr>
+                  <td height="5"></td>
+                </tr>
+
+              </tbody>
+            </table>
+
+            </td>
+
+
+            <td bgcolor="#648eb2" valign="top" width="1"></td>
+
+          </tr>
+
+          <tr>
+
+  <td height="1" valign="top"></td>
+
+  <td height="1"></td>
+
+  <td bgcolor="#648eb2" height="1" valign="top" width="1"></td>
+
+  <td bgcolor="#648eb2" height="1" valign="top"></td>
+
+  <td bgcolor="#648eb2" height="1" valign="top" width="1"></td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="960">
+
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <table align="center" border="0" cellpadding="0" cellspacing="0" height="30" width="100%">
+
+  <tbody>
+          <tr>
+
+    <td align="center" bgcolor="#e9f1f8" height="15">　</td>
+
+  </tr>
+
+  <tr>
+
+  <td align="center" bgcolor="#eeeeee" height="15"><a target="_blank" href="http://www.linuxdiyf.com/bbs/faq.php?action=faq&amp;id=41&amp;messageid=44">合作</a>　|　<a target="_blank" href="http://www.linuxdiyf.com/bbs/rf/lz5.htm">关于我们</a>　|　<a target="_blank" href="http://www.linuxdiyf.com/bbs/templates/hl/hlgg.htm">联系我们</a>　|　<a href="http://www.linuxdiyf.com/articlelist.php">导航</a>　|　<a href="http://www.linuxdiyf.com/bbs/register.php">会员注册</a>
+            <p>&copy;2012 红联 Powered by SupSite</p>
+            </td>
+
+          </tr>
+
+  
+        </tbody>
+      </table>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

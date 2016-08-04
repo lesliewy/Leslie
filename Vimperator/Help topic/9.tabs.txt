@@ -1,0 +1,334 @@
+Tabs
+ContentsListing tabsOpening tabsChanging tabsReordering tabsClosing tabsLooping over tabsTab group managementSub commands
+
+
+    Tabs are used to be able to view many web pages at the same time. Each tab
+    contains exactly one buffer—multiple buffers per tab are not supported. As a
+    result many buffer and tab commands are interchangeable.
+
+
+listing-tabsListing tabs
+
+B:tabs:ls:files:buffers:buffers [filter]B
+        
+            Show a list of buffers (=tabs) matching [filter]. Without [filter]
+            list all tabs.
+        
+
+        A buffer may be marked with one of the following indicators:
+
+        %The current buffer#The alternate buffer for :e # and <C-^>
+    
+
+
+:keepa:keepalt:keepa[lt] {cmd}
+        Execute a command without changing the current alternate buffer.
+    
+
+
+opening-tabsOpening tabs
+
+:tab:tab {cmd}
+        
+            Execute {cmd} and tell it to output in a new tab. Works only for commands that
+            support it, currently:
+        
+
+        
+            :tab addons
+            :tab downloads
+            :tab extoptions
+            :tab help
+            :tab javascript!
+            :tab preferences!
+        
+    
+
+
+:window:wind:wind[ow] {cmd}
+        
+            Execute {cmd} and tell it to output in a new window. See :tab for the
+            list of supported commands.
+        
+    
+
+
+:tabdu:tabduplicate:[count]tabdu[plicate]
+        
+            Duplicate the current tab and switch to the duplicate. If [count] is given,
+            duplicate the tab [count] times.
+        
+    
+
+
+
+See opening for other ways to open new tabs.
+
+changing-tabsChanging tabs
+
+gb[count]gb
+        
+            Repeat last :buffer! command. This is useful to quickly jump between
+            buffers which have a similar URL or title.
+        
+    
+
+
+gB[count]gB
+        
+            Repeat last :buffer! command in reverse direction. Just like gb
+            but in the other direction.
+        
+    
+
+
+gt[count]gt
+            Go to the next tab. Cycles to the first tab when the last is selected.
+            If [count] is specified go to the [count]th tab.
+
+<C-PageDown><C-Tab><C-n>[count]<C-n>
+            Go to the next tab. Cycles to the first tab when the last is selected.
+            If [count] is specified go to the [count]th next tab.
+
+<C-PageUp><C-S-Tab><C-p>gT[count]gT
+            Go to the previous tab. Cycles to the last tab when the first is selected.
+            If [count] is specified go to the [count]th previous tab.
+            *  用<C-n> <C-p> 可能比gt gT更方便.   同样可以使用2<C-n> 3<C-p> 这样.
+
+g@[count]g@
+        
+            Go to the first app tab. Go to the next app tab when already an app tab is selected.
+            And cycles to the first app tab when the last app tab is selected.
+            If [count] is specified go to the [count]th app tab.
+        
+    <C-S-n><C-S-PageDown>[count]<C-S-n>
+        
+            Go to the next group. Cycles to the fist group when the last is selected.
+            If [count] is specified go to the [count]th next group.
+        
+    <C-S-p><C-S-PageUp>[count]<C-S-p>
+        
+            Go to the previous group. Cycles to the fist group when the first is selected.
+            If [count] is specified go to the [count]th previous group.
+        
+    :bn:bnext:tn:tnext:tabn:tabnext:[count]tabn[ext] [count]:[count]tn[ext] [count]:[count]bn[ext] [count]
+        
+            Switch to the next or [count]th tab. Cycles to the first tab when the last is
+            selected and [count] is not specified.
+        
+    
+
+
+:bN:bNext:bp:bprevious:tN:tNext:tabN:tabNext:tp:tprevious:tabp:tabprevious:[count]tabp[revious] [count]:[count]tp[revious] [count]:[count]tabN[ext] [count]:[count]bp[revious] [count]:[count]bN[ext] [count]
+        
+            Switch to the previous tab or go [count] tabs back. Wraps around from the
+            first tab to the last tab.
+        
+    
+
+
+<C-6><C-^>[count]<C-^>
+        
+            Select the previously selected tab. This provides a quick method of toggling
+            between two tabs. If [count] is specified, go to the [count]th tab.
+        
+    
+
+
+b:b:buffer:[count]b[uffer][!] [url|index][count]b
+        
+            Go to the specified buffer from the buffer list. Argument can be either the
+            buffer index or the full URL. If [count] is given, go to the [count]th buffer.
+        
+
+        
+            If the argument is neither a full URL nor an index but uniquely identifies a
+            buffer, it is selected. With [!] the next buffer matching the argument is
+            selected, even if it cannot be identified uniquely. Use b as a
+            shortcut to open this prompt.
+        
+
+        If the argument is #, the alternate buffer will be selected (see <C-^>).
+
+        If no argument is given the current buffer remains current.
+    
+
+
+g^g0:bf:bfirst:br:brewind:tabfir:tabfirst:tabr:tabrewind:tabr[ewind]:tabfir[st]:br[ewind]:bf[irst]g0g^
+        Switch to the first tab.
+    
+
+
+g$:bl:blast:tabl:tablast:tabl[ast]:bl[ast]g$
+        Switch to the last tab.
+    
+
+
+:tabde:tabdetach:tabde[tach]
+        
+            Detach the current tab, and open it in its own window. As each window must
+            contain at least one tab it is not possible to detach the only tab in a window.
+            Use :tabduplicate to copy the tab then call :tabdetach.
+        
+    
+
+
+:taba:tabattach:taba[ttach] {window-index} [tab-index]
+        
+            Attach the current tab to another window. {window-index} is an index into the
+            list of open windows and [tab-index] is the index at which to insert the
+            tab in the other window's tab list. If this is the last tab in a window, the
+            window will be closed.
+        
+    
+
+
+reordering-tabsReordering tabs
+
+:tabm:tabmove:tabm[ove] [N]:tabm[ove][!] [+N] | [-N]
+        
+            Move the current tab to a position after tab [N]. When [N] is 0, the
+            current tab is made the first one. Without [N] the current tab is made the
+            last one. [N] can also be prefixed with "+" or "-" to indicate a relative
+            movement. If [!] is specified the movement wraps around the start or end of the
+            tab list.
+        
+    
+
+
+
+closing-tabsClosing tabs
+
+:tabc:tabclose:bun:bunload:bw:bwipeout:bd:bdelete:[count]bd[elete][!] [-s[elect] 'lastactive|left|right'] [arg]
+        
+            Delete current tab. If [count] is specified then [count] tabs are
+            removed. By default, the tab to the right of the deleted tab(s) is selected.
+        
+
+        
+            When used with [arg], remove all tabs which contain [arg] in the
+            hostname. [!] forces this command to also search for [arg] in the full
+            URL and also the title of the tab, and closes even if the tab is an App tab.
+            Use with care.
+        
+        
+            The [-select] option specifies which tab is selected after closing the current one:
+            Possible values are:
+            
+                left
+                right
+                lastactive
+            
+
+        
+    
+
+d[count]d
+        
+            Delete current buffer tab. If [count] is specified then [count] tabs are
+            removed. Afterwards, the tab to the right of the deleted tab(s) is selected.
+        
+    
+
+D[count]D
+        Like d but selects the tab to the left of the deleted tab.
+        * 如果只有一个D，效果和d一样; 2D,删除当前和左边的tab.
+    
+
+
+:tabo:tabonly:tabo[nly]
+        Close all other tabs.
+    
+
+
+u:u:undo:[count]u[ndo] [url][count]u
+        
+            Undo closing of a tab. If a count is given, don't undo the last but the
+            [count]th last closed tab. With [url] restores the tab matching the URL.
+        
+    
+
+
+:undoa:undoall:undoa[ll]
+        
+            Undo closing of all closed tabs. Firefox stores up to 10 closed tabs, even
+            after a browser restart.
+        
+    
+
+
+
+looping-over-tabsLooping over tabs
+
+:tabd:tabdo:bufd:bufdo:tabd[o] {cmd}
+        
+            Execute {cmd} in each tab. {cmd} is executed in each tab starting with the
+            first and ending with the last which becomes the current tab.
+        
+
+        
+            {cmd} should not alter the tab list state by adding, removing or reordering
+            tabs.
+        
+    
+
+tabgroupsTab group management
+
+:tabgroups:panorama:tabgroups [sub-command]:panorama [sub-command]
+        
+            Manage tab groups (also called Panorama in Firefox).
+            If the [sub-command] is not specified, it lists all current tab groups.
+        
+
+        tabgroups-subcommandsSub commands
+
+        tabgroups-addadd[group][!] [groupName]
+                
+                    Create a tab group and switches to the group.
+                    If [groupName] is specified, also sets the name of the group.
+                
+                
+                    The selected tab is moved to the group if used with [!].
+                
+            
+
+        tabgroups-listlist
+                
+                    List current tab groups.
+                
+            
+
+        tabgroups-pulltabtabgroups-pullpulltab[tab][!] {url|index}
+                
+                    Pull the tab from another group.
+                    The argument {url|index} is the same as :buffer's argument.
+                
+                
+                    Also switch to the tab if [!] is specified.
+                
+            
+
+        tabgroups-pushtabtabgroups-pushtabgroups-stashpushtab[!] {groupName}stash[!] {groupName}
+                
+                    Move the current tab to a group named {groupName}.
+                
+                
+                    If the group does not exist, you can use [!] 
+                    to automatically create a new group named {groupName} and
+                    move the tab there.
+                
+            
+
+        tabgroups-removetabgroups-rmremove[group] [groupName]rm[group] [groupName]
+                
+                    Close all tabs in the group named [groupName].
+                    When [groupName] is omitted, close the current group.
+                
+            
+
+        tabgroups-switch[count]switch {groupName}
+                
+                    Switch to a group named {groupName}.
+                
+                
+                    Switch to [count]th next group if [count] is specified.

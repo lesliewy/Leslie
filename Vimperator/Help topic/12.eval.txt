@@ -1,0 +1,80 @@
+Expression evaluation
+Contents
+
+
+
+:ec:echo:ec[ho] {expr}
+        
+            Echo the expression. Useful for showing informational messages. Multiple lines
+            can be separated by \n. {expr} can either be a quoted string, or any expression
+            which can be fed to eval() like 4+5. You can also view the source code of
+            objects and functions if the return value of {expr} is an object or function.
+        
+    
+
+
+:echoe:echoerr:echoe[rr] {expr}
+        
+            Echo the expression as an error message. Just like :echo but echoes
+            the result highlighted as ErrorMsg and saves it to the message history.
+        
+    
+
+
+:echom:echomsg:echom[sg] {expr}
+        
+            Echo the expression as an informational message. Just like :echo but
+            also saves the message in the message history.
+        
+    
+
+
+:exe:execute:exe[cute] {expr}
+        
+            Execute the string that results from the evaluation of {expr} as an Ex command.
+            Example: :execute "source " + io.getRCFile().path sources the appropriate
+            RC file.
+        
+
+        Note: Unlike Vim this currently only supports a single argument.
+    
+
+
+:js:javas:javascript:javas[cript] {cmd}:javascript <<{endpattern}\n{empty}{script}\n{empty}{endpattern}:javascript[!]
+        
+            Run any JavaScript command through eval(). Acts as a JavaScript interpreter by
+            passing the argument to eval().
+            :javascript alert(Hello world) shows
+            a dialog box with the text "Hello world".
+            :javascript <<EOF reads all the lines
+            until a line starting with "EOF"
+            is found, and interpret them with the JavaScript eval() function.
+        
+
+        
+            The special version :javascript! opens the JavaScript console of
+            Firefox.
+        
+
+        
+            <Tab> completion is available for :javascript cmd (but not
+            yet for the :js <<EOF multiline widget). Be aware that Vimperator needs
+            to run {cmd} through eval() to get the completions, which could have unwanted
+            side effects.
+        
+    
+
+
+:let:let {var-name} [+-.]= {expr1}:let {var-name}:let
+        
+            Sets or lists a variable. Sets the variable {var-name} to the value of the
+            expression {expr1}. If no expression is given, the value of the variable is
+            displayed. Without arguments, displays a list of all variables.
+        
+    
+
+
+:unl:unlet:unl[et][!] {name} бн
+        
+            Deletes the variable {name}. Several variable names can be given. When used
+            with [!] no error message is output for non-existing variables.

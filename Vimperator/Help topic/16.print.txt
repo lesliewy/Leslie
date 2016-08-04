@@ -1,0 +1,32 @@
+Printing
+ContentsFirefox printing dialogs
+
+:ha:hardcopy:ha[rdcopy][!]
+        
+            Print current document. Open a GUI dialog where you can select the printer,
+            number of copies, orientation, etc. When used with [!], the dialog is skipped
+            and the default printer used.
+        
+    
+
+
+:ha[rdcopy][!] >{filename}
+        As above, but write the output to {filename}.
+
+        Note: Not available on Windows.
+    
+
+
+Firefox-print-dialogsFirefox printing dialogs
+
+
+    The "Print Preview" and "Page Setup" dialogs can be opened via the :dialog
+    command
+
+:dialog printpreview
+
+    and
+
+:dialog printsetup
+
+    respectively.

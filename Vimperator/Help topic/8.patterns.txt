@@ -1,0 +1,37 @@
+Text search commands
+Contents
+    Vimperator provides a Vim-like interface to Firefox's standard text search
+    functionality. There is no support for using regular expressions in search
+    commands as Firefox does not provide native regex support. It is unlikely that
+    this will ever be available.
+
+//{pattern}[/]<CR>
+        Search forward for the first occurrence of {pattern}.
+            If \c appears anywhere in the pattern the whole pattern is handled as though
+            'ignorecase' is on. \C forces case-sensitive matching for the whole pattern.
+            If \l appears in the pattern only the text of links is searched for a
+            match as though 'linksearch' is on. \L forces the entire page to be searched
+            for a match.
+       * \c \l 这两个常用.
+
+??{pattern}[?]<CR>
+        Search backwards for {pattern}.
+        {pattern} can use the same modifiers as for /.
+        Note: Incremental searching currently only works in the forward direction.
+
+n
+        Find next. Repeat the last search 1 time (until count is supported).
+
+N
+            Find previous. Repeat the last search 1 time (until count is supported) in the
+            opposite direction.
+
+*
+        Search forward for the next word under the cursor.
+
+#
+        Search backward for the previous word under the cursor.
+
+:noh:nohlsearch:noh[lsearch]
+            Remove the search highlighting. The document highlighting is turned back on
+            when another search command is used or the 'hlsearch' option is set.

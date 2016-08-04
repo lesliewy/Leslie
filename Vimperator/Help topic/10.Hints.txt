@@ -1,0 +1,87 @@
+Hints
+Contents
+
+Hints are the way in which Vimperator allows you to follow links on a page. By
+providing each link with a suitable hint, you can access all links with a
+similar amount of minimal effort. This contrasts strongly with the traditional
+approaches offered by the mouse, in which you must first find and then aim for
+the link you would like, and by using repeated tabbing which quickly becomes
+tedious unless you always visit the first link on a page.
+
+f{hint}
+        
+            Start QuickHint mode. In QuickHint mode, every hintable item
+            (according to the 'hinttags' XPath query) is assigned a
+            unique number. You can either type this number or type part of the
+            link text as specified by the 'hintmatching' option, and it
+            is followed as soon as it can be uniquely identified. Often it can
+            be useful to combine these techniques to narrow down results with
+            some letters, and then typing a single digit to make the match
+            unique. Pressing <Leader> (defaults to
+            :let mapleader = "\") toggles "escape-mode", where numbers are
+            treated as normal text. <Esc> stops this mode at any
+            time.
+        
+    
+
+
+F{hint}
+        
+            Start QuickHint mode, but open link in a new tab. Like normal QuickHint
+            mode (activated with f) but opens the link in a new tab. The new
+            tab will be loaded in background according to the
+            browser.tabs.loadInBackground Firefox preference.
+        
+    
+
+
+extended-hints
+
+;{mode}{empty}{hint}
+        
+            Start an extended hint mode. ExtendedHint mode is useful for
+            performing operations on hinted elements other than the default
+            left mouse click. For example, you can yank link locations, open
+            them in a new window or save images.  If you want to yank the
+            location of hint 24, press ;y to start this hint
+            mode. Then press 24 to copy the hint location.
+        
+
+        {mode} can be one of:
+
+        
+            ;; ; to focus an element
+            ;? ? to show information about an element (incomplete)
+            ;s s to save a link's destination
+            ;S S to save a media object
+            ;a a to save a link's destination (prompting for save location)
+            ;A B to save a media object (prompting for save location)
+            ;f f to focus a frame
+            ;o o to open its location in the current tab
+            ;t t to open its location in a new tab
+            ;b b to open its location in a new background tab
+            ;w w to open its destination in a new window
+            ;F F to follow a sequence of <CR>-delimited hints in background tabs
+            ;O O to generate an :open with hint's URL (like O)
+            ;T T to generate a :tabopen with hint's URL (like T)
+            ;W W to generate a :winopen with hint's URL
+            ;v v to view its destination source
+            ;V V to view its destination source in the external editor
+            ;y y to yank its destination location
+            * y 这个有用,复制url地址.
+            ;Y Y to yank its text description
+            ;c c to open its context menu
+            ;i i to open a media object
+            ;I I to open a media object in a new tab
+            ;x A to display an element's title text, or alt text if none.
+        
+
+        
+            Depending on the value of 'complete', you can get a list of
+            extended hint modes by pressing <Tab> from the ;
+            prompt.
+        
+
+        
+            Hintable elements for all extended hint modes can be set in the
+            'extendedhinttags' XPath string.
