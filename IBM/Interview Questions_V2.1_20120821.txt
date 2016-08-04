@@ -1,0 +1,232 @@
+1,先来自我介绍一下
+2,工作流的核心是什么？工作流的实例及活动是什么？
+3,对hibernate是否了解？
+4,对JMS技术了解吗？
+MS提供2种类型的消息服务：(1)Queue，即点对点，每个消息只转发给一个消息消费者使用。(2)Topic，即发布和订阅，每个消息可以转发给所有的订阅者(消费者)。 
+目的是啥.可以 两个或者多个系统间通讯,大大加强的系统间的独立.
+发送消息
+
+J2EE参考实现预先配有一个队列连接工厂（名为QueueConnectionFactory）和一个队列（名为jms/Queue）。如果你使用的是JMS服务器，而不是参考实现，或者如果你想试着更改队列连接工厂和/或队列队列的名称，请参考配置服务器一节。
+
+下面是通过一个JMS队列发送消息的步骤。从示例程序TestQueue中抽出的代码片段也穿插在这些步骤中。
+
+    通过按名字在JNDI中进行查找，获得一个指向QueueConnectionFactory 的引用：
+
+    protected static String qfactoryName =3.
+            "jms/queue/TechTipsQueueConnectionFactory";4.
+         ...
+         try {
+         // 获得JNDI上下文
+         InitialContext ctx = new InitialContext();
+         // 获得连接工厂
+         QueueConnectionFactory qcf =
+         (QueueConnectionFactory)ctx.lookup(qfactoryName);
+
+2)从 QueueConnectionFactory获得一个QueueConnection，再从这个连接获得一个QueueSession 。按名字在JNDI中查找：
+
+       // 获得一个到队列的连接
+       qc = qcf.createQueueConnection();
+       //从该连接获得一个会话
+       QueueSession qs = qc.createQueueSession(
+           false, Session.AUTO_ACKNOWLEDGE);
+      // 获得一个队列
+      Queue q = (Queue)ctx.lookup(queueName);
+
+3) 使用QueueSession创建一个QueueSender，将该队列作为一个参数来传递。（QueueSender是QueueSession与某个特定队列之间的一个关联。）：
+
+      // 使用这个会话创建一个QueueSender
+      // and a TextMessage.
+      QueueSender qsnd = qs.createSender(q);
+
+现在可以用QueueSender来发送消息到队列。
+
+4) 创建一个消息对象（Message的子类），然后使用QueueSender的发送方法将它们发送至目的地。示例程序从Session中获得一个TextMessage对象。接着示例程序将每个程序参数打包到TextMessage 中，然后使用QueueSender将其发送至队列。注意，同一个TextMessage 可以使用多次。
+
+      TextMessage tm = qs.createTextMessage();
+       
+      // 为第一个参数之后的每个参数进行一次循环
+      // 以文本消息的形式发送参数字符串
+      for (int i = 2; i < args.length; i++) {
+          tm.setText(args[i]);
+          qsnd.send;
+      }
+
+5)关闭QueueConnection。在try/finally程序块的最后一条语句中关闭连接是一个好习惯。这一步很重要：忘记关闭 QueueConnections 将可能导致服务器上的资源泄漏：
+
+  } finally {
+          if (qc != null) {
+              qc.close();
+
+          }
+      }
+
+要发送消息到一个消息队列，可以使用TestQueue程序（在缺省的包中），加上一个参数“send”，例如：
+
+    $ java TestQueue send jms/queue/MyTestQueue a b c d
+    Java Message Service 1.0.2 Reference
+    Implementation (build b14)
+    Sent: 'a'
+    Sent: 'b'
+    Sent: 'c'
+    Sent: 'd'
+
+接收消息
+
+TestQueue程序按照以下步骤接收消息：
+
+    和2从一个消息队列接收消息的起先两步与发送消息是一样的：先是查找连接工厂，再获得一个QueueConnection，然后查找Queue。
+    从QueueSession 获得一个QueueReceiver ：
+    QueueReceiver qrcv = qs.createReceiver(q);
+
+3)    从Queue接收消息。示例程序进入一个循环，在这个循环中从队列获取消息并将它们打印到标准输出设备。
+
+         qc.start();
+         Message m = qrcv.receive(10000);
+         while (m != null) {
+
+             if (m instanceof TextMessage) {
+                 TextMessage tm = (TextMessage)m;
+              System.out.println("Received text: '" +
+                                 tm.getText() + "'");
+          } else {
+              System.out.println("Received a " +
+                              m.getClass().getName());
+          }
+          m = qrcv.receive(100);
+      } finally {
+         if (qc != null) {
+             qc.close();
+          }
+      }
+
+对QueueConnection的启动方法的调用将告诉连接开始接收消息。QueueReceiver接收方法带有一个参数，该参数表明了等待一条消息的毫秒数。如果消息没有在规定时间内到达，该方法将返回null值。直到消息队列在100毫秒的时间内都保持为空，程序才开始读取和打印收到的消息。在try/finally程序块的结尾有一个finally子句，该子句像前面例子中一样地关闭QueueConnection。
+
+要接收消息队列中的消息，可以使用TestQueue程序，再带上一个参数“recy”，例如：
+
+    $ java TestQueue recv jms/queue/MyTestQueue
+    Java Message Service 1.0.2 Reference
+    Implementation (build b14)
+    Received text: 'a'
+    Received text: 'b'
+    Received text: 'c'
+    Received text: 'd'
+
+5,对索引的理解，什么情况下需要建立索引，及索引的优缺点？
+一、为什么要创建索引呢（优点）？
+这是因为，创建索引可以大大提高系统的性能。
+第一，   通过创建唯一性索引，可以保证数据库表中每一行数据的唯一性。
+第二，   可以大大加快数据的检索速度，这也是创建索引的最主要的原因。
+第三，   可以加速表和表之间的连接，特别是在实现数据的参考完整性方面特别有意义。
+第四，   在使用分组和排序子句进行数据检索时，同样可以显著减少查询中分组和排序的时间。
+第五，   通过使用索引，可以在查询的过程中，使用优化隐藏器，提高系统的性能。
+
+二、建立方向索引的不利因素（缺点）
+也许会有人要问：增加索引有如此多的优点，为什么不对表中的每一个列创建一个索引呢？这种想法固然有其合理性，然而也有其片面性。虽然，索引有许多优点，但是，为表中的每一个列都增加索引，是非常不明智的。这是因为，增加索引也有许多不利的一个方面。
+
+第一，   创建索引和维护索引要耗费时间，这种时间随着数据量的增加而增加。
+第二，   索引需要占物理空间，除了数据表占数据空间之外，每一个索引还要占一定的物理空间，如果要建立聚簇索引，那么需要的空间就会更大。
+第三，   当对表中的数据进行增加、删除和修改的时候，索引也要动态的维护，这样就降低了数据的维护速度。
+
+三、创建方向索引的准则
+索引是建立在数据库表中的某些列的上面。因此，在创建索引的时候，应该仔细考虑在哪些列上可以创建索引，在哪些列上不能创建索引。
+一般来说，应该在这些列上创建索引。
+第一，   在经常需要搜索的列上，可以加快搜索的速度；
+第二，   在作为主键的列上，强制该列的唯一性和组织表中数据的排列结构；
+第三，   在经常用在连接的列上，这些列主要是一些外键，可以加快连接的速度；
+第四，   在经常需要根据范围进行搜索的列上创建索引，因为索引已经排序，其指定的范围是连续的；
+第五，   在经常需要排序的列上创建索引，因为索引已经排序，这样查询可以利用索引的排序，加快排序查询时间；
+第六，   在经常使用在WHERE子句中的列上面创建索引，加快条件的判断速度。 
+
+6,在数据库层面，如何提高数据库的查询效率？where条件后面的索引字段是否一定能走上索引
+不走索引的情况: 
+1、建立组合索引，但查询谓词并未使用组合索引的第一列，此处有一个INDEX SKIP SCAN概念。
+2、在包含有null值的table列上建立索引，当时使用select count(*) from table时不会使用索引。
+3、在索引列上使用函数时不会使用索引，如果一定要使用索引只能建立函数索引。
+4、当被索引的列进行隐式的类型转换时不会使用索引。如:select * from t where indexed_column = 5，而indexed_column列建立索引但类型是字符型，这时Oracle会产生
+隐式的类型转换，转换后的语句类似于select * from t where to_number(indexed_column) = 5，此时不走索引的情况类似于case3。日期转换也有类似问题，如:
+select * from t where trunc(date_col) = trunc(sysdate)其中date_col为索引列，这样写不会走索引，可改写成select * from t where date_col >= trunc(sysdate)
+and date_col < trunc(sysdate+1)，此查询会走索引。
+5、并不是所有情况使用索引都会加快查询速度，full scan table 有时会更快，尤其是当查询的数据量占整个表的比重较大时，因为full scan table采用的是多块读，
+当Oracle优化器没有选择使用索引时不要立即强制使用，要充分证明使用索引确实查询更快时再使用强制索引。
+6、<>
+7、like’%dd’百分号在前
+8、not in ,not exist. 
+
+7,你对J2EE的架构方面是否有过研究？面试过有提了一个j2ee方面的架构技术XXX
+8,怎样增加数据库的速度。
+以影响程度排序
+ D1  业务逻辑  （影响最大）
+ D2  数据设计  （表结构设计，数据建模）
+ D3  应用程序设计 （SQL 语句的写法）
+ D4  数据库的逻辑结构 （索引，区间，段，表空间）
+ D5  数据库操作 （参数和配置）
+ D6  访问路径
+ D7  内存分配情况
+ D8  I/O 和物理设计 （DBA 与业务沟通）（峰值多大，使用周期）
+ D9  资源的征用
+ D10 操作系统的调节      
+D1-D3 影响最大但比较难修改 （事先去做）  
+D4-D9  性能影响不是最大但经常去做的（DBA）  
+D10 手段不是很多   
+
+可以看出D1-D3都是和程序员相关的，这也正合我以前的想法------良好的程序，业务逻辑设计是最好的调优。其他的数据库系统都为我们做的差不多了。
+
+9,索引的好处和坏处
+见问题5
+
+10,jms的作用？
+除了传递消息，还要保障消息的可靠性和高效性。因此，JMS引入了确认和事务，就像JDBC那样，一次会话过程，可以手动完成事务，处理完成后，提交，确认所有的消息，但是发送不支持事务，这只能交给消息中间件来完成了
+可靠的消息发送: 
+点对点或者 订阅/发布 两种消息发送模型
+同步或者异步的消息发送: 可能等待消息接收者的响应.
+
+11,spring作用?
+企业开发的轻量级解决方案.
+
+
+12,spring的控制反转是通过java的什么基本特性实现的
+
+13,spring的事务数据怎么传输数据的？
+
+14,哪年毕业？
+
+15, struts用过吗？
+
+16,hibernet用过吗？
+
+17,说一下对java类加载器的了解。
+
+18,具体说一下java类加载器
+
+19,	说一下对Jvm的了解
+
+20,泛型的好处
+
+21,通配符泛型用过么？介绍一下
+
+22,如果碰到不会的东西你会怎么办？
+
+23,webservice用过么？
+
+24,数据库掌握哪些？什么程度
+
+25,写过存储过程么？
+
+26,hashmap与hashtable的区别，说一下原因
+
+27,有没有用过webservice,怎么用的？
+
+28,ｓｔｒｕｔｓ处理一个请求的流程
+
+29,ｓｐｒｉｎｇ  ｉｏｃ的实现方式
+
+30,ｏｒａｃｌｅ的索引的优缺点和内存结构?
+
+31,j2ee哪些技术规范?
+
+32,rmi远程方法访问技术了解?
+
+33,spring事务熟悉吗？spring事务传播方式有哪些？最常用的是哪种？
+
+
+
