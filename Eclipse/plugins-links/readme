@@ -1,0 +1,13 @@
+* subclipse
+  subclipse-1.8 支持subversion 1.7, javahl需要1.7的;  
+  subclipse-1.10支持subversion 1.8, 需要javahl1.8的; javahl 在package libsvn-dev中; 
+  所以要看下本机安装的libsvn-dev的版本:sudo dpkg -l libsvn-dev; 或者搜索下最新版本: sudo apt-cache show libsvn-dev; sudo apt-get install libsvn-dev
+  如果报找不到libsvnjavahl, 需要在eclipse.ini 中增加: -Djava.library.path=/usr/lib/i386-linux-gnu/jni  来指定libsvnjavahl-1.so的路径;
+
+* rinzo
+  xml 编辑器;
+  直接将 /media/D/Programming Software/ProSoftware/Eclipse/myplugins/rinzo_1.2 里面的2个jar复制到eclipse的dropins目录即可;   
+
+* maven3
+  ProSoftware/Eclipse/myplugins/eclipse-maven3-plugin 里面的插件在windows下用可以, 但是到linux下就不行了，可能是linux下的eclipse4.3 kepler 导致的; 通过官网提供的: http://download.eclipse.org/technology/m2e/releases  在eclipse内部安装;
+
