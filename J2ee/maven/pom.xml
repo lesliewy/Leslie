@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <!-- 指定当前POM模型的版本, maven 2 和 maven 3 只能是4.0.0 -->
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- 设置 父模块
+      可以参看文档哪些元素可以被继承; 
+  -->
+  <parent>
+    <groupId>com.juvenxu.mvnbook.account</groupId>
+    <artifactId>account-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../account-parent/pom.xml</relativePath>
+  </parent>
+
+
+  <!-- 依赖坐标, 构件的文件名: artifactId-version[-classifier].packaging -->
+  <!-- classifier 不能直接定义,由附加的插件生成. nexus-indexer-2.0.0-javadoc.jar、nexus-indexer-2.0.0-sources.jar这样一些附属构件 -->
+  <!-- 
+     groupId: 不要只定义到组织, 应该定义到实际项目;
+     artifactId: 定义一个项目的不同模块; 前缀最好是项目名称;
+     version: 定义版本;
+  -->
+  <groupId>com.mycompany.nexus</groupId>
+  <artifactId>nexus-myapp</artifactId>
+  <version>1.1</version>
+
+  <!-- 默认打包类型:jar,  其他还有 war,POM -->
+  <packaging>jar</packaging>       
+
+  <!-- name 不是必须, 推荐加上; 更友好的项目名称; 输出时显示的也是name，而不是artifactId -->
+  <name>myapp</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- 定义常量, 后面可以用 ${springframework.version}来访问; -->
+    <springframework.version>2.5.6</springframework.version>
+  </properties>
+
+  <!-- 依赖调解:  第一原则:  最短路径优先. 传递性依赖的深度有关.    第二原则: POM中先声明者优先. -->
+  <dependencies>
+    <!-- maven3默认添加的dependency -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>  
+       <!-- 依赖的坐标: groupid,artifactid,version,packaging(type),classifier -->
+       <groupId>...</groupId>  
+       <artifactId>...</artifactId>  
+       <version>...</version>  
+       <!-- 依赖的类型, 类似项目的packaging, 默认为jar -->
+       <type>...</type>  
+       <!-- 依赖范围:
+         maven 使用3种不同的classpath: 编译时classpath, 测试时classpath, 运行时classpath;
+         compile: default设置, 对于编译、测试、运行三种classpath都有效,如: spring
+         test: 只对于测试classpath有效, 如 JUnit; 就是说在src/test/java 中可以import,但是src/main/java中不可以import, 否则在 mvn compile时报错;
+         provided :已提供依赖范围,对于编译和测试classpath有效,但在运行时无效，如: servlet-api,编译和测试项目的时候需要该依赖，但在运行项目的时候，由于容器已经提供，就不需要maven重复地引入一遍。
+         runtime: 对于测试和运行classpath有效，生成的war中包含这个jar。 但在编译主代码时无效,如: JDBC驱动实现
+         system : 系统依赖范围。该依赖与三种classpath的关系，和provided依赖范围完全一致。但是，使用system范围的依赖时必须通过systemPath元素显式地指定依赖文件的路径，即maven仓库以外的类库文件;
+         import(maven2.0.9及以上) : 导入依赖范围。该依赖范围不会对三种classpath产生实际的影响; 在父模块中导入 dependencyManagement;
+        -->
+       <scope>...</scope>  
+       <!-- 是否可选依赖: true false, 可选性依赖不会传递; 理想情况下尽量少用可选依赖; -->
+       <optional>...</optional>  
+       <!-- 排除传递性依赖, 不管该传递性依赖是第二个，还是第十二个，都可以排除 -->
+       <exclusions>  
+           <exclusion>  
+              ....
+           </exclusion>  
+        </exclusions>  
+      </dependency>
+
+      <!-- 排除传递性依赖,可能是snapshot,不稳定的版本等原因 -->
+      <dependency>  
+        <groupId>com.juvenxu.mvnbook</groupId>  
+        <artifactId>project-b</artifactId>  
+        <version>1.0.0</version>  
+        <exclusions>  
+          <exclusion>  
+            <!-- 这里不需要version,就可以定位了 -->
+            <groupId>com.juvenxu.mvnbook</groupId>  
+            <artifactId>project-c</artifactId>  
+          </exclusion>  
+        </exclusions>  
+      </dependency>  
+      <dependency>  
+        <groupId>com.juvenxu.mvnbook</groupId>  
+        <artifactId>project-c</artifactId>  
+        <version>2.2.0</version>  
+      </dependency>
+      <dependency>  
+        <groupId>org.springframework</groupId>  
+        <artifactId>spring-core</artifactId>  
+        <version>${springframework.version}</version>  
+      </dependency>
+  </dependencies>
+
+  <build>
+    <!-- 修改生成的jar(war)包名称,默认是artifactid + version的,修改后就是jpetstore.jar -->
+    <finalName>jpetstore</finalName>
+    <resources>
+      <resource>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**/*.xml</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+
+    <plugins>
+      <!-- mvn compile 插件,添加java5的支持 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artfactId>
+        <configuration>
+          <source>1.5</source>
+            <target>1.5</target>
+        </configuration>
+      </plugin>
+      <!-- tomcat7 插件: 可以自动部署到tomcat上: tomcat7:deploy   tomcat7:redeploy  tomcat7:undeploy
+        必须在tomcat-users.xml中配置用户，且该用户的roles 是 admin-script; 这样允许通过script来部署; 
+      -->
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <configuration>
+          <url>http://localhost:8080/manager/html</url>
+          <username>tomcat</username>
+          <password>tomcat</password>
+          <path>/jpetstore</path>
+        </configuration>
+      </plugin>
+
+      <!-- 调用 parent 中的 plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+
+
+  <!-- 将项目生成的构建部署到仓库中,供其他团队成员使用, 往往需要权限认证，在settings.xml中配置; mvn clean deploy -->
+  <distributionManagement>  
+    <!-- 发布版本构件的仓库 -->
+    <repository>  
+      <id>proj-releases</id>  
+      <name>Proj Release Repository</name>  
+      <url>http://192.168.1.100/content/repositories/proj-releases</url>  
+    </repository>  
+
+    <!-- 快照版本的仓库 -->
+    <snapshotRepository>  
+      <id>proj-snapshots</id>  
+      <name>Proj Snapshot Repository</name>  
+      <url>http://192.168.1.100/content/repositories/proj-snapshots</url>  
+    </snapshotRepository>  
+  </distributionManagement> 
+
+  <!-- Source control management 的一些信息,参见 maven.html -->
+  <scm>
+     <url>http://svncode.cnsuning.com/svn/TechPlatform_code/SuNingFramework/snf-archetype/branches/RB-2/${project.name}</url>
+     <connection>scm:svn:http://svncode.cnsuning.com/svn/TechPlatform_code/SuNingFramework/snf-archetype/branches/RB-2/${project.name}</connection>
+  </scm>
+  <developers>
+     ...
+  </developers>
+  <contributors>
+     ...
+  </contributors>
+  <!-- bug tracking 等信息 -->
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://jira.cnsuning.com/browse/SNF</url>
+  </issueManagement>
+  <!-- continuous integration 的信息 -->
+  <ciManagement>
+    <system>JenKins</system>
+    <url>http://localhost:8090/</url>
+    <notifiers>
+      <notifier>
+	<address>88198426@snproject.com</address>
+	<sendOnFailure>true</sendOnFailure>
+	<sendOnSuccess>true</sendOnSuccess>
+	<sendOnError>true</sendOnError>
+	<sendOnWarning>true</sendOnWarning>
+	</notifier>
+      <notifier>
+        <address>11080241@cnsuning.com</address>
+        <sendOnFailure>true</sendOnFailure>
+        <sendOnSuccess>true</sendOnSuccess>
+        <sendOnError>true</sendOnError>
+        <sendOnWarning>true</sendOnWarning>
+      </notifier>
+    </notifiers>
+  </ciManagement>
+
+
+</project>

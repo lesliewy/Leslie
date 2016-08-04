@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC
+    "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+    "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+
+<!-- This is a checkstyle configuration file. For descriptions of
+what the following rules do, please see the checkstyle configuration
+page at http://checkstyle.sourceforge.net/config.html -->
+
+<!-- 参看 c:\Leslie\Software\Programming Software\Eclipse\checkstyle\checkstyle-5.6\site\index.html  有checkstyle5.6的所有检查说明 -->
+<module name="Checker">
+    <!-- Requires a Google copyright notice in each file.
+      Code intended to be open-sourced may have a multi-line copyright
+      notice, so that this required text appears on the second line:
+      <pre>
+        /*
+         * Copyright 2008 Google Inc.
+         *
+         * (details of open-source license...)
+      </pre>
+    -->
+  <!--
+  <module name="RegexpSingleline">
+    <property name="format"
+        value="^(//| \*) Copyright (\([cC]\) )?[\d]{4}(\-[\d]{4})? (Google Inc\.).*$" />
+    <property name="minimum" value="1" />
+    <property name="maximum" value="10" />
+    <property name="message" value="Google copyright is missing or malformed." />
+    <property name="severity" value="error" />
+  </module>
+  -->
+
+  <!-- Checks that there are no tab characters in the file.-->
+  <module name="FileTabCharacter">
+  </module>
+
+  <!-- 文件结尾必须有一个换行 -->
+  <module name="NewlineAtEndOfFile"/>
+
+  <module name="RegexpSingleline">
+    <!-- Checks that FIXME is not used in comments.  TODO is preferred.
+    -->
+    <property name="format" value="((//.*)|(\*.*))FIXME" />
+    <property name="message" value='TODO is preferred to FIXME.  e.g. "TODO(johndoe): Refactor when v2 is released."' />
+  </module>
+
+  <module name="RegexpSingleline">
+    <!-- Checks that TODOs are named.  (Actually, just that they are followed
+         by an open paren.)
+    -->
+    <property name="format" value="((//.*)|(\*.*))TODO[^(]" />
+    <property name="message" value='All TODOs should be named.  e.g. "TODO(johndoe): Refactor when v2 is released."' />
+  </module>
+
+  <!-- 最大1500行,是Checker下面，不能放在TreeWalker下 -->
+  <module name="FileLength">
+    <property name="max" value="1500"/>
+  </module>
+
+  <!-- All Java AST specific tests live under TreeWalker module. -->
+  <!-- 有很多的 module 必须在 TreeWalker 下 -->
+  <module name="TreeWalker">
+
+    <!--
+    IMPORT CHECKS
+    -->
+
+    <!-- import中避免星号"*" -->  
+    <module name="AvoidStarImport" />  
+
+    <!-- Checks for redundant import statements. -->
+    <module name="RedundantImport">
+      <!-- severity: 设置错误级别,结果中前面有个红x. error warning -->
+      <property name="severity" value="error"/>
+    </module>
+
+    <!-- Checks for out of order import statements. -->
+    <module name="ImportOrder">
+      <property name="severity" value="warning"/>
+      <!-- 设置import的顺序. 先com.google,再android,再junit,... -->
+      <property name="groups" value="com.google,android,junit,net,org,java,javax"/>
+      <!-- This ensures that static imports go first. -->
+      <property name="option" value="top"/>
+      <property name="tokens" value="STATIC_IMPORT, IMPORT"/>
+    </module>
+    <!--  
+        没用的import检查，比如：1.没有被用到2.重复的3.import java.lang的4.import  
+        与该类在同一个package的  
+	包含了 RedundantImport 的检查内容 
+    -->  
+    <module name="UnusedImports" /> 
+
+    <!--
+
+    JAVADOC CHECKS
+
+    -->
+
+    <!-- Checks for Javadoc comments.                     -->
+    <!-- See http://checkstyle.sf.net/config_javadoc.html -->
+    <module name="JavadocMethod">
+      <property name="scope" value="protected"/>
+      <property name="severity" value="warning"/>
+      <property name="allowMissingJavadoc" value="true"/>
+      <property name="allowMissingParamTags" value="true"/>
+      <property name="allowMissingReturnTag" value="true"/>
+      <property name="allowMissingThrowsTags" value="true"/>
+      <property name="allowThrowsTagsForSubclasses" value="true"/>
+      <property name="allowUndeclaredRTE" value="true"/>
+    </module>
+
+    <!-- 检查所有的类和接口是否有javadoc.scope: private 检查 private、protected、public;  protected 检查 protected、public;  public 检查 public. -->
+    <module name="JavadocType">
+      <property name="scope" value="protected"/>
+      <property name="severity" value="error"/>
+    </module>
+
+    <module name="JavadocStyle">
+      <property name="severity" value="warning"/>
+    </module>
+
+    <!--
+
+        METRICS 
+
+    -->
+    <!-- NPath复杂度（计算了一个函数的可能执行的分支个数,包括bool值），不超过300 默认为200-->  
+    <module name="NPathComplexity" >  
+        <property name="max" value="300" />
+    </module>
+
+    <!-- 类数据的抽象耦合，也就是实例化依赖类的个数，推荐值是5，默认最大值为7，不超过15 -->  
+    <module name="ClassDataAbstractionCoupling" >  
+        <property name="max" value="15"/>
+    </module>
+
+    <!--
+
+    NAMING CHECKS
+
+    -->
+
+    <!-- Item 38 - Adhere to generally accepted naming conventions -->
+
+    <module name="PackageName">
+      <!-- Validates identifiers for package names against the
+        supplied expression. -->
+      <!-- Here the default checkstyle rule restricts package name parts to
+        seven characters, this is not in line with common practice at Google.
+      -->
+      <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]{1,})*$"/>
+      <property name="severity" value="warning"/>
+    </module>
+
+    <module name="TypeNameCheck">
+      <!-- Validates static, final fields against the
+      expression "^[A-Z][a-zA-Z0-9]*$". -->
+      <metadata name="altname" value="TypeName"/>
+      <property name="severity" value="warning"/>
+    </module>
+
+    <module name="ConstantNameCheck">
+      <!-- Validates non-private, static, final fields against the supplied
+      public/package final fields "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$". -->
+      <metadata name="altname" value="ConstantName"/>
+      <property name="applyToPublic" value="true"/>
+      <property name="applyToProtected" value="true"/>
+      <property name="applyToPackage" value="true"/>
+      <property name="applyToPrivate" value="false"/>
+      <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|FLAG_.*)$"/>
+      <message key="name.invalidPattern"
+               value="Variable ''{0}'' should be in ALL_CAPS (if it is a constant) or be private (otherwise)."/>
+      <property name="severity" value="warning"/>
+    </module>
+
+    <module name="StaticVariableNameCheck">
+      <!-- Validates static, non-final fields against the supplied
+      expression "^[a-z][a-zA-Z0-9]*_?$". -->
+      <metadata name="altname" value="StaticVariableName"/>
+      <property name="applyToPublic" value="true"/>
+      <property name="applyToProtected" value="true"/>
+      <property name="applyToPackage" value="true"/>
+      <property name="applyToPrivate" value="true"/>
+      <property name="format" value="^[a-z][a-zA-Z0-9]*_?$"/>
+      <property name="severity" value="warning"/>
+    </module>
+
+    <module name="MemberNameCheck">
+      <!-- Validates non-static members against the supplied expression. -->
+      <metadata name="altname" value="MemberName"/>
+      <property name="applyToPublic" value="true"/>
+      <property name="applyToProtected" value="true"/>
+      <property name="applyToPackage" value="true"/>
+      <property name="applyToPrivate" value="true"/>
+      <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+      <property name="severity" value="warning"/>
+    </module>
+
+    <module name="MethodNameCheck">
+      <!-- Validates identifiers for method names. -->
+      <metadata name="altname" value="MethodName"/>
+      <property name="format" value="^[a-z][a-zA-Z0-9]*(_[a-zA-Z0-9]+)*$"/>
+      <property name="severity" value="warning"/>
+    </module>
+
+    <module name="ParameterName">
+      <!-- Validates identifiers for method parameters against the
+        expression "^[a-z][a-zA-Z0-9]*$". -->
+      <property name="severity" value="warning"/>
+    </module>
+
+    <module name="LocalFinalVariableName">
+      <!-- Validates identifiers for local final variables against the
+        expression "^[a-z][a-zA-Z0-9]*$". -->
+      <property name="severity" value="warning"/>
+    </module>
+
+    <module name="LocalVariableName">
+      <!-- Validates identifiers for local variables against the
+        expression "^[a-z][a-zA-Z0-9]*$". -->
+      <property name="severity" value="warning"/>
+    </module>
+
+
+    <!--
+
+    SIZE CHECKS
+
+    -->
+    
+    <!-- 每行最大字符数,default 80,排除掉 * 开头的那些行,一般是javadoc中 -->
+    <module name="LineLength">
+      <property name="max" value="120"/>
+      <property name="ignorePattern" value="^ *\* *[^ ]+$"/>
+      <property name="severity" value="error"/>
+    </module>
+    
+    <!-- 方法的行数,CTOR_DEF 表示构造函数; 不包括空行和单行注释 -->
+    <module name="MethodLength">
+      <property name="tokens" value="METHOD_DEF"/>
+      <property name="max" value="60"/>
+      <property name="countEmpty" value="false"/>
+    </module>
+
+    <!-- 
+
+      CODING 
+
+    -->
+    <!-- 不许出现空语句 -->
+    <module name="EmptyStatement"/>
+
+    <!-- 检查重写了equals()方法的类是否也重写了hashcode()方法 -->  
+    <module name="EqualsHashCode"/>
+
+    <!-- 不能catch java.lang.Exception -->  
+    <module name="IllegalCatch">  
+        <property name="illegalClassNames" value="java.lang.Exception" />  
+    </module> 
+
+    <module name="IllegalToken">
+        <property name="tokens" value="LITERAL_NATIVE"/>
+    </module>
+
+    <module name="InnerAssignment">
+        <property name="tokens" value="ASSIGN,PLUS_ASSIGN,MINUS_ASSIGN"/>
+    </module>
+
+    <module name="MagicNumber"/>
+    
+    <!-- 循环控制变量不能被修改 -->
+    <module name="ModifiedControlVariable"/>
+
+    <!-- if 嵌套 -->
+    <module name="NestedIfDepth">
+      <property name="max" value="3"/>
+    </module>
+
+    <!-- for 嵌套 -->
+    <module name="NestedForDepth">
+      <property name="max" value="3"/>
+    </module>
+
+    <!-- String的比较不能用!= 和 == -->  
+    <module name="StringLiteralEquality" />  
+
+    <!-- try最多被嵌套2层 -->  
+    <module name="NestedTryDepth">  
+        <property name="max" value="2" />  
+    </module>  
+
+    <!-- 多余的throw -->  
+    <module name="RedundantThrows" />  
+
+    <!-- 一个方法中最多有3个return -->  
+    <module name="ReturnCount">  
+        <property name="max" value="3" />  
+        <property name="format" value="^$" />  
+    </module>  
+
+    <!-- 不许使用未被简化的条件表达式 -->  
+    <module name="SimplifyBooleanExpression" /> 
+
+    <!-- 不许使用未被简化的布尔返回值 -->  
+    <module name="SimplifyBooleanReturn" /> 
+
+    <!-- String的比较不能用!= 和 == -->  
+    <module name="StringLiteralEquality" />  
+
+    <!-- clone方法必须调用了super.clone() -->  
+    <module name="SuperClone" />  
+
+    <!-- finalize 必须调用了super.finalize() -->  
+    <module name="SuperFinalize" />  
+
+
+
+    <!--  
+        根据 Sun 编码规范， class 或 interface 中的顺序如下： 1.class 声明。首先是 public,  
+        然后是protected , 然后是 package level （不包括access modifier ） 最后是private .  
+        (多个class放在一个java文件中的情况） 2.变量声明。 首先是 public, 然后是protected然后是 package  
+        level （不包括access modifier ） 最后是private . (多个class放在一个java文件中的情况）  
+        3.构造函数 4.方法  
+    -->  
+    <module name="DeclarationOrder" />  
+
+    <!-- 不许有同样内容的String,不然不方便维护，建议使用变量，本设置最多不能超出4次-->  
+    <module name="MultipleStringLiterals">
+        <property name="allowedDuplicates" value="4"/>
+    </module>
+
+    <!-- 同一行不能有多个声明 -->  
+    <module name="MultipleVariableDeclarations" />  
+
+    <!--
+
+    BLOCK CHECKS 
+
+    -->
+    <!-- 不能出现空白区域 -->
+    <module name="EmptyBlock"/>
+
+    <module name="LeftCurly">
+      <!-- Checks for placement of the left curly brace ('{'). -->
+      <property name="severity" value="warning"/>
+    </module>
+
+    <module name="RightCurly">
+      <!-- Checks right curlies on CATCH, ELSE, and TRY blocks are on
+      the same line. e.g., the following example is fine:
+      <pre>
+        if {
+          ...
+        } else
+      </pre>
+      -->
+      <!-- This next example is not fine:
+      <pre>
+        if {
+          ...
+        }
+        else
+      </pre>
+      -->
+      <property name="option" value="same"/>
+      <property name="severity" value="warning"/>
+    </module>
+
+    <!-- Checks for braces around if and else blocks -->
+    <module name="NeedBraces">
+      <property name="severity" value="warning"/>
+      <property name="tokens" value="LITERAL_IF, LITERAL_ELSE, LITERAL_FOR, LITERAL_WHILE, LITERAL_DO"/>
+    </module>
+
+    <!-- 多余的Block -->  
+    <module name="AvoidNestedBlocks">  
+        <property name="allowInSwitchCase" value="true" />  
+    </module>  
+
+    <!--
+
+        MISCELLANEOUS 
+
+    -->
+
+    <!-- long 型的后面要是 L,而不用l -->
+    <module name="UpperEll">
+      <!-- Checks that long constants are defined with an upper ell.-->
+      <property name="severity" value="error"/>
+    </module>
+
+    <!-- 检查switch分支中的fall through -->
+    <module name="FallThrough">
+      <!-- Warn about falling through to the next case statement.  Similar to
+      javac -Xlint:fallthrough, but the check is suppressed if a single-line comment
+      on the last non-blank line preceding the fallen-into case contains 'fall through' (or
+      some other variants which we don't publicized to promote consistency).
+      -->
+      <property name="reliefPattern"
+       value="fall through|Fall through|fallthru|Fallthru|falls through|Falls through|fallthrough|Fallthrough|No break|NO break|no break|continue on"/>
+      <property name="severity" value="error"/>
+    </module>
+
+    <!-- 检查 switch 中丢失 default 的情况 -->
+    <module name="MissingSwitchDefault"/>
+
+    <!-- switch 中default出现在最后 -->
+    <module name="DefaultComesLast"/>
+
+    <!--不允许有TODO的注释-->
+    <module name="TodoComment">
+       <property name="format" value="TODO" />
+    </module>
+
+    <!-- 检查数组类型的定义是String[] args，而不是String args[] -->  
+    <module name="ArrayTypeStyle">
+        <property name="javaStyle" value="true"/>
+    </module>
+
+    <!--  检查java代码的缩进 默认配置：基本缩进 4个空格，新行的大括号：0。新行的case 4个空格。-->  
+    <module name="Indentation" />  
+     
+
+    <!--
+
+    MODIFIERS CHECKS
+
+    -->
+
+    <module name="ModifierOrder">
+      <!-- Warn if modifier order is inconsistent with JLS3 8.1.1, 8.3.1, and
+           8.4.3.  The prescribed order is:
+           public, protected, private, abstract, static, final, transient, volatile,
+           synchronized, native, strictfp
+        -->
+    </module>
+
+    <!-- 多余的关键字 ，如interface 中不需要写public-->  
+    <module name="RedundantModifier" />  
+
+    <!--
+
+    WHITESPACE CHECKS
+
+    -->
+
+    <module name="WhitespaceAround">
+      <!-- Checks that various tokens are surrounded by whitespace.
+           This includes most binary operators and keywords followed
+           by regular or curly braces.
+      -->
+      <property name="tokens" value="ASSIGN, BAND, BAND_ASSIGN, BOR,
+        BOR_ASSIGN, BSR, BSR_ASSIGN, BXOR, BXOR_ASSIGN, COLON, DIV, DIV_ASSIGN,
+        EQUAL, GE, GT, LAND, LE, LITERAL_CATCH, LITERAL_DO, LITERAL_ELSE,
+        LITERAL_FINALLY, LITERAL_FOR, LITERAL_IF, LITERAL_RETURN,
+        LITERAL_SYNCHRONIZED, LITERAL_TRY, LITERAL_WHILE, LOR, LT, MINUS,
+        MINUS_ASSIGN, MOD, MOD_ASSIGN, NOT_EQUAL, PLUS, PLUS_ASSIGN, QUESTION,
+        SL, SL_ASSIGN, SR_ASSIGN, STAR, STAR_ASSIGN"/>
+      <property name="severity" value="error"/>
+    </module>
+
+    <module name="WhitespaceAfter">
+      <!-- Checks that commas, semicolons and typecasts are followed by
+           whitespace.
+      -->
+      <property name="tokens" value="COMMA, SEMI, TYPECAST"/>
+    </module>
+
+    <module name="NoWhitespaceAfter">
+      <!-- Checks that there is no whitespace after various unary operators.
+           Linebreaks are allowed.
+      -->
+      <property name="tokens" value="BNOT, DEC, DOT, INC, LNOT, UNARY_MINUS,
+        UNARY_PLUS"/>
+      <property name="allowLineBreaks" value="true"/>
+      <property name="severity" value="error"/>
+    </module>
+
+    <module name="NoWhitespaceBefore">
+      <!-- Checks that there is no whitespace before various unary operators.
+           Linebreaks are allowed.
+      -->
+      <property name="tokens" value="SEMI, DOT, POST_DEC, POST_INC"/>
+      <property name="allowLineBreaks" value="true"/>
+      <property name="severity" value="error"/>
+    </module>
+
+    <module name="ParenPad">
+      <!-- Checks that there is no whitespace before close parens or after
+           open parens.
+      -->
+      <property name="severity" value="warning"/>
+    </module>
+
+    <!--
+
+    Miscellaneous 
+
+    -->
+    <!-- 不要加代码后面加注释 -->
+    <module name="TrailingComment"/>
+
+    <!-- 不要使用System.out.println" -->
+    <module name="Regexp">
+      <property name="format" value="System\.out\.println"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="ignoreComments" value="true"/>
+    </module>
+
+  </module>
+</module>
+

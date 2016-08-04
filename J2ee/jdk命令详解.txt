@@ -1,0 +1,563 @@
+JDK命令详解1
+功能说明： 
+rmic 为远程对象生成 stub 和 skeleton。 
+语法： 
+rmic [ options ] package-qualified-class-name(s) 
+补充说明： 
+rmic 编译器根据编译后的 Java 类（含有远程对象实现）名，为远程对象生成 stub 和 skeleton（远程对象是指实现 java.rmi.Remote 接口的对象）。在 rmic 命令中所给的类必须是经 javac 命令成功编译且是完全包限定的类。 
+命令选项 
+-classpath[路径] 指定 rmic 用于查询类的路径。如果设置了该选项，它将覆盖缺省值或 CLASSPATH 环境变量。目录用冒号分隔。 
+-d[目录] 指定类层次的根目录。此选项可用来指定 stub 和 skeleton 文件的目标目录。 
+-depend 使编译器考虑重新编译从其它类引用的类。 一般来说，它只重新编译从源代码引用的遗漏或过期的类。 
+-g 允许生成调试表格。调试表格含有行号和局部变量的有关信息，即 Java 调试工具所使用的信息。缺省情况下，只生成行号。 
+-J 与 -D 选项联用，它将紧跟其后的选项（ -J 与 -D 之间无空格）传给 java 解释器。 
+-keepgenerated 为 stub 和 skeleton 文件保留所生成的 .java 源文件，并将这些源文件写到与 .class 文件相同的目录中，如果要指定目录，则使用 -d 选项。 
+-nowarn 关闭警告。如果使用该选项，则编译器不输出任何警告信息。 
+-show 显示 rmic 编译器的 GUI（图形用户界面）。输入一个或多个包限定类名（以空格分隔），并按回车键或“显示”按钮，创建 stub 和 skeleton。 
+-vcompat （缺省值）创建与 JDK 1.1 和 1.2 stub 协议版本都兼容的 stub 和 skeleton。 
+-verbose 使编译器和链接器输出关于正在编译哪些类和正在加载哪些类文件的信息。 
+-v1.1 创建 JDK 1.1 stub 协议版本的 stub 和 skeleton。 
+-v1.2 只创建 JDK 1.2 stub 协议版本的 stub。 
+
+rmid 
+
+功能说明： 
+rmid 启动激活系统守护进程，以便能够在 Java 虚拟机上注册和激活对象。 
+语法： 
+rmid [-port port] [-log dir] 
+补充说明： 
+rmid 工具启动激活系统守护进程。必须先启动激活系统守护进程，才能向激活系统注册可被激活的对象或在 Java 虚拟机上激活可被激活的对象。 
+命令选项 
+-C<某些命令行选项> 指定一个选项，在创建每个 rmid 的子守护进程（激活组）时，该选项以命令行参数的形式传给该子守护进程。 
+-log[目录] 指定目录的名称，激活系统守护进程在该目录中写入其/edu/database/">数据库及相关信息。缺省状态下，将在执行 rmid 命令的目录中创建一个 log 目录。 
+-port[端口] 指定 rmid 的注册服务程序所使用的端口。激活系统守护进程将 ActivationSystem 与该注册服务程序中的名称java.rmi.activation.ActivationSystem 捆绑在一起。 
+-stop 停止 -port 选项所指定端口上的当前 rmid 调用。若未指定端口，则将停止在端口 1098 上运行的 rmid。 
+
+rmiregistry 
+
+功能说明： 
+rmiregistry 命令可在当前主机的指定端口上启动远程对象注册服务程序。 
+语法： 
+rmiregistry [port] 
+补充说明： 
+rmiregistry 命令在当前主机的指定 port 上创建并启动远程对象注册服务程序。如果省略 port，则注册服务程序将在 1099 端口上启动。rmiregistry 命令不产生任何输出而且一般在后台运行。远程对象注册服务程序是自举命名服务。主机上的 RMI /edu/server/">服务器将利用它将远程对象绑定到名字上。客户机即可查询远程对象并进行远程方法调用。注册服务程序一般用于定位应用程序需调用其方法的第一个远程对象。该对象反过来对各应用程序提供相应的支持，用于查找其它对象。java.rmi.registry.LocateRegistry 类的方法可用于在某台主机或主机和端口上获取注册服务程序操作。java.rmi.Naming 类的基于 URL 的方法将对注册服务程序进行操作，并可用于查询远程对象、将简单（字符串）名称绑定到远程对象、将新名称重新绑定到远程对象（覆盖旧绑定）、取消远程对象的绑定以及列出绑定在注册服务程序上的 URL。 
+
+serialver 
+
+功能说明： 
+serialver 命令返回 serialVersionUID。 
+语法： 
+serialver [ 命令选项 ] 
+补充说明： 
+serialver 以适于复制到演变类的形式返回一个或多个类的 serialVersionUID。不带参数调用时，它输出用法行。 
+命令选项 
+-show 显示一个简单的用户界面。输入完整的类名并按回车键或“显示”按钮可显示 serialVersionUID。 
+
+jarsigner 
+
+功能说明： 
+为 Java 归档 (JAR) 文件产生签名，并校验已签名的 JAR 文件的签名。 
+语法： 
+jarsigner [ 命令选项 ] jar-file alias 
+jarsigner -verify [ 命令选项 ] jar-file 
+补充说明： 
+jarsigner 工具用于两个目的： 
+1:为 Java 归档 (JAR) 文件签名 
+2:校验已签名的 JAR 文件的签名和完整性 
+命令选项 
+-keystore[url] 指定密钥仓库的 URL。缺省值是用户的宿主目录中的 .keystore 文件，它由系统属性“user.home”决定。 
+-storetype[storetype] 指定要被实例化的密钥仓库类型。默认的密钥仓库类型是安全属性文件中 "keystore.type" 属性值所指定的那个类型，由 java.security.KeyStore 中的静态方法 getDefaultType 返回。 
+-storepass[password] 指定访问密钥仓库所需的口令。这仅在签名（不是校验）JAR 文件时需要。在这种情况下，如果命令行中没有提供 -storepass 选项，用户将被提示输入口令。 
+-keypass[password] 指定用于保护密钥仓库项（由命令行中指定的别名标出）的私钥的口令。使用 jarsigner 为 JAR 文件签名时需要该口令。如果命令行中没有提供口令，且所需的口令与密钥仓库的口令不同，则将提示用户输入它。 
+-sigfile[file] 指定用于生成 .SF 和 .DSA 文件的基本文件名。 
+-signedjar[file] 指定用于已签名的 JAR 文件的名称。 
+-verify 如果它出现在命令行中，则指定的 JAR 文件将被校验，而不是签名。如果校验成功，将显示“jar verified”。如果试图校验未签名的 JAR 文件，或校验被不支持的算法（例如未安装 RSA 提供者时使用的 RSA）签名的 JAR 文件，则将有如下显示： "jar is unsigned. (signatures missing or not parsable)" 。 
+-certs 如果它与 -verify 和 -verbose 选项一起出现在命令行中，则输出将包括 JAR 文件的每个签名人的证书信息。 
+-verbose 如果它出现在命令行中，则代表“verbose”模式，它使 jarsigner 在 JAR 签名或校验过程中输出额外信息。 
+-internalsf 过去，JAR 文件被签名时产生的 .DSA（签名块）文件包含一个同时产生的 .SF 文件（签名文件）的完整编码副本。这种做法已被更改。为了减小输出 JAR 文件的整个大小，缺省情况下 .DSA 文件不再包含 .SF 文件的副本。但是如果 -internalsf 出现在命令行中，将采用旧的做法。该选项主要在测试时有用；实际上不应使用它，因为这样将消除有用的优化。 
+-sectionsonly 如果它出现在命令行中，则 JAR 文件被签名时生成的 .SF 文件（签名文件）将不包括含有整个清单文件的散列的头。它仅包含 与 JAR 中每个单独的源文件相关的信息和散列。该选项主要在测试时有用；实际上不应使用它，因为这样将消除有用的优化。 
+-J[javaoption] 将指定的 javaoption 串直接传递到 Java 解释器。(（jarsigner 实际上是解释器的一个 “wrapper”）。该选项不应含有任何空格。它有助于调整执行环境或内存使用。要获得可用的解释器选项的清单，可在命令行键入 java -h 或 java -X。 
+keytool 
+
+功能说明： 
+管理由私钥和认证相关公钥的 X.509 证书链组成的密钥仓库（/edu/database/">数据库）。还管理来自可信任实体的证书。 
+语法： 
+keytool [ 命令 ] 
+补充说明： 
+keytool 是个密钥和证书管理工具。它使用户能够管理自己的公钥/私钥对及相关证书，用于（通过数字签名）自我认证（用户向别的用户/服务认证自己）或数据完整性以及认证服务。它还允许用户储存他们的通信对等者的公钥（以证书形式）。 
+
+*** native2ascii 
+
+功能说明： 
+将含有本地编码字符（既非 Latin1 又非 Unicode 字符）的文件转换为 Unicode 编码字符的文件。 
+语法： 
+native2ascii [options] [inputfile [outputfile]] 
+补充说明： 
+Java 编译器和其它 Java 工具只能处理含有 Latin-1 和/或 Unicode 编码（udddd 记号）字符的文件。native2ascii 将含有其它字符编码的文件转换成含 Latin-1 和/或 Unicode 编码字符的文件。若省略 outputfile，则使用标准输出设备输出。此外，如果也省略 inputfile，则使用标准输入设备输入。 
+命令选项 
+-reverse 执行相反的操作：将含 Latin-1 和/或 Unicode 编码字符的文件转换成含本地编码字符的文件。 
+-encoding[encoding_name] 指定转换过程使用的编码名称。缺省的编码从系统属性 file.encoding 中得到。 
+
+ native2ascii.exe 是Java的一个文件转码工具，是将特殊各异的内容转为用指定的编码标准文体形式统一的表现出来，它通常位于JDK_home\bin目录下，安装好Java SE后，可在命令行直接使用 native2ascii命令进行转码。
+    国际化resources.properties文件，中文字符转换为Unicode字符：
+1,    native2ascii resources.properties tmp.properties 或者 native2ascii -encoding Unicode resources.properties tmp.properties
+    注意：Unicode首字母必须大写
+2,    国际化resources.properties文件，Unicode字符转换为中文字符：
+    native2ascii -reverse -encoding GB2312 resources.properties tmp.properties
+
+
+appletviewer 
+
+功能说明： 
+Java applet /edu/soft/ie">浏览器。appletviewer 命令可在脱离万维网/edu/soft/ie">浏览器环境的情况下运行 applet。 
+语法： 
+appletviewer [ threads flag ] [ 命令选项 ] urls ... 
+补充说明： 
+appletviewer 命令连接到 url 所指向的文档或资源上，并在其自身的窗口中显示文档引用的每个 applet。注意：如果 url 所指向的文档不引用任何带有 OBJECT、EMBED 或 APPLET 标记的 applet，那么 appletviewer 就不做任何事情。
+
+命令选项 
+-debug 在 Java 调试器 jdb 中启动 appletviewer，使您可以调试文档中的 applet。 
+-encoding[编码名称] 指定输入 HTML 文件的编码名称。 
+-J[javaoption] 将 javaoption 字符串作为单个参数传给运行 appletviewer 的 Java 解释器。参数不能含有空格。由多重参数组成的字符串，其中的每个参数都必须以前缀 -J 开头，该前缀以后将被除去。这在调整编译器的执行环境或内存使用时将很有用。 
+
+extcheck 
+
+功能说明： 
+extcheck 检测目标 jar 文件与当前安装方式扩展 jar 文件间的版本冲突。 
+语法： 
+extcheck [ -verbose ] targetfile.jar 
+补充说明： 
+extcheck 实用程序检查指定 Jar 文件的标题和版本与 JDK TM /edu/soft">软件中所安装的扩展是否有冲突。在安装某个扩展前，可以用该实用程序查看是否已安装了该扩展的相同版本或更高的版本。 
+extcheck 实用程序将 targetfile.jar 文件清单的 specification-title 和 specification-version 头与当前安装在扩展目录下所有 Jar 文件的相对应的头进行比较（缺省扩展目录为 jre/lib/ext）。extcheck 实用程序比较版本号的方式与 java.lang.Package.isCompatibleWith 方法相同。若未检测到冲突，则返回代码为 0。如果扩展目录中任何一个 jar 文件的清单有相同的 specification-title 和相同的或更新的 specification-version 号，则返回非零错误代码。如果 targetfile.jar 的清单中没有 specification-title 或 specification-version 属性，则同样返回非零错误代码。 
+命令选项 
+-verbose 对扩展目录中的 Jar 文件进行检查时，列出文件。此外，还报告目标 jar 文件的清单属性及所有冲突的 jar 文件。 
+
+jar 
+
+功能说明： 
+Java归档工具 
+语法： 
+jar [ 命令选项 ] [manifest] destination input-file [input-files] 
+补充说明： 
+jar工具是个java应用程序，可将多个文件合并为单个JAR归档文件。jar是个多用途的存档及压缩工具，它基于ZIP和ZLIB压缩格式。然而，设计jar的主要目的是便于将java applet或应用程序打包成单个归档文件。将applet或应用程序的组件(.class 文件、图像和声音)合并成单个归档文件时，可以用java代理(如/edu/soft/ie">浏览器)在一次HTTP事务处理过程中对它们进行下载，而不是对每个组件都要求一个新连接。这大大缩短了下载时间。jar还能压缩文件，从而进一步提高了下载速度。此外，它允许applet的作者对文件中的各个项进行签名，因而可认证其来源。jar工具的语法基本上与tar命令的语法相同。 
+命令选项 
+-c 在标准输出上创建新归档或空归档。 
+-t 在标准输出上列出内容表。 
+-x[file] 从标准输入提取所有文件，或只提取指定的文件。如果省略了file，则提取所有文件；否则只提取指定文件。 
+-f 第二个参数指定要处理的jar文件。在-c(创建)情形中，第二个参数指的是要创建的jar文件的名称(不是在标准输出上)。在-t(表(或-x(抽取)这两种情形中，第二个参数指定要列出或抽取的jar文件。 
+　 -v 在标准错误输出设备上生成长格式的输出结果。 
+-m 包括指定的现有清单文件中的清单信息。用法举例：“jar cmf myManifestFile myJarFile *.class” 
+-0 只储存，不进行 ZIP 压缩。 
+-M 不创建项目的清单文件。 
+-u 通过添加文件或更改清单来更新现有的 JAR 文件。例如：“jar -uf foo.jar foo.class”将文件 foo.class 添加到现有的JAR文件foo.jar中，而“jar umf manifest foo.jar”则用manifest中的信息更新foo.jar的清单。 
+-C 在执行 jar 命令期间更改目录。例如：“jar -uf foo.jar -C classes *”将classes目录内的所有文件加到foo.jar中，但不添加类目录本身。 
+程序示例 
+1:将当前目录下所有CLASS文件打包成新的JAR文件： 
+jar cf file.jar *.class 
+2:显示一个JAR文件中的文件列表 
+jar tf file.jar 
+3:将当前目录下的所有文件增加到一个已经存在的JAR文件中 
+jar cvf file.jar * 
+
+javadoc 
+
+功能说明 
+Java API文档生成器从Java源文件生成API文档HTML页。 
+语法： 
+javadoc [ 命令选项 ] [ 包名 ] [ 源文件名 ] [ @files ] 
+其中[ 包名 ]为用空格分隔的一系列包的名字，包名不允许使用通配符，如（*）。[ 源文件名 ]为用空格分隔的一系列的源文件名，源文件名可包括路径和通配符，如（*）。[ @files ]是以任何次序包含包名和源文件的一个或多个文件。 
+补充说明 
+Javadoc解析Java源文件中的声明和文档注释，并产生相应的HTML页缺省），描述公有类、保护类、内部类、接口、构造函数、方法和域。 
+在实现时，Javadoc要求且依赖于java编译器完成其工作。Javadoc调用部分javac编译声明部分，忽略成员实现。它建立类的内容丰富的内部表示，包括类层次和“使用”关系，然后从中生成HTML。Javadoc还从源代码的文档注释中获得用户提供的文档。 
+当Javadoc建立其内部文档结构时，它将加载所有引用的类。由于这一点，Javadoc必须能查找到所有引用的类，包括引导类、扩展类和用户类。 
+命令选项 
+-overview i>path/filename 指定javadoc应该从path/filename所指定的“源”文件中获取概述文档，并将它放到概述页中（overview-summary.html）。其中path/filename 是相对于-sourcepath的相对路径名。 
+-public 只显示公有类及成员。 
+-protected 只显示受保护的和公有的类及成员。这是缺省状态。 
+-package 只显示包、受保护的和公有的类及成员。 
+-private 显示所有类和成员。 
+-help 显示联机帮助，它将列出这些javadoc和doclet命令行选项。 
+-doclet class 指定启动用于生成文档的docle 的类文件。该doclet定义了输出的内容和格式。如果未使用-doclet选项，则javadoc使用标准doclet生成缺省HTML格式。该类必须包含start(Root)法。该启动类的路径由 -docletpath选项定义。 
+-docletpath classpathlist 指定doclet类文件的路径，该类文件用-doclet选项指定。如果doclet已位于搜索路径中，则没有必要使用该选项。 
+-1.1 生成具有用Javadoc 1.1生成的文档的外观和功能的文档。也就是说，页的背景为灰色，用图像做页眉，使用bullet列表而不是表格，具有单层目的目录结构，不包含继承 API，不使?*** TML框架，并且不支持内部类。该选项还自动将索引分割成每个字母一个文件。如果想要这种外观，则该选项比javadoc 1.1优越之处等于修正了一些错误。 
+-sourcepath sourcepathlist 
+当将包名传递到javadoc命令中时，指定定位源文件（.java）的搜索路径。注意只有当用 javadoc命令指定包名时才能使用sourcepath选项 -- 它将不会查找传递到javadoc命令中的.java文件。如果省略-sourcepath，则javadoc使用类路径查找源文件。 
+-classpath classpathlist 指定javadoc将在其中查找引用类的路径 -- 引用类是指带文档的类加上它们引用的任何类。Javadoc将搜索指定路径的所有子目录。classpathlist可以包括多个路径，彼此用逗号分隔。 
+-bootclasspath classpathlist 指定自举类所在路径。它们名义上是Java平台类。这个bootclasspath是Javadoc将用来查找源文件和类文件的搜索路径的一部分。在 classpathlist中用冒号（:）分隔目录。 
+-extdirs dirlist 指定扩展类所在的目录。它们是任何使用Java扩展机制的类。这个 extdirs是Javadoc将用来查找源文件和在文件的搜索路径的一部分。在dirlist中用冒号（:）分隔目录。 
+-verbose 在javadoc运行时提供更详细的信息。不使用verbose选项时，将显示加载源文件、生成文档（每个源文件一条信息）和排序的信息。verbose选项导致打印额外的信息，指定解析每个java源文件的毫秒数。 
+-locale language_country_variant 指定javadoc在生成文档时使用的环境。 
+-encoding name 指定源文件编码名，例如EUCJIS/SJIS。如果未指定该选项，则使用平台缺省转换器。 
+-J[flag] 将flag直接传递给运行javadoc的运行时系统java。注意在J和flag之间不能有空格。 
+标准 Doclet 提供的选项 
+-d directory 指定javadoc保存生成的HTML件的目的目录。省略该选项将导致把文件保存到当前目录中。其中directory可以是绝对路径或相对当前工作目录的相对路径。 
+-use 对每个带文档类和包包括一个“用法”页。该页描述使用给定类或包的任何 API 的包、类、方法、构造函数和域。对于给定类 C，使用类 C 的任何东西将包括 C 的子类、声明为 C 的域、返回 C 的方法以及具有 C 类型参数的方法和构造函数。 
+-version 在生成文档中包括 @version 文本。缺省地将省略该文本。 
+-author 在生成文档中包括 @author 文本。 
+-splitindex 将索引文件按字母分割成多个文件，每个字母一个文件，再加上一个包含所有以非字母字符开头的索引项的文件。 
+-windowtitle[title] 指定放入 HTML <title> 标记中的标题。它将出现在窗口标题栏中和为该页创建的任何/edu/soft/ie">浏览器书签（最喜爱的位置）中。该标题不应该包含任何 HTML 标记，因为/edu/soft/ie">浏览器将不能正确解释它们。在 title 中的任何内部引号必须转义。如果省略 -windowtitle，则 Javadoc 对该选项使用 -doctitle 的值。 
+-doctitle[title] 指定放置在靠近概述概览文件顶部的标题。该标题将作为一级标题，居中地直接放在导航栏下面。title 可包含 html 标记和空格，但是如果这样，则必须用引号将它括起。在 title 中的任何内部引号必须转义。
+
+-title[title] 该选项不再存在。它仅存在于 Javadoc 1.2 的 Beta 版中。它已重命名为 -doctitle。重命名该选项是为了更清楚地表示它定义文档标题而不是窗口标题。 
+-header[header] 指定放置在每个输出文件顶部的页眉文本。该页眉将放在上部导航栏的右边。header 可包含 HTML 标记和空格，但是如果这样则必须用引号将它括起。在 header 中的任何内部引号必须转义。 
+-footer[footer] 指定放置在每个输出文件底部的脚注文本。/edu/web/script">脚本将放置在下部导航栏的右边。footer 可包含 html 标记和空格，但是如果这样，则必须用引号将它括起。在 footer 中的任何内部引号必须转义。 
+-bottom[text] 指定放置在每个输出文件底部的文本。该文本将放置在页底，位于下部导航栏的下面。其中 text 可包含 HTML 标记和空格，但是如果这样，则必须用引号将它括起。在 text 中的任何内部引号必须转义。 
+-link[docURL] 创建链接指向已用 javadoc-生成的外部引用类的文档。参数 docURL是想要链接到的 javadoc-生成的外部文档的 URL。该位置可以是相对的或绝对的 URL。 
+-linkoffline[docURL][packagelistURL] 该选项为外部引用类名字创建指向文档的链接。 
+-group[groupheading]packagepattern:packagepattern:... 将概述页上的包分成指定的组，每组一个表格。用不同的 -group 选项指定每个组。各组按命令行中指定的次序出现在页面上。组内的包按字母排序。对于给定 -group 选项，与 packagepattern 表达式列表匹配的包出现在标题为 groupheading 的表格中。 
+-nodeprecated 防止在文档中生成任何不鼓励使用的 API。它执行-nodeprecatedlist 所做的事情，并且它不在文档其余部分生成任何不鼓励使用的 API。当编写代码并不想被不鼓励使用的代码分心时，这是非常有用的。 
+-nodeprecatedlist 防止在生成文件中包含不鼓励使用的 API 列表（deprecated-list.html）并防止在导航栏中包含该页的链接。（但是，javadoc 继续在文档其余部分生成不鼓励使用的 API。） 如果源代码未包含不鼓励使用的 API，并且想要导航栏更干净，则它是非常有用的。 
+-notree 在生成文档中忽略类/接口层次。缺省地，将产生该层次。 
+-noindex 在生成文档中忽略索引。缺省地，将产生索引。 
+-nohelp 在输出的每页顶部和底部的导航栏中忽略“帮助”链接。 
+-nonavbar 防止产生导航栏、页眉和脚注，否则它们将出现在生成页的顶部和底部。它对“bottom”选项没有影响。当只对内容感兴趣并且没有必要导航时，例如仅将文件转换成 PostScript 或 PDF 以进行打印，-nonavbar 选项是非常有用的。 
+-helpfile[path/filename] 指定顶部和底部导航栏中“帮助”链接所链接到的替代帮助文件 path/filename 的路径。不使用该选项时，Javadoc 自动创建帮助文件 help-doc.html，它在 Javadoc 中硬编码。该选项使得可覆盖这种缺省情况。其中 filename 可以是任何名字，不局限于 help-doc.html -- Javadoc 将相应调整导航栏中的链接。 
+-stylesheetfile[path/filename] 指定替代 HTML 样式表单文件的路径。不使用该选项时，Javadoc 将自动创建样式表单文件 stylesheet.css，它在 Javadoc 中硬编码。该选项使得可覆盖这种缺省情况。其中 filename 可以是任何名字，不局限于 stylesheet.css。 
+-docencoding[name] 指定输出 HTML 文件的编码方式。 
+
+javah 
+
+功能说明： 
+C 头文件和 Stub 文件生成器。javah 从 Java 类生成 C 头文件和 C 源文件。这些文件提供了连接胶合，使 Java 和 C 代码可进行交互。 
+语法： 
+javah [ 命令选项 ] fully-qualified-classname. . . 
+javah_g [ 命令选项 ] fully-qualified-classname. . . 
+补充说明： 
+javah 生成实现本地方法所需的 C 头文件和源文件。C 程序用生成的头文件和源文件在本地源代码中引用某一对象的实例变量。.h 文件含有一个 struct 定义，该定义的布局与相应类的布局平行。该 struct 中的域对应于类中的实例变量。 
+头文件名以及在头文件中所声明的结构名都来源于类名。如果传给 javah 的类是在某个包中，则头文件名和结构名前都要冠以该包名。下划线 (_) 用作名称分隔符。 
+缺省情况下，javah 为每个在命令行中列出的类都创建一个头文件，且将该文件放在当前目录中。用 -stubs 选项创建源文件。用 -o 选项将所有列出类的结果串接成一个单一文件。 
+缺省情况下，javah 为每个在命令行中列出的类都创建一个头文件，且将该文件放在当前目录中。用 -stubs 选项创建源文件。用 -o 选项将所有列出类的结果串接成一个单一文件。 
+命令选项 
+-o[输出文件] 将命令行中列出的所有类的头文件或源文件串接到输出文件中。-o 或 -d 两个选项只能选择一个。 
+-d[目录] 设置 javah 保存头文件或 stub 文件的目录。-d 或 -o 两个选项只能选择一个。 
+-stubs 使 javah 从 Java 对象文件生成 C 声明。 
+-verbose 指明长格式输出，并使 javah 将所生成文件的有关状态的信息输出到标准输出设备中。 
+-help 输出 javah 用法的帮助信息。 
+-version 输出 javah 的版本信息。 
+-jni 使 javah 创建一输出文件，该文件包含 JNI 风格的本地方法函数原型。这是缺省输出，所以 -jni 的使用是可选的。 
+-classpath[路径] 指定 javah 用来查询类的路径。如果设置了该选项，它将覆盖缺省值或 CLASSPATH 环境变量。目录用冒号分隔。 
+-bootclasspath[路径] 指定加载自举类所用的路径。缺省情况下，自举类是实现核心 Java 平台的类，位于 jrelib 
+t.jar 和 jrelibi18n.jar 中。 
+-old 指定应当生成旧 JDK1.0 风格的头文件。 
+-force 指定始终写输出文件。 
+
+javap 
+
+功能说明： 
+Java 类文件解析器。 
+语法： 
+javap [ 命令选项 ] class. . . 
+补充说明： 
+javap 命令用于解析类文件。其输出取决于所用的选项。若没有使用选项，javap 将输出传递给它的类的 public 域及方法。javap 将其输出到标准输出设备上。 
+命令选项 
+-help 输出 javap 的帮助信息。 
+-l 输出行及局部变量表。 
+-b 确保与 JDK 1.1 javap 的向后兼容性。 
+-public 只显示 public 类及成员。 
+-protected 只显示 protected 和 public 类及成员。 
+-package 只显示包、protected 和 public 类及成员。这是缺省设置。 
+-private 显示所有类和成员。 
+-J[flag] 直接将 flag 传给运行时系统。 
+-s 输出内部类型签名。 
+-c 输出类中各方法的未解析的代码，即构成 Java 字节码的指令。 
+-verbose 输出堆栈大小、各方法的 locals 及 args 数。 
+-classpath[路径] 指定 javap 用来查找类的路径。如果设置了该选项，则它将覆盖缺省值或 CLASSPATH 环境变量。目录用冒号分隔。 
+- bootclasspath[路径] 指定加载自举类所用的路径。缺省情况下，自举类是实现核心 Java 平台的类，位于 jrelib 
+t.jar 和 jrelibi18n.jar 中。 
+-extdirs[dirs] 覆盖搜索安装方式扩展的位置。扩展的缺省位置是 jrelibext。 
+
+
+javac
+
+用法：javac <选项> <源文件>
+其中，可能的选项包括：
+-g                                                       生成所有调试信息
+-g:none                                             不生成任何调试信息
+-g:{lines,vars,source}                    只生成某些调试信息
+-nowarn                                            不生成任何警告
+-verbose                                           输出有关编译器正在执行的操作的消息
+-deprecation                                    输出使用已过时的 API 的源位置
+-classpath <路径>                          指定查找用户类文件的位置
+-cp <路径>                                       指定查找用户类文件的位置
+-sourcepath <路径>                       指定查找输入源文件的位置
+-bootclasspath <路径>                  覆盖引导类文件的位置
+-extdirs <目录>                               覆盖安装的扩展目录的位置
+-endorseddirs <目录>                   覆盖签名的标准路径的位置
+-d <目录>                                        指定存放生成的类文件的位置
+-encoding <编码>                          指定源文件使用的字符编码
+-source <版本>                              提供与指定版本的源兼容性
+-target <版本>                                 生成特定 VM 版本的类文件
+-version                                            版本信息
+-help                                                 输出标准选项的提要
+-X                                                      输出非标准选项的提要
+-J<标志>                                          直接将 <标志> 传递给运行时系统
+
+
+
+
+
+
+
+javaw.exe用法和java.exe 相同
+
+javaw的程序不在java console 上面显示任何东西,如果在开发程序，就用java,这样可以看到错误提示， 如果是
+运行完成了的程序，就用javaw, 可以提高一点速度
+
+两个应用程序都能运行你的程序，并非常相似，但是有一个重要的区别，java通过控制台运行，javaw则不是。
+控制台几乎是为纯文本编成的，例如如果你用javaw运行所有你打印的状态不会被打印出来。你打印在程序中的有用
+信息，错误信息也是一样。
+所以，如果你在选择用哪个：
+如果是基于纯文本的编成用java。
+如果是图形化但随时打印成纯文本用java。
+如果你在检查错误，用java。
+如果程序是纯粹的图形化的，而且你需要提升速度，用javaw。 
+
+java会在黑窗口下进行，而javaw不会，所以例如jb这样的开发工具都是默认采用javaw来进行run这些java的
+class的。
+
+但是有一点需要提出的是：
+
+javaw会使用与java不同的Local配置进行工作，导致了一些中文问题，而java就是好好的。JBuilder也是好好的，
+没有问题，调用javaw也不是它的错，难道你想每次运行或者调试的时候蹦出个DOS黑框么？
+
+可以采用如下办法解决jb中的javaw造成的中文问题。
+
+
+在JBuilder中选择Project->Project Properties->run->edit->VM
+Parameters，填上-Dfile.encoding=GBK -Ddefault.client.encoding=GBK
+-Duser.language=zh -Duser.region=CN 就行了！
+
+原理也就是在javaw加上如上的配置参数。
+					
+
+java
+
+Java 在运行已编译完成的类时，是通过 java 虚拟机来装载和执行的，java 虚拟机通过操作
+系统命令 JAVA_HOME\bin\java –option 来启动，-option 为虚拟机参数，JAVA_HOME 为JDK
+安装路径，通过这些参数可对虚拟机的运行状态进行调整，掌握参数的含义可对虚拟机的运
+行模式有更深入理解。
+一、  查看参数列表: 
+虚拟机参数分为基本和扩展两类，在命令行中输入 JAVA_HOME\bin\java 就可得到基本参数
+列表，
+在命令行输入 JAVA_HOME\bin\java –X 就可得到扩展参数列表。
+二、  基本参数说明：
+1.  -client，-server
+这两个参数用于设置虚拟机使用何种运行模式，client 模式启动比较快，但运行时性能和
+内存管理效率不如 server 模式，通常用于客户端应用程序。相反，server 模式启动比 client
+慢，但可获得更高的运行性能。
+在 windows上，缺省的虚拟机类型为 client 模式，如果要使用 server模式，就需要在启动
+虚拟机时加-server 参数，以获得更高性能，对服务器端应用，推荐采用 server 模式，尤
+其是多个 CPU 的系统。在 Linux，Solaris 上缺省采用 server模式。
+ 
+2.  -hotspot
+含义与 client 相同，jdk1.4 以前使用的参数，jdk1.4 开始不再使用，代之以 client。
+ 
+3.  -classpath,-cp
+虚拟机在运行一个类时，需要将其装入内存，虚拟机搜索类的方式和顺序如下：
+ 
+Bootstrap classes，Extension classes，User classes。
+ 
+Bootstrap 中的路径是虚拟机自带的 jar 或 zip 文件，虚拟机首先搜索这些包文件，用
+System.getProperty("sun.boot.class.path")可得到虚拟机搜索的包名。
+ 
+Extension 是位于 jre\lib\ext 目录下的 jar 文件，虚拟机在搜索完 Bootstrap 后就搜索该
+目录下的 jar 文件。用 System. getProperty("java.ext.dirs”)可得到虚拟机使用
+Extension 搜索路径。
+ 
+User classes 搜索顺序为当前目录、环境变量 CLASSPATH、-classpath。
+ 
+ 
+4.  -classpath
+告知虚拟机搜索目录名、jar 文档名、zip 文档名，之间用分号;分隔。
+ 
+例如当你自己开发了公共类并包装成一个 common.jar 包，在使用 common.jar 中的类时，就
+需要用-classpath common.jar 告诉虚拟机从 common.jar 中查找该类，否则虚拟机就会抛
+出 java.lang.NoClassDefFoundError异常，表明未找到类定义。
+ 
+在运行时可用 System.getProperty(“java.class.path”)得到虚拟机查找类的路径。
+ 
+ 
+使用-classpath 后虚拟机将不再使用 CLASSPATH 中的类搜索路径，如果-classpath 和
+CLASSPATH 都没有设置，则虚拟机使用当前路径(.)作为类搜索路径。
+ 
+推荐使用-classpath 来定义虚拟机要搜索的类路径，而不要使用环境变量 CLASSPATH 的搜
+索路径，以减少多个项目同时使用 CLASSPATH 时存在的潜在冲突。例如应用 1 要使用
+a1.0.jar 中的类 G，应用 2 要使用 a2.0.jar 中的类 G,a2.0.jar 是 a1.0.jar 的升级包，当
+a1.0.jar，a2.0.jar 都在 CLASSPATH 中，虚拟机搜索到第一个包中的类 G 时就停止搜索，
+如果应用1应用2的虚拟机都从CLASSPATH中搜索，就会有一个应用得不到正确版本的类G。
+ 
+ 
+5.  -D<propertyName>=value
+在虚拟机的系统属性中设置属性名/值对，运行在此虚拟机之上的应用程序可用
+
+ 
+当虚拟机报告类找不到或类冲突时可用此参数来诊断来查看虚拟机从装入类的情况。
+ 
+ 
+7.  -verbose:gc
+在虚拟机发生内存回收时在输出设备显示信息，格式如下：
+ 
+[Full GC 268K->168K(1984K), 0.0187390 secs]
+ 
+该参数用来监视虚拟机内存回收的情况。
+ 
+ 
+8.  -verbose:jni
+在虚拟机调用 native 方法时输出设备显示信息，格式如下：
+ 
+[Dynamic-linking native method HelloNative.sum ... JNI]
+ 
+该参数用来监视虚拟机调用本地方法的情况，在发生 jni错误时可为诊断提供便利。
+ 
+ 
+9.  -version
+显示可运行的虚拟机版本信息然后退出。一台机器上装有不同版本的 JDK 时
+ 
+ 
+10. -showversion
+显示版本信息以及帮助信息。
+ 
+ 
+11. -ea[:<packagename>...|:<classname>]
+12. -enableassertions[:<packagename>...|:<classname>]
+ 
+从 JDK1.4 开始，java 可支持断言机制，用于诊断运行时问题。通常在测试阶段使断言有效，
+在正式运行时不需要运行断言。断言后的表达式的值是一个逻辑值，为 true 时断言不运行，
+为 false 时断言运行，抛出 java.lang.AssertionError 错误。
+ 
+上述参数就用来设置虚拟机是否启动断言机制，缺省时虚拟机关闭断言机制，用-ea 可打开
+断言机制，不加<packagename>和 classname 时运行所有包和类中的断言，如果希望只运行
+某些包或类中的断言，可将包名或类名加到-ea 之后。例如要启动包 com.foo.util 中的断
+言，可用命令 –ea:com.foo.util 。
+ 
+ 
+13. -da[:<packagename>...|:<classname>]
+14. -disableassertions[:<packagename>...|:<classname>]
+ 
+
+用来设置虚拟机关闭断言处理，packagename和classname 的使用方法和-ea 相同。
+ 
+ 
+15. -esa | -enablesystemassertions
+设置虚拟机显示系统类的断言。
+ 
+ 
+16. -dsa | -disablesystemassertions
+设置虚拟机关闭系统类的断言。
+ 
+ 
+17. -agentlib:<libname>[=<options>]
+该参数是 JDK5 新引入的，用于虚拟机装载本地代理库。
+ 
+Libname 为本地代理库文件名，虚拟机的搜索路径为环境变量 PATH 中的路径，options 为传
+给本地库启动时的参数，多个参数之间用逗号分隔。在 Windows 平台上虚拟机搜索本地库名
+为 libname.dll 的文件，在 Unix 上虚拟机搜索本地库名为 libname.so 的文件，搜索路径环
+境变量在不同系统上有所不同，Linux、SunOS、IRIX上为LD_LIBRARY_PATH，AIX上为LIBPATH，
+HP-UX 上为SHLIB_PATH。
+ 
+ 
+例如可使用-agentlib:hprof 来获取虚拟机的运行情况，包括 CPU、内存、线程等的运行数
+据，并可输出到指定文件中，可用-agentlib:hprof=help 来得到使用帮助列表。在 jre\bin
+目录下可发现 hprof.dll 文件。
+ 
+ 
+18. -agentpath:<pathname>[=<options>]
+设置虚拟机按全路径装载本地库，不再搜索 PATH 中的路径。其他功能和 agentlib 相同。
+ 
+ 
+19. -javaagent:<jarpath>[=<options>]
+虚拟机启动时装入java语言设备代理。Jarpath文件中的mainfest文件必须有Agent-Class
+属性。代理类要实现 public static void premain(String agentArgs, Instrumentation
+inst)方法。当虚拟机初始化时，将按代理类的说明顺序调用 premain方法。
+ 
+参见：java.lang.instrument
+ 
+ 
+ 
+三、  扩展参数说明
+ 
+1.  -Xmixed
+
+设置-client 模式虚拟机对使用频率高的方式进行 Just-In-Time 编译和执行，对其他方法
+使用解释方式执行。该方式是虚拟机缺省模式。
+ 
+2.  -Xint
+设置-client模式下运行的虚拟机以解释方式执行类的字节码，不将字节码编译为本机码。
+ 
+3.  -Xbootclasspath:path
+4.  -Xbootclasspath/a:path
+5.  -Xbootclasspath/p:path
+ 
+改变虚拟机装载缺省系统运行包 rt.jar 而从-Xbootclasspath 中设定的搜索路径中装载系
+统运行类。除非你自己能写一个运行时，否则不会用到该参数。
+ 
+/a:将在缺省搜索路径后加上 path 中的搜索路径。
+ 
+/p:在缺省搜索路径前先搜索 path 中的搜索路径。
+ 
+6.  -Xnoclassgc
+关闭虚拟机对 class 的垃圾回收功能。
+ 
+ 
+7.  -Xincgc
+启动增量垃圾收集器，缺省是关闭的。增量垃圾收集器能减少偶然发生的长时间的垃圾回收
+造成的暂停时间。但增量垃圾收集器和应用程序并发执行，因此会占用部分 CPU 在应用程序
+上的功能。
+ 
+8.  -Xloggc:<file>
+将虚拟机每次垃圾回收的信息写到日志文件中，文件名由 file 指定，文件格式是平文件，
+内容和-verbose:gc 输出内容相同。
+ 
+ 
+9.  -Xbatch
+虚拟机的缺省运行方式是在后台编译类代码，然后在前台执行代码，使用-Xbatch参数将关
+闭虚拟机后台编译，在前台编译完成后再执行。
+ 
+ 
+10. -Xms<size>
+设置虚拟机可用内存堆的初始大小，缺省单位为字节，该大小为 1024 的整数倍并且要大于
+1MB，可用 k(K)或m(M)为单位来设置较大的内存数。初始堆大小为 2MB。
+ 
+例如：-Xms6400K，-Xms256M
+ 
+ 
+11. -Xmx<size>
+
+设置虚拟机内存堆的最大可用大小，缺省单位为字节。该值必须为 1024 整数倍，并且要大
+于 2MB。可用 k(K)或 m(M)为单位来设置较大的内存数。缺省堆最大值为 64MB。
+ 
+例如：-Xmx81920K，-Xmx80M
+ 
+当应用程序申请了大内存运行时虚拟机抛出 java.lang.OutOfMemoryError: Java heap
+space 错误，就需要使用-Xmx 设媒洗蟮目捎媚诖娑选?BR>
+ 
+12. -Xss<size>
+设置线程栈的大小，缺省单位为字节。与-Xmx 类似，也可用 K 或 M 来设置较大的值。通常
+操作系统分配给线程栈的缺省大小为 1MB。
+ 
+另外也可在 java 中创建线程对象时设置栈的大小，构造函数原型为 Thread(ThreadGroup
+group, Runnable target, String name, long stackSize)。
+ 
+13. -Xprof
+输出 CPU 运行时的诊断信息。
+ 
+ 
+14. -Xfuture
+对类文件进行严格格式检查，以保证类代码符合类代码规范。为保持向后兼容，虚拟机缺省
+不进行严格的格式检查。
+ 
+ 
+15. -Xrs
+减少虚拟机中操作系统的信号（singals）的使用。该参数通常用在虚拟机以后台服务方式
+运行时使用（如 Servlet）。
+ 
+ 
+16. -Xcheck:jni
+调用 JNI 函数时进行附加的检查，特别地虚拟机将校验传递给 JNI 函数参数的合法性，在本
+地代码中遇到非法数据时，虚拟机将报一个致命错误而终止。使用该参数后将造成性能下降。
+					
+				
+			
+		
+
+

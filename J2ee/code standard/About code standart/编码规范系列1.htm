@@ -1,0 +1,615 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>编码规范系列（一）：Eclipse Code Templates设置 - 青葱岁月 - ITeye技术网站</title>
+    <meta name="description" content="从工作开始，经历了几个项目的开发，现在的项目一般都是一个团队共同开发，而每个人都有自己的编码习惯，为了统一格式，项目组在项目开发之前都会制定一系列的规范。俗话说约定优于配置，但是在执行过程中往往发现效果不是很好（主要是指编码规范这一方面）。所以我们不得不采取一些措施来协助我们统一项目开发人员的编码风格。主要包括三个方面：设置Code Templates、Eclipse formatter、Check ...">
+    <meta name="keywords" content="java, Eclipse, Code Templates, 编码规范 编码规范系列（一）：Eclipse Code Templates设置">
+    <link rel="shortcut icon" href="http://chenzhou123520.iteye.com/images/favicon.ico" type="image/x-icon">
+    <link rel="search" type="application/opensearchdescription+xml" href="http://chenzhou123520.iteye.com/open_search.xml" title="ITeye">
+    <link href="http://chenzhou123520.iteye.com/rss" rel="alternate" title="青葱岁月" type="application/rss+xml">
+    <link href="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/blog.css" media="screen" rel="stylesheet" type="text/css">
+<link href="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/blue.css" media="screen" rel="stylesheet" type="text/css">
+    <script src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/ga.js" async="" type="text/javascript"></script><script src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/application.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-535605-1']);
+  _gaq.push(['_setDomainName', 'iteye.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+      <link href="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <script src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/shCoreCommon.js" type="text/javascript"></script>
+<script src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/hotkey.js" type="text/javascript"></script>
+  <script src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/code_favorites.js" type="text/javascript"></script>
+<script src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/weiboshare.js" type="text/javascript"></script>
+  <style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-xml .cdata { color: #ff1493; }.dp-xml .tag, .dp-xml .tag-name { color: #069; font-weight: bold; }.dp-xml .attribute { color: red; }.dp-xml .attribute-value { color: blue; }</style></head>
+  <body>
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.iteye.com/" class="homepage">首页</a>
+  <a href="http://www.iteye.com/news">资讯</a>
+  <a href="http://www.iteye.com/magazines">精华</a>
+  <a href="http://www.iteye.com/forums">论坛</a>
+  <a href="http://www.iteye.com/ask">问答</a>
+  <a href="http://www.iteye.com/blogs">博客</a>
+  <a href="http://www.iteye.com/blogs/subjects">专栏</a>
+  <a href="http://www.iteye.com/groups">群组</a>
+  <a href="#" onclick="return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div class="quick_menu" style="display:none;">
+    <a target="_blank" href="http://job.iteye.com/iteye">招聘</a>
+    <a href="http://www.iteye.com/search">搜索</a>
+  </div>
+</div>
+
+      <div id="user_nav">
+      <a href="http://chenzhou123520.iteye.com/login" class="welcome" title="登录">您还未登录 !</a>
+    <a href="http://chenzhou123520.iteye.com/login">登录</a>
+    <a href="http://chenzhou123520.iteye.com/signup" class="nobg">注册</a>
+  </div>
+
+    </div>
+
+    <div id="page">
+      <div id="branding" class="clearfix">
+        <div id="blog_name">
+          <h1><a href="http://chenzhou123520.iteye.com/">青葱岁月</a></h1>
+        </div>
+        <div id="fd"></div>
+        <div id="blog_navbar">
+          <ul>
+            <li class="blog_navbar_for"><a href="http://chenzhou123520.iteye.com/"><strong>博客</strong></a></li>
+            <li><a href="http://chenzhou123520.iteye.com/weibo">微博</a></li>
+            <li><a href="http://chenzhou123520.iteye.com/album">相册</a></li>
+            <li><a href="http://chenzhou123520.iteye.com/link">收藏</a></li>
+            <li><a href="http://chenzhou123520.iteye.com/blog/guest_book">留言</a></li>
+            <li><a href="http://chenzhou123520.iteye.com/blog/profile">关于我</a></li>
+          </ul>
+    
+          <div class="search">
+            <form action="/blog/search" method="get">
+              <input class="search_text" id="query" name="query" style="margin-left: 10px; width: 110px;" type="text">
+              <input class="submit_search" value="" type="submit">
+            </form>
+          </div> 
+          <div id="fd"></div>         
+        </div>
+      </div>
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+
+          
+
+
+<div class="blog_main">
+  <div class="blog_title">
+    <h3>
+      <a href="http://chenzhou123520.iteye.com/blog/1625629">编码规范系列（一）：Eclipse Code Templates设置</a>
+      <em class="actions">      </em>
+    </h3>
+    <ul class="blog_categories"><strong>博客分类：</strong> <li><a href="http://chenzhou123520.iteye.com/category/196059">Eclipse</a></li><li><a href="http://chenzhou123520.iteye.com/category/203127">项目管理</a></li> </ul>
+        <div class="news_tag"><a href="http://www.iteye.com/blogs/tag/java">java</a><a href="http://www.iteye.com/blogs/tag/Eclipse">Eclipse</a><a href="http://www.iteye.com/blogs/tag/Code%20Templates">Code Templates</a><a href="http://www.iteye.com/blogs/tag/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83">编码规范</a>&nbsp;</div>
+  </div>
+
+  <div id="blog_content" class="blog_content">
+    <p>从工作开始，经历了几个项目的开发，现在的项目一般都是一个团队共同开发，而每个人都有自己的编码习惯，为了统一格式，项目组在项目开发之
+前都会制定一系列的规范。俗话说约定优于配置，但是在执行过程中往往发现效果不是很好（主要是指编码规范这一方面）。所以我们不得不采取一些措施来协助我
+们统一项目开发人员的编码风格。主要包括三个方面：设置Code Templates、Eclipse 
+formatter、Checkstyle，本篇主要介绍如何设置Code Templates，具体步骤如下：</p>
+<p>&nbsp;</p>
+<p><span>打开Window-&gt;Preferences-&gt;Java-&gt;Code Style-&gt;Code Templates</span></p>
+<p><img class="magplus" title="点击查看原始大小图片" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/cb464542-1a8b-3a2e-9ce3-d4998fa6afb3.jpg" alt="Eclipse设置Code Templates" height="304" width="700"></p>
+<p>点击"Import"，导入模板codetemplates.xml文件。</p>
+<p>codetemplates.xml内容是我们自己预先定义好的，在这里先不详细描述，我们可以看到Eclipse Code 
+Templates界面中间Configure generated code and 
+comments区域包含了两个菜单树：Comment、Code，如下图所示：</p>
+<p style="text-align: center;"><img src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/0a7cfe6a-7459-33e2-afec-3a6813628063.jpg" alt="" height="361" width="445"></p>
+<p>Comments代表注释模板，Code代表代码模板，其中每一个子菜单代表子项的模板。</p>
+<p>我们只要点击某一个子项，就会在界面下方的Pattern区域看到该项我们所定义的模板内容和格式，如下图所示：</p>
+<p style="text-align: center;"><img src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/d4b683f0-da94-3725-aa92-41ff42fd947d.jpg" alt="" height="450" width="513"></p>
+<p>如上图所示，当我们点击Comments下的Files子菜单时，下面的Pattern会显示Java文件的头部注释。</p>
+<p>下面详细列出每一个子项的模板格式：</p>
+<p>Comments--&gt;Files（Java文件注释）</p>
+<div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/clipboard_new.swf" flashvars="clipboard=%2F**%0A%20*%20Project%20Name%3A%24%7Bproject_name%7D%0A%20*%20File%20Name%3A%24%7Bfile_name%7D%0A%20*%20Package%20Name%3A%24%7Bpackage_name%7D%0A%20*%20Date%3A%24%7Bdate%7D%24%7Btime%7D%0A%20*%20Copyright%20(c)%20%24%7Byear%7D%2C%20chenzhou1025%40126.com%20All%20Rights%20Reserved.%0A%20*%0A%20*%2F" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/icon_star.png" alt="收藏代码"><img class="spinner" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span class="comment">/**</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;Project&nbsp;Name:${project_name}</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;File&nbsp;Name:${file_name}</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;Package&nbsp;Name:${package_name}</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;Date:${date}${time}</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;Copyright&nbsp;(c)&nbsp;${year},&nbsp;chenzhou1025@126.com&nbsp;All&nbsp;Rights&nbsp;Reserved.</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*/</span><span>&nbsp;&nbsp;</span></span></li></ol></div><pre title="编码规范系列（一）：Eclipse Code Templates设置" pre_index="0" source_url="http://chenzhou123520.iteye.com/blog/1625629" codeable_type="Blog" codeable_id="1625629" style="display: none;" name="code" class="java">/**
+ * Project Name:${project_name}
+ * File Name:${file_name}
+ * Package Name:${package_name}
+ * Date:${date}${time}
+ * Copyright (c) ${year}, chenzhou1025@126.com All Rights Reserved.
+ *
+ */</pre>
+<p>Comments--&gt;Types（Java类注释）</p>
+<div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/clipboard_new.swf" flashvars="clipboard=%2F**%0A%20*%20ClassName%3A%20%24%7Btype_name%7D%20%3Cbr%2F%3E%0A%20*%20Function%3A%20%24%7Btodo%7D%20ADD%20FUNCTION.%20%3Cbr%2F%3E%0A%20*%20Reason%3A%20%24%7Btodo%7D%20ADD%20REASON(%E5%8F%AF%E9%80%89).%20%3Cbr%2F%3E%0A%20*%20date%3A%20%24%7Bdate%7D%20%24%7Btime%7D%20%3Cbr%2F%3E%0A%20*%0A%20*%20%40author%20%24%7Buser%7D%0A%20*%20%40version%20%24%7Benclosing_type%7D%24%7Btags%7D%0A%20*%20%40since%20JDK%201.6%0A%20*%2F" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/icon_star.png" alt="收藏代码"><img class="spinner" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span class="comment">/**</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;ClassName:&nbsp;${type_name}&nbsp;&lt;br/&gt;</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;Function:&nbsp;${todo}&nbsp;ADD&nbsp;FUNCTION.&nbsp;&lt;br/&gt;</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;Reason:&nbsp;${todo}&nbsp;ADD&nbsp;REASON(可选).&nbsp;&lt;br/&gt;</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;date:&nbsp;${date}&nbsp;${time}&nbsp;&lt;br/&gt;</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;@author&nbsp;${user}</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;@version&nbsp;${enclosing_type}${tags}</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;@since&nbsp;JDK&nbsp;1.6</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*/</span><span>&nbsp;&nbsp;</span></span></li></ol></div><pre title="编码规范系列（一）：Eclipse Code Templates设置" pre_index="1" source_url="http://chenzhou123520.iteye.com/blog/1625629" codeable_type="Blog" codeable_id="1625629" style="display: none;" name="code" class="java">/**
+ * ClassName: ${type_name} &lt;br/&gt;
+ * Function: ${todo} ADD FUNCTION. &lt;br/&gt;
+ * Reason: ${todo} ADD REASON(可选). &lt;br/&gt;
+ * date: ${date} ${time} &lt;br/&gt;
+ *
+ * @author ${user}
+ * @version ${enclosing_type}${tags}
+ * @since JDK 1.6
+ */</pre>
+<p>Comments--&gt;Fields（类字段注释）</p>
+<div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/clipboard_new.swf" flashvars="clipboard=%2F**%0A%20*%20%24%7Bfield%7D%3A%24%7Btodo%7D(%E7%94%A8%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%8F%8F%E8%BF%B0%E8%BF%99%E4%B8%AA%E5%8F%98%E9%87%8F%E8%A1%A8%E7%A4%BA%E4%BB%80%E4%B9%88).%0A%20*%20%40since%20JDK%201.6%0A%20*%2F" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/icon_star.png" alt="收藏代码"><img class="spinner" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span class="comment">/**</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;${field}:${todo}(用一句话描述这个变量表示什么).</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;@since&nbsp;JDK&nbsp;1.6</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*/</span><span>&nbsp;&nbsp;</span></span></li></ol></div><pre title="编码规范系列（一）：Eclipse Code Templates设置" pre_index="2" source_url="http://chenzhou123520.iteye.com/blog/1625629" codeable_type="Blog" codeable_id="1625629" style="display: none;" name="code" class="java">/**
+ * ${field}:${todo}(用一句话描述这个变量表示什么).
+ * @since JDK 1.6
+ */</pre>
+<p>Comments--&gt;Constructors（构造函数注释）</p>
+<div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/clipboard_new.swf" flashvars="clipboard=%2F**%0A%20*%20Creates%20a%20new%20instance%20of%20%24%7Benclosing_type%7D.%0A%20*%0A%20*%20%24%7Btags%7D%0A%20*%2F" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/icon_star.png" alt="收藏代码"><img class="spinner" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span class="comment">/**</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;Creates&nbsp;a&nbsp;new&nbsp;instance&nbsp;of&nbsp;${enclosing_type}.</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;${tags}</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*/</span><span>&nbsp;&nbsp;</span></span></li></ol></div><pre title="编码规范系列（一）：Eclipse Code Templates设置" pre_index="3" source_url="http://chenzhou123520.iteye.com/blog/1625629" codeable_type="Blog" codeable_id="1625629" style="display: none;" name="code" class="java">/**
+ * Creates a new instance of ${enclosing_type}.
+ *
+ * ${tags}
+ */</pre>
+<p>Comments--&gt;Methods（Java方法注释）</p>
+<div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/clipboard_new.swf" flashvars="clipboard=%2F**%0A%20*%20%24%7Benclosing_method%7D%3A(%E8%BF%99%E9%87%8C%E7%94%A8%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%8F%8F%E8%BF%B0%E8%BF%99%E4%B8%AA%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%9C%E7%94%A8).%20%3Cbr%2F%3E%0A%20*%20%24%7Btodo%7D(%E8%BF%99%E9%87%8C%E6%8F%8F%E8%BF%B0%E8%BF%99%E4%B8%AA%E6%96%B9%E6%B3%95%E9%80%82%E7%94%A8%E6%9D%A1%E4%BB%B6%20%E2%80%93%20%E5%8F%AF%E9%80%89).%3Cbr%2F%3E%0A%20*%20%24%7Btodo%7D(%E8%BF%99%E9%87%8C%E6%8F%8F%E8%BF%B0%E8%BF%99%E4%B8%AA%E6%96%B9%E6%B3%95%E7%9A%84%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%20%E2%80%93%20%E5%8F%AF%E9%80%89).%3Cbr%2F%3E%0A%20*%20%24%7Btodo%7D(%E8%BF%99%E9%87%8C%E6%8F%8F%E8%BF%B0%E8%BF%99%E4%B8%AA%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95%20%E2%80%93%20%E5%8F%AF%E9%80%89).%3Cbr%2F%3E%0A%20*%20%24%7Btodo%7D(%E8%BF%99%E9%87%8C%E6%8F%8F%E8%BF%B0%E8%BF%99%E4%B8%AA%E6%96%B9%E6%B3%95%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9%20%E2%80%93%20%E5%8F%AF%E9%80%89).%3Cbr%2F%3E%0A%20*%0A%20*%20%40author%20%24%7Buser%7D%0A%20*%20%24%7Btags%7D%0A%20*%20%40since%20JDK%201.6%0A%20*%2F" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/icon_star.png" alt="收藏代码"><img class="spinner" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span class="comment">/**</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;${enclosing_method}:(这里用一句话描述这个方法的作用).&nbsp;&lt;br/&gt;</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;${todo}(这里描述这个方法适用条件&nbsp;–&nbsp;可选).&lt;br/&gt;</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;${todo}(这里描述这个方法的执行流程&nbsp;–&nbsp;可选).&lt;br/&gt;</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;${todo}(这里描述这个方法的使用方法&nbsp;–&nbsp;可选).&lt;br/&gt;</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;${todo}(这里描述这个方法的注意事项&nbsp;–&nbsp;可选).&lt;br/&gt;</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;@author&nbsp;${user}</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;${tags}</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;@since&nbsp;JDK&nbsp;1.6</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*/</span><span>&nbsp;&nbsp;</span></span></li></ol></div><pre title="编码规范系列（一）：Eclipse Code Templates设置" pre_index="4" source_url="http://chenzhou123520.iteye.com/blog/1625629" codeable_type="Blog" codeable_id="1625629" style="display: none;" name="code" class="java">/**
+ * ${enclosing_method}:(这里用一句话描述这个方法的作用). &lt;br/&gt;
+ * ${todo}(这里描述这个方法适用条件 – 可选).&lt;br/&gt;
+ * ${todo}(这里描述这个方法的执行流程 – 可选).&lt;br/&gt;
+ * ${todo}(这里描述这个方法的使用方法 – 可选).&lt;br/&gt;
+ * ${todo}(这里描述这个方法的注意事项 – 可选).&lt;br/&gt;
+ *
+ * @author ${user}
+ * ${tags}
+ * @since JDK 1.6
+ */</pre>
+<p>Comments--&gt;Overriding methods（重写方法注释）</p>
+<div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/clipboard_new.swf" flashvars="clipboard=%2F**%0A%20*%20%24%7Btodo%7D%20%E7%AE%80%E5%8D%95%E6%8F%8F%E8%BF%B0%E8%AF%A5%E6%96%B9%E6%B3%95%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8A%9F%E8%83%BD%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89.%0A%20*%20%24%7Bsee_to_overridden%7D%0A%20*%2F" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/icon_star.png" alt="收藏代码"><img class="spinner" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span class="comment">/**</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;${todo}&nbsp;简单描述该方法的实现功能（可选）.</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;${see_to_overridden}</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*/</span><span>&nbsp;&nbsp;</span></span></li></ol></div><pre title="编码规范系列（一）：Eclipse Code Templates设置" pre_index="5" source_url="http://chenzhou123520.iteye.com/blog/1625629" codeable_type="Blog" codeable_id="1625629" style="display: none;" name="code" class="java">/**
+ * ${todo} 简单描述该方法的实现功能（可选）.
+ * ${see_to_overridden}
+ */</pre>
+<p>Comments--&gt;Delegate methods（代理方法注释）</p>
+<div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/clipboard_new.swf" flashvars="clipboard=%2F**%0A%20*%20%24%7Btags%7D%0A%20*%20%24%7Bsee_to_target%7D%0A%20*%2F" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/icon_star.png" alt="收藏代码"><img class="spinner" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span class="comment">/**</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;${tags}</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;${see_to_target}</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*/</span><span>&nbsp;&nbsp;</span></span></li></ol></div><pre title="编码规范系列（一）：Eclipse Code Templates设置" pre_index="6" source_url="http://chenzhou123520.iteye.com/blog/1625629" codeable_type="Blog" codeable_id="1625629" style="display: none;" name="code" class="java">/**
+ * ${tags}
+ * ${see_to_target}
+ */</pre>
+<p>Comments--&gt;Getters（Java Getter方法注释）</p>
+<div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/clipboard_new.swf" flashvars="clipboard=%2F**%0A%20*%20%24%7Bbare_field_name%7D.%0A%20*%0A%20*%20%40return%20%20the%20%24%7Bbare_field_name%7D%0A%20*%20%40since%20%20%20JDK%201.6%0A%20*%2F" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/icon_star.png" alt="收藏代码"><img class="spinner" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span class="comment">/**</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;${bare_field_name}.</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;@return&nbsp;&nbsp;the&nbsp;${bare_field_name}</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;@since&nbsp;&nbsp;&nbsp;JDK&nbsp;1.6</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*/</span><span>&nbsp;&nbsp;</span></span></li></ol></div><pre title="编码规范系列（一）：Eclipse Code Templates设置" pre_index="7" source_url="http://chenzhou123520.iteye.com/blog/1625629" codeable_type="Blog" codeable_id="1625629" style="display: none;" name="code" class="java">/**
+ * ${bare_field_name}.
+ *
+ * @return  the ${bare_field_name}
+ * @since   JDK 1.6
+ */</pre>
+<p>Comments--&gt;Setters（Java Setters方法注释）</p>
+<div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/clipboard_new.swf" flashvars="clipboard=%2F**%0A%20*%20%24%7Bparam%7D.%0A%20*%0A%20*%20%40param%20%20%20%24%7Bparam%7D%20%20%20%20the%20%24%7Bbare_field_name%7D%20to%20set%0A%20*%20%40since%20%20%20JDK%201.6%0A%20*%2F" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/icon_star.png" alt="收藏代码"><img class="spinner" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span class="comment">/**</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;${param}.</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;@param&nbsp;&nbsp;&nbsp;${param}&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;${bare_field_name}&nbsp;to&nbsp;set</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;@since&nbsp;&nbsp;&nbsp;JDK&nbsp;1.6</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*/</span><span>&nbsp;&nbsp;</span></span></li></ol></div><pre title="编码规范系列（一）：Eclipse Code Templates设置" pre_index="8" source_url="http://chenzhou123520.iteye.com/blog/1625629" codeable_type="Blog" codeable_id="1625629" style="display: none;" name="code" class="java">/**
+ * ${param}.
+ *
+ * @param   ${param}    the ${bare_field_name} to set
+ * @since   JDK 1.6
+ */</pre>
+<p>Code--&gt;New Java files（新建java文件代码模板） &nbsp;</p>
+<div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/clipboard_new.swf" flashvars="clipboard=%2F**%0A%20*%20Project%20Name%3A%24%7Bproject_name%7D%0A%20*%20File%20Name%3A%24%7Bfile_name%7D%0A%20*%20Package%20Name%3A%24%7Bpackage_name%7D%0A%20*%20Date%3A%24%7Bdate%7D%24%7Btime%7D%0A%20*%20Copyright%20(c)%20%24%7Byear%7D%2C%20chenzhou1025%40126.com%20All%20Rights%20Reserved.%0A%20*%0A*%2F%0A%24%7Bfilecomment%7D%0A%0A%24%7Bpackage_declaration%7D%0A%2F**%0A%20*%20ClassName%3A%24%7Btype_name%7D%20%3Cbr%2F%3E%0A%20*%20Function%3A%20%24%7Btodo%7D%20ADD%20FUNCTION.%20%3Cbr%2F%3E%0A%20*%20Reason%3A%09%20%24%7Btodo%7D%20ADD%20REASON.%20%3Cbr%2F%3E%0A%20*%20Date%3A%20%20%20%20%20%24%7Bdate%7D%20%24%7Btime%7D%20%3Cbr%2F%3E%0A%20*%20%40author%20%20%20%24%7Buser%7D%0A%20*%20%40version%20%20%0A%20*%20%40since%20%20%20%20JDK%201.6%0A%20*%20%40see%20%09%20%0A%20*%2F%0A%24%7Btypecomment%7D%0A%24%7Btype_declaration%7D" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/icon_star.png" alt="收藏代码"><img class="spinner" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span class="comment">/**</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;Project&nbsp;Name:${project_name}</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;File&nbsp;Name:${file_name}</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;Package&nbsp;Name:${package_name}</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;Date:${date}${time}</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;Copyright&nbsp;(c)&nbsp;${year},&nbsp;chenzhou1025@126.com&nbsp;All&nbsp;Rights&nbsp;Reserved.</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*</span>&nbsp;</span></li><li><span><span class="comment">*/</span><span>&nbsp;&nbsp;</span></span></li><li><span>${filecomment}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;</span></li><li><span>${package_declaration}&nbsp;&nbsp;</span></li><li><span><span class="comment">/**</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;ClassName:${type_name}&nbsp;&lt;br/&gt;</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;Function:&nbsp;${todo}&nbsp;ADD&nbsp;FUNCTION.&nbsp;&lt;br/&gt;</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;Reason:&nbsp;&nbsp;&nbsp;${todo}&nbsp;ADD&nbsp;REASON.&nbsp;&lt;br/&gt;</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;Date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${date}&nbsp;${time}&nbsp;&lt;br/&gt;</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;@author&nbsp;&nbsp;&nbsp;${user}</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;@version&nbsp;&nbsp;</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;@since&nbsp;&nbsp;&nbsp;&nbsp;JDK&nbsp;1.6</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*&nbsp;@see&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;*/</span><span>&nbsp;&nbsp;</span></span></li><li><span>${typecomment}&nbsp;&nbsp;</span></li><li><span>${type_declaration}&nbsp;&nbsp;</span></li></ol></div><pre title="编码规范系列（一）：Eclipse Code Templates设置" pre_index="9" source_url="http://chenzhou123520.iteye.com/blog/1625629" codeable_type="Blog" codeable_id="1625629" style="display: none;" name="code" class="java">/**
+ * Project Name:${project_name}
+ * File Name:${file_name}
+ * Package Name:${package_name}
+ * Date:${date}${time}
+ * Copyright (c) ${year}, chenzhou1025@126.com All Rights Reserved.
+ *
+*/
+${filecomment}
+
+${package_declaration}
+/**
+ * ClassName:${type_name} &lt;br/&gt;
+ * Function: ${todo} ADD FUNCTION. &lt;br/&gt;
+ * Reason:	 ${todo} ADD REASON. &lt;br/&gt;
+ * Date:     ${date} ${time} &lt;br/&gt;
+ * @author   ${user}
+ * @version  
+ * @since    JDK 1.6
+ * @see 	 
+ */
+${typecomment}
+${type_declaration}</pre>
+<p>Code--&gt;Method body（方法体模板）</p>
+<div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/clipboard_new.swf" flashvars="clipboard=%2F%2F%20%24%7Btodo%7D%20Auto-generated%20method%20stub%0A%24%7Bbody_statement%7D" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/icon_star.png" alt="收藏代码"><img class="spinner" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span class="comment">//&nbsp;${todo}&nbsp;Auto-generated&nbsp;method&nbsp;stub</span><span>&nbsp;&nbsp;</span></span></li><li><span>${body_statement}&nbsp;&nbsp;</span></li></ol></div><pre title="编码规范系列（一）：Eclipse Code Templates设置" pre_index="10" source_url="http://chenzhou123520.iteye.com/blog/1625629" codeable_type="Blog" codeable_id="1625629" style="display: none;" name="code" class="java">// ${todo} Auto-generated method stub
+${body_statement}</pre>
+<p>Code--&gt;Constructor body（构造函数模板）</p>
+<div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/clipboard_new.swf" flashvars="clipboard=%24%7Bbody_statement%7D%0A%2F%2F%20%24%7Btodo%7D%20Auto-generated%20constructor%20stub" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/icon_star.png" alt="收藏代码"><img class="spinner" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span>${body_statement}&nbsp;&nbsp;</span></span></li><li><span><span class="comment">//&nbsp;${todo}&nbsp;Auto-generated&nbsp;constructor&nbsp;stub</span><span>&nbsp;&nbsp;</span></span></li></ol></div><pre title="编码规范系列（一）：Eclipse Code Templates设置" pre_index="11" source_url="http://chenzhou123520.iteye.com/blog/1625629" codeable_type="Blog" codeable_id="1625629" style="display: none;" name="code" class="java">${body_statement}
+// ${todo} Auto-generated constructor stub</pre>
+<p>Code--&gt;Getter body（字段Getter方法模板）</p>
+<div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/clipboard_new.swf" flashvars="clipboard=return%20%24%7Bfield%7D%3B" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/icon_star.png" alt="收藏代码"><img class="spinner" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span class="keyword">return</span><span>&nbsp;${field};&nbsp;&nbsp;</span></span></li></ol></div><pre title="编码规范系列（一）：Eclipse Code Templates设置" pre_index="12" source_url="http://chenzhou123520.iteye.com/blog/1625629" codeable_type="Blog" codeable_id="1625629" style="display: none;" name="code" class="java">return ${field};</pre>
+<p>Code--&gt;Setter body（字段Setter方法模板）</p>
+<div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/clipboard_new.swf" flashvars="clipboard=%24%7Bfield%7D%20%3D%20%24%7Bparam%7D%3B" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/icon_star.png" alt="收藏代码"><img class="spinner" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span>${field}&nbsp;=&nbsp;${param};&nbsp;&nbsp;</span></span></li></ol></div><pre title="编码规范系列（一）：Eclipse Code Templates设置" pre_index="13" source_url="http://chenzhou123520.iteye.com/blog/1625629" codeable_type="Blog" codeable_id="1625629" style="display: none;" name="code" class="java">${field} = ${param};</pre>
+<p>Code--&gt;Catch block body（异常catch代码块模板） &nbsp;</p>
+<div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/clipboard_new.swf" flashvars="clipboard=%2F%2F%20%24%7Btodo%7D%20Auto-generated%20catch%20block%0A%24%7Bexception_var%7D.printStackTrace()%3B" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/icon_star.png" alt="收藏代码"><img class="spinner" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span class="comment">//&nbsp;${todo}&nbsp;Auto-generated&nbsp;catch&nbsp;block</span><span>&nbsp;&nbsp;</span></span></li><li><span>${exception_var}.printStackTrace();&nbsp;&nbsp;</span></li></ol></div><pre title="编码规范系列（一）：Eclipse Code Templates设置" pre_index="14" source_url="http://chenzhou123520.iteye.com/blog/1625629" codeable_type="Blog" codeable_id="1625629" style="display: none;" name="code" class="java">// ${todo} Auto-generated catch block
+${exception_var}.printStackTrace();</pre>
+&nbsp;
+<p>其中codetemplates.xml内容如下：</p>
+<div id="" class="dp-highlighter"><div class="bar"><div class="tools">Xml代码 <embed wmode="transparent" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/clipboard_new.swf" flashvars="clipboard=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%3Ctemplates%3E%3Ctemplate%20autoinsert%3D%22false%22%20context%3D%22gettercomment_context%22%20deleted%3D%22false%22%20description%3D%22Comment%20for%20getter%20method%22%20enabled%3D%22true%22%20id%3D%22org.eclipse.jdt.ui.text.codetemplates.gettercomment%22%20name%3D%22gettercomment%22%3E%2F**%0A%20*%20%24%7Bbare_field_name%7D.%0A%20*%0A%20*%20%40return%20%20the%20%24%7Bbare_field_name%7D%0A%20*%20%40since%20%20%20JDK%201.6%0A%20*%2F%3C%2Ftemplate%3E%3Ctemplate%20autoinsert%3D%22false%22%20context%3D%22settercomment_context%22%20deleted%3D%22false%22%20description%3D%22Comment%20for%20setter%20method%22%20enabled%3D%22true%22%20id%3D%22org.eclipse.jdt.ui.text.codetemplates.settercomment%22%20name%3D%22settercomment%22%3E%2F**%0A%20*%20%24%7Bparam%7D.%0A%20*%0A%20*%20%40param%20%20%20%24%7Bparam%7D%20%20%20%20the%20%24%7Bbare_field_name%7D%20to%20set%0A%20*%20%40since%20%20%20JDK%201.6%0A%20*%2F%3C%2Ftemplate%3E%3Ctemplate%20autoinsert%3D%22false%22%20context%3D%22constructorcomment_context%22%20deleted%3D%22false%22%20description%3D%22Comment%20for%20created%20constructors%22%20enabled%3D%22true%22%20id%3D%22org.eclipse.jdt.ui.text.codetemplates.constructorcomment%22%20name%3D%22constructorcomment%22%3E%2F**%0A%20*%20Creates%20a%20new%20instance%20of%20%24%7Benclosing_type%7D.%0A%20*%0A%20*%20%24%7Btags%7D%0A%20*%2F%0A%3C%2Ftemplate%3E%3Ctemplate%20autoinsert%3D%22false%22%20context%3D%22filecomment_context%22%20deleted%3D%22false%22%20description%3D%22Comment%20for%20created%20Java%20files%22%20enabled%3D%22true%22%20id%3D%22org.eclipse.jdt.ui.text.codetemplates.filecomment%22%20name%3D%22filecomment%22%3E%2F**%0A%20*%20Project%20Name%3A%24%7Bproject_name%7D%0A%20*%20File%20Name%3A%24%7Bfile_name%7D%0A%20*%20Package%20Name%3A%24%7Bpackage_name%7D%0A%20*%20Date%3A%24%7Bdate%7D%24%7Btime%7D%0A%20*%20Copyright%20(c)%20%24%7Byear%7D%2C%20chenzhou1025%40126.com%20All%20Rights%20Reserved.%0A%20*%0A%20*%2F%3C%2Ftemplate%3E%3Ctemplate%20autoinsert%3D%22false%22%20context%3D%22typecomment_context%22%20deleted%3D%22false%22%20description%3D%22Comment%20for%20created%20types%22%20enabled%3D%22true%22%20id%3D%22org.eclipse.jdt.ui.text.codetemplates.typecomment%22%20name%3D%22typecomment%22%3E%2F**%0A%20*%20ClassName%3A%20%24%7Btype_name%7D%20%26lt%3Bbr%2F%26gt%3B%0A%20*%20Function%3A%20%24%7Btodo%7D%20ADD%20FUNCTION.%20%26lt%3Bbr%2F%26gt%3B%0A%20*%20Reason%3A%20%24%7Btodo%7D%20ADD%20REASON(%E5%8F%AF%E9%80%89).%20%26lt%3Bbr%2F%26gt%3B%0A%20*%20date%3A%20%24%7Bdate%7D%20%24%7Btime%7D%20%26lt%3Bbr%2F%26gt%3B%0A%20*%0A%20*%20%40author%20%24%7Buser%7D%0A%20*%20%40version%20%24%7Benclosing_type%7D%24%7Btags%7D%0A%20*%20%40since%20JDK%201.6%0A%20*%2F%3C%2Ftemplate%3E%3Ctemplate%20autoinsert%3D%22false%22%20context%3D%22fieldcomment_context%22%20deleted%3D%22false%22%20description%3D%22Comment%20for%20fields%22%20enabled%3D%22true%22%20id%3D%22org.eclipse.jdt.ui.text.codetemplates.fieldcomment%22%20name%3D%22fieldcomment%22%3E%2F**%0A%20*%20%24%7Bfield%7D%3A%24%7Btodo%7D(%E7%94%A8%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%8F%8F%E8%BF%B0%E8%BF%99%E4%B8%AA%E5%8F%98%E9%87%8F%E8%A1%A8%E7%A4%BA%E4%BB%80%E4%B9%88).%0A%20*%20%40since%20JDK%201.6%0A%20*%2F%3C%2Ftemplate%3E%3Ctemplate%20autoinsert%3D%22false%22%20context%3D%22methodcomment_context%22%20deleted%3D%22false%22%20description%3D%22Comment%20for%20non-overriding%20methods%22%20enabled%3D%22true%22%20id%3D%22org.eclipse.jdt.ui.text.codetemplates.methodcomment%22%20name%3D%22methodcomment%22%3E%2F**%0A%20*%20%24%7Benclosing_method%7D%3A(%E8%BF%99%E9%87%8C%E7%94%A8%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%8F%8F%E8%BF%B0%E8%BF%99%E4%B8%AA%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%9C%E7%94%A8).%20%26lt%3Bbr%2F%26gt%3B%0A%20*%20%24%7Btodo%7D(%E8%BF%99%E9%87%8C%E6%8F%8F%E8%BF%B0%E8%BF%99%E4%B8%AA%E6%96%B9%E6%B3%95%E9%80%82%E7%94%A8%E6%9D%A1%E4%BB%B6%20%E2%80%93%20%E5%8F%AF%E9%80%89).%26lt%3Bbr%2F%26gt%3B%0A%20*%20%24%7Btodo%7D(%E8%BF%99%E9%87%8C%E6%8F%8F%E8%BF%B0%E8%BF%99%E4%B8%AA%E6%96%B9%E6%B3%95%E7%9A%84%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%20%E2%80%93%20%E5%8F%AF%E9%80%89).%26lt%3Bbr%2F%26gt%3B%0A%20*%20%24%7Btodo%7D(%E8%BF%99%E9%87%8C%E6%8F%8F%E8%BF%B0%E8%BF%99%E4%B8%AA%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95%20%E2%80%93%20%E5%8F%AF%E9%80%89).%26lt%3Bbr%2F%26gt%3B%0A%20*%20%24%7Btodo%7D(%E8%BF%99%E9%87%8C%E6%8F%8F%E8%BF%B0%E8%BF%99%E4%B8%AA%E6%96%B9%E6%B3%95%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9%20%E2%80%93%20%E5%8F%AF%E9%80%89).%26lt%3Bbr%2F%26gt%3B%0A%20*%0A%20*%20%40author%20%24%7Buser%7D%0A%20*%20%24%7Btags%7D%0A%20*%20%40since%20JDK%201.6%0A%20*%2F%3C%2Ftemplate%3E%3Ctemplate%20autoinsert%3D%22false%22%20context%3D%22overridecomment_context%22%20deleted%3D%22false%22%20description%3D%22Comment%20for%20overriding%20methods%22%20enabled%3D%22true%22%20id%3D%22org.eclipse.jdt.ui.text.codetemplates.overridecomment%22%20name%3D%22overridecomment%22%3E%2F**%0A%20*%20%24%7Btodo%7D%20%E7%AE%80%E5%8D%95%E6%8F%8F%E8%BF%B0%E8%AF%A5%E6%96%B9%E6%B3%95%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8A%9F%E8%83%BD%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89.%0A%20*%20%24%7Bsee_to_overridden%7D%0A%20*%2F%3C%2Ftemplate%3E%3Ctemplate%20autoinsert%3D%22true%22%20context%3D%22delegatecomment_context%22%20deleted%3D%22false%22%20description%3D%22Comment%20for%20delegate%20methods%22%20enabled%3D%22true%22%20id%3D%22org.eclipse.jdt.ui.text.codetemplates.delegatecomment%22%20name%3D%22delegatecomment%22%3E%2F**%0A%20*%20%24%7Btags%7D%0A%20*%20%24%7Bsee_to_target%7D%0A%20*%2F%3C%2Ftemplate%3E%3Ctemplate%20autoinsert%3D%22false%22%20context%3D%22newtype_context%22%20deleted%3D%22false%22%20description%3D%22Newly%20created%20files%22%20enabled%3D%22true%22%20id%3D%22org.eclipse.jdt.ui.text.codetemplates.newtype%22%20name%3D%22newtype%22%3E%2F**%0A%20*%20Project%20Name%3A%24%7Bproject_name%7D%0A%20*%20File%20Name%3A%24%7Bfile_name%7D%0A%20*%20Package%20Name%3A%24%7Bpackage_name%7D%0A%20*%20Date%3A%24%7Bdate%7D%24%7Btime%7D%0A%20*%20Copyright%20(c)%20%24%7Byear%7D%2C%20chenzhou1025%40126.com%20All%20Rights%20Reserved.%0A%20*%0A*%2F%0A%24%7Bfilecomment%7D%0A%0A%24%7Bpackage_declaration%7D%0A%2F**%0A%20*%20ClassName%3A%24%7Btype_name%7D%20%26lt%3Bbr%2F%26gt%3B%0A%20*%20Function%3A%20%24%7Btodo%7D%20ADD%20FUNCTION.%20%26lt%3Bbr%2F%26gt%3B%0A%20*%20Reason%3A%09%20%24%7Btodo%7D%20ADD%20REASON.%20%26lt%3Bbr%2F%26gt%3B%0A%20*%20Date%3A%20%20%20%20%20%24%7Bdate%7D%20%24%7Btime%7D%20%26lt%3Bbr%2F%26gt%3B%0A%20*%20%40author%20%20%20%24%7Buser%7D%0A%20*%20%40version%20%20%0A%20*%20%40since%20%20%20%20JDK%201.6%0A%20*%20%40see%20%09%20%0A%20*%2F%0A%24%7Btypecomment%7D%0A%24%7Btype_declaration%7D%0A%3C%2Ftemplate%3E%3Ctemplate%20autoinsert%3D%22true%22%20context%3D%22classbody_context%22%20deleted%3D%22false%22%20description%3D%22Code%20in%20new%20class%20type%20bodies%22%20enabled%3D%22true%22%20id%3D%22org.eclipse.jdt.ui.text.codetemplates.classbody%22%20name%3D%22classbody%22%3E%0A%3C%2Ftemplate%3E%3Ctemplate%20autoinsert%3D%22true%22%20context%3D%22interfacebody_context%22%20deleted%3D%22false%22%20description%3D%22Code%20in%20new%20interface%20type%20bodies%22%20enabled%3D%22true%22%20id%3D%22org.eclipse.jdt.ui.text.codetemplates.interfacebody%22%20name%3D%22interfacebody%22%3E%0A%3C%2Ftemplate%3E%3Ctemplate%20autoinsert%3D%22true%22%20context%3D%22enumbody_context%22%20deleted%3D%22false%22%20description%3D%22Code%20in%20new%20enum%20type%20bodies%22%20enabled%3D%22true%22%20id%3D%22org.eclipse.jdt.ui.text.codetemplates.enumbody%22%20name%3D%22enumbody%22%3E%0A%3C%2Ftemplate%3E%3Ctemplate%20autoinsert%3D%22true%22%20context%3D%22annotationbody_context%22%20deleted%3D%22false%22%20description%3D%22Code%20in%20new%20annotation%20type%20bodies%22%20enabled%3D%22true%22%20id%3D%22org.eclipse.jdt.ui.text.codetemplates.annotationbody%22%20name%3D%22annotationbody%22%3E%0A%3C%2Ftemplate%3E%3Ctemplate%20autoinsert%3D%22true%22%20context%3D%22catchblock_context%22%20deleted%3D%22false%22%20description%3D%22Code%20in%20new%20catch%20blocks%22%20enabled%3D%22true%22%20id%3D%22org.eclipse.jdt.ui.text.codetemplates.catchblock%22%20name%3D%22catchblock%22%3E%0A%2F%2F%20%24%7Btodo%7D%20Auto-generated%20catch%20block%0A%24%7Bexception_var%7D.printStackTrace()%3B%0A%3C%2Ftemplate%3E%3Ctemplate%20autoinsert%3D%22false%22%20context%3D%22methodbody_context%22%20deleted%3D%22false%22%20description%3D%22Code%20in%20created%20method%20stubs%22%20enabled%3D%22true%22%20id%3D%22org.eclipse.jdt.ui.text.codetemplates.methodbody%22%20name%3D%22methodbody%22%3E%0A%2F%2F%20%24%7Btodo%7D%20Auto-generated%20method%20stub%0A%24%7Bbody_statement%7D%3C%2Ftemplate%3E%3Ctemplate%20autoinsert%3D%22true%22%20context%3D%22constructorbody_context%22%20deleted%3D%22false%22%20description%3D%22Code%20in%20created%20constructor%20stubs%22%20enabled%3D%22true%22%20id%3D%22org.eclipse.jdt.ui.text.codetemplates.constructorbody%22%20name%3D%22constructorbody%22%3E%0A%24%7Bbody_statement%7D%0A%2F%2F%20%24%7Btodo%7D%20Auto-generated%20constructor%20stub%0A%3C%2Ftemplate%3E%3Ctemplate%20autoinsert%3D%22true%22%20context%3D%22getterbody_context%22%20deleted%3D%22false%22%20description%3D%22Code%20in%20created%20getters%22%20enabled%3D%22true%22%20id%3D%22org.eclipse.jdt.ui.text.codetemplates.getterbody%22%20name%3D%22getterbody%22%3Ereturn%20%24%7Bfield%7D%3B%3C%2Ftemplate%3E%3Ctemplate%20autoinsert%3D%22true%22%20context%3D%22setterbody_context%22%20deleted%3D%22false%22%20description%3D%22Code%20in%20created%20setters%22%20enabled%3D%22true%22%20id%3D%22org.eclipse.jdt.ui.text.codetemplates.setterbody%22%20name%3D%22setterbody%22%3E%24%7Bfield%7D%20%3D%20%24%7Bparam%7D%3B%3C%2Ftemplate%3E%3C%2Ftemplates%3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/icon_star.png" alt="收藏代码"><img class="spinner" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-xml" start="1"><li><span><span class="tag">&lt;?</span><span class="tag-name">xml</span><span>&nbsp;</span><span class="attribute">version</span><span>=</span><span class="attribute-value">"1.0"</span><span>&nbsp;</span><span class="attribute">encoding</span><span>=</span><span class="attribute-value">"UTF-8"</span><span>&nbsp;</span><span class="attribute">standalone</span><span>=</span><span class="attribute-value">"no"</span><span class="tag">?&gt;</span><span class="tag">&lt;</span><span class="tag-name">templates</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">template</span><span>&nbsp;</span><span class="attribute">autoinsert</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">context</span><span>=</span><span class="attribute-value">"gettercomment_context"</span><span>&nbsp;</span><span class="attribute">deleted</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">description</span><span>=</span><span class="attribute-value">"Comment&nbsp;for&nbsp;getter&nbsp;method"</span><span>&nbsp;</span><span class="attribute">enabled</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"org.eclipse.jdt.ui.text.codetemplates.gettercomment"</span><span>&nbsp;</span><span class="attribute">name</span><span>=</span><span class="attribute-value">"gettercomment"</span><span class="tag">&gt;</span><span>/**&nbsp;&nbsp;</span></span></li><li><span>&nbsp;*&nbsp;${bare_field_name}.&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;@return&nbsp;&nbsp;the&nbsp;${bare_field_name}&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;@since&nbsp;&nbsp;&nbsp;JDK&nbsp;1.6&nbsp;&nbsp;</span></li><li><span>&nbsp;*/<span class="tag">&lt;/</span><span class="tag-name">template</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">template</span><span>&nbsp;</span><span class="attribute">autoinsert</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">context</span><span>=</span><span class="attribute-value">"settercomment_context"</span><span>&nbsp;</span><span class="attribute">deleted</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">description</span><span>=</span><span class="attribute-value">"Comment&nbsp;for&nbsp;setter&nbsp;method"</span><span>&nbsp;</span><span class="attribute">enabled</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"org.eclipse.jdt.ui.text.codetemplates.settercomment"</span><span>&nbsp;</span><span class="attribute">name</span><span>=</span><span class="attribute-value">"settercomment"</span><span class="tag">&gt;</span><span>/**&nbsp;&nbsp;</span></span></li><li><span>&nbsp;*&nbsp;${param}.&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;@param&nbsp;&nbsp;&nbsp;${param}&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;${bare_field_name}&nbsp;to&nbsp;set&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;@since&nbsp;&nbsp;&nbsp;JDK&nbsp;1.6&nbsp;&nbsp;</span></li><li><span>&nbsp;*/<span class="tag">&lt;/</span><span class="tag-name">template</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">template</span><span>&nbsp;</span><span class="attribute">autoinsert</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">context</span><span>=</span><span class="attribute-value">"constructorcomment_context"</span><span>&nbsp;</span><span class="attribute">deleted</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">description</span><span>=</span><span class="attribute-value">"Comment&nbsp;for&nbsp;created&nbsp;constructors"</span><span>&nbsp;</span><span class="attribute">enabled</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"org.eclipse.jdt.ui.text.codetemplates.constructorcomment"</span><span>&nbsp;</span><span class="attribute">name</span><span>=</span><span class="attribute-value">"constructorcomment"</span><span class="tag">&gt;</span><span>/**&nbsp;&nbsp;</span></span></li><li><span>&nbsp;*&nbsp;Creates&nbsp;a&nbsp;new&nbsp;instance&nbsp;of&nbsp;${enclosing_type}.&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;${tags}&nbsp;&nbsp;</span></li><li><span>&nbsp;*/&nbsp;&nbsp;</span></li><li><span><span class="tag">&lt;/</span><span class="tag-name">template</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">template</span><span>&nbsp;</span><span class="attribute">autoinsert</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">context</span><span>=</span><span class="attribute-value">"filecomment_context"</span><span>&nbsp;</span><span class="attribute">deleted</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">description</span><span>=</span><span class="attribute-value">"Comment&nbsp;for&nbsp;created&nbsp;Java&nbsp;files"</span><span>&nbsp;</span><span class="attribute">enabled</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"org.eclipse.jdt.ui.text.codetemplates.filecomment"</span><span>&nbsp;</span><span class="attribute">name</span><span>=</span><span class="attribute-value">"filecomment"</span><span class="tag">&gt;</span><span>/**&nbsp;&nbsp;</span></span></li><li><span>&nbsp;*&nbsp;Project&nbsp;Name:${project_name}&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;File&nbsp;Name:${file_name}&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;Package&nbsp;Name:${package_name}&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;Date:${date}${time}&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;Copyright&nbsp;(c)&nbsp;${year},&nbsp;chenzhou1025@126.com&nbsp;All&nbsp;Rights&nbsp;Reserved.&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;&nbsp;</span></li><li><span>&nbsp;*/<span class="tag">&lt;/</span><span class="tag-name">template</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">template</span><span>&nbsp;</span><span class="attribute">autoinsert</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">context</span><span>=</span><span class="attribute-value">"typecomment_context"</span><span>&nbsp;</span><span class="attribute">deleted</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">description</span><span>=</span><span class="attribute-value">"Comment&nbsp;for&nbsp;created&nbsp;types"</span><span>&nbsp;</span><span class="attribute">enabled</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"org.eclipse.jdt.ui.text.codetemplates.typecomment"</span><span>&nbsp;</span><span class="attribute">name</span><span>=</span><span class="attribute-value">"typecomment"</span><span class="tag">&gt;</span><span>/**&nbsp;&nbsp;</span></span></li><li><span>&nbsp;*&nbsp;ClassName:&nbsp;${type_name}&nbsp;&amp;lt;br/&amp;gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;Function:&nbsp;${todo}&nbsp;ADD&nbsp;FUNCTION.&nbsp;&amp;lt;br/&amp;gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;Reason:&nbsp;${todo}&nbsp;ADD&nbsp;REASON(可选).&nbsp;&amp;lt;br/&amp;gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;date:&nbsp;${date}&nbsp;${time}&nbsp;&amp;lt;br/&amp;gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;@author&nbsp;${user}&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;@version&nbsp;${enclosing_type}${tags}&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;@since&nbsp;JDK&nbsp;1.6&nbsp;&nbsp;</span></li><li><span>&nbsp;*/<span class="tag">&lt;/</span><span class="tag-name">template</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">template</span><span>&nbsp;</span><span class="attribute">autoinsert</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">context</span><span>=</span><span class="attribute-value">"fieldcomment_context"</span><span>&nbsp;</span><span class="attribute">deleted</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">description</span><span>=</span><span class="attribute-value">"Comment&nbsp;for&nbsp;fields"</span><span>&nbsp;</span><span class="attribute">enabled</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"org.eclipse.jdt.ui.text.codetemplates.fieldcomment"</span><span>&nbsp;</span><span class="attribute">name</span><span>=</span><span class="attribute-value">"fieldcomment"</span><span class="tag">&gt;</span><span>/**&nbsp;&nbsp;</span></span></li><li><span>&nbsp;*&nbsp;${field}:${todo}(用一句话描述这个变量表示什么).&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;@since&nbsp;JDK&nbsp;1.6&nbsp;&nbsp;</span></li><li><span>&nbsp;*/<span class="tag">&lt;/</span><span class="tag-name">template</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">template</span><span>&nbsp;</span><span class="attribute">autoinsert</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">context</span><span>=</span><span class="attribute-value">"methodcomment_context"</span><span>&nbsp;</span><span class="attribute">deleted</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">description</span><span>=</span><span class="attribute-value">"Comment&nbsp;for&nbsp;non-overriding&nbsp;methods"</span><span>&nbsp;</span><span class="attribute">enabled</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"org.eclipse.jdt.ui.text.codetemplates.methodcomment"</span><span>&nbsp;</span><span class="attribute">name</span><span>=</span><span class="attribute-value">"methodcomment"</span><span class="tag">&gt;</span><span>/**&nbsp;&nbsp;</span></span></li><li><span>&nbsp;*&nbsp;${enclosing_method}:(这里用一句话描述这个方法的作用).&nbsp;&amp;lt;br/&amp;gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;${todo}(这里描述这个方法适用条件&nbsp;–&nbsp;可选).&amp;lt;br/&amp;gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;${todo}(这里描述这个方法的执行流程&nbsp;–&nbsp;可选).&amp;lt;br/&amp;gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;${todo}(这里描述这个方法的使用方法&nbsp;–&nbsp;可选).&amp;lt;br/&amp;gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;${todo}(这里描述这个方法的注意事项&nbsp;–&nbsp;可选).&amp;lt;br/&amp;gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;@author&nbsp;${user}&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;${tags}&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;@since&nbsp;JDK&nbsp;1.6&nbsp;&nbsp;</span></li><li><span>&nbsp;*/<span class="tag">&lt;/</span><span class="tag-name">template</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">template</span><span>&nbsp;</span><span class="attribute">autoinsert</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">context</span><span>=</span><span class="attribute-value">"overridecomment_context"</span><span>&nbsp;</span><span class="attribute">deleted</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">description</span><span>=</span><span class="attribute-value">"Comment&nbsp;for&nbsp;overriding&nbsp;methods"</span><span>&nbsp;</span><span class="attribute">enabled</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"org.eclipse.jdt.ui.text.codetemplates.overridecomment"</span><span>&nbsp;</span><span class="attribute">name</span><span>=</span><span class="attribute-value">"overridecomment"</span><span class="tag">&gt;</span><span>/**&nbsp;&nbsp;</span></span></li><li><span>&nbsp;*&nbsp;${todo}&nbsp;简单描述该方法的实现功能（可选）.&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;${see_to_overridden}&nbsp;&nbsp;</span></li><li><span>&nbsp;*/<span class="tag">&lt;/</span><span class="tag-name">template</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">template</span><span>&nbsp;</span><span class="attribute">autoinsert</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">context</span><span>=</span><span class="attribute-value">"delegatecomment_context"</span><span>&nbsp;</span><span class="attribute">deleted</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">description</span><span>=</span><span class="attribute-value">"Comment&nbsp;for&nbsp;delegate&nbsp;methods"</span><span>&nbsp;</span><span class="attribute">enabled</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"org.eclipse.jdt.ui.text.codetemplates.delegatecomment"</span><span>&nbsp;</span><span class="attribute">name</span><span>=</span><span class="attribute-value">"delegatecomment"</span><span class="tag">&gt;</span><span>/**&nbsp;&nbsp;</span></span></li><li><span>&nbsp;*&nbsp;${tags}&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;${see_to_target}&nbsp;&nbsp;</span></li><li><span>&nbsp;*/<span class="tag">&lt;/</span><span class="tag-name">template</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">template</span><span>&nbsp;</span><span class="attribute">autoinsert</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">context</span><span>=</span><span class="attribute-value">"newtype_context"</span><span>&nbsp;</span><span class="attribute">deleted</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">description</span><span>=</span><span class="attribute-value">"Newly&nbsp;created&nbsp;files"</span><span>&nbsp;</span><span class="attribute">enabled</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"org.eclipse.jdt.ui.text.codetemplates.newtype"</span><span>&nbsp;</span><span class="attribute">name</span><span>=</span><span class="attribute-value">"newtype"</span><span class="tag">&gt;</span><span>/**&nbsp;&nbsp;</span></span></li><li><span>&nbsp;*&nbsp;Project&nbsp;Name:${project_name}&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;File&nbsp;Name:${file_name}&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;Package&nbsp;Name:${package_name}&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;Date:${date}${time}&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;Copyright&nbsp;(c)&nbsp;${year},&nbsp;chenzhou1025@126.com&nbsp;All&nbsp;Rights&nbsp;Reserved.&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;&nbsp;</span></li><li><span>*/&nbsp;&nbsp;</span></li><li><span>${filecomment}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;</span></li><li><span>${package_declaration}&nbsp;&nbsp;</span></li><li><span>/**&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;ClassName:${type_name}&nbsp;&amp;lt;br/&amp;gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;Function:&nbsp;${todo}&nbsp;ADD&nbsp;FUNCTION.&nbsp;&amp;lt;br/&amp;gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;Reason:&nbsp;&nbsp;&nbsp;${todo}&nbsp;ADD&nbsp;REASON.&nbsp;&amp;lt;br/&amp;gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;Date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${date}&nbsp;${time}&nbsp;&amp;lt;br/&amp;gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;@author&nbsp;&nbsp;&nbsp;${user}&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;@version&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;@since&nbsp;&nbsp;&nbsp;&nbsp;JDK&nbsp;1.6&nbsp;&nbsp;</span></li><li><span>&nbsp;*&nbsp;@see&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;*/&nbsp;&nbsp;</span></li><li><span>${typecomment}&nbsp;&nbsp;</span></li><li><span>${type_declaration}&nbsp;&nbsp;</span></li><li><span><span class="tag">&lt;/</span><span class="tag-name">template</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">template</span><span>&nbsp;</span><span class="attribute">autoinsert</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">context</span><span>=</span><span class="attribute-value">"classbody_context"</span><span>&nbsp;</span><span class="attribute">deleted</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">description</span><span>=</span><span class="attribute-value">"Code&nbsp;in&nbsp;new&nbsp;class&nbsp;type&nbsp;bodies"</span><span>&nbsp;</span><span class="attribute">enabled</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"org.eclipse.jdt.ui.text.codetemplates.classbody"</span><span>&nbsp;</span><span class="attribute">name</span><span>=</span><span class="attribute-value">"classbody"</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li><li><span><span class="tag">&lt;/</span><span class="tag-name">template</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">template</span><span>&nbsp;</span><span class="attribute">autoinsert</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">context</span><span>=</span><span class="attribute-value">"interfacebody_context"</span><span>&nbsp;</span><span class="attribute">deleted</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">description</span><span>=</span><span class="attribute-value">"Code&nbsp;in&nbsp;new&nbsp;interface&nbsp;type&nbsp;bodies"</span><span>&nbsp;</span><span class="attribute">enabled</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"org.eclipse.jdt.ui.text.codetemplates.interfacebody"</span><span>&nbsp;</span><span class="attribute">name</span><span>=</span><span class="attribute-value">"interfacebody"</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li><li><span><span class="tag">&lt;/</span><span class="tag-name">template</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">template</span><span>&nbsp;</span><span class="attribute">autoinsert</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">context</span><span>=</span><span class="attribute-value">"enumbody_context"</span><span>&nbsp;</span><span class="attribute">deleted</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">description</span><span>=</span><span class="attribute-value">"Code&nbsp;in&nbsp;new&nbsp;enum&nbsp;type&nbsp;bodies"</span><span>&nbsp;</span><span class="attribute">enabled</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"org.eclipse.jdt.ui.text.codetemplates.enumbody"</span><span>&nbsp;</span><span class="attribute">name</span><span>=</span><span class="attribute-value">"enumbody"</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li><li><span><span class="tag">&lt;/</span><span class="tag-name">template</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">template</span><span>&nbsp;</span><span class="attribute">autoinsert</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">context</span><span>=</span><span class="attribute-value">"annotationbody_context"</span><span>&nbsp;</span><span class="attribute">deleted</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">description</span><span>=</span><span class="attribute-value">"Code&nbsp;in&nbsp;new&nbsp;annotation&nbsp;type&nbsp;bodies"</span><span>&nbsp;</span><span class="attribute">enabled</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"org.eclipse.jdt.ui.text.codetemplates.annotationbody"</span><span>&nbsp;</span><span class="attribute">name</span><span>=</span><span class="attribute-value">"annotationbody"</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li><li><span><span class="tag">&lt;/</span><span class="tag-name">template</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">template</span><span>&nbsp;</span><span class="attribute">autoinsert</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">context</span><span>=</span><span class="attribute-value">"catchblock_context"</span><span>&nbsp;</span><span class="attribute">deleted</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">description</span><span>=</span><span class="attribute-value">"Code&nbsp;in&nbsp;new&nbsp;catch&nbsp;blocks"</span><span>&nbsp;</span><span class="attribute">enabled</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"org.eclipse.jdt.ui.text.codetemplates.catchblock"</span><span>&nbsp;</span><span class="attribute">name</span><span>=</span><span class="attribute-value">"catchblock"</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li><li><span>//&nbsp;${todo}&nbsp;Auto-generated&nbsp;catch&nbsp;block&nbsp;&nbsp;</span></li><li><span>${exception_var}.printStackTrace();&nbsp;&nbsp;</span></li><li><span><span class="tag">&lt;/</span><span class="tag-name">template</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">template</span><span>&nbsp;</span><span class="attribute">autoinsert</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">context</span><span>=</span><span class="attribute-value">"methodbody_context"</span><span>&nbsp;</span><span class="attribute">deleted</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">description</span><span>=</span><span class="attribute-value">"Code&nbsp;in&nbsp;created&nbsp;method&nbsp;stubs"</span><span>&nbsp;</span><span class="attribute">enabled</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"org.eclipse.jdt.ui.text.codetemplates.methodbody"</span><span>&nbsp;</span><span class="attribute">name</span><span>=</span><span class="attribute-value">"methodbody"</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li><li><span>//&nbsp;${todo}&nbsp;Auto-generated&nbsp;method&nbsp;stub&nbsp;&nbsp;</span></li><li><span>${body_statement}<span class="tag">&lt;/</span><span class="tag-name">template</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">template</span><span>&nbsp;</span><span class="attribute">autoinsert</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">context</span><span>=</span><span class="attribute-value">"constructorbody_context"</span><span>&nbsp;</span><span class="attribute">deleted</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">description</span><span>=</span><span class="attribute-value">"Code&nbsp;in&nbsp;created&nbsp;constructor&nbsp;stubs"</span><span>&nbsp;</span><span class="attribute">enabled</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"org.eclipse.jdt.ui.text.codetemplates.constructorbody"</span><span>&nbsp;</span><span class="attribute">name</span><span>=</span><span class="attribute-value">"constructorbody"</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li><li><span>${body_statement}&nbsp;&nbsp;</span></li><li><span>//&nbsp;${todo}&nbsp;Auto-generated&nbsp;constructor&nbsp;stub&nbsp;&nbsp;</span></li><li><span><span class="tag">&lt;/</span><span class="tag-name">template</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">template</span><span>&nbsp;</span><span class="attribute">autoinsert</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">context</span><span>=</span><span class="attribute-value">"getterbody_context"</span><span>&nbsp;</span><span class="attribute">deleted</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">description</span><span>=</span><span class="attribute-value">"Code&nbsp;in&nbsp;created&nbsp;getters"</span><span>&nbsp;</span><span class="attribute">enabled</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"org.eclipse.jdt.ui.text.codetemplates.getterbody"</span><span>&nbsp;</span><span class="attribute">name</span><span>=</span><span class="attribute-value">"getterbody"</span><span class="tag">&gt;</span><span>return&nbsp;${field};</span><span class="tag">&lt;/</span><span class="tag-name">template</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">template</span><span>&nbsp;</span><span class="attribute">autoinsert</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">context</span><span>=</span><span class="attribute-value">"setterbody_context"</span><span>&nbsp;</span><span class="attribute">deleted</span><span>=</span><span class="attribute-value">"false"</span><span>&nbsp;</span><span class="attribute">description</span><span>=</span><span class="attribute-value">"Code&nbsp;in&nbsp;created&nbsp;setters"</span><span>&nbsp;</span><span class="attribute">enabled</span><span>=</span><span class="attribute-value">"true"</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"org.eclipse.jdt.ui.text.codetemplates.setterbody"</span><span>&nbsp;</span><span class="attribute">name</span><span>=</span><span class="attribute-value">"setterbody"</span><span class="tag">&gt;</span><span>${field}&nbsp;=&nbsp;${param};</span><span class="tag">&lt;/</span><span class="tag-name">template</span><span class="tag">&gt;</span><span class="tag">&lt;/</span><span class="tag-name">templates</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li></ol></div><pre title="编码规范系列（一）：Eclipse Code Templates设置" pre_index="15" source_url="http://chenzhou123520.iteye.com/blog/1625629" codeable_type="Blog" codeable_id="1625629" style="display: none;" name="code" class="xml">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;&lt;templates&gt;&lt;template autoinsert="false" context="gettercomment_context" deleted="false" description="Comment for getter method" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.gettercomment" name="gettercomment"&gt;/**
+ * ${bare_field_name}.
+ *
+ * @return  the ${bare_field_name}
+ * @since   JDK 1.6
+ */&lt;/template&gt;&lt;template autoinsert="false" context="settercomment_context" deleted="false" description="Comment for setter method" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.settercomment" name="settercomment"&gt;/**
+ * ${param}.
+ *
+ * @param   ${param}    the ${bare_field_name} to set
+ * @since   JDK 1.6
+ */&lt;/template&gt;&lt;template autoinsert="false" context="constructorcomment_context" deleted="false" description="Comment for created constructors" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.constructorcomment" name="constructorcomment"&gt;/**
+ * Creates a new instance of ${enclosing_type}.
+ *
+ * ${tags}
+ */
+&lt;/template&gt;&lt;template autoinsert="false" context="filecomment_context" deleted="false" description="Comment for created Java files" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.filecomment" name="filecomment"&gt;/**
+ * Project Name:${project_name}
+ * File Name:${file_name}
+ * Package Name:${package_name}
+ * Date:${date}${time}
+ * Copyright (c) ${year}, chenzhou1025@126.com All Rights Reserved.
+ *
+ */&lt;/template&gt;&lt;template autoinsert="false" context="typecomment_context" deleted="false" description="Comment for created types" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.typecomment" name="typecomment"&gt;/**
+ * ClassName: ${type_name} &amp;lt;br/&amp;gt;
+ * Function: ${todo} ADD FUNCTION. &amp;lt;br/&amp;gt;
+ * Reason: ${todo} ADD REASON(可选). &amp;lt;br/&amp;gt;
+ * date: ${date} ${time} &amp;lt;br/&amp;gt;
+ *
+ * @author ${user}
+ * @version ${enclosing_type}${tags}
+ * @since JDK 1.6
+ */&lt;/template&gt;&lt;template autoinsert="false" context="fieldcomment_context" deleted="false" description="Comment for fields" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.fieldcomment" name="fieldcomment"&gt;/**
+ * ${field}:${todo}(用一句话描述这个变量表示什么).
+ * @since JDK 1.6
+ */&lt;/template&gt;&lt;template autoinsert="false" context="methodcomment_context" deleted="false" description="Comment for non-overriding methods" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.methodcomment" name="methodcomment"&gt;/**
+ * ${enclosing_method}:(这里用一句话描述这个方法的作用). &amp;lt;br/&amp;gt;
+ * ${todo}(这里描述这个方法适用条件 – 可选).&amp;lt;br/&amp;gt;
+ * ${todo}(这里描述这个方法的执行流程 – 可选).&amp;lt;br/&amp;gt;
+ * ${todo}(这里描述这个方法的使用方法 – 可选).&amp;lt;br/&amp;gt;
+ * ${todo}(这里描述这个方法的注意事项 – 可选).&amp;lt;br/&amp;gt;
+ *
+ * @author ${user}
+ * ${tags}
+ * @since JDK 1.6
+ */&lt;/template&gt;&lt;template autoinsert="false" context="overridecomment_context" deleted="false" description="Comment for overriding methods" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.overridecomment" name="overridecomment"&gt;/**
+ * ${todo} 简单描述该方法的实现功能（可选）.
+ * ${see_to_overridden}
+ */&lt;/template&gt;&lt;template autoinsert="true" context="delegatecomment_context" deleted="false" description="Comment for delegate methods" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.delegatecomment" name="delegatecomment"&gt;/**
+ * ${tags}
+ * ${see_to_target}
+ */&lt;/template&gt;&lt;template autoinsert="false" context="newtype_context" deleted="false" description="Newly created files" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.newtype" name="newtype"&gt;/**
+ * Project Name:${project_name}
+ * File Name:${file_name}
+ * Package Name:${package_name}
+ * Date:${date}${time}
+ * Copyright (c) ${year}, chenzhou1025@126.com All Rights Reserved.
+ *
+*/
+${filecomment}
+
+${package_declaration}
+/**
+ * ClassName:${type_name} &amp;lt;br/&amp;gt;
+ * Function: ${todo} ADD FUNCTION. &amp;lt;br/&amp;gt;
+ * Reason:	 ${todo} ADD REASON. &amp;lt;br/&amp;gt;
+ * Date:     ${date} ${time} &amp;lt;br/&amp;gt;
+ * @author   ${user}
+ * @version  
+ * @since    JDK 1.6
+ * @see 	 
+ */
+${typecomment}
+${type_declaration}
+&lt;/template&gt;&lt;template autoinsert="true" context="classbody_context" deleted="false" description="Code in new class type bodies" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.classbody" name="classbody"&gt;
+&lt;/template&gt;&lt;template autoinsert="true" context="interfacebody_context" deleted="false" description="Code in new interface type bodies" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.interfacebody" name="interfacebody"&gt;
+&lt;/template&gt;&lt;template autoinsert="true" context="enumbody_context" deleted="false" description="Code in new enum type bodies" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.enumbody" name="enumbody"&gt;
+&lt;/template&gt;&lt;template autoinsert="true" context="annotationbody_context" deleted="false" description="Code in new annotation type bodies" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.annotationbody" name="annotationbody"&gt;
+&lt;/template&gt;&lt;template autoinsert="true" context="catchblock_context" deleted="false" description="Code in new catch blocks" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.catchblock" name="catchblock"&gt;
+// ${todo} Auto-generated catch block
+${exception_var}.printStackTrace();
+&lt;/template&gt;&lt;template autoinsert="false" context="methodbody_context" deleted="false" description="Code in created method stubs" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.methodbody" name="methodbody"&gt;
+// ${todo} Auto-generated method stub
+${body_statement}&lt;/template&gt;&lt;template autoinsert="true" context="constructorbody_context" deleted="false" description="Code in created constructor stubs" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.constructorbody" name="constructorbody"&gt;
+${body_statement}
+// ${todo} Auto-generated constructor stub
+&lt;/template&gt;&lt;template autoinsert="true" context="getterbody_context" deleted="false" description="Code in created getters" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.getterbody" name="getterbody"&gt;return ${field};&lt;/template&gt;&lt;template autoinsert="true" context="setterbody_context" deleted="false" description="Code in created setters" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.setterbody" name="setterbody"&gt;${field} = ${param};&lt;/template&gt;&lt;/templates&gt;</pre>
+<p>&nbsp;</p>
+<p>设置Code Templates的目的主要是为了统一各种注释的格式以及代码的模板，只要设定好Code Templates之后利用Eclipse就可以方便地生成我们自定义的注释，开发人员也容易接受！</p>
+  </div>
+
+  
+  <div class="attachments">
+    
+      
+        <ul>
+          <li><a href="http://dl.iteye.com/topics/download/d741dcfb-c100-3a01-8490-03d82ff39c1e">codetemplates.zip</a> (1.4 KB)</li>
+          
+          <li>下载次数: 60</li>
+        </ul>
+      
+    
+    
+  </div>
+
+
+
+  
+  
+  <div id="bottoms" class="clearfix">
+    <div id="digg_bottom" class="clearfix"><div class="digged"><strong>0</strong> <br>顶</div><div class="digged"><strong>0</strong> <br>踩</div></div>
+    <div id="share_weibo">分享到：
+      <a data-type="sina" href="javascript:;" title="分享到新浪微博"><img src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/sina.jpg"></a>
+      <a data-type="qq" href="javascript:;" title="分享到腾讯微博"><img src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/tec.jpg"></a>
+    </div>
+  </div>
+
+  <div class="blog_nav">
+    <div class="pre_next">
+      <a href="http://chenzhou123520.iteye.com/blog/1627618" class="next" title="编码规范系列（二）：Eclipse Checkstyle配置">编码规范系列（二）：Eclipse Checkstyle配 ...</a>
+      |
+      <a href="http://chenzhou123520.iteye.com/blog/1624671" class="pre" title="Linux系统cp: omitting directory `XXX'问题解决">Linux系统cp: omitting directory `XXX'问 ...</a>
+    </div>
+  </div>
+  <div class="blog_bottom">
+    <ul>
+      <li>2012-08-08 17:42</li>
+      <li>浏览 742</li>
+      <li><a href="#comments">评论(1)</a></li>
+      
+      
+      <li>分类:<a href="http://www.iteye.com/blogs/category/develop">研发管理</a></li>      
+      <li class="last"><a href="http://www.iteye.com/wiki/blog/1625629" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    <div id="bc2275094">
+  <div class="comment_title">
+    1 楼
+    <a href="http://noday.iteye.com/" target="_blank" title="at1943">at1943</a>
+    2012-08-08&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">不错，公司应该有这样的规范。引用你的做自己的规范吧</div>
+</div>
+
+
+    
+    
+  </div>
+
+  <div class="blog_comment">
+    <h5>发表评论</h5>
+            <p style="text-align:center; margin-top:30px;margin-bottom:0px;"><a href="http://chenzhou123520.iteye.com/login" style="background-color: white;"> <img src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/login_icon.png" style="vertical-align: middle; margin-right: 10px;"></a><a href="http://chenzhou123520.iteye.com/login">  您还没有登录,请您登录后再发表评论 </a></p>
+      </div>
+</div>
+
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  $$('#main .blog_content pre[name=code]').each(function(pre, index){ // blog content
+    var post_id = 1625629;
+    var location = window.location;
+    source_url = location.protocol + "//" + location.host + location.pathname + location.search;
+    pre.writeAttribute('codeable_id', post_id);
+    pre.writeAttribute('codeable_type', "Blog");
+    pre.writeAttribute('source_url', source_url);
+    pre.writeAttribute('pre_index', index);
+    pre.writeAttribute('title', '编码规范系列（一）：Eclipse Code Templates设置');
+  });
+  $$('#main .blog_comment > div').each(function(comment){// comment
+    var post_id = comment.id.substr(2);
+    $$("#"+comment.id+" pre[name=code]").each(function(pre, index){
+      var location = window.location;
+      source_url = location.protocol + "//" + location.host + location.pathname + location.search;
+      source_url += "#" + comment.id;
+      pre.writeAttribute('codeable_id', post_id);
+      pre.writeAttribute('codeable_type', "BlogComment");
+      pre.writeAttribute('source_url', source_url);
+      pre.writeAttribute('pre_index', index);
+      pre.writeAttribute('title', '编码规范系列（一）：Eclipse Code Templates设置');
+    });
+  });
+  code_favorites_init();
+
+  fix_image_size($$('div.blog_content img'), 700);
+  function quote_comment(id) {
+    new Ajax.Request('/editor/quote', {
+      parameters: {'id':id, 'type':'BlogComment'},
+      onSuccess:function(response){editor.bbcode_editor.textarea.insertAfterSelection(response.responseText);
+        Element.scrollTo(editor.bbcode_editor.textarea.element);}
+    });
+  }
+
+  new WeiboShare({share_buttons: $('share_weibo'), img_scope: $('blog_content')});
+</script>
+
+
+
+
+        </div>
+
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+  <div id="blog_owner_logo"><a href="http://chenzhou123520.iteye.com/"><img alt="chenzhou123520的博客" class="logo" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/dc0a6022-57fe-3413-92c6-27a57bb6cd9c.png" title="chenzhou123520的博客: 青葱岁月"></a></div>
+  <div id="blog_owner_name">chenzhou123520</div>
+</div>
+
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 29553 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/icon_minigender_1.gif" title="男"></li>
+              <li>来自: 北京</li>
+              <li><img src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/offline.gif"></li>
+              
+            </ul>
+          </div>
+          <div id="user_visits" class="clearfix">
+            <h5>最近访客 <span style="font-weight:normal;font-size:12px;padding-left:30px;"><a href="http://chenzhou123520.iteye.com/blog/user_visits">更多访客&gt;&gt;</a></span></h5>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://dylinshi126.iteye.com/" target="_blank"><img alt="dylinshi126的博客" class="logo" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/user-logo-thumb.gif" title="dylinshi126的博客: "></a></div>
+                <div class="left"><a href="http://dylinshi126.iteye.com/" target="_blank" title="dylinshi126">dylinshi126</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://273289658.iteye.com/" target="_blank"><img alt="273289658的博客" class="logo" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/user-logo-thumb.gif" title="273289658的博客: "></a></div>
+                <div class="left"><a href="http://273289658.iteye.com/" target="_blank" title="273289658">273289658</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://mycujoo.iteye.com/" target="_blank"><img alt="mycujoo的博客" class="logo" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/user-logo-thumb.gif" title="mycujoo的博客: "></a></div>
+                <div class="left"><a href="http://mycujoo.iteye.com/" target="_blank" title="mycujoo">mycujoo</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://zhangs137.iteye.com/" target="_blank"><img alt="zhangs137的博客" class="logo" src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/06c367b4-df18-37ed-935b-dd071650929d-thumb.jpg" title="zhangs137的博客: "></a></div>
+                <div class="left"><a href="http://zhangs137.iteye.com/" target="_blank" title="zhangs137">zhangs137</a></div>
+              </div>
+            
+          </div>
+
+          
+
+                      <div id="blog_menu">
+              <h5>文章分类</h5>
+              <ul>
+                <li><a href="http://chenzhou123520.iteye.com/">全部博客 (73)</a></li>
+                
+                  <li><a href="http://chenzhou123520.iteye.com/category/196050">Linux (8)</a></li>
+                
+                  <li><a href="http://chenzhou123520.iteye.com/category/196059">Eclipse (7)</a></li>
+                
+                  <li><a href="http://chenzhou123520.iteye.com/category/196060">Java (21)</a></li>
+                
+                  <li><a href="http://chenzhou123520.iteye.com/category/196061">JVM (10)</a></li>
+                
+                  <li><a href="http://chenzhou123520.iteye.com/category/200787">Spring (8)</a></li>
+                
+                  <li><a href="http://chenzhou123520.iteye.com/category/203127">项目管理 (8)</a></li>
+                
+                  <li><a href="http://chenzhou123520.iteye.com/category/209809">Maven (4)</a></li>
+                
+                  <li><a href="http://chenzhou123520.iteye.com/category/209925">log4j (2)</a></li>
+                
+                  <li><a href="http://chenzhou123520.iteye.com/category/213395">其它 (7)</a></li>
+                
+                  <li><a href="http://chenzhou123520.iteye.com/category/225004">数据库 (10)</a></li>
+                
+                  <li><a href="http://chenzhou123520.iteye.com/category/232023">Mongodb (18)</a></li>
+                
+                  <li><a href="http://chenzhou123520.iteye.com/category/232202">MyBatis (2)</a></li>
+                
+                  <li><a href="http://chenzhou123520.iteye.com/category/241797">Memcache (1)</a></li>
+                
+                  <li><a href="http://chenzhou123520.iteye.com/category/256593">Web前端 (1)</a></li>
+                
+              </ul>
+            </div>
+            <div id="month_blogs">
+              <h5>社区版块</h5>
+              <ul>
+                <li><a href="http://chenzhou123520.iteye.com/blog/news">我的资讯</a> (0)</li>
+                <li>
+                  <a href="http://chenzhou123520.iteye.com/blog/post">我的论坛</a> (9)
+                </li>
+                <li><a href="http://chenzhou123520.iteye.com/blog/answered_problems">我的问答</a> (0)</li>
+              </ul>
+            </div>
+            <div id="month_blogs">
+              <h5>存档分类</h5>
+              <ul>
+                
+                  <li><a href="http://chenzhou123520.iteye.com/blog/monthblog/2012-11">2012-11</a> (1)</li>
+                
+                  <li><a href="http://chenzhou123520.iteye.com/blog/monthblog/2012-10">2012-10</a> (3)</li>
+                
+                  <li><a href="http://chenzhou123520.iteye.com/blog/monthblog/2012-08">2012-08</a> (20)</li>
+                
+                <li><a href="http://chenzhou123520.iteye.com/blog/monthblog_more">更多存档...</a></li>
+              </ul>
+            </div>
+            
+            
+              <div id="comments_top">
+                <h5>评论排行榜</h5>
+                <ul>
+                  
+                    <li><a href="http://chenzhou123520.iteye.com/blog/1702563" title="Spring拦截器中通过request获取到该请求对应Controller中的method对象">Spring拦截器中通过request获取到该请求对 ...</a></li>
+                  
+                    <li><a href="http://chenzhou123520.iteye.com/blog/1607270" title="JVM学习笔记（九）：基于栈的解释器执行过程">JVM学习笔记（九）：基于栈的解释器执行过 ...</a></li>
+                  
+                    <li><a href="http://chenzhou123520.iteye.com/blog/1629916" title="REST is not enabled.  use --rest to turn on.">REST is not enabled.  use --rest to turn ...</a></li>
+                  
+                    <li><a href="http://chenzhou123520.iteye.com/blog/1625629" title="编码规范系列（一）：Eclipse Code Templates设置">编码规范系列（一）：Eclipse Code Templat ...</a></li>
+                  
+                    <li><a href="http://chenzhou123520.iteye.com/blog/1651494" title="Mongodb性能监控">Mongodb性能监控</a></li>
+                  
+                </ul>
+              </div>
+            
+
+            <div id="guest_books">
+              <h5>最新评论</h5>
+              <ul>
+                
+                <li>
+                  <a href="http://zhangs137.iteye.com/" target="_blank" title="zhangs137">zhangs137</a>： 
+                  请问如何在dos中输入svn命令，我装了svn的客户端tort ...<br>
+                  <a href="http://chenzhou123520.iteye.com/blog/1436653#bc2291818">使用statsvn统计svn中的代码量</a>
+                </li>
+                
+                <li>
+                  <a href="http://chenzhou123520.iteye.com/" target="_blank" title="chenzhou123520">chenzhou123520</a>： 
+                  mzh200801 写道楼主的这种分享方式真心不错，分享知识， ...<br>
+                  <a href="http://chenzhou123520.iteye.com/blog/1702563#bc2286075">Spring拦截器中通过request获取到该请求对应Controller中的method对象</a>
+                </li>
+                
+                <li>
+                  <a href="http://mzh200801.iteye.com/" target="_blank" title="mzh200801">mzh200801</a>： 
+                  楼主的这种分享方式真心不错，分享知识，也是一种艺术。这种方式的 ...<br>
+                  <a href="http://chenzhou123520.iteye.com/blog/1702563#bc2286061">Spring拦截器中通过request获取到该请求对应Controller中的method对象</a>
+                </li>
+                
+                <li>
+                  <a href="http://onlylau.iteye.com/" target="_blank" title="onlylau">onlylau</a>： 
+                  onlylau 写道针对springmvc3.0版本Annot ...<br>
+                  <a href="http://chenzhou123520.iteye.com/blog/1702563#bc2286049">Spring拦截器中通过request获取到该请求对应Controller中的method对象</a>
+                </li>
+                
+                <li>
+                  <a href="http://467339640.iteye.com/" target="_blank" title="剑走天涯">剑走天涯</a>： 
+                  &nbsp;&nbsp; 真心不错<br>
+                  <a href="http://chenzhou123520.iteye.com/blog/1702563#bc2286047">Spring拦截器中通过request获取到该请求对应Controller中的method对象</a>
+                </li>
+                
+              </ul>
+            </div>
+
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+
+      <div id="footer" class="clearfix">
+        <div id="copyright">
+          <hr>
+          声明：ITeye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br>
+          © 2003-2012 ITeye.com.   All rights reserved.  [ 京ICP证110151号  京公网安备110105010620 ]
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+  document.write("<img src='http://stat.iteye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&user_id=' width='0' height='0' />");
+</script><img src="%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E7%B3%BB%E5%88%971_files/a.gif" height="0" width="0">
+
+    
+    
+  
+
+</body></html>

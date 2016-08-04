@@ -1,0 +1,314 @@
+<?xml version="1.0"?>
+
+<!-- 参看Ant官方文档: C:\Leslie\Work\j2ee\Document\Ant\apache-ant-1.8.2\index.html -->
+<project name="jpetstore" basedir="." default="usage">
+   <!-- build.properties 中定义了db.driver,db.url等信息,跟其他properties一样,可以用${}引用 -->
+   <property file="build.properties"/>        <!-- 这个必须有, 否则找不到  -->
+   <property name="name" value="jpetstore"/>
+   <property name="war.dir" value="war"/>
+   <property name="src.dir" value="src"/>
+   <property name="client.dir" value="client"/>
+   <property name="build.dir" value=".classes"/>
+   <property name="weblib.dir" value="${war.dir}/WEB-INF/lib"/>
+   <property name="webroot.dir" value="WebRoot"/>
+   <property name="dist.dir" value="dist"/>
+   <!-- 用于指定classpath, lib.dir 必须放在webroot.dir的后面 -->
+   <property name="lib.dir" value="${webroot.dir}/WEB-INF/lib"/>     
+   <property name="deploy.path" value="c:/apache-tomcat-6.0.24/webapps"/>
+   <property name="spring.root" value=".."/>
+
+   <!-- 指定pattern,后面可以用refid来引用. -->
+   <patternset id="java.files.pattern" includes="**/*.java"/>
+   
+   <!-- 定义类路径,可以指定一个目录下的所有jar,也可以像下面那样 -->
+   <path id="project-classpath">
+		  <fileset dir="${lib.dir}">
+			   <include name="**/*.jar" /> 
+		  </fileset>
+	 </path>
+   <!-- 定义类路径,是多个目录  -->
+   <path id="master-classpath">
+      <fileset dir="${spring.root}/lib/axis">
+         <include name="axis.jar"/>
+      </fileset>
+      <fileset dir="${spring.root}/lib/ibatis">
+	 <include name="ibatis*.jar"/>
+      </fileset>
+      <fileset dir="${spring.root}/lib/j2ee">
+	 <include name="jaxrpc.jar"/>
+	 <include name="servlet-api.jar"/>
+      </fileset>
+      <fileset dir="${spring.root}/lib/jakarta-commons">
+	 <include name="commons-logging.jar"/>
+      </fileset>
+      <fileset dir="${spring.root}/lib/struts">
+	 <include name="struts.jar"/>
+      </fileset>
+      <fileset dir="${spring.root}/dist">
+	 <include name="spring.jar"/>
+      </fileset>
+      <fileset dir="${spring.root}/dist/modules">
+	 <include name="spring-webmvc.jar"/>
+      </fileset>
+	    <!-- 用于 hsql数据库操作 -->
+      <fileset dir="${spring.root}/lib/hsqldb">
+         <include name="hsqldb.jar"/>
+      </fileset>
+   </path>
+
+
+	<target name="usage">
+
+		<echo message=""/>
+		<echo message="Spring JPetStore build file"/>
+		<echo message="------------------------------------------------------"/>
+		<echo message=""/>
+		<echo message="Available targets are:"/>
+		<echo message=""/>
+		<echo message="clean    --> Clean output dirs"/>
+		<echo message="build    --> Compile main Java sources and copy libraries"/>
+		<echo message="warfile  --> Build the web application archive"/>
+		<echo message="all      --> Clean, build, warfile"/>
+		<echo message=""/>
+
+	</target>
+
+
+	<target name="clean" description="Clean output dirs (build, weblib, dist)">
+
+		<delete dir="${build.dir}"/>
+		<delete dir="${weblib.dir}"/>
+		<delete dir="${dist.dir}"/>
+		<delete file="client/${name}.jar"/>
+      <delete dir="${war.dir}"/>
+      <delete dir="${checkstyle.data.dir}"/>
+
+	</target>
+
+
+	<!-- 编译,打包,拷贝-->
+	<target name="build" description="Compile main source tree java files into class files, generate jar files">
+
+		<mkdir dir="${build.dir}"/>
+      <mkdir dir="${weblib.dir}"/>
+
+		<javac destdir="${build.dir}" source="1.5" target="1.5" debug="true"
+				deprecation="false" optimize="false" failonerror="true">
+			<!--给编译器指定编码，防止出现："警告： 编码 GBK 的不可映射字符", 一般情况下，不需要加;-->
+			<compilerarg line="-encoding GBK"/>  
+			<src path="${src.dir}"/>
+			<!-- 引用指定的id -->
+			<classpath refid="master-classpath"/>
+		</javac>
+
+		<copy todir="${build.dir}" preservelastmodified="true">
+			<fileset dir="${src.dir}">
+				<include name="**/*.xml"/>
+			</fileset>
+		</copy>
+
+    <!-- 可以递归的创建目录, 像linux下面的mkdir -p -->
+		<mkdir dir="${weblib.dir}"/>
+
+		<jar jarfile="${weblib.dir}/${name}.jar" compress="true" basedir="${build.dir}"/>
+
+		<copy todir="${weblib.dir}" preservelastmodified="true">
+			<fileset dir="${spring.root}/lib/aspectj">
+				<include name="aspectjweaver.jar"/>
+			</fileset>
+			<fileset dir="${spring.root}/lib/axis">
+				<include name="axis.jar"/>
+				<include name="wsdl4j.jar"/>
+			</fileset>
+			<fileset dir="${spring.root}/lib/caucho">
+				<include name="hessian*.jar"/>
+			</fileset>
+			<fileset dir="${spring.root}/lib/hsqldb">
+				<include name="hsqldb.jar"/>
+			</fileset>
+			<fileset dir="${spring.root}/lib/ibatis">
+				<include name="ibatis-*.jar"/>
+			</fileset>
+			<fileset dir="${spring.root}/lib/j2ee">
+				<include name="jaxrpc.jar"/>
+				<include name="jstl.jar"/>
+			</fileset>
+			<fileset dir="${spring.root}/lib/jakarta-commons">
+				<include name="commons-beanutils.jar"/>
+				<include name="commons-collections.jar"/>
+				<include name="commons-dbcp.jar"/>
+				<include name="commons-digester.jar"/>
+				<include name="commons-discovery.jar"/>
+				<include name="commons-logging.jar"/>
+				<include name="commons-pool.jar"/>
+				<include name="commons-validator.jar"/>
+			</fileset>
+			<fileset dir="${spring.root}/lib/jakarta-taglibs">
+				<include name="standard.jar"/>
+			</fileset>
+         <fileset dir="${spring.root}/lib/jaxws">
+           <include name="saaj-api.jar"/>
+         </fileset>
+			<fileset dir="${spring.root}/lib/struts">
+				<include name="struts.jar"/>
+			</fileset>
+			<fileset dir="${spring.root}/dist">
+				<include name="spring.jar"/>
+			</fileset>
+			<fileset dir="${spring.root}/dist/modules">
+				<include name="spring-webmvc.jar"/>
+			</fileset>
+		</copy>
+    <!-- 将WebRoot下的所有文件copy到war中，最好将java build path中的 default output folder 设置成 MyWebService/WebRoot/WEB-INF/classes,这样就不需要单独copy class 了.
+         该目录下的所有目录和文件，但不递归.
+         **: 该目录下的所有目录和文件，是递归的. 
+      -->
+    <copy todir="${war.dir}" preservelastmodified="true">
+		   <fileset dir="${webroot.dir}">
+			    <include name="**" /> 
+		   </fileset>
+		</copy>
+
+		<copy file="${weblib.dir}/${name}.jar" tofile="${client.dir}/${name}.jar"/>
+
+	</target>
+
+
+	<target name="dist" depends="warfile">
+		<!-- 
+			Delegate to warfile target by depending on it. dist is just to offer
+			a generic target name across all Spring sample apps that may be used
+			for autobuilds testing.
+		-->
+	</target>
+
+
+	<target name="warfile" depends="build" description="Build the web application archive">
+
+		<mkdir dir="${dist.dir}"/>
+
+      <!-- 如果有css js 或其他目录,需要添加进来 -->
+		<war warfile="${dist.dir}/${name}.war" basedir="${war.dir}" webxml="${war.dir}/WEB-INF/web.xml">
+			<include name="*"/>
+			<include name="images/**"/>
+			<include name="WEB-INF/*.*"/>
+			<include name="WEB-INF/lib/**"/>
+			<include name="WEB-INF/jsp/**"/>
+			<include name="WEB-INF/classes/**"/>
+			<exclude name="WEB-INF/web.xml"/>
+			<exclude name="**/.*"/>
+		</war>
+
+	</target>
+
+	<!-- deploy -->
+	<target name="deploy" depends="warfile" description="Deploy application">
+	   <copy todir="${deploy.path}" preservelastmodified="true">
+	      <fileset dir="${dist.dir}">
+            <include name="${name}.war"/>
+	      </fileset>
+	   </copy>
+   </target>
+
+	<target name="web deploy" depends="clean,build,warfile,deploy,checkstyle" description="Clean,build,warfile,deploy,checkstyle"/>
+
+	<!-- 数据库操作,使用前必须先执行server.bat来创建数据库 -->
+	<!-- 建表 -->
+	<target name="createTables">
+	        <echo message="CREATE TABLES USING: ${db.driver} ${db.url}"/>
+	        <sql driver="${db.driver}"
+	             url="${db.url}"
+	             userid="${db.user}"
+	             password="${db.pw}"
+	             onerror="continue"
+	             src="db/hsqldb/jpetstore-hsqldb-schema.sql">  
+	            <classpath refid="master-classpath"/>           <!-- 必须有 -->
+	        </sql> 
+	 </target>
+	<!-- load data -->
+   <target name="loadData">
+       <echo message="LOAD DATA USING: ${db.driver} ${db.url}"/>
+       <sql driver="${db.driver}"
+            url="${db.url}"
+            userid="${db.user}"
+            password="${db.pw}"
+            onerror="continue"
+            src="db/hsqldb/jpetstore-hsqldb-dataload.sql">  
+           <classpath refid="master-classpath"/>
+       </sql> 
+   </target>
+	
+	<!-- select -->
+   <target name="printData">
+       <echo message="PRINT DATA USING: ${db.driver} ${db.url}"/>
+       <sql driver="${db.driver}"
+            url="${db.url}"
+            userid="${db.user}"
+            password="${db.pw}"
+            onerror="continue"
+            print="true">  
+           <classpath refid="master-classpath"/>
+       SELECT * FROM inventory;
+       </sql> 
+   </target>
+   <!-- delete -->
+   <target name="clearData">
+       <echo message="CLEAR DATA USING: ${db.driver} ${db.url}"/>
+       <sql driver="${db.driver}"
+            url="${db.url}"
+            userid="${db.user}"
+            password="${db.pw}"
+            onerror="continue">  
+       	<classpath refid="master-classpath"/>
+       DELETE FROM products;
+       </sql> 
+   </target>
+   <!-- shutdown database -->
+   <target name="shutdownDb">
+       <echo message="SHUT DOWN DATABASE USING: ${db.driver} ${db.url}"/>
+       <sql driver="${db.driver}"
+            url="${db.url}"
+            userid="${db.user}"
+            password="${db.pw}"
+            onerror="continue">  
+       	<classpath refid="master-classpath"/>
+       SHUTDOWN;
+       </sql> 
+   </target>
+
+	<!-- checkstyle: 需要checkstyle相关的jar和配置文件. -->
+    <target name="checkstyle" depends=""   description="Check code style for compliance with coding standards">
+    	<!-- checkstyle jar的位置 -->
+    	<property name="checkstyle.lib.dir"   value="c:\IBM\my\Myjar\self\checkstyle"/>
+        <path id="checkstyle.classpath">
+    	    <fileset dir="${checkstyle.lib.dir}">
+    	        <include name="*.jar"/>
+    	    </fileset>
+        </path>    	
+    	<!-- 检查结果存放路径 -->
+        <property name="checkstyle.data.dir"  value="checkstyle"/>     
+    	<!-- 检查结果的xml文件 -->
+        <property name="checkstyle.data.file"  value="${checkstyle.data.dir}/checkstyle.xml"/>
+    	<!-- 检查结果的html文件 -->
+        <property name="checkstyle.report.file"  value="${checkstyle.data.dir}/checkstyle.html"/>
+    	<!-- 选用的样式表,如果选错的话,会不产生上面的html文件,只有xml文件. -->
+        <property name="checkstyle.xsl.file"  value="${checkstyle.lib.dir}/checkstyle-noframes.xsl"/>
+
+        <mkdir dir="${checkstyle.data.dir}"/>
+    	<taskdef name="checkstyle" classname="com.puppycrawl.tools.checkstyle.CheckStyleTask"  classpathref="checkstyle.classpath" />
+    	<!-- config 指定checkstyle的配置文件. -->
+        <checkstyle config="c:\Leslie\Work\Dropbox\Leslie\j2ee\code standard\google-java-checkstyle.xml"
+            failOnViolation="false" failureProperty="checkstyle.failure">
+            <fileset dir="src">                                                                   
+                <patternset refid="java.files.pattern"/>
+            </fileset>
+            <!-- uncomment to print to console as well -->
+            <!--formatter type="plain"/-->
+        	<!-- 生成xml文件 -->
+            <formatter type="xml" toFile="${checkstyle.data.file}"/>
+        </checkstyle>
+    	<!-- 生成报告,其格式取决于checkstyle.xsl.file -->
+        <xslt in="${checkstyle.data.file}" out="${checkstyle.report.file}"  style="${checkstyle.xsl.file}"/>                                        
+    </target>
+
+</project>

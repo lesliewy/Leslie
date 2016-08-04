@@ -1,0 +1,856 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>CheckStyle使用手册 - 其实我是一个IT土匪 - ITeye技术网站</title>
+    <meta name="description" content="介绍 CheckStyle是SourceForge下的一个项目，提供了一个帮助JAVA开发人员遵守某些编码规范的工具。它能够自动化代码规范检查过程，从 而使得开发人员从这项重要，但是枯燥的任务中解脱出来。 CheckStyle默认提供一下主要检查内容：  　　•Javadoc注释  　　•命名约定  　　•标题  　　•Import语句  　　•体积大小  　　•空白  　　•修饰符  　&nbsp; •块  ...">
+    <meta name="keywords" content="maven, Eclipse, Apache, XML, IDE CheckStyle使用手册">
+    <link rel="shortcut icon" href="http://darkranger.iteye.com/images/favicon.ico" type="image/x-icon">
+    <link rel="search" type="application/opensearchdescription+xml" href="http://darkranger.iteye.com/open_search.xml" title="ITeye">
+    <link href="http://darkranger.iteye.com/rss" rel="alternate" title="其实我是一个IT土匪" type="application/rss+xml">
+    <link href="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/blog.css" media="screen" rel="stylesheet" type="text/css">
+<link href="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/black.css" media="screen" rel="stylesheet" type="text/css">
+    <script src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/ga.js" async="" type="text/javascript"></script><script src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/application.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-535605-1']);
+  _gaq.push(['_setDomainName', 'iteye.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+      <link href="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <script src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/shCoreCommon.js" type="text/javascript"></script>
+<script src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/hotkey.js" type="text/javascript"></script>
+  <script src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/code_favorites.js" type="text/javascript"></script>
+<script src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/weiboshare.js" type="text/javascript"></script>
+  <style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style></head>
+  <body>
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.iteye.com/" class="homepage">首页</a>
+  <a href="http://www.iteye.com/news">资讯</a>
+  <a href="http://www.iteye.com/magazines">精华</a>
+  <a href="http://www.iteye.com/forums">论坛</a>
+  <a href="http://www.iteye.com/ask">问答</a>
+  <a href="http://www.iteye.com/blogs">博客</a>
+  <a href="http://www.iteye.com/blogs/subjects">专栏</a>
+  <a href="http://www.iteye.com/groups">群组</a>
+  <a href="#" onclick="return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div class="quick_menu" style="display:none;">
+    <a target="_blank" href="http://job.iteye.com/iteye">招聘</a>
+    <a href="http://www.iteye.com/search">搜索</a>
+  </div>
+</div>
+
+      <div id="user_nav">
+      <a href="http://darkranger.iteye.com/login" class="welcome" title="登录">您还未登录 !</a>
+    <a href="http://darkranger.iteye.com/login">登录</a>
+    <a href="http://darkranger.iteye.com/signup" class="nobg">注册</a>
+  </div>
+
+    </div>
+
+    <div id="page">
+      <div id="branding" class="clearfix">
+        <div id="blog_name">
+          <h1><a href="http://darkranger.iteye.com/">其实我是一个IT土匪</a></h1>
+        </div>
+        <div id="fd"></div>
+        <div id="blog_navbar">
+          <ul>
+            <li class="blog_navbar_for"><a href="http://darkranger.iteye.com/"><strong>博客</strong></a></li>
+            <li><a href="http://darkranger.iteye.com/weibo">微博</a></li>
+            <li><a href="http://darkranger.iteye.com/album">相册</a></li>
+            <li><a href="http://darkranger.iteye.com/link">收藏</a></li>
+            <li><a href="http://darkranger.iteye.com/blog/guest_book">留言</a></li>
+            <li><a href="http://darkranger.iteye.com/blog/profile">关于我</a></li>
+          </ul>
+    
+          <div class="search">
+            <form action="/blog/search" method="get">
+              <input class="search_text" id="query" name="query" style="margin-left: 10px; width: 110px;" type="text">
+              <input class="submit_search" value="" type="submit">
+            </form>
+          </div> 
+          <div id="fd"></div>         
+        </div>
+      </div>
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+
+          
+
+
+<div class="blog_main">
+  <div class="blog_title">
+    <h3>
+      <a href="http://darkranger.iteye.com/blog/657737">CheckStyle使用手册</a>
+      <em class="actions">      </em>
+    </h3>
+    <ul class="blog_categories"><strong>博客分类：</strong> <li><a href="http://darkranger.iteye.com/category/59245">技术札记</a></li> </ul>
+        <div class="news_tag"><a href="http://www.iteye.com/blogs/tag/maven">maven</a><a href="http://www.iteye.com/blogs/tag/Eclipse">Eclipse</a><a href="http://www.iteye.com/blogs/tag/Apache">Apache</a><a href="http://www.iteye.com/blogs/tag/XML">XML</a><a href="http://www.iteye.com/blogs/tag/IDE">IDE</a>&nbsp;</div>
+  </div>
+
+  <div id="blog_content" class="blog_content">
+    介绍
+<br>CheckStyle是SourceForge下的一个项目，提供了一个帮助JAVA开发人员遵守某些编码规范的工具。它能够自动化代码规范检查过程，从 而使得开发人员从这项重要，但是枯燥的任务中解脱出来。
+<br>CheckStyle默认提供一下主要检查内容： 
+<br>　　•Javadoc注释 
+<br>　　•命名约定 
+<br>　　•标题 
+<br>　　•Import语句 
+<br>　　•体积大小 
+<br>　　•空白 
+<br>　　•修饰符 
+<br>　&nbsp; •块 
+<br>　　•代码问题 
+<br>　　•类设计 
+<br>　　•混合检查（包活一些有用的比如非必须的 System.out和printstackTrace） 
+<br>　　从上面可以看出，CheckStyle提供了大部分功能都是对于代码规范 的检查，而没有提供象PMD和Jalopy那么多的增强代码质量和修改代码的功能。但是，对于团队开发，尤其是强调代码规范的公司来说，它的功能已经足够强大。
+<br>Eclipse插件安装和使用
+<br>步骤一：http://sourceforge.net/projects/checkclipse/下载checkstyle的eclipse
+插件checkclipse。下载后，将包放入eclipse的plugins文件夹下，然后重启eclipse。在Windows—
+&gt;preferences下找到checkclipse。如下图:
+<br> <img src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/5e84aff8-d7dc-3566-b31d-0c9e9f00faa9.jpg">
+<br>勾选Set Project Dir as Checkjstyle Basedir
+<br>步骤二：右键选中你要进行checkstyle的项目文件，选择“properties”。如下图：
+<br> <img src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/3a0dbaf6-4bb6-35bb-b8b9-78804a157157.jpg">
+<br>勾选Enable Checkstyle和Set Project ClassLoader.
+<br>然后再Checkstyle Configuraion File中选择项目中checkstyle的配置文件。这里我把配置文件时放置在项目根目录下，所以点击右侧“Browse”按钮，在项目根目录下选择该文件。按“OK”按钮。
+<br>这样整个项目的代码将根据配置文件中设置的原则进行出错提示.结果如下图：
+<br> <img src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/d16a6b93-c29d-395a-a331-6d447f593fb6.jpg">
+<br>由图可知对不符合代码规范的代码会有错误提示，并且有提示信息。
+<br>Maven插件安装和使用
+<br>首先，修改要检查代码库top级的pom.xml文件，在build部分配置CheckStyle的Maven插件，以便于下载安装对应版本的插件（Maven会自动从其镜像库中下载），方法如下：
+<br><div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/clipboard_new.swf" flashvars="clipboard=%3Cproject%3E%0A%20%20...%0A%20%20%3Cbuild%3E%0A%20%20%20%20%3Cplugins%3E%0A%20%20%20%20%20%20%3Cplugin%3E%0A%20%20%20%20%20%20%20%20%3CgroupId%3Eorg.apache.maven.plugins%3C%2FgroupId%3E%0A%20%20%20%20%20%20%20%20%3CartifactId%3Emaven-checkstyle-plugin%3C%2FartifactId%3E%0A%20%20%20%20%20%20%20%20%3Cversion%3E2.3%3C%2Fversion%3E%0A%20%20%20%20%20%20%3C%2Fplugin%3E%0A%20%20%20%20%3C%2Fplugins%3E%0A%20%20%3C%2Fbuild%3E%0A%20%20...%0A%3C%2Fproject%3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/icon_star.png" alt="收藏代码"><img class="spinner" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span>&lt;project&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;...&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&lt;build&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;plugins&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;plugin&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;artifactId&gt;maven-checkstyle-plugin&lt;/artifactId&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;version&gt;<span class="number">2.3</span><span>&lt;/version&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/plugin&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/plugins&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&lt;/build&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;...&nbsp;&nbsp;</span></li><li><span>&lt;/project&gt;&nbsp;&nbsp;</span></li></ol></div><pre title="CheckStyle使用手册" pre_index="0" source_url="http://darkranger.iteye.com/blog/657737" codeable_type="Blog" codeable_id="657737" style="display: none;" class="java" name="code">&lt;project&gt;
+  ...
+  &lt;build&gt;
+    &lt;plugins&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-checkstyle-plugin&lt;/artifactId&gt;
+        &lt;version&gt;2.3&lt;/version&gt;
+      &lt;/plugin&gt;
+    &lt;/plugins&gt;
+  &lt;/build&gt;
+  ...
+&lt;/project&gt;</pre>
+<br>maven-checkstyle-plugin的最新版本为2.5，其对应的CheckStyle核心版本为5.0；maven-
+checkstyle-plugin 
+2.3对应的CheckStyle核心版本为4.4。查看插件的pom文件，可看到如下内容，其中的版本号就为对应的CheckStyle的版本号。
+<br><div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/clipboard_new.swf" flashvars="clipboard=%3Cdependency%3E%0A%20%20%3CgroupId%3Echeckstyle%3C%2FgroupId%3E%20%0A%20%20%3CartifactId%3Echeckstyle%3C%2FartifactId%3E%20%0A%20%20%3Cversion%3E4.4%3C%2Fversion%3E%20%0A%20%20%3C%2Fdependency%3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/icon_star.png" alt="收藏代码"><img class="spinner" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span>&lt;dependency&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&lt;groupId&gt;checkstyle&lt;/groupId&gt;&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&lt;artifactId&gt;checkstyle&lt;/artifactId&gt;&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&lt;version&gt;<span class="number">4.4</span><span>&lt;/version&gt;&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&lt;/dependency&gt;&nbsp;&nbsp;</span></li></ol></div><pre title="CheckStyle使用手册" pre_index="1" source_url="http://darkranger.iteye.com/blog/657737" codeable_type="Blog" codeable_id="657737" style="display: none;" class="java" name="code">&lt;dependency&gt;
+  &lt;groupId&gt;checkstyle&lt;/groupId&gt; 
+  &lt;artifactId&gt;checkstyle&lt;/artifactId&gt; 
+  &lt;version&gt;4.4&lt;/version&gt; 
+  &lt;/dependency&gt;</pre>
+<br>接下来，将自定义的规则配置文件拷贝到top级目录，在reporting部分的CheckStyle插件配置中引用配置。
+<br><div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/clipboard_new.swf" flashvars="clipboard=%3Creporting%3E%0A%20%20%20%20%3Cplugins%3E%0A%20%20%20%20%20%20%20%20%3Cplugin%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3CgroupId%3Eorg.apache.maven.plugins%3C%2FgroupId%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3CartifactId%3Emaven-checkstyle-plugin%3C%2FartifactId%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cconfiguration%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3CconfigLocation%3Emy_checks.xml%3C%2FconfigLocation%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fconfiguration%3E%0A%20%20%20%20%20%20%20%20%3C%2Fplugin%3E%0A%20%20%20%20%3C%2Fplugins%3E%0A%3C%2Freporting%3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/icon_star.png" alt="收藏代码"><img class="spinner" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span>&lt;reporting&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;plugins&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;plugin&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;artifactId&gt;maven-checkstyle-plugin&lt;/artifactId&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;configuration&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;configLocation&gt;my_checks.xml&lt;/configLocation&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/configuration&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/plugin&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/plugins&gt;&nbsp;&nbsp;</span></li><li><span>&lt;/reporting&gt;&nbsp;&nbsp;</span></li></ol></div><pre title="CheckStyle使用手册" pre_index="2" source_url="http://darkranger.iteye.com/blog/657737" codeable_type="Blog" codeable_id="657737" style="display: none;" class="java" name="code">&lt;reporting&gt;
+    &lt;plugins&gt;
+        &lt;plugin&gt;
+            &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+            &lt;artifactId&gt;maven-checkstyle-plugin&lt;/artifactId&gt;
+            &lt;configuration&gt;
+              &lt;configLocation&gt;my_checks.xml&lt;/configLocation&gt;
+            &lt;/configuration&gt;
+        &lt;/plugin&gt;
+    &lt;/plugins&gt;
+&lt;/reporting&gt;</pre>
+<br>也可以将配置文件放在子文件夹下，配置中带上相对路径即可。
+<br><div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/clipboard_new.swf" flashvars="clipboard=%3Creporting%3E%0A%20%20%20%20%3Cplugins%3E%0A%20%20%20%20%20%20%20%20%3Cplugin%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3CgroupId%3Eorg.apache.maven.plugins%3C%2FgroupId%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3CartifactId%3Emaven-checkstyle-plugin%3C%2FartifactId%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cconfiguration%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3CconfigLocation%3Ebuild-tools%2Fsrc%2Fmain%2Fresources%2Fxx%2Fmy_checks.xml%3C%2FconfigLocation%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fconfiguration%3E%0A%20%20%20%20%20%20%20%20%3C%2Fplugin%3E%0A%20%20%20%20%3C%2Fplugins%3E%0A%3C%2Freporting%3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/icon_star.png" alt="收藏代码"><img class="spinner" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span>&lt;reporting&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;plugins&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;plugin&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;artifactId&gt;maven-checkstyle-plugin&lt;/artifactId&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;configuration&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;configLocation&gt;build-tools/src/main/resources/xx/my_checks.xml&lt;/configLocation&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/configuration&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/plugin&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/plugins&gt;&nbsp;&nbsp;</span></li><li><span>&lt;/reporting&gt;&nbsp;&nbsp;</span></li></ol></div><pre title="CheckStyle使用手册" pre_index="3" source_url="http://darkranger.iteye.com/blog/657737" codeable_type="Blog" codeable_id="657737" style="display: none;" class="java" name="code">&lt;reporting&gt;
+    &lt;plugins&gt;
+        &lt;plugin&gt;
+            &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+            &lt;artifactId&gt;maven-checkstyle-plugin&lt;/artifactId&gt;
+            &lt;configuration&gt;
+              &lt;configLocation&gt;build-tools/src/main/resources/xx/my_checks.xml&lt;/configLocation&gt;
+            &lt;/configuration&gt;
+        &lt;/plugin&gt;
+    &lt;/plugins&gt;
+&lt;/reporting&gt;</pre>
+<br>如果使用插件自带的规则文件，可以作如下配置。maven-checkstyle-plugin插件自带的规则有sun_checks.xml、maven_checks.xml等，可查看插件包。
+<br><div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/clipboard_new.swf" flashvars="clipboard=%3Creporting%3E%0A%20%20%20%20%3Cplugins%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cplugin%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3CgroupId%3Eorg.apache.maven.plugins%3C%2FgroupId%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3CartifactId%3Emaven-checkstyle-plugin%3C%2FartifactId%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cconfiguration%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3CconfigLocation%3Econfig%2Fmaven_checks.xml%3C%2FconfigLocation%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fconfiguration%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cversion%3E2.3%3C%2Fversion%3E%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fplugin%3E%0A%20%20%20%20%3C%2Fplugins%3E%0A%3C%2Freporting%3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/icon_star.png" alt="收藏代码"><img class="spinner" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span>&lt;reporting&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;plugins&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;plugin&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;artifactId&gt;maven-checkstyle-plugin&lt;/artifactId&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;configuration&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;configLocation&gt;config/maven_checks.xml&lt;/configLocation&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/configuration&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;version&gt;<span class="number">2.3</span><span>&lt;/version&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/plugin&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/plugins&gt;&nbsp;&nbsp;</span></li><li><span>&lt;/reporting&gt;&nbsp;&nbsp;</span></li></ol></div><pre title="CheckStyle使用手册" pre_index="4" source_url="http://darkranger.iteye.com/blog/657737" codeable_type="Blog" codeable_id="657737" style="display: none;" class="java" name="code">&lt;reporting&gt;
+    &lt;plugins&gt;
+               &lt;plugin&gt;
+                 &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                 &lt;artifactId&gt;maven-checkstyle-plugin&lt;/artifactId&gt;
+                 &lt;configuration&gt;
+                            &lt;configLocation&gt;config/maven_checks.xml&lt;/configLocation&gt;
+                &lt;/configuration&gt;
+                 &lt;version&gt;2.3&lt;/version&gt;       
+               &lt;/plugin&gt;
+    &lt;/plugins&gt;
+&lt;/reporting&gt;</pre>
+<br>在reporting部分增加jxr插件，生成代码报告，这样在CheckStyle报告 中点击问题对应的链接就可以直接看到出错的代码。
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/clipboard_new.swf" flashvars="clipboard=%20%20%20%3Creporting%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cplugins%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cplugin%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3CgroupId%3Eorg.apache.maven.plugins%3C%2FgroupId%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3CartifactId%3Emaven-checkstyle-plugin%3C%2FartifactId%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cconfiguration%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3CconfigLocation%3Emy_checks.xml%3C%2FconfigLocation%3E%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fconfiguration%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cversion%3E2.3%3C%2Fversion%3E%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fplugin%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cplugin%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3CgroupId%3Eorg.apache.maven.plugins%3C%2FgroupId%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3CartifactId%3Emaven-jxr-plugin%3C%2FartifactId%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fplugin%3E%20%20%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fplugins%3E%0A%20%20%20%20%20%20%20%3C%2Freporting%3E%20" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/icon_star.png" alt="收藏代码"><img class="spinner" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span>&lt;reporting&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;plugins&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;plugin&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;artifactId&gt;maven-checkstyle-plugin&lt;/artifactId&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;configuration&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;configLocation&gt;my_checks.xml&lt;/configLocation&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/configuration&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;version&gt;<span class="number">2.3</span><span>&lt;/version&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/plugin&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;plugin&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;artifactId&gt;maven-jxr-plugin&lt;/artifactId&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/plugin&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/plugins&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/reporting&gt;&nbsp;&nbsp;&nbsp;</span></li></ol></div><pre title="CheckStyle使用手册" pre_index="5" source_url="http://darkranger.iteye.com/blog/657737" codeable_type="Blog" codeable_id="657737" style="display: none;" class="java" name="code">   &lt;reporting&gt;
+             &lt;plugins&gt;
+               &lt;plugin&gt;
+                 &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                 &lt;artifactId&gt;maven-checkstyle-plugin&lt;/artifactId&gt;
+                 &lt;configuration&gt;
+                            &lt;configLocation&gt;my_checks.xml&lt;/configLocation&gt;                            
+             &lt;/configuration&gt;
+                 &lt;version&gt;2.3&lt;/version&gt;       
+               &lt;/plugin&gt;
+               &lt;plugin&gt;
+                      &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                    &lt;artifactId&gt;maven-jxr-plugin&lt;/artifactId&gt;
+               &lt;/plugin&gt;              
+             &lt;/plugins&gt;
+       &lt;/reporting&gt; </pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<br>在build和reporting部分增加javadoc插件，如果pom文件中已经配置，则只需作相应修改。charset、
+encoding、docencoding配置用于解决生成的javadoc文件中文乱码问题；aggregate配置为true则javadoc报告会
+集中显示所有子模块的javadoc。
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/clipboard_new.swf" flashvars="clipboard=%20%3Creporting%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cplugins%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cplugin%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3CgroupId%3Eorg.apache.maven.plugins%3C%2FgroupId%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3CartifactId%3Emaven-javadoc-plugin%3C%2FartifactId%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cversion%3E2.4%3C%2Fversion%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cconfiguration%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Caggregate%3Etrue%3C%2Faggregate%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Ccharset%3EUTF-8%3C%2Fcharset%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cencoding%3EUTF-8%3C%2Fencoding%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cdocencoding%3EUTF-8%3C%2Fdocencoding%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fconfiguration%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fplugin%3E%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cplugin%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3CgroupId%3Eorg.apache.maven.plugins%3C%2FgroupId%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3CartifactId%3Emaven-checkstyle-plugin%3C%2FartifactId%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cconfiguration%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3CconfigLocation%3Emy_checks.xml%3C%2FconfigLocation%3E%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fconfiguration%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cversion%3E2.3%3C%2Fversion%3E%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fplugin%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cplugin%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3CgroupId%3Eorg.apache.maven.plugins%3C%2FgroupId%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3CartifactId%3Emaven-jxr-plugin%3C%2FartifactId%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fplugin%3E%20%20%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fplugins%3E%0A%20%20%20%20%20%20%20%3C%2Freporting%3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/icon_star.png" alt="收藏代码"><img class="spinner" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span>&lt;reporting&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;plugins&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;plugin&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;artifactId&gt;maven-javadoc-plugin&lt;/artifactId&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;version&gt;<span class="number">2.4</span><span>&lt;/version&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;configuration&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;aggregate&gt;<span class="keyword">true</span><span>&lt;/aggregate&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;charset&gt;UTF-<span class="number">8</span><span>&lt;/charset&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;encoding&gt;UTF-<span class="number">8</span><span>&lt;/encoding&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;docencoding&gt;UTF-<span class="number">8</span><span>&lt;/docencoding&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/configuration&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/plugin&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;plugin&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;artifactId&gt;maven-checkstyle-plugin&lt;/artifactId&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;configuration&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;configLocation&gt;my_checks.xml&lt;/configLocation&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/configuration&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;version&gt;<span class="number">2.3</span><span>&lt;/version&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/plugin&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;plugin&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;artifactId&gt;maven-jxr-plugin&lt;/artifactId&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/plugin&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/plugins&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/reporting&gt;&nbsp;&nbsp;</span></li></ol></div><pre title="CheckStyle使用手册" pre_index="6" source_url="http://darkranger.iteye.com/blog/657737" codeable_type="Blog" codeable_id="657737" style="display: none;" class="java" name="code"> &lt;reporting&gt;
+             &lt;plugins&gt;
+               &lt;plugin&gt;
+                           &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                           &lt;artifactId&gt;maven-javadoc-plugin&lt;/artifactId&gt;
+                           &lt;version&gt;2.4&lt;/version&gt;
+                           &lt;configuration&gt;
+                              &lt;aggregate&gt;true&lt;/aggregate&gt;
+                         &lt;charset&gt;UTF-8&lt;/charset&gt;
+                                       &lt;encoding&gt;UTF-8&lt;/encoding&gt;
+                                       &lt;docencoding&gt;UTF-8&lt;/docencoding&gt;
+                         &lt;/configuration&gt;
+               &lt;/plugin&gt;            
+               &lt;plugin&gt;
+                 &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                 &lt;artifactId&gt;maven-checkstyle-plugin&lt;/artifactId&gt;
+                 &lt;configuration&gt;
+                            &lt;configLocation&gt;my_checks.xml&lt;/configLocation&gt;                            
+             &lt;/configuration&gt;
+                 &lt;version&gt;2.3&lt;/version&gt;       
+               &lt;/plugin&gt;
+               &lt;plugin&gt;
+                      &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                    &lt;artifactId&gt;maven-jxr-plugin&lt;/artifactId&gt;
+               &lt;/plugin&gt;              
+             &lt;/plugins&gt;
+       &lt;/reporting&gt;</pre>
+<br>在maven插件中使用 
+install命令将pom文件中配置的插件下载安装到本地，然后使用checkstyle:checkstyle命令进行检查并生成报告，运行完毕，各
+项目目录下会生成target目录，target\site\checkstyle.html即为该项目的问题报告。
+<br>需要注意的是checkstyle:checkstyle仅生成CheckStyle相关报告，因此不能从报告中直接链接到错误代码；需要同时生成jxr源代码，使用site。
+<br>如果运行checkstyle:checkstyle或site过程中出现如下错误，则应该修改CheckStyle规 则配置文件，去除其中的中文字符。
+<br><div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/clipboard_new.swf" flashvars="clipboard=%E2%80%9C%5BERROR%5D%20BUILD%20ERROR%0A%5BINFO%5D%20------------------------------------------------------------------------%0A%5BINFO%5D%20An%20error%20has%20occurred%20in%20Checkstyle%20report%20generation.%0A%20%0AEmbedded%20error%3A%20Failed%20during%20checkstyle%20configuration%0AInvalid%20byte%201%20of%201-byte%20UTF-8%20sequence.%0A%E2%80%9D" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/icon_star.png" alt="收藏代码"><img class="spinner" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span>“[ERROR]&nbsp;BUILD&nbsp;ERROR&nbsp;&nbsp;</span></span></li><li><span>[INFO]&nbsp;------------------------------------------------------------------------&nbsp;&nbsp;</span></li><li><span>[INFO]&nbsp;An&nbsp;error&nbsp;has&nbsp;occurred&nbsp;in&nbsp;Checkstyle&nbsp;report&nbsp;generation.&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;</span></li><li><span>Embedded&nbsp;error:&nbsp;Failed&nbsp;during&nbsp;checkstyle&nbsp;configuration&nbsp;&nbsp;</span></li><li><span>Invalid&nbsp;<span class="keyword">byte</span><span>&nbsp;</span><span class="number">1</span><span>&nbsp;of&nbsp;</span><span class="number">1</span><span>-</span><span class="keyword">byte</span><span>&nbsp;UTF-</span><span class="number">8</span><span>&nbsp;sequence.&nbsp;&nbsp;</span></span></li><li><span>”&nbsp;&nbsp;</span></li></ol></div><pre title="CheckStyle使用手册" pre_index="7" source_url="http://darkranger.iteye.com/blog/657737" codeable_type="Blog" codeable_id="657737" style="display: none;" class="java" name="code">“[ERROR] BUILD ERROR
+[INFO] ------------------------------------------------------------------------
+[INFO] An error has occurred in Checkstyle report generation.
+ 
+Embedded error: Failed during checkstyle configuration
+Invalid byte 1 of 1-byte UTF-8 sequence.
+”</pre>
+<br>最佳实践
+<br>自定义的checkstyle配置文件 
+<br>　　以下代码是自定义的checkstyle配置文件内容，相关说明都已经用注释形式写在文件中。代码如下：
+<br><div id="" class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/clipboard_new.swf" flashvars="clipboard=%3C!DOCTYPE%20module%20PUBLIC%0A%20%20%20%20%22-%2F%2FPuppy%20Crawl%2F%2FDTD%20Check%20Configuration%201.2%2F%2FEN%22%0A%20%20%20%20%22http%3A%2F%2Fwww.puppycrawl.com%2Fdtds%2Fconfiguration_1_2.dtd%22%3E%0A%3Cmodule%20name%3D%22Checker%22%3E%0A%0A%09%3C!--%0A%09%09%E9%87%8D%E5%A4%8D%E4%BB%A3%E7%A0%81%E7%9A%84%E6%A3%80%E6%9F%A5%EF%BC%8C%E8%B6%85%E8%BF%878%E8%A1%8C%E5%B0%B1%E8%AE%A4%E4%B8%BA%E9%87%8D%E5%A4%8D%EF%BC%8CUTF-8%E6%A0%BC%E5%BC%8F%20%E6%9C%AC%E6%A3%80%E6%9F%A5%E4%B8%80%E5%AE%9A%E8%A6%81%E6%94%BE%E5%9C%A8%22TreeWalker%22%E8%8A%82%E7%82%B9%E5%89%8D%EF%BC%8C%E5%90%A6%E5%88%99%E5%9C%A8%0A%09%09Checkclipse%E4%B8%AD%E4%BC%9A%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E3%80%82(%E5%9C%A8ant%E4%B8%8B%E5%8F%AF%E4%BB%A5)%0A%09--%3E%0A%09%3Cmodule%20name%3D%22StrictDuplicateCode%22%3E%0A%09%09%3Cproperty%20name%3D%22min%22%20value%3D%228%22%20%2F%3E%0A%09%09%3Cproperty%20name%3D%22charset%22%20value%3D%22UTF-8%22%20%2F%3E%0A%09%3C%2Fmodule%3E%0A%0A%09%3Cmodule%20name%3D%22TreeWalker%22%3E%0A%0A%09%09%3C!--%20javadoc%E7%9A%84%E6%A3%80%E6%9F%A5%20--%3E%0A%09%09%3C!--%20%E6%A3%80%E6%9F%A5%E6%89%80%E6%9C%89%E7%9A%84interface%E5%92%8Cclass%20--%3E%0A%09%09%3Cmodule%20name%3D%22JavadocType%22%20%2F%3E%0A%0A%09%09%3C!--%20%E5%91%BD%E5%90%8D%E6%96%B9%E9%9D%A2%E7%9A%84%E6%A3%80%E6%9F%A5%EF%BC%8C%E5%AE%83%E4%BB%AC%E9%83%BD%E4%BD%BF%E7%94%A8%E4%BA%86Sun%E5%AE%98%E6%96%B9%E5%AE%9A%E7%9A%84%E8%A7%84%E5%88%99%E3%80%82%20--%3E%0A%09%09%3C!--%20%E5%B1%80%E9%83%A8%E7%9A%84final%E5%8F%98%E9%87%8F%EF%BC%8C%E5%8C%85%E6%8B%ACcatch%E4%B8%AD%E7%9A%84%E5%8F%82%E6%95%B0%E7%9A%84%E6%A3%80%E6%9F%A5%20--%3E%0A%09%09%3Cmodule%20name%3D%22LocalFinalVariableName%22%20%2F%3E%0A%09%09%3C!--%20%E5%B1%80%E9%83%A8%E7%9A%84%E9%9D%9Efinal%E5%9E%8B%E7%9A%84%E5%8F%98%E9%87%8F%EF%BC%8C%E5%8C%85%E6%8B%ACcatch%E4%B8%AD%E7%9A%84%E5%8F%82%E6%95%B0%E7%9A%84%E6%A3%80%E6%9F%A5%20--%3E%0A%09%09%3Cmodule%20name%3D%22LocalVariableName%22%20%2F%3E%0A%09%09%3C!--%20%E5%8C%85%E5%90%8D%E7%9A%84%E6%A3%80%E6%9F%A5%EF%BC%88%E5%8F%AA%E5%85%81%E8%AE%B8%E5%B0%8F%E5%86%99%E5%AD%97%E6%AF%8D%EF%BC%89%20--%3E%0A%09%09%3Cmodule%20name%3D%22PackageName%22%3E%0A%09%09%09%3Cproperty%20name%3D%22format%22%20value%3D%22%5E%5Ba-z%5D%2B(%5C.%5Ba-z%5D%5Ba-z0-9%5D*)*%24%22%20%2F%3E%0A%09%09%3C%2Fmodule%3E%0A%09%09%3C!--%20%E4%BB%85%E4%BB%85%E6%98%AFstatic%E5%9E%8B%E7%9A%84%E5%8F%98%E9%87%8F%EF%BC%88%E4%B8%8D%E5%8C%85%E6%8B%ACstatic%20final%E5%9E%8B%EF%BC%89%E7%9A%84%E6%A3%80%E6%9F%A5%20--%3E%0A%09%09%3Cmodule%20name%3D%22StaticVariableName%22%20%2F%3E%0A%09%09%3C!--%20%E7%B1%BB%E5%9E%8B(Class%E6%88%96Interface)%E5%90%8D%E7%9A%84%E6%A3%80%E6%9F%A5%20--%3E%0A%09%09%3Cmodule%20name%3D%22TypeName%22%20%2F%3E%0A%09%09%3C!--%20%E9%9D%9Estatic%E5%9E%8B%E5%8F%98%E9%87%8F%E7%9A%84%E6%A3%80%E6%9F%A5%20--%3E%0A%09%09%3Cmodule%20name%3D%22MemberName%22%20%2F%3E%0A%09%09%3C!--%20%E6%96%B9%E6%B3%95%E5%90%8D%E7%9A%84%E6%A3%80%E6%9F%A5%20--%3E%0A%09%09%3Cmodule%20name%3D%22MethodName%22%20%2F%3E%0A%09%09%3C!--%20%E6%96%B9%E6%B3%95%E7%9A%84%E5%8F%82%E6%95%B0%E5%90%8D%20--%3E%0A%09%09%3Cmodule%20name%3D%22ParameterName%20%22%20%2F%3E%0A%09%09%3C!--%20%E5%B8%B8%E9%87%8F%E5%90%8D%E7%9A%84%E6%A3%80%E6%9F%A5%20--%3E%0A%09%09%3Cmodule%20name%3D%22ConstantName%22%20%2F%3E%0A%0A%09%09%3C!--%20import%E6%96%B9%E9%9D%A2%E7%9A%84%E6%A3%80%E6%9F%A5%20--%3E%0A%09%09%3C!--%20import%E4%B8%AD%E9%81%BF%E5%85%8D%E6%98%9F%E5%8F%B7%22*%22%20--%3E%0A%09%09%3Cmodule%20name%3D%22AvoidStarImport%22%20%2F%3E%0A%09%09%3C!--%0A%09%09%09%E6%B2%A1%E7%94%A8%E7%9A%84import%E6%A3%80%E6%9F%A5%EF%BC%8C%E6%AF%94%E5%A6%82%EF%BC%9A1.%E6%B2%A1%E6%9C%89%E8%A2%AB%E7%94%A8%E5%88%B02.%E9%87%8D%E5%A4%8D%E7%9A%843.import%20java.lang%E7%9A%844.import%0A%09%09%09%E4%B8%8E%E8%AF%A5%E7%B1%BB%E5%9C%A8%E5%90%8C%E4%B8%80%E4%B8%AApackage%E7%9A%84%0A%09%09--%3E%0A%09%09%3Cmodule%20name%3D%22UnusedImports%22%20%2F%3E%0A%0A%0A%09%09%3C!--%20%E9%95%BF%E5%BA%A6%E6%96%B9%E9%9D%A2%E7%9A%84%E6%A3%80%E6%9F%A5%20--%3E%0A%09%09%3C!--%20%E6%96%87%E4%BB%B6%E9%95%BF%E5%BA%A6%E4%B8%8D%E8%B6%85%E8%BF%871500%E8%A1%8C%20--%3E%0A%09%09%3Cmodule%20name%3D%22FileLength%22%3E%0A%09%09%09%3Cproperty%20name%3D%22max%22%20value%3D%221500%22%20%2F%3E%0A%09%09%3C%2Fmodule%3E%0A%09%09%3C!--%20%E6%AF%8F%E8%A1%8C%E4%B8%8D%E8%B6%85%E8%BF%87120%E4%B8%AA%E5%AD%97--%3E%0A%09%09%3Cmodule%20name%3D%22LineLength%22%3E%0A%09%09%09%3Cproperty%20name%3D%22max%22%20value%3D%22120%22%20%2F%3E%0A%09%09%3C%2Fmodule%3E%0A%09%09%3C!--%20%E6%96%B9%E6%B3%95%E4%B8%8D%E8%B6%85%E8%BF%8730%E8%A1%8C%20--%3E%0A%09%09%3Cmodule%20name%3D%22MethodLength%22%3E%0A%09%09%09%3Cproperty%20name%3D%22tokens%22%20value%3D%22METHOD_DEF%22%20%2F%3E%0A%09%09%09%3Cproperty%20name%3D%22max%22%20value%3D%2230%22%20%2F%3E%0A%09%09%3C%2Fmodule%3E%0A%09%09%3C!--%20%E6%96%B9%E6%B3%95%E7%9A%84%E5%8F%82%E6%95%B0%E4%B8%AA%E6%95%B0%E4%B8%8D%E8%B6%85%E8%BF%873%E4%B8%AA%E3%80%82%20%E5%B9%B6%E4%B8%94%E4%B8%8D%E5%AF%B9%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E8%BF%9B%E8%A1%8C%E6%A3%80%E6%9F%A5--%3E%0A%09%09%3Cmodule%20name%3D%22ParameterNumber%22%3E%0A%09%09%09%3Cproperty%20name%3D%22max%22%20value%3D%223%22%20%2F%3E%0A%09%09%09%3Cproperty%20name%3D%22tokens%22%20value%3D%22METHOD_DEF%22%20%2F%3E%0A%09%09%3C%2Fmodule%3E%0A%0A%09%09%3C!--%20%E7%A9%BA%E6%A0%BC%E6%A3%80%E6%9F%A5%20%20--%3E%0A%09%09%3C!--%20%E5%85%81%E8%AE%B8%E6%96%B9%E6%B3%95%E5%90%8D%E5%90%8E%E7%B4%A7%E8%B7%9F%E5%B7%A6%E8%BE%B9%E5%9C%86%E6%8B%AC%E5%8F%B7%22(%22%20--%3E%0A%09%09%3Cmodule%20name%3D%22MethodParamPad%22%20%2F%3E%0A%09%09%3C!--%20%E5%9C%A8%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%97%B6%EF%BC%8C%E4%B8%8D%E5%85%81%E8%AE%B8%E5%B7%A6%E5%9C%86%E6%8B%AC%E5%8F%B7%E5%8F%B3%E8%BE%B9%E6%9C%89%E7%A9%BA%E6%A0%BC%EF%BC%8C%E4%B9%9F%E4%B8%8D%E5%85%81%E8%AE%B8%E4%B8%8E%E5%8F%B3%E5%9C%86%E6%8B%AC%E5%8F%B7%E5%B7%A6%E8%BE%B9%E6%9C%89%E7%A9%BA%E6%A0%BC%20--%3E%0A%09%09%3Cmodule%20name%3D%22TypecastParenPad%22%20%2F%3E%0A%09%09%3C!--%20%E4%B8%8D%E5%85%81%E8%AE%B8%E4%BD%BF%E7%94%A8%22tab%22%E9%94%AE%20%20--%3E%0A%09%09%3Cmodule%20name%3D%22TabCharacter%22%20%2F%3E%0A%0A%09%09%3C!--%20%E5%85%B3%E9%94%AE%E5%AD%97%20--%3E%0A%09%09%3C!--%0A%09%09%09%E6%AF%8F%E4%B8%AA%E5%85%B3%E9%94%AE%E5%AD%97%E9%83%BD%E6%9C%89%E6%AD%A3%E7%A1%AE%E7%9A%84%E5%87%BA%E7%8E%B0%E9%A1%BA%E5%BA%8F%E3%80%82%E6%AF%94%E5%A6%82%20public%20static%20final%20XXX%20%E6%98%AF%E5%AF%B9%E4%B8%80%E4%B8%AA%E5%B8%B8%E9%87%8F%E7%9A%84%E5%A3%B0%E6%98%8E%E3%80%82%E5%A6%82%E6%9E%9C%E4%BD%BF%E7%94%A8%20static%0A%09%09%09public%20final%20%E5%B0%B1%E6%98%AF%E9%94%99%E8%AF%AF%E7%9A%84%0A%09%09--%3E%0A%09%09%3Cmodule%20name%3D%22ModifierOrder%22%20%2F%3E%0A%09%09%3C!--%20%E5%A4%9A%E4%BD%99%E7%9A%84%E5%85%B3%E9%94%AE%E5%AD%97%20--%3E%0A%09%09%3Cmodule%20name%3D%22RedundantModifier%22%20%2F%3E%0A%0A%09%09%3C!--%20%E5%AF%B9%E5%8C%BA%E5%9F%9F%E7%9A%84%E6%A3%80%E6%9F%A5%20--%3E%0A%09%09%3C!--%20%E4%B8%8D%E8%83%BD%E5%87%BA%E7%8E%B0%E7%A9%BA%E7%99%BD%E5%8C%BA%E5%9F%9F%20--%3E%0A%09%09%3Cmodule%20name%3D%22EmptyBlock%22%20%2F%3E%0A%09%09%3C!--%20%E6%89%80%E6%9C%89%E5%8C%BA%E5%9F%9F%E9%83%BD%E8%A6%81%E4%BD%BF%E7%94%A8%E5%A4%A7%E6%8B%AC%E5%8F%B7%E3%80%82%20--%3E%0A%09%09%3Cmodule%20name%3D%22NeedBraces%22%20%2F%3E%0A%09%09%3C!--%20%E5%A4%9A%E4%BD%99%E7%9A%84%E6%8B%AC%E5%8F%B7%20--%3E%0A%09%09%3Cmodule%20name%3D%22AvoidNestedBlocks%22%3E%0A%09%09%09%3Cproperty%20name%3D%22allowInSwitchCase%22%20value%3D%22true%22%20%2F%3E%0A%09%09%3C%2Fmodule%3E%0A%0A%09%09%3C!--%20%E7%BC%96%E7%A0%81%E6%96%B9%E9%9D%A2%E7%9A%84%E6%A3%80%E6%9F%A5%20--%3E%0A%09%09%3C!--%20%E4%B8%8D%E8%AE%B8%E5%87%BA%E7%8E%B0%E7%A9%BA%E8%AF%AD%E5%8F%A5%20--%3E%0A%09%09%3Cmodule%20name%3D%22EmptyStatement%22%20%2F%3E%0A%09%09%3C!--%20%E6%AF%8F%E4%B8%AA%E7%B1%BB%E9%83%BD%E5%AE%9E%E7%8E%B0%E4%BA%86equals()%E5%92%8ChashCode()%20--%3E%0A%09%09%3Cmodule%20name%3D%22EqualsHashCode%22%20%2F%3E%0A%09%09%3C!--%20%E4%B8%8D%E8%AE%B8%E4%BD%BF%E7%94%A8switch%2C%22a%2B%2B%22%E8%BF%99%E6%A0%B7%E5%8F%AF%E8%AF%BB%E6%80%A7%E5%BE%88%E5%B7%AE%E7%9A%84%E4%BB%A3%E7%A0%81%20--%3E%0A%09%09%3Cmodule%20name%3D%22IllegalToken%22%20%2F%3E%0A%09%09%3C!--%20%E4%B8%8D%E8%AE%B8%E5%86%85%E9%83%A8%E8%B5%8B%E5%80%BC%20--%3E%0A%09%09%3Cmodule%20name%3D%22InnerAssignment%22%20%2F%3E%0A%09%09%3C!--%20%E7%BB%9D%E5%AF%B9%E4%B8%8D%E8%83%BD%E5%AE%B9%E5%BF%8D%E9%AD%94%E6%B3%95%E6%95%B0%20--%3E%0A%09%09%3Cmodule%20name%3D%22MagicNumber%22%3E%0A%09%09%09%3Cproperty%20name%3D%22tokens%22%20value%3D%22NUM_DOUBLE%2C%20NUM_INT%22%20%2F%3E%0A%09%09%3C%2Fmodule%3E%0A%09%09%3C!--%20%E5%BE%AA%E7%8E%AF%E6%8E%A7%E5%88%B6%E5%8F%98%E9%87%8F%E4%B8%8D%E8%83%BD%E8%A2%AB%E4%BF%AE%E6%94%B9%20--%3E%0A%09%09%3Cmodule%20name%3D%22ModifiedControlVariable%22%20%2F%3E%0A%09%09%3C!--%20%E5%A4%9A%E4%BD%99%E7%9A%84throw%20--%3E%0A%09%09%3Cmodule%20name%3D%22RedundantThrows%22%20%2F%3E%0A%09%09%3C!--%20%E4%B8%8D%E8%AE%B8%E4%BD%BF%E7%94%A8%E6%9C%AA%E8%A2%AB%E7%AE%80%E5%8C%96%E7%9A%84%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F%20--%3E%0A%09%09%3Cmodule%20name%3D%22SimplifyBooleanExpression%22%20%2F%3E%0A%09%09%3C!--%20%E4%B8%8D%E8%AE%B8%E4%BD%BF%E7%94%A8%E6%9C%AA%E8%A2%AB%E7%AE%80%E5%8C%96%E7%9A%84%E5%B8%83%E5%B0%94%E8%BF%94%E5%9B%9E%E5%80%BC%20--%3E%0A%09%09%3Cmodule%20name%3D%22SimplifyBooleanReturn%22%20%2F%3E%0A%09%09%3C!--%20String%E7%9A%84%E6%AF%94%E8%BE%83%E4%B8%8D%E8%83%BD%E7%94%A8!%3D%20%E5%92%8C%20%3D%3D%20--%3E%0A%09%09%3Cmodule%20name%3D%22StringLiteralEquality%22%20%2F%3E%0A%09%09%3C!--%20if%E6%9C%80%E5%A4%9A%E5%B5%8C%E5%A5%973%E5%B1%82%20--%3E%0A%09%09%3Cmodule%20name%3D%22NestedIfDepth%22%3E%0A%09%09%09%3Cproperty%20name%3D%22max%22%20value%3D%223%22%20%2F%3E%0A%09%09%3C%2Fmodule%3E%0A%09%09%3C!--%20try%E6%9C%80%E5%A4%9A%E8%A2%AB%E5%B5%8C%E5%A5%972%E5%B1%82%20--%3E%0A%09%09%3Cmodule%20name%3D%22NestedTryDepth%22%3E%0A%09%09%09%3Cproperty%20name%3D%22max%22%20value%3D%222%22%20%2F%3E%0A%09%09%3C%2Fmodule%3E%0A%09%09%3C!--%20clone%E6%96%B9%E6%B3%95%E5%BF%85%E9%A1%BB%E8%B0%83%E7%94%A8%E4%BA%86super.clone()%20--%3E%0A%09%09%3Cmodule%20name%3D%22SuperClone%22%20%2F%3E%0A%09%09%3C!--%20finalize%20%E5%BF%85%E9%A1%BB%E8%B0%83%E7%94%A8%E4%BA%86super.finalize()%20--%3E%0A%09%09%3Cmodule%20name%3D%22SuperFinalize%22%20%2F%3E%0A%09%09%3C!--%20%E4%B8%8D%E8%83%BDcatch%20java.lang.Exception%20--%3E%0A%09%09%3Cmodule%20name%3D%22IllegalCatch%22%3E%0A%09%09%09%3Cproperty%20name%3D%22illegalClassNames%22%20value%3D%22java.lang.Exception%22%20%2F%3E%0A%09%09%3C%2Fmodule%3E%0A%09%09%3C!--%20%E7%A1%AE%E4%BF%9D%E4%B8%80%E4%B8%AA%E7%B1%BB%E6%9C%89package%E5%A3%B0%E6%98%8E%20--%3E%0A%09%09%3Cmodule%20name%3D%22PackageDeclaration%22%20%2F%3E%0A%09%09%3C!--%20%E4%B8%80%E4%B8%AA%E6%96%B9%E6%B3%95%E4%B8%AD%E6%9C%80%E5%A4%9A%E6%9C%893%E4%B8%AAreturn%20--%3E%0A%09%09%3Cmodule%20name%3D%22ReturnCount%22%3E%0A%09%09%09%3Cproperty%20name%3D%22max%22%20value%3D%223%22%20%2F%3E%0A%09%09%09%3Cproperty%20name%3D%22format%22%20value%3D%22%5E%24%22%20%2F%3E%0A%09%09%3C%2Fmodule%3E%0A%09%09%3C!--%0A%09%09%09%E6%A0%B9%E6%8D%AE%20Sun%20%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%EF%BC%8C%20class%20%E6%88%96%20interface%20%E4%B8%AD%E7%9A%84%E9%A1%BA%E5%BA%8F%E5%A6%82%E4%B8%8B%EF%BC%9A%201.class%20%E5%A3%B0%E6%98%8E%E3%80%82%E9%A6%96%E5%85%88%E6%98%AF%20public%2C%0A%09%09%09%E7%84%B6%E5%90%8E%E6%98%AFprotected%20%2C%20%E7%84%B6%E5%90%8E%E6%98%AF%20package%20level%20%EF%BC%88%E4%B8%8D%E5%8C%85%E6%8B%ACaccess%20modifier%20%EF%BC%89%20%E6%9C%80%E5%90%8E%E6%98%AFprivate%20.%0A%09%09%09(%E5%A4%9A%E4%B8%AAclass%E6%94%BE%E5%9C%A8%E4%B8%80%E4%B8%AAjava%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E6%83%85%E5%86%B5%EF%BC%89%202.%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E%E3%80%82%20%E9%A6%96%E5%85%88%E6%98%AF%20public%2C%20%E7%84%B6%E5%90%8E%E6%98%AFprotected%E7%84%B6%E5%90%8E%E6%98%AF%20package%0A%09%09%09level%20%EF%BC%88%E4%B8%8D%E5%8C%85%E6%8B%ACaccess%20modifier%20%EF%BC%89%20%E6%9C%80%E5%90%8E%E6%98%AFprivate%20.%20(%E5%A4%9A%E4%B8%AAclass%E6%94%BE%E5%9C%A8%E4%B8%80%E4%B8%AAjava%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E6%83%85%E5%86%B5%EF%BC%89%0A%09%09%093.%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%204.%E6%96%B9%E6%B3%95%0A%09%09--%3E%0A%09%09%3Cmodule%20name%3D%22DeclarationOrder%22%20%2F%3E%0A%09%09%3C!--%20%E4%B8%8D%E8%AE%B8%E5%AF%B9%E6%96%B9%E6%B3%95%E7%9A%84%E5%8F%82%E6%95%B0%E8%B5%8B%E5%80%BC%20--%3E%0A%09%09%3Cmodule%20name%3D%22ParameterAssignment%22%20%2F%3E%0A%09%09%3C!--%20%E7%A1%AE%E4%BF%9D%E6%9F%90%E4%B8%AAclass%20%E5%9C%A8%E8%A2%AB%E4%BD%BF%E7%94%A8%E6%97%B6%E9%83%BD%E5%B7%B2%E7%BB%8F%E8%A2%AB%E5%88%9D%E5%A7%8B%E5%8C%96%E6%88%90%E9%BB%98%E8%AE%A4%E5%80%BC(%E5%AF%B9%E8%B1%A1%E6%98%AFnull%2C%E6%95%B0%E5%AD%97%E5%92%8C%E5%AD%97%E7%AC%A6%E6%98%AF0%2Cboolean%20%E5%8F%98%E9%87%8F%E6%98%AFfalse.)%20--%3E%0A%09%09%3Cmodule%20name%3D%22ExplicitInitialization%22%20%2F%3E%0A%09%09%3C!--%20%E4%B8%8D%E8%AE%B8%E6%9C%89%E5%90%8C%E6%A0%B7%E5%86%85%E5%AE%B9%E7%9A%84String%20--%3E%0A%09%09%3Cmodule%20name%3D%22MultipleStringLiterals%22%20%2F%3E%0A%09%09%3C!--%20%E5%90%8C%E4%B8%80%E8%A1%8C%E4%B8%8D%E8%83%BD%E6%9C%89%E5%A4%9A%E4%B8%AA%E5%A3%B0%E6%98%8E%20--%3E%0A%09%09%3Cmodule%20name%3D%22MultipleVariableDeclarations%22%20%2F%3E%0A%09%09%3C!--%20%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E5%9C%86%E6%8B%AC%E5%8F%B7%20--%3E%0A%09%09%3Cmodule%20name%3D%22UnnecessaryParentheses%22%20%2F%3E%0A%0A%09%09%3C!--%20%E5%90%84%E7%A7%8D%E9%87%8F%E5%BA%A6%20--%3E%0A%09%09%3C!--%20%E5%B8%83%E5%B0%94%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%8C%E4%B8%8D%E8%B6%85%E8%BF%873%20--%3E%0A%09%09%3Cmodule%20name%3D%22BooleanExpressionComplexity%22%20%2F%3E%0A%09%09%3C!--%20%E7%B1%BB%E6%95%B0%E6%8D%AE%E7%9A%84%E6%8A%BD%E8%B1%A1%E8%80%A6%E5%90%88%EF%BC%8C%E4%B8%8D%E8%B6%85%E8%BF%877%20--%3E%0A%09%09%3Cmodule%20name%3D%22ClassDataAbstractionCoupling%22%20%2F%3E%0A%09%09%3C!--%20%E7%B1%BB%E7%9A%84%E5%88%86%E6%95%A3%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%8C%E4%B8%8D%E8%B6%85%E8%BF%8720%20--%3E%0A%09%09%3Cmodule%20name%3D%22ClassFanOutComplexity%22%20%2F%3E%0A%09%09%3C!--%20%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%86%E6%94%AF%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%8C%E4%B8%8D%E8%B6%85%E8%BF%8710%20--%3E%0A%09%09%3Cmodule%20name%3D%22CyclomaticComplexity%22%20%2F%3E%0A%09%09%3C!--%20NPath%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%8C%E4%B8%8D%E8%B6%85%E8%BF%87200%20--%3E%0A%09%09%3Cmodule%20name%3D%22NPathComplexity%22%20%2F%3E%0A%0A%09%09%3C!--%20%E6%9D%82%E9%A1%B9%20--%3E%0A%09%09%3C!--%20%E7%A6%81%E6%AD%A2%E4%BD%BF%E7%94%A8System.out.println%20--%3E%0A%09%09%3Cmodule%20name%3D%22GenericIllegalRegexp%22%3E%0A%09%09%09%3Cproperty%20name%3D%22format%22%20value%3D%22System%5C.out%5C.println%22%20%2F%3E%0A%09%09%09%3Cproperty%20name%3D%22ignoreComments%22%20value%3D%22true%22%20%2F%3E%0A%09%09%3C%2Fmodule%3E%0A%09%09%0A%09%09%3C!--%20%E4%B8%8D%E8%AE%B8%E4%BD%BF%E7%94%A8main%E6%96%B9%E6%B3%95%20--%3E%0A%09%09%3Cmodule%20name%3D%22UncommentedMain%22%20%2F%3E%0A%09%09%3C!--%20%E6%A3%80%E6%9F%A5%E5%B9%B6%E7%A1%AE%E4%BF%9D%E6%89%80%E6%9C%89%E7%9A%84%E5%B8%B8%E9%87%8F%E4%B8%AD%E7%9A%84L%E9%83%BD%E6%98%AF%E5%A4%A7%E5%86%99%E7%9A%84%E3%80%82%E5%9B%A0%E4%B8%BA%E5%B0%8F%E5%86%99%E7%9A%84%E5%AD%97%E6%AF%8Dl%E8%B7%9F%E6%95%B0%E5%AD%971%E5%A4%AA%E8%B1%A1%E4%BA%86%20--%3E%0A%09%09%3Cmodule%20name%3D%22UpperEll%22%20%2F%3E%0A%09%09%3C!--%20%E6%A3%80%E6%9F%A5%E6%95%B0%E7%BB%84%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%AE%9A%E4%B9%89%E6%98%AFString%5B%5D%20args%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AFString%20args%5B%5D%20--%3E%0A%09%09%3Cmodule%20name%3D%22ArrayTypeStyle%22%20%2F%3E%0A%09%09%3C!--%0A%09%09%09%E6%A3%80%E6%9F%A5java%E4%BB%A3%E7%A0%81%E7%9A%84%E7%BC%A9%E8%BF%9B%20%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE%EF%BC%9A%E5%9F%BA%E6%9C%AC%E7%BC%A9%E8%BF%9B%204%E4%B8%AA%E7%A9%BA%E6%A0%BC%EF%BC%8C%E6%96%B0%E8%A1%8C%E7%9A%84%E5%A4%A7%E6%8B%AC%E5%8F%B7%EF%BC%9A0%E3%80%82%E6%96%B0%E8%A1%8C%E7%9A%84case%204%E4%B8%AA%E7%A9%BA%E6%A0%BC%E3%80%82%0A%09%09--%3E%0A%09%09%3Cmodule%20name%3D%22Indentation%22%20%2F%3E%0A%09%3C%2Fmodule%3E%0A%0A%09%3C!--%20%E6%A3%80%E6%9F%A5%E7%BF%BB%E8%AF%91%E6%96%87%E4%BB%B6%20%20%20%20%20--%3E%0A%09%3Cmodule%20name%3D%22Translation%22%20%2F%3E%0A%3C%2Fmodule%3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="15" width="14">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/icon_star.png" alt="收藏代码"><img class="spinner" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/spinner.gif" style="display: none;"></a></div></div><ol class="dp-j" start="1"><li><span><span>&lt;!DOCTYPE&nbsp;module&nbsp;PUBLIC&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"-//Puppy&nbsp;Crawl//DTD&nbsp;Check&nbsp;Configuration&nbsp;1.2//EN"</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"http://www.puppycrawl.com/dtds/configuration_1_2.dtd"</span><span>&gt;&nbsp;&nbsp;</span></span></li><li><span>&lt;module&nbsp;name=<span class="string">"Checker"</span><span>&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重复代码的检查，超过<span class="number">8</span><span>行就认为重复，UTF-</span><span class="number">8</span><span>格式&nbsp;本检查一定要放在</span><span class="string">"TreeWalker"</span><span>节点前，否则在&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Checkclipse中会无法使用。(在ant下可以)&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"StrictDuplicateCode"</span><span>&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property&nbsp;name=<span class="string">"min"</span><span>&nbsp;value=</span><span class="string">"8"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property&nbsp;name=<span class="string">"charset"</span><span>&nbsp;value=</span><span class="string">"UTF-8"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/module&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"TreeWalker"</span><span>&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;javadoc的检查&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;检查所有的<span class="keyword">interface</span><span>和</span><span class="keyword">class</span><span>&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"JavadocType"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;命名方面的检查，它们都使用了Sun官方定的规则。&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;局部的<span class="keyword">final</span><span>变量，包括</span><span class="keyword">catch</span><span>中的参数的检查&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"LocalFinalVariableName"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;局部的非<span class="keyword">final</span><span>型的变量，包括</span><span class="keyword">catch</span><span>中的参数的检查&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"LocalVariableName"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;包名的检查（只允许小写字母）&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"PackageName"</span><span>&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property&nbsp;name=<span class="string">"format"</span><span>&nbsp;value=</span><span class="string">"^[a-z]+(\.[a-z][a-z0-9]*)*$"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/module&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;仅仅是<span class="keyword">static</span><span>型的变量（不包括</span><span class="keyword">static</span><span>&nbsp;</span><span class="keyword">final</span><span>型）的检查&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"StaticVariableName"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;类型(Class或Interface)名的检查&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"TypeName"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;非<span class="keyword">static</span><span>型变量的检查&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"MemberName"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;方法名的检查&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"MethodName"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;方法的参数名&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"ParameterName&nbsp;"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;常量名的检查&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"ConstantName"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;<span class="keyword">import</span><span>方面的检查&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;<span class="keyword">import</span><span>中避免星号</span><span class="string">"*"</span><span>&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"AvoidStarImport"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;没用的<span class="keyword">import</span><span>检查，比如：</span><span class="number">1</span><span>.没有被用到</span><span class="number">2</span><span>.重复的</span><span class="number">3</span><span>.</span><span class="keyword">import</span><span>&nbsp;java.lang的</span><span class="number">4</span><span>.</span><span class="keyword">import</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;与该类在同一个<span class="keyword">package</span><span>的&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"UnusedImports"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;长度方面的检查&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;文件长度不超过<span class="number">1500</span><span>行&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"FileLength"</span><span>&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property&nbsp;name=<span class="string">"max"</span><span>&nbsp;value=</span><span class="string">"1500"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/module&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;每行不超过<span class="number">120</span><span>个字--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"LineLength"</span><span>&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property&nbsp;name=<span class="string">"max"</span><span>&nbsp;value=</span><span class="string">"120"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/module&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;方法不超过<span class="number">30</span><span>行&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"MethodLength"</span><span>&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property&nbsp;name=<span class="string">"tokens"</span><span>&nbsp;value=</span><span class="string">"METHOD_DEF"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property&nbsp;name=<span class="string">"max"</span><span>&nbsp;value=</span><span class="string">"30"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/module&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;方法的参数个数不超过<span class="number">3</span><span>个。&nbsp;并且不对构造方法进行检查--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"ParameterNumber"</span><span>&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property&nbsp;name=<span class="string">"max"</span><span>&nbsp;value=</span><span class="string">"3"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property&nbsp;name=<span class="string">"tokens"</span><span>&nbsp;value=</span><span class="string">"METHOD_DEF"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/module&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;空格检查&nbsp;&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;允许方法名后紧跟左边圆括号<span class="string">"("</span><span>&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"MethodParamPad"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;在类型转换时，不允许左圆括号右边有空格，也不允许与右圆括号左边有空格&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"TypecastParenPad"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;不允许使用<span class="string">"tab"</span><span>键&nbsp;&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"TabCharacter"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;关键字&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;每个关键字都有正确的出现顺序。比如&nbsp;<span class="keyword">public</span><span>&nbsp;</span><span class="keyword">static</span><span>&nbsp;</span><span class="keyword">final</span><span>&nbsp;XXX&nbsp;是对一个常量的声明。如果使用&nbsp;</span><span class="keyword">static</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;</span><span class="keyword">final</span><span>&nbsp;就是错误的&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"ModifierOrder"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;多余的关键字&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"RedundantModifier"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;对区域的检查&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;不能出现空白区域&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"EmptyBlock"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;所有区域都要使用大括号。&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"NeedBraces"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;多余的括号&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"AvoidNestedBlocks"</span><span>&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property&nbsp;name=<span class="string">"allowInSwitchCase"</span><span>&nbsp;value=</span><span class="string">"true"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/module&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;编码方面的检查&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;不许出现空语句&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"EmptyStatement"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;每个类都实现了equals()和hashCode()&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"EqualsHashCode"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;不许使用<span class="keyword">switch</span><span>,</span><span class="string">"a++"</span><span>这样可读性很差的代码&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"IllegalToken"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;不许内部赋值&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"InnerAssignment"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;绝对不能容忍魔法数&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"MagicNumber"</span><span>&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property&nbsp;name=<span class="string">"tokens"</span><span>&nbsp;value=</span><span class="string">"NUM_DOUBLE,&nbsp;NUM_INT"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/module&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;循环控制变量不能被修改&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"ModifiedControlVariable"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;多余的<span class="keyword">throw</span><span>&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"RedundantThrows"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;不许使用未被简化的条件表达式&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"SimplifyBooleanExpression"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;不许使用未被简化的布尔返回值&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"SimplifyBooleanReturn"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;String的比较不能用!=&nbsp;和&nbsp;==&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"StringLiteralEquality"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;<span class="keyword">if</span><span>最多嵌套</span><span class="number">3</span><span>层&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"NestedIfDepth"</span><span>&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property&nbsp;name=<span class="string">"max"</span><span>&nbsp;value=</span><span class="string">"3"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/module&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;<span class="keyword">try</span><span>最多被嵌套</span><span class="number">2</span><span>层&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"NestedTryDepth"</span><span>&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property&nbsp;name=<span class="string">"max"</span><span>&nbsp;value=</span><span class="string">"2"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/module&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;clone方法必须调用了<span class="keyword">super</span><span>.clone()&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"SuperClone"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;finalize&nbsp;必须调用了<span class="keyword">super</span><span>.finalize()&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"SuperFinalize"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;不能<span class="keyword">catch</span><span>&nbsp;java.lang.Exception&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"IllegalCatch"</span><span>&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property&nbsp;name=<span class="string">"illegalClassNames"</span><span>&nbsp;value=</span><span class="string">"java.lang.Exception"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/module&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;确保一个类有<span class="keyword">package</span><span>声明&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"PackageDeclaration"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;一个方法中最多有<span class="number">3</span><span>个</span><span class="keyword">return</span><span>&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"ReturnCount"</span><span>&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property&nbsp;name=<span class="string">"max"</span><span>&nbsp;value=</span><span class="string">"3"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property&nbsp;name=<span class="string">"format"</span><span>&nbsp;value=</span><span class="string">"^$"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/module&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据&nbsp;Sun&nbsp;编码规范，&nbsp;<span class="keyword">class</span><span>&nbsp;或&nbsp;</span><span class="keyword">interface</span><span>&nbsp;中的顺序如下：&nbsp;</span><span class="number">1</span><span>.</span><span class="keyword">class</span><span>&nbsp;声明。首先是&nbsp;</span><span class="keyword">public</span><span>,&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;然后是<span class="keyword">protected</span><span>&nbsp;,&nbsp;然后是&nbsp;</span><span class="keyword">package</span><span>&nbsp;level&nbsp;（不包括access&nbsp;modifier&nbsp;）&nbsp;最后是</span><span class="keyword">private</span><span>&nbsp;.&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(多个<span class="keyword">class</span><span>放在一个java文件中的情况）&nbsp;</span><span class="number">2</span><span>.变量声明。&nbsp;首先是&nbsp;</span><span class="keyword">public</span><span>,&nbsp;然后是</span><span class="keyword">protected</span><span>然后是&nbsp;</span><span class="keyword">package</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;level&nbsp;（不包括access&nbsp;modifier&nbsp;）&nbsp;最后是<span class="keyword">private</span><span>&nbsp;.&nbsp;(多个</span><span class="keyword">class</span><span>放在一个java文件中的情况）&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="number">3</span><span>.构造函数&nbsp;</span><span class="number">4</span><span>.方法&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"DeclarationOrder"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;不许对方法的参数赋值&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"ParameterAssignment"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;确保某个<span class="keyword">class</span><span>&nbsp;在被使用时都已经被初始化成默认值(对象是</span><span class="keyword">null</span><span>,数字和字符是</span><span class="number">0</span><span>,</span><span class="keyword">boolean</span><span>&nbsp;变量是</span><span class="keyword">false</span><span>.)&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"ExplicitInitialization"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;不许有同样内容的String&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"MultipleStringLiterals"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;同一行不能有多个声明&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"MultipleVariableDeclarations"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;不必要的圆括号&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"UnnecessaryParentheses"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;各种量度&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;布尔表达式的复杂度，不超过<span class="number">3</span><span>&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"BooleanExpressionComplexity"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;类数据的抽象耦合，不超过<span class="number">7</span><span>&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"ClassDataAbstractionCoupling"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;类的分散复杂度，不超过<span class="number">20</span><span>&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"ClassFanOutComplexity"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;函数的分支复杂度，不超过<span class="number">10</span><span>&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"CyclomaticComplexity"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;NPath复杂度，不超过<span class="number">200</span><span>&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"NPathComplexity"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;杂项&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;禁止使用System.out.println&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"GenericIllegalRegexp"</span><span>&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property&nbsp;name=<span class="string">"format"</span><span>&nbsp;value=</span><span class="string">"System\.out\.println"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;property&nbsp;name=<span class="string">"ignoreComments"</span><span>&nbsp;value=</span><span class="string">"true"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/module&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;不许使用main方法&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"UncommentedMain"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;检查并确保所有的常量中的L都是大写的。因为小写的字母l跟数字<span class="number">1</span><span>太象了&nbsp;--&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"UpperEll"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;
+检查数组类型的定义是String[]&nbsp;args，而不是
+String&nbsp;args[]&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"ArrayTypeStyle"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;检查java代码的缩进&nbsp;默认配置：基本缩进&nbsp;<span class="number">4</span><span>个空格，新行的大括号：</span><span class="number">0</span><span>。新行的</span><span class="keyword">case</span><span>&nbsp;</span><span class="number">4</span><span>个空格。&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"Indentation"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/module&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;检查翻译文件&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;module&nbsp;name=<span class="string">"Translation"</span><span>&nbsp;/&gt;&nbsp;&nbsp;</span></span></li><li><span>&lt;/module&gt;&nbsp;&nbsp;</span></li></ol></div><pre title="CheckStyle使用手册" pre_index="8" source_url="http://darkranger.iteye.com/blog/657737" codeable_type="Blog" codeable_id="657737" style="display: none;" class="java" name="code">&lt;!DOCTYPE module PUBLIC
+    "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
+    "http://www.puppycrawl.com/dtds/configuration_1_2.dtd"&gt;
+&lt;module name="Checker"&gt;
+
+	&lt;!--
+		重复代码的检查，超过8行就认为重复，UTF-8格式 本检查一定要放在"TreeWalker"节点前，否则在
+		Checkclipse中会无法使用。(在ant下可以)
+	--&gt;
+	&lt;module name="StrictDuplicateCode"&gt;
+		&lt;property name="min" value="8" /&gt;
+		&lt;property name="charset" value="UTF-8" /&gt;
+	&lt;/module&gt;
+
+	&lt;module name="TreeWalker"&gt;
+
+		&lt;!-- javadoc的检查 --&gt;
+		&lt;!-- 检查所有的interface和class --&gt;
+		&lt;module name="JavadocType" /&gt;
+
+		&lt;!-- 命名方面的检查，它们都使用了Sun官方定的规则。 --&gt;
+		&lt;!-- 局部的final变量，包括catch中的参数的检查 --&gt;
+		&lt;module name="LocalFinalVariableName" /&gt;
+		&lt;!-- 局部的非final型的变量，包括catch中的参数的检查 --&gt;
+		&lt;module name="LocalVariableName" /&gt;
+		&lt;!-- 包名的检查（只允许小写字母） --&gt;
+		&lt;module name="PackageName"&gt;
+			&lt;property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$" /&gt;
+		&lt;/module&gt;
+		&lt;!-- 仅仅是static型的变量（不包括static final型）的检查 --&gt;
+		&lt;module name="StaticVariableName" /&gt;
+		&lt;!-- 类型(Class或Interface)名的检查 --&gt;
+		&lt;module name="TypeName" /&gt;
+		&lt;!-- 非static型变量的检查 --&gt;
+		&lt;module name="MemberName" /&gt;
+		&lt;!-- 方法名的检查 --&gt;
+		&lt;module name="MethodName" /&gt;
+		&lt;!-- 方法的参数名 --&gt;
+		&lt;module name="ParameterName " /&gt;
+		&lt;!-- 常量名的检查 --&gt;
+		&lt;module name="ConstantName" /&gt;
+
+		&lt;!-- import方面的检查 --&gt;
+		&lt;!-- import中避免星号"*" --&gt;
+		&lt;module name="AvoidStarImport" /&gt;
+		&lt;!--
+			没用的import检查，比如：1.没有被用到2.重复的3.import java.lang的4.import
+			与该类在同一个package的
+		--&gt;
+		&lt;module name="UnusedImports" /&gt;
+
+
+		&lt;!-- 长度方面的检查 --&gt;
+		&lt;!-- 文件长度不超过1500行 --&gt;
+		&lt;module name="FileLength"&gt;
+			&lt;property name="max" value="1500" /&gt;
+		&lt;/module&gt;
+		&lt;!-- 每行不超过120个字--&gt;
+		&lt;module name="LineLength"&gt;
+			&lt;property name="max" value="120" /&gt;
+		&lt;/module&gt;
+		&lt;!-- 方法不超过30行 --&gt;
+		&lt;module name="MethodLength"&gt;
+			&lt;property name="tokens" value="METHOD_DEF" /&gt;
+			&lt;property name="max" value="30" /&gt;
+		&lt;/module&gt;
+		&lt;!-- 方法的参数个数不超过3个。 并且不对构造方法进行检查--&gt;
+		&lt;module name="ParameterNumber"&gt;
+			&lt;property name="max" value="3" /&gt;
+			&lt;property name="tokens" value="METHOD_DEF" /&gt;
+		&lt;/module&gt;
+
+		&lt;!-- 空格检查  --&gt;
+		&lt;!-- 允许方法名后紧跟左边圆括号"(" --&gt;
+		&lt;module name="MethodParamPad" /&gt;
+		&lt;!-- 在类型转换时，不允许左圆括号右边有空格，也不允许与右圆括号左边有空格 --&gt;
+		&lt;module name="TypecastParenPad" /&gt;
+		&lt;!-- 不允许使用"tab"键  --&gt;
+		&lt;module name="TabCharacter" /&gt;
+
+		&lt;!-- 关键字 --&gt;
+		&lt;!--
+			每个关键字都有正确的出现顺序。比如 public static final XXX 是对一个常量的声明。如果使用 static
+			public final 就是错误的
+		--&gt;
+		&lt;module name="ModifierOrder" /&gt;
+		&lt;!-- 多余的关键字 --&gt;
+		&lt;module name="RedundantModifier" /&gt;
+
+		&lt;!-- 对区域的检查 --&gt;
+		&lt;!-- 不能出现空白区域 --&gt;
+		&lt;module name="EmptyBlock" /&gt;
+		&lt;!-- 所有区域都要使用大括号。 --&gt;
+		&lt;module name="NeedBraces" /&gt;
+		&lt;!-- 多余的括号 --&gt;
+		&lt;module name="AvoidNestedBlocks"&gt;
+			&lt;property name="allowInSwitchCase" value="true" /&gt;
+		&lt;/module&gt;
+
+		&lt;!-- 编码方面的检查 --&gt;
+		&lt;!-- 不许出现空语句 --&gt;
+		&lt;module name="EmptyStatement" /&gt;
+		&lt;!-- 每个类都实现了equals()和hashCode() --&gt;
+		&lt;module name="EqualsHashCode" /&gt;
+		&lt;!-- 不许使用switch,"a++"这样可读性很差的代码 --&gt;
+		&lt;module name="IllegalToken" /&gt;
+		&lt;!-- 不许内部赋值 --&gt;
+		&lt;module name="InnerAssignment" /&gt;
+		&lt;!-- 绝对不能容忍魔法数 --&gt;
+		&lt;module name="MagicNumber"&gt;
+			&lt;property name="tokens" value="NUM_DOUBLE, NUM_INT" /&gt;
+		&lt;/module&gt;
+		&lt;!-- 循环控制变量不能被修改 --&gt;
+		&lt;module name="ModifiedControlVariable" /&gt;
+		&lt;!-- 多余的throw --&gt;
+		&lt;module name="RedundantThrows" /&gt;
+		&lt;!-- 不许使用未被简化的条件表达式 --&gt;
+		&lt;module name="SimplifyBooleanExpression" /&gt;
+		&lt;!-- 不许使用未被简化的布尔返回值 --&gt;
+		&lt;module name="SimplifyBooleanReturn" /&gt;
+		&lt;!-- String的比较不能用!= 和 == --&gt;
+		&lt;module name="StringLiteralEquality" /&gt;
+		&lt;!-- if最多嵌套3层 --&gt;
+		&lt;module name="NestedIfDepth"&gt;
+			&lt;property name="max" value="3" /&gt;
+		&lt;/module&gt;
+		&lt;!-- try最多被嵌套2层 --&gt;
+		&lt;module name="NestedTryDepth"&gt;
+			&lt;property name="max" value="2" /&gt;
+		&lt;/module&gt;
+		&lt;!-- clone方法必须调用了super.clone() --&gt;
+		&lt;module name="SuperClone" /&gt;
+		&lt;!-- finalize 必须调用了super.finalize() --&gt;
+		&lt;module name="SuperFinalize" /&gt;
+		&lt;!-- 不能catch java.lang.Exception --&gt;
+		&lt;module name="IllegalCatch"&gt;
+			&lt;property name="illegalClassNames" value="java.lang.Exception" /&gt;
+		&lt;/module&gt;
+		&lt;!-- 确保一个类有package声明 --&gt;
+		&lt;module name="PackageDeclaration" /&gt;
+		&lt;!-- 一个方法中最多有3个return --&gt;
+		&lt;module name="ReturnCount"&gt;
+			&lt;property name="max" value="3" /&gt;
+			&lt;property name="format" value="^$" /&gt;
+		&lt;/module&gt;
+		&lt;!--
+			根据 Sun 编码规范， class 或 interface 中的顺序如下： 1.class 声明。首先是 public,
+			然后是protected , 然后是 package level （不包括access modifier ） 最后是private .
+			(多个class放在一个java文件中的情况） 2.变量声明。 首先是 public, 然后是protected然后是 package
+			level （不包括access modifier ） 最后是private . (多个class放在一个java文件中的情况）
+			3.构造函数 4.方法
+		--&gt;
+		&lt;module name="DeclarationOrder" /&gt;
+		&lt;!-- 不许对方法的参数赋值 --&gt;
+		&lt;module name="ParameterAssignment" /&gt;
+		&lt;!-- 确保某个class 在被使用时都已经被初始化成默认值(对象是null,数字和字符是0,boolean 变量是false.) --&gt;
+		&lt;module name="ExplicitInitialization" /&gt;
+		&lt;!-- 不许有同样内容的String --&gt;
+		&lt;module name="MultipleStringLiterals" /&gt;
+		&lt;!-- 同一行不能有多个声明 --&gt;
+		&lt;module name="MultipleVariableDeclarations" /&gt;
+		&lt;!-- 不必要的圆括号 --&gt;
+		&lt;module name="UnnecessaryParentheses" /&gt;
+
+		&lt;!-- 各种量度 --&gt;
+		&lt;!-- 布尔表达式的复杂度，不超过3 --&gt;
+		&lt;module name="BooleanExpressionComplexity" /&gt;
+		&lt;!-- 类数据的抽象耦合，不超过7 --&gt;
+		&lt;module name="ClassDataAbstractionCoupling" /&gt;
+		&lt;!-- 类的分散复杂度，不超过20 --&gt;
+		&lt;module name="ClassFanOutComplexity" /&gt;
+		&lt;!-- 函数的分支复杂度，不超过10 --&gt;
+		&lt;module name="CyclomaticComplexity" /&gt;
+		&lt;!-- NPath复杂度，不超过200 --&gt;
+		&lt;module name="NPathComplexity" /&gt;
+
+		&lt;!-- 杂项 --&gt;
+		&lt;!-- 禁止使用System.out.println --&gt;
+		&lt;module name="GenericIllegalRegexp"&gt;
+			&lt;property name="format" value="System\.out\.println" /&gt;
+			&lt;property name="ignoreComments" value="true" /&gt;
+		&lt;/module&gt;
+		
+		&lt;!-- 不许使用main方法 --&gt;
+		&lt;module name="UncommentedMain" /&gt;
+		&lt;!-- 检查并确保所有的常量中的L都是大写的。因为小写的字母l跟数字1太象了 --&gt;
+		&lt;module name="UpperEll" /&gt;
+		&lt;!-- 检查数组类型的定义是String[] args，而不是String args[] --&gt;
+		&lt;module name="ArrayTypeStyle" /&gt;
+		&lt;!--
+			检查java代码的缩进 默认配置：基本缩进 4个空格，新行的大括号：0。新行的case 4个空格。
+		--&gt;
+		&lt;module name="Indentation" /&gt;
+	&lt;/module&gt;
+
+	&lt;!-- 检查翻译文件     --&gt;
+	&lt;module name="Translation" /&gt;
+&lt;/module&gt;</pre>
+<br>CheckStyle应用的最佳实践 
+<br>　　采用CheckStyle以后，编码规范的检查就变得及其简单，可以作为一项切实可行的实践加以执行。 
+<br>　　一般情况下，在项目小组中引入CheckStyle可以按照下面的步骤进行： 
+<br>　　1． 强调Code Review与Code Conventions的重要作用； 
+<br>　　2． 介绍CheckStyle； 
+<br>&nbsp;&nbsp;&nbsp; 3． 初步应用CheckStyle：参照CheckStyle附带的配置文件，酌情加以剪裁，在项目的Maven配置文件中，添加CheckStyle任务，可以 单独执行； 
+<br>　　4． 修改、定型CheckStyle的配置文件：按照基本配置文件执行一段时间（2～3周），听取开发人员的反馈意见，修改配置信息； 
+<br>　 5． 
+作为开发过程的日常实践，强制执行CheckStyle：稳定CheckStyle的配置信息，同时将CheckStyle任务作为Build的依赖任务
+ 或者配置SCM（目前，CheckStyle可以与SVN有效集成），使得代码在加入系统 之前必须通过检查。 
+<br>　　同时需要指出的是，CheckStyle的有效执行需要依赖的条件： 
+<br>&nbsp;&nbsp;&nbsp; •IDE Format Code的强大功能：由于CheckStyle本身并没有提供很强大的Code Format等功能，因此，需要借助IDE的帮助，从而使得在发生错误的时候，可以很容易的进行修复。
+<br>IDE格式配置使用介绍
+<br>在eclipse中的windowpreferencesjavacode style中可以导入自定义的java编码风格文件。如下图：
+<br> <img src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/f608405b-1fe3-3a63-82fa-78fbfae84e76.jpg">
+<br>点击“Clean 
+Up”，在右侧可以看见一个Import按钮,导入自定义的cleanup文件，点击“OK”即可。左侧的“Formatter”也是如法炮制。具体自定
+义的checkstyle，cleanup，formatter文件可参考压缩包文件中的公司代码规范文件夹。
+<br>
+  </div>
+
+  
+  <div class="attachments">
+    
+      
+        <ul style="display:none;">
+          <li><a href="http://dl.iteye.com/upload/attachment/0024/3135/5e84aff8-d7dc-3566-b31d-0c9e9f00faa9.jpg" target="_blank"><img src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/5e84aff8-d7dc-3566-b31d-0c9e9f00faa9-thumb.jpg" class="magplus" title="点击查看原始大小图片"></a></li>
+          
+          <li>大小: 47.2 KB</li>
+        </ul>
+      
+    
+      
+        <ul style="display:none;">
+          <li><a href="http://dl.iteye.com/upload/attachment/0024/3137/3a0dbaf6-4bb6-35bb-b8b9-78804a157157.jpg" target="_blank"><img src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/3a0dbaf6-4bb6-35bb-b8b9-78804a157157-thumb.jpg" class="magplus" title="点击查看原始大小图片"></a></li>
+          
+          <li>大小: 32.5 KB</li>
+        </ul>
+      
+    
+      
+        <ul style="display:none;">
+          <li><a href="http://dl.iteye.com/upload/attachment/0024/3139/d16a6b93-c29d-395a-a331-6d447f593fb6.jpg" target="_blank"><img src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/d16a6b93-c29d-395a-a331-6d447f593fb6-thumb.jpg" class="magplus" title="点击查看原始大小图片"></a></li>
+          
+          <li>大小: 19.5 KB</li>
+        </ul>
+      
+    
+      
+        <ul style="display:none;">
+          <li><a href="http://dl.iteye.com/upload/attachment/0024/3141/f608405b-1fe3-3a63-82fa-78fbfae84e76.jpg" target="_blank"><img src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/f608405b-1fe3-3a63-82fa-78fbfae84e76-thumb.jpg" class="magplus" title="点击查看原始大小图片"></a></li>
+          
+          <li>大小: 45.8 KB</li>
+        </ul>
+      
+    
+      
+        <ul>
+          <li><a href="http://dl.iteye.com/topics/download/c2c7eae6-5428-38d6-8b88-5057aa9d1b87">checkstyle示例.rar</a> (143.4 KB)</li>
+          
+          <li>下载次数: 928</li>
+        </ul>
+      
+    
+    
+      <ul>
+        <li><a href="#" onclick="$$('div.attachments ul').invoke('show');$(this).up(1).hide();return false;">查看图片附件</a></li>
+      </ul>
+    
+  </div>
+
+
+
+  <iframe src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/794.htm" frameborder="0" height="60" scrolling="no" width="468"></iframe>
+  
+  <div id="bottoms" class="clearfix">
+    <div id="digg_bottom" class="clearfix"><div class="digged"><strong>15</strong> <br>顶</div><div class="digged"><strong>1</strong> <br>踩</div></div>
+    <div id="share_weibo">分享到：
+      <a data-type="sina" href="javascript:;" title="分享到新浪微博"><img src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/sina.jpg"></a>
+      <a data-type="qq" href="javascript:;" title="分享到腾讯微博"><img src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/tec.jpg"></a>
+    </div>
+  </div>
+
+  <div class="blog_nav">
+    <div class="pre_next">
+      <a href="http://darkranger.iteye.com/blog/663468" class="next" title="今天发生了两件让我想骂人的事情。">今天发生了两件让我想骂人的事情。</a>
+      |
+      <a href="http://darkranger.iteye.com/blog/611118" class="pre" title="昨天劳动成果">昨天劳动成果</a>
+    </div>
+  </div>
+  <div class="blog_bottom">
+    <ul>
+      <li>2010-05-02 03:29</li>
+      <li>浏览 11929</li>
+      <li><a href="#comments">评论(7)</a></li>
+      
+      
+      <li>分类:<a href="http://www.iteye.com/blogs/category/language">编程语言</a></li>      
+      <li class="last"><a href="http://www.iteye.com/wiki/blog/657737" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    <div id="bc2262195">
+  <div class="comment_title">
+    7 楼
+    <a href="http://nassir.iteye.com/" target="_blank" title="wenjinglian">wenjinglian</a>
+    2012-06-01&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">很不错，谢谢啦</div>
+</div>
+
+<div id="bc2216740">
+  <div class="comment_title">
+    6 楼
+    <a href="http://wosuiyu.iteye.com/" target="_blank" title="wosuiyu">wosuiyu</a>
+    2011-09-14&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">讲得非常详细。。。 
+<br></div>
+</div>
+
+<div id="bc2213293">
+  <div class="comment_title">
+    5 楼
+    <a href="http://zlwgege.iteye.com/" target="_blank" title="zlwgege">zlwgege</a>
+    2011-08-27&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">学习了。。编码规范</div>
+</div>
+
+<div id="bc2210330">
+  <div class="comment_title">
+    4 楼
+    <a href="http://darkranger.iteye.com/" target="_blank" title="黑暗浪子">黑暗浪子</a>
+    2011-08-12&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">james_jj 写道</div><div class="quote_div"><span style="font-size: xx-large;"><img src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/icon_arrow.gif"> 问一下能不能用checkstyle校验注释啊<br>&nbsp;&nbsp;&nbsp;&nbsp; /**&nbsp; */这样的注释内容。</span></div><br>可以在http://checkstyle.sourceforge.net/availablechecks.html里查看有关javadoc的属性定义、使用规范。</div>
+</div>
+
+<div id="bc2210123">
+  <div class="comment_title">
+    3 楼
+    <a href="http://james-jj.iteye.com/" target="_blank" title="james_jj">james_jj</a>
+    2011-08-11&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content"><span style="font-size: xx-large;"><img src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/icon_arrow.gif"> 问一下能不能用checkstyle校验注释啊<br>&nbsp;&nbsp;&nbsp;&nbsp; /**&nbsp; */这样的注释内容。</span></div>
+</div>
+
+<div id="bc2209911">
+  <div class="comment_title">
+    2 楼
+    <a href="http://superzhouych.iteye.com/" target="_blank" title="superzhouych">superzhouych</a>
+    2011-08-10&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">讲得非常详细。。。<img src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/icon_idea.gif"> </div>
+</div>
+
+<div id="bc2005352">
+  <div class="comment_title">
+    1 楼
+    <a href="http://liyufan.iteye.com/" target="_blank" title="liyufan">liyufan</a>
+    2011-03-29&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">学习了...</div>
+</div>
+
+
+    
+    
+  </div>
+
+  <div class="blog_comment">
+    <h5>发表评论</h5>
+            <p style="text-align:center; margin-top:30px;margin-bottom:0px;"><a href="http://darkranger.iteye.com/login" style="background-color: white;"> <img src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/login_icon.png" style="vertical-align: middle; margin-right: 10px;"></a><a href="http://darkranger.iteye.com/login">  您还没有登录,请您登录后再发表评论 </a></p>
+      </div>
+</div>
+
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  $$('#main .blog_content pre[name=code]').each(function(pre, index){ // blog content
+    var post_id = 657737;
+    var location = window.location;
+    source_url = location.protocol + "//" + location.host + location.pathname + location.search;
+    pre.writeAttribute('codeable_id', post_id);
+    pre.writeAttribute('codeable_type', "Blog");
+    pre.writeAttribute('source_url', source_url);
+    pre.writeAttribute('pre_index', index);
+    pre.writeAttribute('title', 'CheckStyle使用手册');
+  });
+  $$('#main .blog_comment > div').each(function(comment){// comment
+    var post_id = comment.id.substr(2);
+    $$("#"+comment.id+" pre[name=code]").each(function(pre, index){
+      var location = window.location;
+      source_url = location.protocol + "//" + location.host + location.pathname + location.search;
+      source_url += "#" + comment.id;
+      pre.writeAttribute('codeable_id', post_id);
+      pre.writeAttribute('codeable_type', "BlogComment");
+      pre.writeAttribute('source_url', source_url);
+      pre.writeAttribute('pre_index', index);
+      pre.writeAttribute('title', 'CheckStyle使用手册');
+    });
+  });
+  code_favorites_init();
+
+  fix_image_size($$('div.blog_content img'), 700);
+  function quote_comment(id) {
+    new Ajax.Request('/editor/quote', {
+      parameters: {'id':id, 'type':'BlogComment'},
+      onSuccess:function(response){editor.bbcode_editor.textarea.insertAfterSelection(response.responseText);
+        Element.scrollTo(editor.bbcode_editor.textarea.element);}
+    });
+  }
+
+  new WeiboShare({share_buttons: $('share_weibo'), img_scope: $('blog_content')});
+</script>
+
+
+
+
+        </div>
+
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+  <div id="blog_owner_logo"><a href="http://darkranger.iteye.com/"><img alt="黑暗浪子的博客" class="logo" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/e28da5d6-55f8-3e96-8797-174df329bc56.jpg" title="黑暗浪子的博客: 其实我是一个IT土匪"></a></div>
+  <div id="blog_owner_name">黑暗浪子</div>
+</div>
+
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 214342 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/icon_minigender_1.gif" title="男"></li>
+              <li>来自: 上海</li>
+              <li><img src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/offline.gif"></li>
+              
+            </ul>
+          </div>
+          <div id="user_visits" class="clearfix">
+            <h5>最近访客 <span style="font-weight:normal;font-size:12px;padding-left:30px;"><a href="http://darkranger.iteye.com/blog/user_visits">更多访客&gt;&gt;</a></span></h5>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://dylinshi126.iteye.com/" target="_blank"><img alt="dylinshi126的博客" class="logo" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/user-logo-thumb.gif" title="dylinshi126的博客: "></a></div>
+                <div class="left"><a href="http://dylinshi126.iteye.com/" target="_blank" title="dylinshi126">dylinshi126</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://psl19892010.iteye.com/" target="_blank"><img alt="psl19892010的博客" class="logo" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/7fa95db0-02a4-3041-a70d-9a6b00bd5382-thumb.jpg" title="psl19892010的博客: "></a></div>
+                <div class="left"><a href="http://psl19892010.iteye.com/" target="_blank" title="psl19892010">psl19892010</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://patato.iteye.com/" target="_blank"><img alt="patato的博客" class="logo" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/user-logo-thumb.gif" title="patato的博客: "></a></div>
+                <div class="left"><a href="http://patato.iteye.com/" target="_blank" title="patato">patato</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://leeyau.iteye.com/" target="_blank"><img alt="LeeYau的博客" class="logo" src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/user-logo-thumb.gif" title="LeeYau的博客: LeeYau"></a></div>
+                <div class="left"><a href="http://leeyau.iteye.com/" target="_blank" title="LeeYau">LeeYau</a></div>
+              </div>
+            
+          </div>
+
+          
+
+                      <div id="blog_menu">
+              <h5>文章分类</h5>
+              <ul>
+                <li><a href="http://darkranger.iteye.com/">全部博客 (138)</a></li>
+                
+                  <li><a href="http://darkranger.iteye.com/category/59244">敏捷&amp;PMP (8)</a></li>
+                
+                  <li><a href="http://darkranger.iteye.com/category/59243">Struts2 (48)</a></li>
+                
+                  <li><a href="http://darkranger.iteye.com/category/59245">技术札记 (28)</a></li>
+                
+                  <li><a href="http://darkranger.iteye.com/category/59247">自恋 (3)</a></li>
+                
+                  <li><a href="http://darkranger.iteye.com/category/62229">尽信书不如无书 (21)</a></li>
+                
+                  <li><a href="http://darkranger.iteye.com/category/62230">对上海IT公司的愤怒 (7)</a></li>
+                
+                  <li><a href="http://darkranger.iteye.com/category/98261">hudson (3)</a></li>
+                
+                  <li><a href="http://darkranger.iteye.com/category/124293">ubuntu (17)</a></li>
+                
+              </ul>
+            </div>
+            <div id="month_blogs">
+              <h5>社区版块</h5>
+              <ul>
+                <li><a href="http://darkranger.iteye.com/blog/news">我的资讯</a> (0)</li>
+                <li>
+                  <a href="http://darkranger.iteye.com/blog/post">我的论坛</a> (984)
+                </li>
+                <li><a href="http://darkranger.iteye.com/blog/answered_problems">我的问答</a> (15)</li>
+              </ul>
+            </div>
+            <div id="month_blogs">
+              <h5>存档分类</h5>
+              <ul>
+                
+                  <li><a href="http://darkranger.iteye.com/blog/monthblog/2012-05">2012-05</a> (1)</li>
+                
+                  <li><a href="http://darkranger.iteye.com/blog/monthblog/2011-07">2011-07</a> (4)</li>
+                
+                  <li><a href="http://darkranger.iteye.com/blog/monthblog/2011-03">2011-03</a> (2)</li>
+                
+                <li><a href="http://darkranger.iteye.com/blog/monthblog_more">更多存档...</a></li>
+              </ul>
+            </div>
+            
+            
+              <div id="comments_top">
+                <h5>评论排行榜</h5>
+                <ul>
+                  
+                    <li><a href="http://darkranger.iteye.com/blog/1543061" title="今天招报应了，被苏宁看中了～">今天招报应了，被苏宁看中了～</a></li>
+                  
+                </ul>
+              </div>
+            
+
+            <div id="guest_books">
+              <h5>最新评论</h5>
+              <ul>
+                
+                <li>
+                  <a href="http://kevin-xiaozi.iteye.com/" target="_blank" title="ylzyd12345">ylzyd12345</a>： 
+                  中奖了。。。。<br>
+                  <a href="http://darkranger.iteye.com/blog/857503#bc2289961">坏公司鉴别方法</a>
+                </li>
+                
+                <li>
+                  <a href="http://titahot.iteye.com/" target="_blank" title="titahot">titahot</a>： 
+                  请问 &lt;s:iterator value="# ...<br>
+                  <a href="http://darkranger.iteye.com/blog/480669#bc2277874">Struts2讲义14</a>
+                </li>
+                
+                <li>
+                  <a href="http://rookiecui.iteye.com/" target="_blank" title="RookieCui">RookieCui</a>： 
+                  谢谢你的成果 我们现在的成就取决于巨人的高度 有能力之后会发扬 ...<br>
+                  <a href="http://darkranger.iteye.com/blog/511049#bc2273681">放出完整的Struts2讲义</a>
+                </li>
+                
+                <li>
+                  <a href="http://zhm123456.iteye.com/" target="_blank" title="zhm123456">zhm123456</a>： 
+                  非常感谢！<br>
+                  <a href="http://darkranger.iteye.com/blog/515708#bc2273637">struts2讲义每章节代码包汇总</a>
+                </li>
+                
+                <li>
+                  <a href="http://zhm123456.iteye.com/" target="_blank" title="zhm123456">zhm123456</a>： 
+                  LZ慷慨伟大！谢谢！<br>
+                  <a href="http://darkranger.iteye.com/blog/511049#bc2273633">放出完整的Struts2讲义</a>
+                </li>
+                
+              </ul>
+            </div>
+
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+
+      <div id="footer" class="clearfix">
+        <div id="copyright">
+          <hr>
+          声明：ITeye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br>
+          © 2003-2012 ITeye.com.   All rights reserved.  [ 京ICP证110151号  京公网安备110105010620 ]
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+  document.write("<img src='http://stat.iteye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&user_id=' width='0' height='0' />");
+</script><img src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/a.gif" height="0" width="0">
+
+    
+    
+  
+
+<iframe src="checkstyle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C_files/e.htm" style="position: absolute; width: 100px; height: 1px; z-index: -10240; visibility: hidden; top: 0px; left: 0px;"></iframe></body></html>

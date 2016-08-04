@@ -1,0 +1,94 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.juvenxu.mvnbook.account</groupId>
+  <artifactId>account-parent</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+        <!-- 作为父模块的POM, 其packaging 必须为 pom -->
+  <packaging>pom</packaging>
+  <name>Account Parent</name>
+  <properties>
+    <springframework.version>2.5.6</springframework.version>
+    <junit.version>4.7</junit.version>
+  </properties>
+        
+  <!-- 设置dependency; dependencyManagement可以被继承, 但是不会给子模块引入依赖; 
+       子模块必须显示的声明需要使用的 dependency, 包括groupId和 artifactId即可关联, 否则还是无法引入依赖; 可以不写 version 和 scope;
+  -->
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>${springframework.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-beans</artifactId>
+        <version>${springframework.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>${springframework.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context-support</artifactId>
+        <version>${springframework.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <build>
+   <!-- 插件管理: 同dependencyManagement一样，不会调用实际的插件, 除非子模块配置了真正的plugin
+
+   -->
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.5</source>
+            <target>1.5</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <configuration>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+      <!-- mvn package 打包时会使用 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>1.2.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <transformers>
+                <!-- 将会在jar包的META-INF/MANIFEST.MF中添加 Main-Class: com.juvenxu.mvnbook.helloworld.HelloWorld, 这样就可以用java -jar 来执行该jar -->
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>com.juvenxu.mvnbook.helloworld.HelloWorld</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+</project>
