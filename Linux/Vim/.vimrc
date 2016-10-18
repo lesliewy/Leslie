@@ -1,3 +1,7 @@
+""" vim-markdown 插件
+au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set filetype=mkd
+let g:vim_markdown_folding_disabled=1
+""" vim-markdown 插件 END
 " An example for a vimrc file.
 "
 " Maintainer:	Bram Moolenaar <Bram@vim.org>
@@ -86,7 +90,7 @@ if has("autocmd")
 
 else
 
-  set autoindent		" always set autoindenting on
+set autoindent		" always set autoindenting on
 
 endif " has("autocmd")
 
@@ -134,6 +138,8 @@ function! CountSpaces(type, ...)
 
 " 折行不截断单词
 set linebreak
+" 相对行号
+set relativenumber
 
 
 " javacomplete plugin begin
@@ -162,3 +168,11 @@ map <F3> :NERDTreeToggle<CR>
 let g:ConqueTerm_CWInsert = 1
 :command -range=% CS :ConqueTermVSplit bash
 " Conque shell plugin end
+
+" jk 按虚拟行移动
+noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
+
+
+
+

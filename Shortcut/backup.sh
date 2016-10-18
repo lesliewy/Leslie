@@ -50,6 +50,7 @@ backup2Leslie(){
    cp /opt/Software/ProgrammingSoftware/Eclipse/links/* $LESLIE_HOME/Eclipse/plugins-links
    # L derefence, copy 所指向的文件. 2016-10-18：不需要了，只保留 $LESLIE_HOME/Leslie 下的.
 #   cp -rL /home/leslie/Shortcut/* $LESLIE_HOME/Linux/Shortcut
+   cp /opt/tomcat/apache-tomcat-7.0.26/bin/mydeploy.sh $LESLIE_HOME/Shortcut
    echo "backup2Leslie success..."
 }
 
@@ -63,6 +64,7 @@ while getopts ":ldm" option; do
    2)/home/leslie/.vimrc    to $LESLIE_HOME/Linux/Vim
    3)/home/leslie/.vimperatorrc   to $LESLIE_HOME/Vimperator
    4)/opt/Software/ProgrammingSoftware/Eclipse/links    to $LESLIE_HOME/Eclipse/plugins-links
+   5)/opt/tomcat/apache-tomcat-7.0.26/bin/mydeploy.sh   to $LESLIE_HOME/Shortcut
 ENDOFBACKUP
       exit $EXIT_OK
       ;;
