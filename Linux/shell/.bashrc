@@ -133,6 +133,8 @@ alias cd7='cd /opt/Software'
 alias cd8='cd /home/leslie/Work/LESLIE'
 alias cd9='cd ~/Work'
 alias rm=myrm;
+# 列出当前目录下所有文件的绝对路径.
+alias lsp='ls | sed "s:^:`pwd`/:g"'
 
 #export JAVA_HOME=/opt/jdk/oracle/jdk1.6.0_45
 export JAVA_HOME=/opt/jdk/oracle/jdk1.7.0_45
