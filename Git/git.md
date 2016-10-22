@@ -36,6 +36,7 @@
   > git fetch origin: origin 是remote repository, 可以通过 git remote -v 查看. fetch 不会修改working dir 中文件. 该命令会fetch origin下的所有分支。 不可以 git fetch origin/161017
   > git difftool 161017 origin/master:  比对本地的161017分支与远程origin下面的master分支的区别.
   > git difftool 161017 origin/161017:  比对本地的161017分支与远程origin下面的161017分支的区别. git diff 是原生工具比对.
+  > git difftool 161017: 比对working directory 和版本库里的161017分支, 会比对所有不同的文件.
   > git diff --stat 161017 origin/161017:  只列出文件列表，不比对内容. 文件列表大概如下:
   >> leslie@wy 17:30:43:script$git diff --stat old origin/old
   >> script/create_table.sql | 1 -
@@ -48,6 +49,13 @@
 
 * 用Eclipse开发时，当前在哪个分支，Eclipse就显示哪个分支的内容。 
   git checkout 161017 执行后，需要在Eclipse里面Refresh下.
+
+* git tag v0.1:  给最近的commit打标签.
+  git tag -a v0.1 -m "修改完成": 给标签添加message.
+  git push --follow-tags :  默认push不包含tags
+
+* git show -q v0.1:  显示v0.1 tag, -q 是去掉diff
+
 
 ### 配置
 * **使用meld作为diff工具**
