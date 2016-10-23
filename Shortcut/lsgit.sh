@@ -21,7 +21,7 @@ paths=("/home/leslie/Work/Leslie"
        "/home/leslie/MyProject/R"
       )
 
-# 忽略的目录, 有些没有加入git管理
+# 忽略的目录, 有些没有加入git管理.利用关联数组实现.
 # ${!animals[@]}: 所有的key
 # ${animals[@]}: 所有的value
 declare -A ommitedDirs
