@@ -14,11 +14,13 @@ repoNames=("Leslie"
            "OkParse" 
            "StockAnalyse" 
            "R"
+           "MyWeb"
           )
 paths=("/home/leslie/Work/Leslie"
        "/home/leslie/MyProject/OkParse"
        "/home/leslie/MyProject/StockAnalyse"
        "/home/leslie/MyProject/R"
+       "/home/leslie/MyProject/MyWeb"
       )
 
 # 忽略的目录, 有些没有加入git管理.利用关联数组实现.
@@ -29,6 +31,7 @@ ommitedDirs=([${repoNames[0]}]="----"
              [${repoNames[1]}]="backup/|charts/|html/|parse/target/|"
              [${repoNames[2]}]="backup/|gen/|history/|html/|stanalyse/stanalyselog/|stanalyse/target/|stanalyseweb/target/|"
              [${repoNames[3]}]="----"
+             [${repoNames[4]}]="----"
             )
 
 numOfRepos=${#repoNames[*]}
