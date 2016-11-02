@@ -57,6 +57,10 @@
 
 * `git show -q v0.1`:  显示v0.1 tag, -q 是去掉diff
 
+* **回退到某个tag的版本**
+  > `git tag`: 查询tag
+  > `git show -q <tag-name>`: 查找某个tag的commit id.
+  > `git reset --hard 39debacd3375cf4430c502aa6a99ac8655cfddae`: 回退到该版本.
 
 ### 配置
 * **使用meld作为diff工具**
