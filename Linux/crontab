@@ -5,7 +5,7 @@ SHELL=/bin/sh
 PATH=$SHORTCUT_HOME:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 # m h dom mon dow user	command
-0 18-23/2 * * mon,wed,fri,sun leslie backup.sh -m
+0 18-23/2 * * mon,wed,fri,sun leslie backup.sh -m >> /home/leslie/Work/Leslie/Linux/crontab.log
 #
 #17 *	* * *	root    cd / && run-parts --report /etc/cron.hourly
 #25 6	* * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )
