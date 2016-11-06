@@ -73,3 +73,6 @@
   1 2 3
   2 1 1
   table 函数对应的就是统计学中的列联表，是一种记录频数的方法
+
+### shiny
+* 在shell的R环境中使用 `runApp("app.R")` 通过浏览器执行shiny要比Rstudio的快很多.
