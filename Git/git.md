@@ -57,6 +57,8 @@
 
 * `git show -q v0.1`:  显示v0.1 tag, -q 是去掉diff
 
+* `git rm -r --cached shinyAppLog`: 将shinyAppLog从版本库中移除，不需要git管理. 如果不加--cache,会删掉本地的文件.
+
 * **回退到某个tag的版本**
   > `git tag`: 查询tag
   > `git show -q <tag-name>`: 查找某个tag的commit id.
