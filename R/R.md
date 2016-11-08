@@ -28,6 +28,10 @@
    `dbListTables(con)`
    另外R查询中文乱码解决: 在MySQL的配置文件/etc/mysql/my.cnf中[client]标签下加`default-character-set=utf8`
 
+* 连接数据库时报错:  Failed to connect to database: Error: Can't connect to local MySQL server through socket '/tmp/mysql.sock' (2)
+  首先确定mysql.sock在哪, 从/etc/mysql/mysql.conf.d/mysqld.cnf中找. 然后ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock
+  如果配置的sock路径就是 /tmp/mysql.sock, 那可能是mysql没有启动.
+
 * demo (graphics) 或者demo(persp)来体验R绘图功能的强大；
   http://www.cnblogs.com/holbrook/archive/2013/05/13/3075777.html；
 
