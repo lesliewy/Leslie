@@ -2,6 +2,7 @@
   `dir(string)`: 查看string模块内的函数
   `help(string):string module 帮助.
   `help(string.swapcase): string.swapcase 帮助.
+  `help(str)`: str 和 string 不同, 这个是"aaa".swapcase()中的swapcase的用法.
 
 * `sys.path`: 查找module的路径.
   `string.__file__`: string module 的路径，通常是pyc文件.
