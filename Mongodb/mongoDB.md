@@ -4,3 +4,5 @@
   > /lib/systemd/system/mongod.service
   > /etc/mongod.conf
 
+* mongostat 是mongodb自带的监控工具.
+
