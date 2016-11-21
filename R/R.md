@@ -80,3 +80,9 @@
 
 ### shiny
 * 在shell的R环境中使用 `runApp("app.R")` 通过浏览器执行shiny要比Rstudio的快很多.
+
+### shiny-server
+* 配置文件在/etc/shiny-server/shiny-server.conf: 其中有apps路径：site_dir /home/leslie/MyProject/R/shinyApps;
+
+* `shiny-server`: 启动shiney-server, 或者 shiny-server.sh
+

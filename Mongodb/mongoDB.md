@@ -15,4 +15,8 @@
   `db.poem.aggregate([{'$project' : {'category.name' : 1, 'author.name' : 1, 'author.numofpoems': 1, numofpoems : {'$size' : '$poems'}, '_id' : 0}}])`: 按照category.name, author.name分组，统计诗词个数.
   `db.poem.aggregate([{'$group' : {'_id' : 0, 'count': {'$sum' : {'$size' : '$poems'}}}}])`: 统计总诗词数.
 
+* 一些修改语句.
+  `db.poem.update({'author.name' : '李白' }, {'$pull' : {'poems' : {'name' : '行路难 其二'}}})`: 删除李白的 行路难 其二, 只删除poems列表中一个元素.
+  
+
 
