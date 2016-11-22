@@ -16,6 +16,8 @@
    如果是下载下来的包,例如: gplots_2.11.0.tar.gz  其中的DESCRIPTION 文件中也可以查看依赖.
 
 * ? read.table 查看read.table的帮助信息.
+  ?plot.xts:  plot(xts), 对xts对象画图的帮助.
+  ?as.data.frame.list: as.data.frame(list), 将list转为data.frame的帮助.
 
 * `library`: 直接输入函数名可以查看该函数的源代码.
   `methods(summary)`             
