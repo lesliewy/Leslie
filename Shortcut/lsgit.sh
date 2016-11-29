@@ -34,7 +34,7 @@ declare -A ommitedDirs
 ommitedDirs=([${repoNames[0]}]="----"
              [${repoNames[1]}]="backup/|charts/|html/|parse/target/|"
              [${repoNames[2]}]="backup/|gen/|history/|html/|stanalyse/stanalyselog/|stanalyse/target/|stanalyseweb/target/|"
-             [${repoNames[3]}]="shinyAppLog/|"
+             [${repoNames[3]}]="shinyAppLog/|.gitignore|"
              [${repoNames[4]}]="----"
              [${repoNames[5]}]="----"
             )
