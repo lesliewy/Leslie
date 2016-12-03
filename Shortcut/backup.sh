@@ -51,6 +51,7 @@ backup2Leslie(){
    # L derefence, copy 所指向的文件. 2016-10-18：不需要了，只保留 $LESLIE_HOME/Leslie 下的.
 #   cp -rL /home/leslie/Shortcut/* $LESLIE_HOME/Linux/Shortcut
    cp /opt/tomcat/apache-tomcat-7.0.26/bin/mydeploy.sh $LESLIE_HOME/Shortcut
+   cp /home/leslie/.tmux.conf $LESLIE_HOME/Linux/tmux
    echo "backup2Leslie success..."
 }
 
