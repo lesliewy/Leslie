@@ -29,6 +29,11 @@
   `db.poem.aggregate([{'$project':{'categoryname':'$category.name', 'poems' : {'$size':'$poems'}, '_id':0}}, {'$group' : {'_id':{'categoryname':'$categoryname'}, 'totalpoems':{'$sum' : '$poems'} }}])`: 按朝代统计诗词数.
 
   `db.poem.aggregate([{'$match' : {'category.name' : {'$in' : ['先秦','汉朝']}}} , {'$project' : {'category.name' : 1, 'author.name' : 1, 'author.numofpoems': 1, 'numofpoems' : {'$size' : '$poems'}, '_id' : 0}},{$sort : {'numofpoems': -1}}])`:  按年代查询诗人的诗词数，并按照诗词数从高到低排序.
+
+  `db.poem.aggregate([{'$match' : {'category.name' : {'$in' : ['先秦']}}} , {'$project' : {'category_name' : '$category.name', 'category_url':'$category.url', 'category_numofauthors':'$category.numofauthors', 'author.name' : 1, 'author_name':'$author.name', 'author_url':'$author.url', 'author_numofpoems': '$author.numofpoems', 'numofpoems' : {'$size' : '$poems'}, '_id' : 0}},{$sort : {'numofpoems': -1}}])`:使用project 可以将嵌套的数据拉平.
+
+  `db.poem.aggregate([{'$match':{'author.name':'孔融'}}, {'$unwind':'$poems'}])`: unwind可以将数组里的数据拉平.
+
   
 * 一些修改语句.
   `db.poem.update({'author.name' : '李白' }, {'$pull' : {'poems' : {'name' : '行路难 其二'}}})`: 删除李白的 行路难 其二, 只删除poems列表中一个元素.

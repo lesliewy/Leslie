@@ -18,6 +18,7 @@ repoNames=("Leslie"
            "R"
            "MyWeb"
            "Python"
+           "mysolr"
           )
 paths=("/home/leslie/Work/Leslie"
        "/home/leslie/MyProject/OkParse"
@@ -25,6 +26,7 @@ paths=("/home/leslie/Work/Leslie"
        "/home/leslie/MyProject/R"
        "/home/leslie/MyProject/MyWeb"
        "/home/leslie/MyProject/Python"
+       "/home/leslie/MyProject/mysolr"
       )
 
 # 忽略的目录, 有些没有加入git管理.利用关联数组实现.
@@ -37,6 +39,7 @@ ommitedDirs=([${repoNames[0]}]="----"
              [${repoNames[3]}]="shinyAppLog/|.gitignore|"
              [${repoNames[4]}]="----"
              [${repoNames[5]}]="----"
+             [${repoNames[6]}]="SolrMongoImporter/.classpath|SolrMongoImporter/.project|SolrMongoImporter/bin/|SolrMongoImporter/build/"
             )
 
 numOfRepos=${#repoNames[*]}
