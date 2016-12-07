@@ -130,7 +130,7 @@ alias cd1='cd ~/MyProject/'
 alias cd6='cd /usr/MyInterest'
 alias cd7='cd /opt/Software'
 #alias cd8='cd /home/leslie/Dropbox/Leslie'
-alias cd8='cd /home/leslie/Work/LESLIE'
+alias cd8='cd /home/leslie/Work/Leslie'
 alias cd9='cd ~/Work'
 alias rm=myrm;
 # 列出当前目录下所有文件的绝对路径.
@@ -138,6 +138,8 @@ alias lsp='ls | sed "s:^:`pwd`/:g"'
 
 #export JAVA_HOME=/opt/jdk/oracle/jdk1.6.0_45
 export JAVA_HOME=/opt/jdk/oracle/jdk1.7.0_45
+#export JAVA_HOME=/opt/jdk/oracle/jdk1.8.0_112
+
 MAVEN_HOME=/opt/apache-maven-3.1.0
 ANT_HOME=/opt/Software/ProgrammingSoftware/Apache/apache-ant-1.9.2
 #ANDROID_SDK_HOME=/opt/android-sdk-linux
@@ -149,9 +151,11 @@ HBASE_HOME=/opt/hbase-0.90.4
 GROOVY_HOME=/opt/groovy-2.4.3
 RUBY_HOME=/usr/local/ruby-2.3.1
 NODE_HOME=/opt/node-v4.4.3-linux-x64
+PYTHON_HOME=/opt/python3.5
+SOLR_HOME=/opt/solr-5.3.0
 
 #export CLASSPATH=~/.vim/autoload:
-export PATH=/sbin/:$SHORTCUT_HOME:$JAVA_HOME/bin:$MAVEN_HOME/bin:/opt/bc3/bin/:$ANT_HOME/bin:$ANDROID_SDK_HOME/tools:$ANDROID_SDK_HOME/platform-tools:$NUTCH_HOME/runtime/local/bin:$HBASE_HOME/bin:$HOME/Android/bin:$GROOVY_HOME/bin:$RUBY_HOME/bin:$NODE_HOME/bin:/usr/local/bin:$PATH
+export PATH=/sbin/:$SHORTCUT_HOME:$JAVA_HOME/bin:$MAVEN_HOME/bin:/opt/bc3/bin/:$ANT_HOME/bin:$ANDROID_SDK_HOME/tools:$ANDROID_SDK_HOME/platform-tools:$NUTCH_HOME/runtime/local/bin:$HBASE_HOME/bin:$HOME/Android/bin:$GROOVY_HOME/bin:$RUBY_HOME/bin:$NODE_HOME/bin:/usr/local/bin:$SOLR_HOME/bin:$PATH
 
 # export DISPLAY=localhost:1.0
 
@@ -163,3 +167,5 @@ export R_HOME=/usr/lib/R
 export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/amd64/server/
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+# test

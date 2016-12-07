@@ -52,7 +52,7 @@ backup2Leslie(){
 #   cp -rL /home/leslie/Shortcut/* $LESLIE_HOME/Linux/Shortcut
    cp /opt/tomcat/apache-tomcat-7.0.26/bin/mydeploy.sh $LESLIE_HOME/Shortcut
    cp /home/leslie/.tmux.conf $LESLIE_HOME/Linux/tmux
-   echo "backup2Leslie success..."
+   echo "`date +"%Y%m%d %H%M%S"`: backup2Leslie success..."
 }
 
 

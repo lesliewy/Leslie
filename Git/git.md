@@ -48,6 +48,10 @@
 
 * `git reset --hard HEAD`: 将当前所在的分支重置成github上的. 即用github上的分支覆盖本地分支.
 
+* 查看某文件的历史版本:
+  `git log filename`:查看所有提交历史,获取sha-1值.
+  `git show sha-1 filename`: 查看内容.
+
 * 用Eclipse开发时，当前在哪个分支，Eclipse就显示哪个分支的内容。 
   `git checkout 161017` 执行后，需要在Eclipse里面Refresh下.
 
