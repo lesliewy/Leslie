@@ -56,7 +56,7 @@
   `git checkout 161017` 执行后，需要在Eclipse里面Refresh下.
 
 * `git tag v0.1`: 给最近的commit打标签.
-  `git tag -a v0.1 -m "修改完成"`: 给标签添加message.
+  `git tag -a v0.1 -m "修改完成"`: 给最近的commit打标签同时添加message.
   `git push --follow-tags` :  默认push不包含tags
 
 * `git show -q v0.1`:  显示v0.1 tag, -q 是去掉diff

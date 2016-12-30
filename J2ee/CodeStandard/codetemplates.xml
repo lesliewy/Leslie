@@ -6,7 +6,7 @@
  * Project Name:${project_name}  
  * File Name:${file_name}  
  * Package Name:${package_name}  
- * Date:${date}${time}  
+ * Date:${date} ${time}  
  * Copyright (c) ${year}, wy All Rights Reserved.  
  *  
  */</template>
@@ -20,15 +20,15 @@
  */</template>
       <!--新建一个class(需要选择Generate comment) 或者为一个class添加javadoc时产生 -->
       <template autoinsert="false" context="typecomment_context" deleted="false" description="Comment for created types" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.typecomment" name="typecomment">/**
-         * ClassName: ${type_name} &lt;br/&gt;  
-         * Function: ${todo} ADD FUNCTION. &lt;br/&gt;  
-         * Reason: ${todo} ADD REASON(可选). &lt;br/&gt;  
-         * date: ${date} ${time} &lt;br/&gt;  
-         *  
-         * @author ${user}  
-         * @version ${enclosing_type}${tags}  
-         * @since version 1.0  
-         */</template>
+ * ClassName: ${type_name} &lt;br/&gt;  
+ * Function: ${todo} ADD FUNCTION. &lt;br/&gt;  
+ * Reason: ${todo} ADD REASON(可选). &lt;br/&gt;  
+ * date: ${date} ${time} &lt;br/&gt;  
+ *  
+ * @author ${user}  
+ * @version ${enclosing_type}${tags}  
+ * @since version 1.0  
+ */</template>
       <template autoinsert="true" context="fieldcomment_context" deleted="false" description="Comment for vars" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.fieldcomment" name="fieldcomment">/**
  * 
  */</template>
@@ -59,17 +59,17 @@
       <!-- 方法的注释模板.注意template之间的任何内容都算是注释的一部分，包括换行: template后的/**会空一行, /template前的*/不会空一行. -->
       <!-- 为方法添加javadoc时自动产生 -->
       <template autoinsert="false" context="methodcomment_context" deleted="false" description="Comment for non-overriding methods" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.methodcomment" name="methodcomment">
-      /**
-       * ${enclosing_method}:(这里用一句话描述这个方法的作用). &lt;br/&gt;  
-       * ${todo}(这里描述这个方法适用条件 – 可选).&lt;br/&gt;  
-       * ${todo}(这里描述这个方法的执行流程 – 可选).&lt;br/&gt;  
-       * ${todo}(这里描述这个方法的使用方法 – 可选).&lt;br/&gt;  
-       * ${todo}(这里描述这个方法的注意事项 – 可选).&lt;br/&gt;  
-       *  
-       * @author ${user}  
-       * ${tags}  
-       * @since 1.0.0
-       */</template>
+/**
+ * ${enclosing_method}:(这里用一句话描述这个方法的作用). &lt;br/&gt;  
+ * ${todo}(这里描述这个方法适用条件 – 可选).&lt;br/&gt;  
+ * ${todo}(这里描述这个方法的执行流程 – 可选).&lt;br/&gt;  
+ * ${todo}(这里描述这个方法的使用方法 – 可选).&lt;br/&gt;  
+ * ${todo}(这里描述这个方法的注意事项 – 可选).&lt;br/&gt;  
+ *  
+ * @author ${user}  
+ * ${tags}  
+ * @since 1.0.0
+ */</template>
       <template autoinsert="true" context="delegatecomment_context" deleted="false" description="Comment for delegate methods" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.delegatecomment" name="delegatecomment">/**
  * ${tags}
  * ${see_to_target}

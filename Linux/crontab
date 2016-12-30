@@ -1,8 +1,8 @@
 ### leslie 用户的crontab. 
 ### crontab -u leslie [file] 来添加.  该文件会放在:/var/spool/cron/crontabs/目录下,名字改成了leslie
 
-SHELL=/bin/sh
-PATH=$SHORTCUT_HOME:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+#SHELL=/bin/sh
+#PATH=$SHORTCUT_HOME:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 # m h dom mon dow user	command
 0 18-23/2 * * mon,wed,fri,sun leslie "/home/leslie/Work/Leslie/Shortcut/backup.sh -m >> /home/leslie/Work/Leslie/Linux/crontab.log"

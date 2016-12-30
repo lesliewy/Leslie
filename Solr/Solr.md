@@ -12,8 +12,11 @@
   5.3版本中这两文件必须放在 server/solr/test1/conf目录下.
 
 * solr -s /home/leslie/MyProject/mysolr/servers:  将 /home/leslie/MyProject/mysolr/servers 作为solr.home并启动solr, 创建的core/collection 都位于solr.home下.
+
   solr start 此方式启动的solr, 默认的solr.home 是$SOLR_HOME/server/solr, 作为solr.home,必须要包含solr.xml
   不明白修改了solr自带的webapp里的web.xml中的solr/home(去掉注释), 不起作用， 每次都要solr -s 挺麻烦.
+
+  solr stop: 停止solr
 
 
 * solr create -c jcg -d basic_configs
