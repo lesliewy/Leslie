@@ -38,7 +38,7 @@ ommitedDirs=([${repoNames[0]}]="----"
              [${repoNames[2]}]="backup/|gen/|history/|html/|stanalyse/stanalyselog/|stanalyse/target/|stanalyseweb/target/|"
              [${repoNames[3]}]="shinyAppLog/|.gitignore|"
              [${repoNames[4]}]="angular-basic/app/bower_components/|angular-basic/node_modules/|"
-             [${repoNames[5]}]="----"
+             [${repoNames[5]}]="Backup/|"
              [${repoNames[6]}]="SolrMongoImporter/.classpath|SolrMongoImporter/.project|SolrMongoImporter/bin/|SolrMongoImporter/build/"
             )
 
