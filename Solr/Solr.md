@@ -1,4 +1,4 @@
-* 直接解压solr包即可. bin/solr 执行   127.0.0.1:8983
+* 直接解压solr包即可. bin/solr 执行   127.0.0.1:8983   需要jdk.
 
 * solr -h;  solr start -h;   solr create -h;  
   solr create_core -help;  solr create_collection -help;   查看帮助.
@@ -67,12 +67,20 @@
     http://localhost:8983/solr/poetry/dataimport?command=reload-config: 重新加载dataimport   的配置文件，只对data-config.xml有效， schema.xml修改需要重启solr.
     http://localhost:8983/solr/poetry/dataimport?command=full-import:  全量导入
     http://localhost:8983/solr/poetry/dataimport?command=status:  查看状态.
+    http://localhost:8983/solr/poetry/update/?stream.body=<delete><query>*:*</query></delete>&stream.contentType=text/xml;charset=utf-8&commit=true: 删除数据
 
     * SolrMongoImporter 基于github 上的项目修改: https://github.com/james75/SolrMongoImporterj
       本地: /home/leslie/MyProject/mysolr/SolrMongoImporter
-      配置 poetry/conf 目录下的 solrconfig.xml data-config.xml schema.xml
+      配置 poetry/conf 目录下的 solrconfig.xml data-config.xml schema.xml, 其中data-config.xml是新增的，在solrconfig.xml中的requestHandler标签下指定.
       添加了gson-2.8.0.jar , 放在webapp/WEB-INF/lib 目录下
+      编译好的SolrMongoImporter的jar放入solrconfig.xml中指定的位置(<lib path="${solr.install.dir:../../../..}/dist/solr-mongo-importer-1.1.1.jar" />)
+
+      配置文件、jar都准备完毕后：先执行上面的删除url, 再执行全量导入url.
 
     * mongo查询语句, unwind将数组中的数据拉平, project 将嵌套的数据拉平.
     db.poem.aggregate([{'$match':{'author.name':'潘岳'}}, {'$unwind':'$poems'}, {'$project':{'category_url':'$category.url', 'category_name':'$category.name', 'category_numofauthors':'$category.numofauthors', 'author_url':'$author.url', 'author_name':'$author.name', 'author_numofpoems':'$author.numofpoems', 'author_brief':'$author.brief', 'poem_url':'$poems.url', 'poem_name':'$poems.name', 'poem_content':'$poems.content', 'poem_appreciation':'$poems.appreciation', 'poem_tags':'$poems.tags'}}]).pretty()
 
+* 查询
+- * 聚合查询: q=*:*&stats=true&stats.field=id&rows=0  
+             q=*:*&stats=true&stats.field=price&stats.field=popularity&rows=0  
+  * in:  q: (id:1 OR id:15 id:115)  注意如果id是负数, 需要转义符: \-1

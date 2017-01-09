@@ -1,0 +1,170 @@
+#! /bin/bash
+WEB_HOME="/home/leslie/MyProject/MyWeb/angular-basic"
+WEB_LOG_FILE="/home/leslie/MyProject/MyWeb/web.log"
+SOLR_HOME=/opt/solr-5.3.0
+
+EX_USAGE=64;
+EX_OK=0;
+
+USAGE(){
+   cat << ENDOFUSAGE
+   Usage:   $(basename "$0") [-h] [-s]
+            $(basename "$0")  -h               :shutdown all(solr shiny-server mongo nodejs)
+            $(basename "$0")  -s               :start all(solr shiny-server mongo nodejs)
+ENDOFUSAGE
+}
+
+getNodejsPid(){
+   local nodejsPid
+   nodejsPid=$(pgrep -f 'node ./bin/www')
+   echo "$nodejsPid"
+}
+
+startNodejs(){
+   cd $WEB_HOME
+   nohup npm start &
+}
+
+stopNodejs(){
+   nodejsPid=$(getNodejsPid)
+   if [ -n "$nodejsPid" ]; then
+      printf "kill nodejs pid: %s\n" "$nodejsPid"
+      kill "$nodejsPid"
+   fi
+   printf "nodejs is killed\n"
+}
+
+# 这里solrpid 有问题, 不是实际值. 但不影响启动.
+startSolr(){
+   stopSolr
+   solr start &
+
+   startstr="startup solr."
+   printf "%s" "$startstr"
+   while true
+   do
+      sleep 2
+      printf "."
+      newsolrpid=$(pgrep -f $SOLR_HOME)
+      if [ -n "$newsolrpid" ]; then
+         printf "\nsolr pid: %s\n" "$newsolrpid"
+         break;
+      fi 
+   done
+}
+
+stopSolr(){
+   solr stop &
+   stopstr="stop solr."
+   printf "%s" "$stopstr"
+   while true
+   do
+      sleep 1
+      printf "."
+      oldsolrpid=$(pgrep -f $SOLR_HOME)
+      if [ -z "$oldsolrpid" ]; then
+         printf "solr stopped.\n"
+         break;
+      fi 
+   done
+}
+
+
+startShiny(){
+   stopShiny
+   nohup shiny-server &
+
+   startstr="startup shiny-server."
+   printf "%s" "$startstr"
+   while true
+   do
+      sleep 1
+      printf "."
+      shinypid=$(pgrep -f "shiny-server")
+      if [ -n "$shinypid" ]; then
+         printf "\nshiny-server pid: %s\n" "$shinypid"
+         break;
+      fi 
+   done
+}
+
+stopShiny(){
+   shinyPid=$(pgrep -f "shiny-server")
+   if [ -n "$shinyPid" ]; then
+      printf "kill shiny-server pid: %s\n" "$shinyPid"
+      kill "$shinyPid"
+   fi
+   printf "shiny-server is killed\n"
+}
+
+startMongo(){
+   stopMongo
+   echo -e "leslie1987\n"|sudo -S service mongod start &
+   startstr="startup mongo."
+   printf "%s" "$startstr"
+   while true
+   do
+      sleep 1
+      printf "."
+      mongopid=$(pgrep -f "mongo")
+      if [ -n "$mongopid" ]; then
+         printf "\nmongo pid: %s\n" "$mongopid"
+         break;
+      fi 
+   done
+}
+
+stopMongo(){
+   echo -e "leslie1987\n"|sudo -S service mongod stop &
+   stopstr="stop mongo."
+   printf "%s" "$stopstr"
+   while true
+   do
+      sleep 1
+      printf "."
+      mongopid=$(pgrep -f "mongo")
+      if [ -z "$mongopid" ]; then
+         printf "mongo stopped.\n" 
+         break;
+      fi 
+   done
+}
+
+startOther(){
+   ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock
+   printf "ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock ok."
+}
+
+startAll(){
+   startSolr
+   startShiny
+   startMongo
+   startOther
+   startNodejs
+}
+
+stopAll(){
+   stopSolr
+   stopShiny
+   stopMongo
+   stopNodejs
+}
+
+[ "$#" -eq 0 ] && USAGE && exit $EX_USAGE
+
+while getopts "hs" option;do
+   case "$option" in
+      "h") stopAll &>> $WEB_LOG_FILE   # both stdout and stderr
+           exit $EX_OK
+          ;;
+      "s") startAll &>> $WEB_LOG_FILE
+           exit $EX_OK
+          ;;
+       *) echo "no this option"
+     USAGE
+     exit $EX_USAGE
+          ;;
+   esac
+done
+
+exit $EX_OK

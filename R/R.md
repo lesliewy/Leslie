@@ -85,7 +85,11 @@
 * shiny 的app, 必须有一个名称为 app.R, 不可修改.
 
 ### shiny-server
-* 配置文件在/etc/shiny-server/shiny-server.conf: 其中有apps路径：site_dir /home/leslie/MyProject/R/shinyApps;
+* https://www.rstudio.com/products/shiny/download-server/  参考安装.
+
+* 配置文件在/etc/shiny-server/shiny-server.conf: 其中有apps路径：
+  site_dir /home/leslie/MyProject/R/shinyApps;
+  run_as leslie;  哪个用户可以启动.
 
 * `shiny-server`: 启动shiney-server, 或者 shiny-server.sh
 

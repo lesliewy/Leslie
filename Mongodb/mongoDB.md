@@ -1,6 +1,45 @@
 * [官方文档](https://docs.mongodb.com/manual/)
+  ubuntu 的安装方法在: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
 
 * `sudo service mongod start`: 启动mongodb, 可以查看/var/log/mongodb/mongod.log, 是否启动成功.
+  `mongo`:  进入mongo shell. MongoDB数据库默认是没有用户名及密码，不用安全验证的，只要连接上服务就可以进行CRUD操作
+
+* 新增用户、密码
+  mongo正常登入:  
+  use poetry
+db.createUser(
+  {
+    user: "poetry",
+    pwd: "poetry123",
+    roles: [
+       { role: "readWrite", db: "poetry" }
+    ]
+  }
+)
+  然后修改/etc/mongod.conf: 添加
+  security:
+  authorization: enabled
+  sudo service mongod restart: 重启服务.
+  mongo 登入后: 如果之前时在poetry下面建的, 就需要use poetry, 然后 db.auth("poetry", "poetry123"); 返回1表示成功, 0表示失败.
+  mongo poetry -u poetry -p poetry123: 也可以这样登录.
+
+  show dbs等需要特殊的角色, 这里创建root用户,
+  use admin
+  db.createUser(
+  {
+    user: "root",
+    pwd: "root123",
+    roles: [
+       { role: "root", db: "admin" }
+    ]
+  }
+)
+  mongo admin -u root -p root123: 也可以这样登录.
+  use admin && db.system.users.find() : 查看所有用户.  注意外面的db 和roles里面的db不同. 外面的表示在那个db创建的用户.
+  db.system.users.remove({user: "root"}): 删除用户.
+
+  详细的角色信息: https://docs.mongodb.com/manual/core/security-built-in-roles/
+
 
 * **相关配置文件**
   > /lib/systemd/system/mongod.service
