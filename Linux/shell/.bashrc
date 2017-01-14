@@ -146,16 +146,17 @@ ANT_HOME=/opt/Software/ProgrammingSoftware/Apache/apache-ant-1.9.2
 ANDROID_SDK_HOME=/home/leslie/Android/Sdk
 #NUTCH_HOME=/opt/apache-nutch-1.8
 NUTCH_HOME=/opt/apache-nutch-2.2.1
-APACH_SOLR_HOME=/opt/solr-4.9.0
 HBASE_HOME=/opt/hbase-0.90.4
 GROOVY_HOME=/opt/groovy-2.4.3
 RUBY_HOME=/usr/local/ruby-2.3.1
-NODE_HOME=/opt/node-v4.4.3-linux-x64
+#NODE_HOME=/opt/node-v4.4.3-linux-x64
+NODE_HOME=/opt/nodejs/n/versions/node/7.2.1
 PYTHON_HOME=/opt/python3.5
 SOLR_HOME=/opt/solr-5.3.0
+NGINX_HOME=/opt/nginx
 
 #export CLASSPATH=~/.vim/autoload:
-export PATH=/sbin/:$SHORTCUT_HOME:$JAVA_HOME/bin:$MAVEN_HOME/bin:/opt/bc3/bin/:$ANT_HOME/bin:$ANDROID_SDK_HOME/tools:$ANDROID_SDK_HOME/platform-tools:$NUTCH_HOME/runtime/local/bin:$HBASE_HOME/bin:$HOME/Android/bin:$GROOVY_HOME/bin:$RUBY_HOME/bin:$NODE_HOME/bin:/usr/local/bin:$SOLR_HOME/bin:$PATH
+export PATH=/sbin/:$SHORTCUT_HOME:$JAVA_HOME/bin:$MAVEN_HOME/bin:/opt/bc3/bin/:$ANT_HOME/bin:$ANDROID_SDK_HOME/tools:$ANDROID_SDK_HOME/platform-tools:$NUTCH_HOME/runtime/local/bin:$HBASE_HOME/bin:$HOME/Android/bin:$GROOVY_HOME/bin:$RUBY_HOME/bin:$NODE_HOME/bin:/usr/local/bin:$SOLR_HOME/bin:$NGINX_HOME/sbin:$PATH
 
 # export DISPLAY=localhost:1.0
 

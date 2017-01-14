@@ -1,11 +1,15 @@
 ### leslie 用户的crontab. 
 ### crontab -u leslie [file] 来添加.  该文件会放在:/var/spool/cron/crontabs/目录下,名字改成了leslie
+### 使用上面的方法不起作用.
+### 放入/etc/crontab中. 不需要用crontab命令, 放进去就行了.  另外，最后command部分去掉""
+
 
 #SHELL=/bin/sh
 #PATH=$SHORTCUT_HOME:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 # m h dom mon dow user	command
-0 18-23/2 * * mon,wed,fri,sun leslie "/home/leslie/Work/Leslie/Shortcut/backup.sh -m >> /home/leslie/Work/Leslie/Linux/crontab.log"
+#0 18-23/2 * * mon,wed,fri,sun leslie "/home/leslie/Work/Leslie/Shortcut/backup.sh -m >> /home/leslie/Work/Leslie/Linux/crontab.log"
+# 19 * * * * leslie /home/leslie/Work/Leslie/Shortcut/backup.sh -m >> /home/leslie/Work/Leslie/Linux/crontab.log
 #
 #17 *	* * *	root    cd / && run-parts --report /etc/cron.hourly
 #25 6	* * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )
