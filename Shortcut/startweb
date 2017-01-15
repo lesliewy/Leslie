@@ -11,6 +11,7 @@ USAGE(){
    Usage:   $(basename "$0") [-h] [-s]
             $(basename "$0")  -h               :shutdown all(solr shiny-server mongo nodejs)
             $(basename "$0")  -s               :start all(solr shiny-server mongo nodejs)
+            $(basename "$0")  -r               :restart all(solr shiny-server mongo nodejs)
 ENDOFUSAGE
 }
 
@@ -150,9 +151,15 @@ stopAll(){
    stopNodejs
 }
 
+restartAll(){
+   stopAll
+   sleep 2
+   startAll
+}
+
 [ "$#" -eq 0 ] && USAGE && exit $EX_USAGE
 
-while getopts "hs" option;do
+while getopts "hsr" option;do
    case "$option" in
       "h") stopAll &>> $WEB_LOG_FILE   # both stdout and stderr
            exit $EX_OK
@@ -160,6 +167,9 @@ while getopts "hs" option;do
       "s") startAll &>> $WEB_LOG_FILE
            exit $EX_OK
           ;;
+      "r") restartAll &>> $WEB_LOG_FILE
+           exit $EX_OK
+           ;;
        *) echo "no this option"
      USAGE
      exit $EX_USAGE
