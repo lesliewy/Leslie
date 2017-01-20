@@ -39,14 +39,14 @@ deletewar(){
    elif [ "$warname" == "okparse" ]; then
       /bin/rm -rf /opt/tomcat/apache-tomcat-7.0.26/webapps/okparse*
    fi
-   printf "$warname is deleted\n"
+   printf "%s is deleted\n" "$warname"
 }
 
 #start tomcat
 startup(){
    /opt/tomcat/apache-tomcat-7.0.26/bin/startup.sh > /dev/null
    startstr="startup tomcat."
-   printf "$startstr"
+   printf "%s" "$startstr"
    while true
    do
       printf "."

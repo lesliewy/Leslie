@@ -64,12 +64,17 @@
     https://cwiki.apache.org/confluence/display/solr/  Uploading+Structured+Data+Store+Data+with+the+Data+Import+Handler
 
     * 命令
+    http://localhost:8983/solr/poetry/dataimport?command=abort: 停止导入.
     http://localhost:8983/solr/poetry/dataimport?command=reload-config: 重新加载dataimport   的配置文件，只对data-config.xml有效， schema.xml修改需要重启solr.
-    http://localhost:8983/solr/poetry/dataimport?command=full-import:  全量导入
+    http://localhost:8983/solr/poetry/dataimport?command=full-import:  全量导入. 会删除已有的.
+    http://localhost:8983/solr/poetry/dataimport?command=delta-import: 增量导入. Only the SqlEntityProcessor supports delta imports
     http://localhost:8983/solr/poetry/dataimport?command=status:  查看状态.
     http://localhost:8983/solr/poetry/update/?stream.body=<delete><query>*:*</query></delete>&stream.contentType=text/xml;charset=utf-8&commit=true: 删除数据
 
-    * SolrMongoImporter 基于github 上的项目修改: https://github.com/james75/SolrMongoImporterj
+    全量导入时会报错: aggregation result exceeds maximum document size (16MB)" , "code" : 16389.  
+    解决方法: 修改/SolrMongoImporter 中 MongoDataSource.java aggregate时使用cursor.
+
+    * SolrMongoImporter 基于github 上的项目修改: https://github.com/james75/SolrMongoImporter
       本地: /home/leslie/MyProject/mysolr/SolrMongoImporter
       配置 poetry/conf 目录下的 solrconfig.xml data-config.xml schema.xml, 其中data-config.xml是新增的，在solrconfig.xml中的requestHandler标签下指定.
       添加了gson-2.8.0.jar , 放在webapp/WEB-INF/lib 目录下

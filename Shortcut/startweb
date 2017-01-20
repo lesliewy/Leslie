@@ -131,6 +131,39 @@ stopMongo(){
    done
 }
 
+startNginx(){
+   stopNginx
+   echo -e "leslie1987\n"|sudo /opt/nginx/sbin/nginx &
+   startstr="startup nginx."
+   printf "%s" "$startstr"
+   while true
+   do
+      sleep 1
+      printf "."
+      nginxpid=$(pgrep -f "nginx: master")
+      if [ -n "$nginxpid" ]; then
+         printf "\nnginx pid: %s\n" "$nginxpid"
+         break;
+      fi 
+   done
+}
+
+stopNginx(){
+   echo -e "leslie1987\n"|sudo /opt/nginx/sbin/nginx -s quit & 
+   stopstr="stop nginx."
+   printf "%s" "$stopstr"
+   while true
+   do
+      sleep 1
+      printf "."
+      nginxid=$(pgrep -f "nginx: master")
+      if [ -z "$nginxid" ]; then
+         printf "nginx stopped.\n" 
+         break;
+      fi 
+   done
+}
+
 startOther(){
    ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock
    printf "ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock ok."
@@ -142,6 +175,7 @@ startAll(){
    startMongo
    startOther
    startNodejs
+   startNginx
 }
 
 stopAll(){
@@ -149,6 +183,7 @@ stopAll(){
    stopShiny
    stopMongo
    stopNodejs
+   stopNginx
 }
 
 restartAll(){

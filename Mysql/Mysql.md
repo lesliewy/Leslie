@@ -22,6 +22,8 @@ dpkg: dependency problems prevent configuration of mysql-community-server:
 
 * 安装好后，连接时出现mysql.sock找不到的问题，可能是不在my.cnf配置文件中指定的位置(默认为/tmp/mysql.cnf).  此时需要修改该配置文件，或者ln下.
   也可能是根本就没有了，此时可以ps -ef |grep mysql ,先kill 掉所有mysql的进程,然后重启: service mysqld restart. 就会生成sock文件。
+  service 的配置文件: /lib/systemd/system/mysql.service
+  sudo systemctl mysql start: 启动mysql的另一种方式.
 
 * 不管是用改表法，还是授权法添加一个用户，都要flush privileges. 否则不生效.
 
@@ -53,7 +55,7 @@ mysqldump -u root -p mysql > 201009.sql;  备份整个数据库.
 mysql -u root -p mysql < 201009.sql;   还原.   注意，不要用！！！  直接 source 201009.sql 来恢复
 
 mysqldump -u root -p mysql TEST1 > TEST1.sql; 备份表 TEST1.
-mysql -u root -p mysql < TEST1.sql; 还原.
+mysql -u root --password=mysql --database mysql < data/mysql/170118/ST_CONFIG.sql: 还原. 必须--password=mysql
 
 * alter table LOT_KELLY_RULE change WIN_PROP WIN_PROB double;  修改列名, 由WIN_PROP 修改成 WIN_PROB.
 alter table LOT_KELLY_CORP_RESULT change ODDS_CORP_NAME ODDS_CORP_NAME VARCHAR(50) NOT NULL;  修改 列的长度, 由20修改为50;

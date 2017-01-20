@@ -1,6 +1,10 @@
 ** ./configure --prefix=/opt/nginx; make; make install;
 
 ** nginx;  启动.  1024以下的port需要root用户,没有权限的话会报错: nginx: [emerg] bind() to 0.0.0.0:80 failed (13: Permission denied)
+   sudo nginx 会报错，command not found 
+  通常使用sudo时最好使用绝对路径. 如果不使用绝对路径的话，只有某些路径里的命令才可以使用
+  /etc/sudoers中  Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+  
    nginx -c /path/to/nginx.conf: 启动nginx
    nginx -s quit: 有序停止.
    nginx -s stop: 立即停止.

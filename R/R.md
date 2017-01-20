@@ -1,6 +1,11 @@
 * [R官网](http://www.r-project.org)
   [Data Mining with R 官网](http://www.dcc.fc.up.pt/~ltorgo/DataMiningWithR/)
 
+* 安装
+  sudo apt install r-base-core:  使用apt安装.  官网下载安装包也可以，但是要手动安装许多依赖包.
+  sudo dpkg -i r-base-core_3.3.2-1xenial0_amd64.deb： 安装官网下载的. 需要许多依赖，可以先apt.
+
+
 * 关于R添加包的函数
  `install.packages('RMySQL')`: 安装名称为 RMySQL的包.
  `install.packages('/home/leslie/3/gplots_2.11.0.tar.gz', repos=NULL)`: 安装本地下好的包, zip包不可以.
@@ -85,7 +90,7 @@
 * shiny 的app, 必须有一个名称为 app.R, 不可修改.
 
 ### shiny-server
-* https://www.rstudio.com/products/shiny/download-server/  参考安装.
+* https://www.rstudio.com/products/shiny/download-server/  参考安装.  使用R-shiny 需要安装R, shiny
 
 * 配置文件在/etc/shiny-server/shiny-server.conf: 其中有apps路径：
   site_dir /home/leslie/MyProject/R/shinyApps;
