@@ -62,3 +62,44 @@ alter table LOT_KELLY_CORP_RESULT change ODDS_CORP_NAME ODDS_CORP_NAME VARCHAR(5
 
 * show indexes from LOT_KELLY_CORP_RESULT;  查看表 LOT_KELLY_CORP_RESULT 的索引.
 ALTER TABLE LOT_KELLY_CORP_RESULT DROP INDEX OK_URL_DATE;  删除索引;
+
+* 主从复制.
+  参考: http://blog.csdn.net/goustzhu/article/details/9339621
+
+  master: cnf的mysqld域[mysqld]:
+  server-id = 1
+  log_bin        = /var/log/mysql/mysql-bin.log
+  log_bin_index  = master_bin.index
+  binlog_format  = mixed
+  innodb_file_per_table = 1
+  sudo service mysql restart; 登录后, show master status 
+  增加同步的账户:
+  CREATE USER 'rep@127.0.0.1' IDENTIFIED BY "rep147258";
+  GRANT REPLICATION SLAVE ON *.* TO 'rep@192.168.1.100' identified by 'rep147258'; -- 这个不行.
+  GRANT REPLICATION SLAVE ON *.* TO 'rep' identified by 'rep147258';
+
+  slave: cnf的mysqld域[mysqld]:
+  注释掉binlog, 开始relay-log:
+  relay-log = relay-log
+  relay-log-index = relay-log.index
+  server-id = 2
+  sudo service mysql restart;  show slave status 还没用东西，因为还没启动slave服务。
+  slave mysql 下执行:
+  CHANGE MASTER TO MASTER_HOST = '183.206.172.118', MASTER_PORT=3306, MASTER_USER='rep', MASTER_PASSWORD='rep147258', MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS = 407;
+  show slave status \G; 查看状态， 此时的
+             Slave_IO_Running: No
+            Slave_SQL_Running: No
+  然后, start slave(对应的stop slave), 都正常情况下，显示:
+            Slave_IO_Running: Yes
+            Slave_SQL_Running: Yes
+  如果连接不上MASTER, 显示:
+            Slave_IO_Running: Connecting
+            Slave_SQL_Running: Yes
+
+
+
+
+
+
+
+

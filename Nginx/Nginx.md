@@ -16,3 +16,8 @@
    kill -TERM 主进程号     ：快速停止Nginx
    pkill -9 nginx          ：强制停止Nginx
    kill -HUP 主进程号       ： 平滑重启nginx：
+
+** nginx.conf
+ -server_tokens off;  关闭服务器版本信息.  默认时 curl -I http://localhost 返回： Server: nginx/1.10.2
+
+** nginx 日志里出现其他网站的GET记录: http://eyehere.net/2015/foreign-sites-in-log-with-200-code/
