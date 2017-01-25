@@ -56,6 +56,7 @@
   `git checkout 161017` 执行后，需要在Eclipse里面Refresh下.
 
 * `git tag v0.1`: 给最近的commit打标签.
+  `git tag -n3`: 显示tag及内容.
   `git tag -a v0.1 -m "修改完成"`: 给最近的commit打标签同时添加message.
   `git push --follow-tags` :  默认push不包含tags
 
@@ -67,6 +68,16 @@
   > `git tag`: 查询tag
   > `git show -q <tag-name>`: 查找某个tag的commit id.
   > `git reset --hard 39debacd3375cf4430c502aa6a99ac8655cfddae`: 回退到该版本.
+
+* merge
+  将161017分支merge到master分支:
+  ~/MyProject/StockAnalyse> git checkout master
+  ~/MyProject/StockAnalyse> git merge --no-ff 161017
+
+* 状态
+  第一个 ？ 主要表示staging area 和 repository 两个区域间的文件变化，一般会有两个字母来表示（A、M <绿色>）；A  表示此文件已经是在追踪文件，M 表示此文件已经在staging area区域修改，还没有提交到repository。
+  第二个 ？ 主要表示working directory 和 staging area 两个区域间的文件变化，M <红色> 表示此文件已经working directory区域修改，还没有提交到staging area
+
 
 ### 配置
 * **使用meld作为diff工具**
