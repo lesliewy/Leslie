@@ -98,8 +98,20 @@
 
 * `shiny-server`: 启动shiney-server, 或者 shiny-server.sh
 
+### rmongodb
+* 目前对mongodb3.0以上无法使用用authenticate, 只能时mongo.create(),  不能使用密码登录.
+  https://github.com/dselivanov/rmongodb/issues/77
+  http://stackoverflow.com/questions/31664719/rmongodb-authentication-always-fails
+  
+  改用mongolite
+* 需要安装 deb: libssl-dev, libsasl2-dev (Debian, Ubuntu, etc)
+  sudo apt install libssl-dev;  sudo apt install libsasl2-dev;
+  R 环境下: install.packages("mongolite")
+* 
+
+
 ### Rstudio
 * 调试shiny, 先设置好断点.  在app.R页面点击Run, 有时候断点不起作用。页面上会出现: Debug location is approximate because the source is not available.  
   试过的一种办法是，在app.R页面的断点通常是有效。source引入的无效，所以在app.R设置好断点，进入source引入页面前执行:debugSource('~/MyProject/R/shiny/Poetry/quantity/db.R') 来加载该页面， Rstudio的db.R页面有按钮点击一下就可以了.
 
-* profiling 非常使用，也很简单，start profiling, run app, stop profiling.  即可查看所有的时间。多次执行可以生成多个文件，用以比较.
+* profiling 非常实用，也很简单，start profiling, run app, stop profiling.  即可查看所有的时间。多次执行可以生成多个文件，用以比较.

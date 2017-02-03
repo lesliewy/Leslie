@@ -19,7 +19,7 @@ db.createUser(
   然后修改/etc/mongod.conf: 添加
   security:
   authorization: enabled
-  sudo service mongod restart: 重启服务.
+  sudo service mongod restart: 重启服务.   注意: 如果去掉该配置，即去掉了用户密码验证，无用户登录可以操作任何表.d
   mongo 登入后: 如果之前时在poetry下面建的, 就需要use poetry, 然后 db.auth("poetry", "poetry123"); 返回1表示成功, 0表示失败.
   mongo poetry -u poetry -p poetry123: 也可以这样登录.
 
