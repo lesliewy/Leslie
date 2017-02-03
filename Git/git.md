@@ -79,6 +79,7 @@
   第二个 ？ 主要表示working directory 和 staging area 两个区域间的文件变化，M <红色> 表示此文件已经working directory区域修改，还没有提交到staging area
 
 
+
 ### 配置
 * **使用meld作为diff工具**
   > `git config --global diff.tool meld`
@@ -87,5 +88,7 @@
 * `git push origin master`: 报错 can't connect.
   `git config --global -l`: 查看有 http.proxy的设置, 去掉该设置:  `git config --global --unset http.proxy` 即可.
 
+* .gitignore 忽略文件.
+  # 用来注释.
 
 ### 其他

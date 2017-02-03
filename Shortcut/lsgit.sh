@@ -29,6 +29,7 @@ paths=("/home/leslie/Work/Leslie"
        "/home/leslie/MyProject/mysolr"
       )
 
+# 注意： 该部分通过.gitignore来实现了。
 # 忽略的目录, 有些没有加入git管理.利用关联数组实现.
 # ${!animals[@]}: 所有的key
 # ${animals[@]}: 所有的value
@@ -36,7 +37,7 @@ declare -A ommitedDirs
 ommitedDirs=([${repoNames[0]}]="----"
              [${repoNames[1]}]="backup/|charts/|html/|parse/target/|"
              [${repoNames[2]}]="backup/|gen/|history/|html/|stanalyse/stanalyselog/|stanalyse/target/|stanalyseweb/target/|"
-             [${repoNames[3]}]="shinyAppLog/|.gitignore|"
+             [${repoNames[3]}]="shinyAppLog/|"
              [${repoNames[4]}]="angular-basic/app/bower_components/|angular-basic/node_modules/|web.log|"
              [${repoNames[5]}]="Backup/|"
              [${repoNames[6]}]="SolrMongoImporter/.classpath|SolrMongoImporter/.project|SolrMongoImporter/bin/|SolrMongoImporter/build/"
