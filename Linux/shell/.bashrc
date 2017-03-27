@@ -154,9 +154,10 @@ NODE_HOME=/opt/nodejs/n/versions/node/7.2.1
 PYTHON_HOME=/opt/python3.5
 SOLR_HOME=/opt/solr-5.3.0
 NGINX_HOME=/opt/nginx
+ZOOKEEPER_HOME=/opt/zookeeper-3.3.6
 
 #export CLASSPATH=~/.vim/autoload:
-export PATH=/sbin/:$SHORTCUT_HOME:$JAVA_HOME/bin:$MAVEN_HOME/bin:/opt/bc3/bin/:$ANT_HOME/bin:$ANDROID_SDK_HOME/tools:$ANDROID_SDK_HOME/platform-tools:$NUTCH_HOME/runtime/local/bin:$HBASE_HOME/bin:$HOME/Android/bin:$GROOVY_HOME/bin:$RUBY_HOME/bin:$NODE_HOME/bin:/usr/local/bin:$SOLR_HOME/bin:$NGINX_HOME/sbin:$PATH
+export PATH=/sbin/:$SHORTCUT_HOME:$JAVA_HOME/bin:$MAVEN_HOME/bin:/opt/bc3/bin/:$ANT_HOME/bin:$ANDROID_SDK_HOME/tools:$ANDROID_SDK_HOME/platform-tools:$NUTCH_HOME/runtime/local/bin:$HBASE_HOME/bin:$HOME/Android/bin:$GROOVY_HOME/bin:$RUBY_HOME/bin:$NODE_HOME/bin:/usr/local/bin:$SOLR_HOME/bin:$NGINX_HOME/sbin:$ZOOKEEPER_HOME/bin:$PATH
 
 # export DISPLAY=localhost:1.0
 
@@ -168,5 +169,3 @@ export R_HOME=/usr/lib/R
 export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/amd64/server/
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-
-# test
