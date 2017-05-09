@@ -4,6 +4,8 @@
   `tmux a -t session-name`:  进入指定的session.
   `tmux kill-session -t daily`: 删除session
 
+  `tmux list-commands`: 
+  `tmux list-windows -t leslie`:  列出leslie session 下的所有window.
   `Ctrl + b + c`: 进入session后，创建window
   `Ctrl + b + s`: 进入session选择页面.
   `Ctrl + b + ,`: 修改窗口名字.

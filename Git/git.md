@@ -78,7 +78,8 @@
   第一个 ？ 主要表示staging area 和 repository 两个区域间的文件变化，一般会有两个字母来表示（A、M <绿色>）；A  表示此文件已经是在追踪文件，M 表示此文件已经在staging area区域修改，还没有提交到repository。
   第二个 ？ 主要表示working directory 和 staging area 两个区域间的文件变化，M <红色> 表示此文件已经working directory区域修改，还没有提交到staging area
 
-
+* useful urls
+  http://www.ruanyifeng.com/blog/2014/06/git_remote.html
 
 ### 配置
 * **使用meld作为diff工具**

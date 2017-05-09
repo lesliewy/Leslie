@@ -1,5 +1,6 @@
-* 安装.
+* Linux安装.
   http://dev.mysql.com/downloads/mysql/:  下载.  mysql-server_5.7.17-1ubuntu16.04_amd64.deb-bundle.tar  解压后得到组件包.
+
 
 sudo dpkg -i mysql-community-server_5.7.17-1ubuntu16.04_amd64.deb:  直接安装报错:
 Unpacking mysql-community-server (5.7.17-1ubuntu16.04) ...
@@ -19,6 +20,9 @@ dpkg: dependency problems prevent configuration of mysql-community-server:
    sudo dpkg -i mysql-community-server_5.7.17-1ubuntu16.04_amd64.deb
    mysql -u root -p:  使用root登录.  
 
+* Mac 安装.
+  Tar.gz 方式安装:  解压至 /usr/local/mysql;  添加PATH;   mysqld 启动
+  root@localhost: fwgZapkk9R-P   -> root/mysql
 
 * 安装好后，连接时出现mysql.sock找不到的问题，可能是不在my.cnf配置文件中指定的位置(默认为/tmp/mysql.cnf).  此时需要修改该配置文件，或者ln下.
   也可能是根本就没有了，此时可以ps -ef |grep mysql ,先kill 掉所有mysql的进程,然后重启: service mysqld restart. 就会生成sock文件。
@@ -32,6 +36,8 @@ dpkg: dependency problems prevent configuration of mysql-community-server:
   -S: 指定使用的socket路径. 否则，使用配置文件(可能/etc/mysql/my.cnf)中的[client]的socket配置.
       否则，使用默认值: /var/run/mysqld/mysqld.sock
 
+* Default options are read from the following files in the given order:
+/etc/my.cnf /etc/mysql/my.cnf /usr/local/mysql/etc/my.cnf ~/.my.cnf
 
 mysql:   mysql -h localhost -u root -p :       password:  mysql
 service mysql start:  启动mysql;
@@ -39,10 +45,19 @@ use mysql:  使用哪个数据库.
 show databases:
 show tables:
 
+status: 查看当前数据库
+select database(): 查看当前数据库.
+show table status \G:  查看表状态. show table status like 'user' \G
+
+
+create user 'leslie' identified by 'leslie';  创建用户.
+select * from mysql.user; 查看创建的用户.
+
+
 alter database `mysql` default character set utf8 collate utf8_general_ci;   修改mysql 字符集
 alter table LOT_MATCH convert to character set utf8;  修改表的字符集;
 show create database mysql: 查看mysql 的字符集
-show create table LOT_MATCH: 查看表的默认字符集;
+show create table LOT_MATCH: 查看表的默认字符集, 也可以用 show table status like 't1' \G 
 /etc/mysql/conf.d/  新增 wy.cnf 添加 :
 [mysqld]
 character_set_server=utf8
