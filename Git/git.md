@@ -2,7 +2,7 @@
 * `git` 查看git commands
 * `git add -help`: 查看git add 使用说明.
   `git help add`:  更加详细的说明.
-* `git remote add origin https://github.com/lesliewy/helloworld.git` 
+* `git remote add origin https://github.com/lesliewy/helloworld.git`  
 
 * `git push origin readme-edits`: 报错:  src refspec readme-edits does not match any.
   `git show-ref`:  查看 ref, 如果没有使用  git push orgin HEAD:readme-edits
@@ -25,7 +25,7 @@
   `git checkout -b 161017`: 等价于上面的两条.
   `git push origin 161017`: 将161017分之push到github, 就不需要在github上新建了.
   ·git branch -a: 查看本地和远程的所有分支.
-  `git branch -d remotes/origin/creditcloud170509225740`: 删除本地分支.
+  `git branch -d creditcloud170509225740`: 删除本地分支.
 
 * **关于branch description**
   `git branch --edit-description 161017`: 给161017分支写说明. 
@@ -67,7 +67,7 @@
   git remote rename <原主机名> <新主机名>
 
 * **落后/超前版本**
-  git status:   查看working tree 超前/落后远程版本库的次数.
+  git status:   查看working tree 超前/落后远程版本库的次数.  **注意：git 有一点延迟，如果长期没有使用本地git, git status 第一次执行可能不准，等几分钟
   git status -s : 查看working tree与本地版本库的差异文件.
   git log --stat master: 查看本地master分支的提交信息.
   git log --stat: 同上.
