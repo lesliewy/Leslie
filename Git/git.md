@@ -112,6 +112,11 @@
 
 * **conflicts**
   * 发生在对不同分支上同一文件的同一文本块以不同方式修改;
+  * 一般过程:
+    git checkout master
+    git merge b3:  执行后发生冲突.
+    git mergetool: 调用配置的diffmerge来解决.
+    git commit:  提交.
 
 
 * **git reset**
