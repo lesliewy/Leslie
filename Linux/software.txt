@@ -1,4 +1,4 @@
-1,不知道怎么回事，输入用户名和密码后提示 : You account has expired ,please contact at your system administrator
+1,不知道怎么回事，输入用户名和密码后提示 : You account has expired ,please contact at your system administrator 
    可能是执行sudo passwd root ,passwd -l root等操作导致的。上网查看原因，有一种方法：
   a,编辑recovery mode,按e编辑
   b,选择第二层(含有kernel),按e进入编辑

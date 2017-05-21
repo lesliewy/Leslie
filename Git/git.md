@@ -1,4 +1,4 @@
-### 命令 
+### 命令
 * `git` 查看git commands
 * `git add -help`: 查看git add 使用说明.
   `git help add`:  更加详细的说明.
@@ -36,6 +36,9 @@
   git clone <版本库的网址> <本地目录名>: 默认将版本库名称设置为origin.
   `git clone -o jQuery https://github.com/jquery/jquery.git`: 将版本库名称设置为 jQeury. git remote查看.
 
+* **git add**
+   git add -p: 选择某部分的修改添加到index, 而不是整个文件提交到版本库.
+
 * **git pull**
   git pull <远程主机名> <远程分支名>:<本地分支名>: 取回远程主机某个分支的更新，再与本地的指定分支合并。它的完整格式稍稍有点复杂。
   `git pull origin next:master`: 取回origin主机的next分支，与本地的master分支合并
@@ -68,6 +71,9 @@
 
 * **落后/超前版本**
   git status:   查看working tree 超前/落后远程版本库的次数.  **注意：git 有一点延迟，如果长期没有使用本地git, git status 第一次执行可能不准，等几分钟
+                . 也可以直接git fetch 获取log等信息.  就可以git log origin/master看到别人的提交了.
+                Changes to be committed:   对应已经暂存的，但未提交的. （绿色)
+                Changes not staged for commit: 对应未暂存的. (红色)
   git status -s : 查看working tree与本地版本库的差异文件.
   git log --stat master: 查看本地master分支的提交信息.
   git log --stat: 同上.
@@ -76,7 +82,7 @@
 * **本地分支与github上分支的比对**
   git diff：是查看working tree与index file的差别的。（git add后两者就同步）
   git diff --cached：or git diff --staged 是查看index file与commit的差别的。（git commit后两者就同步）
-  git diff HEAD：是查看working tree和commit的差别的。（你一定没有忘记，HEAD代表的是最近的一次commit的信息，即：git commit后working tree未做任何操作，那么两者就是同步的，没有差异信息）
+  git diff HEAD：是查看working tree和该分支最新版本的差别的。（你一定没有忘记，HEAD代表的是最近的一次commit的信息，即：git commit后working tree未做任何操作，那么两者就是同步的，没有差异信息）
   `git diff master origin/master share/src/main/java/cn/fraudmetrix/creditcloud/api/intf/PreLoan.java`: 比对本地版本库里的master分支(不是working tree), 和origin/master(远程分支)下指定文件的区别.  **有时候需要隔开revision and filename: git diff master origin/master -- biz/src/main/java/cn/fraudmetrix/creditcloud/biz/service/cache/CreditPartnerCache.java
   `git diff origin/master share/src/main/java/cn/fraudmetrix/creditcloud/api/intf/PreLoan.java`: 比对的是working tree和远程分支上的. 
   @@ -32,23 +32,23 @@:  表示从文件的第32行开始，左边包含23行，右边包含23行, 两边包含行数一致，说明是修改的； 如果不一致，说明新增/删除.
