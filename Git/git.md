@@ -28,7 +28,7 @@
   `git checkout -b b3 master`: 基于master新建分支, 也可以修改成其他的.
   `git push origin 161017`: 将161017分之push到github, 就不需要在github上新建了.
   ·git branch -a: 查看本地和远程的所有分支.
-  `git branch -d creditcloud170509225740`: 删除本地分支.
+  `git branch -d creditcloud170509225740`: 删除本地分支.  如果该分支还没有merged, 会报错. git branch -D creditcloud170509225740强制删除.
 
 
 * **关于branch description**
