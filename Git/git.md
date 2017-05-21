@@ -138,9 +138,16 @@
 * `git rm -r --cached shinyAppLog`: 将shinyAppLog从版本库中移除，不需要git管理. 如果不加--cache,会删掉本地的文件.
 
 * merge
-  将161017分支merge到master分支:
-  ~/MyProject/StockAnalyse> git checkout master
-  ~/MyProject/StockAnalyse> git merge --no-ff 161017
+  直接合并: 将会把所有的提交(包括log)合并在一起.
+     > 将161017分支merge到master分支:
+     > ~/MyProject/StockAnalyse> git checkout master
+     > ~/MyProject/StockAnalyse> git merge --no-ff 161017
+  压合合并: 将被合并分支的所有提交压合成一个提交.
+     > 将b3分支压合合并至master.
+     > git checkout master
+     > git merge --squash b3
+     > git status: 未提交的是压合合并的内容.
+     > git commit -m "" -a:  正常提交一次.
 
 * 状态
   第一个 ？ 主要表示staging area 和 repository 两个区域间的文件变化，一般会有两个字母来表示（A、M <绿色>）；A  表示此文件已经是在追踪文件，M 表示此文件已经在staging area区域修改，还没有提交到repository。
