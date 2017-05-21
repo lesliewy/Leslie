@@ -23,9 +23,12 @@
 * `git branch 161017`
   `git checkout 161017`
   `git checkout -b 161017`: 等价于上面的两条.
+      **注意**: git checkout -b 161017 是在当前分支基础上创建分支.  如果当前分支存在未commit的内容, 新创建的分支commit掉之后，父分支上的内容就没有了.
+      且新创建的分支在`git branch -d 161017`前需要merge, 否则使用 `git branch -D 161017`
   `git push origin 161017`: 将161017分之push到github, 就不需要在github上新建了.
   ·git branch -a: 查看本地和远程的所有分支.
   `git branch -d creditcloud170509225740`: 删除本地分支.
+
 
 * **关于branch description**
   `git branch --edit-description 161017`: 给161017分支写说明. 
