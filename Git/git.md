@@ -79,9 +79,15 @@
                 Changes to be committed:   对应已经暂存的，但未提交的. （绿色)
                 Changes not staged for commit: 对应未暂存的. (红色)
   git status -s : 查看working tree与本地版本库的差异文件.
+
+* **git log**
   git log --stat master: 查看本地master分支的提交信息.
-  git log --stat: 同上.
+  git log --stat: 查看当前分支的log
   git log --stat origin/master: 查看远程版本库的提交信息.
+  git log -p -1: 最近一次提交的log, 同时显示diff
+  git log master..b3: 查看b3分支比master分支多出来的log
+  git log b3..master: 查看master分支比b3分支多出来的log.
+  git log --left-right master...dev:  不管哪边多出来的，都显示出来.  master使用"<": commit < ea57df14;  dev使用">": commit > 2420488
 
 * **本地分支与github上分支的比对**
   git diff：是查看working tree与index file的差别的。（git add后两者就同步）
