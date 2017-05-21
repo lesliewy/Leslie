@@ -111,7 +111,7 @@
   script/test1 是本地有，远程没有的；  script/create_table.sql 本地添加了一行； script/useful.sql 本地删除了一行; 0代表没有该文件，其他数字代表行数(非行号)；
 
 * **conflicts**
-  * 发生在对不同分支上同一文件的同一文本块以不同方式修改。
+  * 发生在对不同分支上同一文件的同一文本块以不同方式修改,
 
 
 * **git reset**
