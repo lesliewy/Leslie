@@ -113,6 +113,7 @@
 * **conflicts**
   * 发生在对不同分支上同一文件的同一文本块以不同方式修改。
 
+
 * **git reset**
 * `git reset --hard origin/master`: 将当前所在的分支重置成远程分支origin/master. 本地修改将丢失.
 * 回退到某个tag的版本:
