@@ -148,6 +148,16 @@
      > git merge --squash b3
      > git status: 未提交的是压合合并的内容.
      > git commit -m "" -a:  正常提交一次.
+  拣选合并: 选择指定的commit来合并.
+     只选择一个来合并:
+     > git checkout master
+     > git cherry-pick <commitid>  
+     选择多个来合并:
+     > git checkout master
+     > git cherry-pick -n <commitid>
+     > git cherry-pick -n <commitid>
+     > ...
+     > git commit:  不带 -m 参数.
 
 * 状态
   第一个 ？ 主要表示staging area 和 repository 两个区域间的文件变化，一般会有两个字母来表示（A、M <绿色>）；A  表示此文件已经是在追踪文件，M 表示此文件已经在staging area区域修改，还没有提交到repository。
