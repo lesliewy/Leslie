@@ -38,7 +38,7 @@
 
 * **git clone**
   git clone <版本库的网址> <本地目录名>: 默认将版本库名称设置为origin.
-  `git clone -o jQuery https://github.com/jquery/jquery.git`: 将版本库名称设置为 jQeury. git remote查看.
+  `git clone -o jQuery https://github.com/jquery/jquery.git jquery`: 将origin名称设置为 jQeury. git remote查看, 放到本地的jquery目录.
 
 * **git add**
    git add -p: 选择某部分的修改添加到index, 而不是整个文件提交到版本库.
@@ -84,6 +84,7 @@
   git log --stat master: 查看本地master分支的提交信息.
   git log --stat: 查看当前分支的log
   git log --stat origin/master: 查看远程版本库的提交信息.
+  git log --grep="贷前": 查找log中包含所有 "贷前" 的.
   git log -p -1: 最近一次提交的log, 同时显示diff
   git log master..b3: 查看b3分支比master分支多出来的log
   git log b3..master: 查看master分支比b3分支多出来的log.
@@ -126,6 +127,12 @@
   > `git show -q <tag-name>`: 查找某个tag的commit id.
   > `git reset --hard 39debacd3375cf4430c502aa6a99ac8655cfddae`: 回退到该版本.
 
+* **git blame**
+  git blame filename:  查看每一行是哪个提交最后改动的.
+
+* **回退某个文件**
+  git checkout -- api/pom.xml:  放弃working tree的修改, 恢复版本库内容.
+
 * 查看某文件的历史版本:
   `git log filename`:查看所有提交历史,获取sha-1值.
   `git show sha-1 filename`: 查看内容.
@@ -145,6 +152,13 @@
 * `git show -q v0.1`:  显示v0.1 tag, -q 是去掉diff
 
 * `git rm -r --cached shinyAppLog`: 将shinyAppLog从版本库中移除，不需要git管理. 如果不加--cache,会删掉本地的文件.
+
+* **git stash**
+  git stash: 将当前working tree修改存入栈.
+  git stash list: 列出栈中的内容.
+  git stash pop: 将栈顶的修改还原到working tree.
+  git stash apply stash@{0}:  指定位置还原到working tree.
+  git stash drop: 将栈顶(stash@{0})的删除.
 
 * merge
   直接合并: 将会把所有的提交(包括log)合并在一起.
