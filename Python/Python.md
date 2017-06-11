@@ -1,3 +1,5 @@
+* `help()`: 进入help shell.  modules, keywords, topics
+
 * `dir()`: 查看当前导入的模块
   `dir(string)`: 查看string模块内的函数
   `help(string):string module 帮助.
@@ -26,3 +28,5 @@
 
 * ** ipython 相关**
   `b 229, j==56`: 当j==56为True时，停在229行.
+
+* 如果修改了kNN.py,  在python shell中需要exit(), 重新进入，import kNN 才会生效。   reload(kNN): 也可以重新加载， 不需要退出。
