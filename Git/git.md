@@ -26,9 +26,10 @@
       **注意**: git checkout -b 161017 是在当前分支基础上创建分支.  如果当前分支存在未commit的内容, 新创建的分支commit掉之后，父分支上的内容就没有了.
       且新创建的分支在`git branch -d 161017`前需要merge, 否则使用 `git branch -D 161017`
   `git checkout -b b3 master`: 基于master新建分支, 也可以修改成其他的.
-  `git push origin 161017`: 将161017分之push到github, 就不需要在github上新建了.
-  ·git branch -a: 查看本地和远程的所有分支.
+  `git push origin 161017`: 将161017分支push到github, 就不需要在github上新建了.
+  ·git branch -va: 查看本地和远程的所有分支.  
   `git branch -d creditcloud170509225740`: 删除本地分支.  如果该分支还没有merged, 会报错. git branch -D creditcloud170509225740强制删除.
+  `git checkout -b bodyguard170612145119 origin/bodyguard170612145119`:  获取远程分支bodyguard170612145119, 本地会新建一个.
 
 
 * **关于branch description**
@@ -185,6 +186,9 @@
 * 状态
   第一个 ？ 主要表示staging area 和 repository 两个区域间的文件变化，一般会有两个字母来表示（A、M <绿色>）；A  表示此文件已经是在追踪文件，M 表示此文件已经在staging area区域修改，还没有提交到repository。
   第二个 ？ 主要表示working directory 和 staging area 两个区域间的文件变化，M <红色> 表示此文件已经working directory区域修改，还没有提交到staging area
+  A_: 第一次加入追踪文件.  
+  AM: 加入追踪文件，尚未提交时，有过修改.
+  _M: 已经在repository, 且修改过.
 
 * useful urls
   http://www.ruanyifeng.com/blog/2014/06/git_remote.html
@@ -194,6 +198,8 @@
 * **使用meld作为diff工具**
   > `git config --global diff.tool meld`
   > `git difftool Markdown/readme.md`
+  > `git diffall`: 比较working tree 和 index.
+  > `git-diffall e73e7db9c0bdc40ea79c2ce6b498e4e3d4e858e4 cb3fcb5fc7502641db456ddda8889134ce381344`: 最初提交的文件比较.
 
 * `git push origin master`: 报错 can't connect.
   `git config --global -l`: 查看有 http.proxy的设置, 去掉该设置:  `git config --global --unset http.proxy` 即可.
