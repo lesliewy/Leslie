@@ -98,6 +98,8 @@
   `git diff master origin/master share/src/main/java/cn/fraudmetrix/creditcloud/api/intf/PreLoan.java`: 比对本地版本库里的master分支(不是working tree), 和origin/master(远程分支)下指定文件的区别.  **有时候需要隔开revision and filename: git diff master origin/master -- biz/src/main/java/cn/fraudmetrix/creditcloud/biz/service/cache/CreditPartnerCache.java
   `git diff origin/master share/src/main/java/cn/fraudmetrix/creditcloud/api/intf/PreLoan.java`: 比对的是working tree和远程分支上的. 
   @@ -32,23 +32,23 @@:  表示从文件的第32行开始，左边包含23行，右边包含23行, 两边包含行数一致，说明是修改的； 如果不一致，说明新增/删除.
+  git diff HEAD HEAD~ web/src/main/webapp/htdocs/app-modules/creditbodyguard/intentionScoreBatch.js: 当前最新版和上一次提交的版本，显示本次修改的内容.
+  git diff HEAD~ HEAD~2 web/src/main/webapp/htdocs/app-modules/creditbodyguard/intentionScoreBatch.js: 上一个版本和上上一个版本.
 
   `git fetch origin`: origin 是remote repository, 可以通过 git remote -v 查看. fetch 不会修改working dir 中文件. 该命令会fetch origin下的所有分支。 不可以 `git fetch origin/161017`
   `git difftool 161017 origin/master`:  比对本地的161017分支与远程origin下面的master分支的区别, 这里是所有不同的文件都会比对.
@@ -133,6 +135,7 @@
 
 * **回退某个文件**
   git checkout -- api/pom.xml:  放弃working tree的修改, 恢复版本库内容.
+  git checkout . : 放弃所有work tree的修改，
 
 * 查看某文件的历史版本:
   `git log filename`:查看所有提交历史,获取sha-1值.
@@ -208,3 +211,11 @@
   # 用来注释.
 
 ### 其他
+* 从分支1(bodyguard170613152324)中删除代码， 形成两个分支. bodyguard170613152324先提测、上线。
+   备份:  备份整个目录。
+   代码全部删除后, git pull;   git checkout -b bodyguard170706200706:  bodyguard170706200706 分支后上线.
+   在新分支bodyguard170706200706 恢复删除: git revert commitid1 commitid2 commitid3
+   在新分支bodyguard170706200706 创建远程分支: git push --set-upstream origin bodyguard170706200706
+   通过以上方法，以后bodyguard170706200706分支合并其他分支时也不会出现问题。 注意: 只能revert删除代码的commitid!!!!
+
+
