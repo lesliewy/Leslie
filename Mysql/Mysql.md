@@ -77,6 +77,7 @@ alter table LOT_KELLY_CORP_RESULT change ODDS_CORP_NAME ODDS_CORP_NAME VARCHAR(5
 
 * show indexes from LOT_KELLY_CORP_RESULT;  查看表 LOT_KELLY_CORP_RESULT 的索引.
 ALTER TABLE LOT_KELLY_CORP_RESULT DROP INDEX OK_URL_DATE;  删除索引;
+show keys from tblname;
 
 * 主从复制.
   参考: http://blog.csdn.net/goustzhu/article/details/9339621

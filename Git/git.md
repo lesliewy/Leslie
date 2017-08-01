@@ -20,6 +20,13 @@
   `git remote add origin https://github.com/lesliewy/Leslie.git`: 添加远程库
   `git push -u origin master`: push到远程库, 第一次使用时必须加 -u origin 这个是将已经commit的push到github, 不是当前目录下所有.
 
+* git init
+  git remote add origin git@gitlab.fraudmetrix.cn:app/creditcloud-web.git
+  git fetch
+  git checkout -b creditcloud-web170707102248 origin/creditcloud-web170707102248
+
+* git ls-files: 查看版本库里的内容.
+
 * `git branch 161017`
   `git checkout 161017`
   `git checkout -b 161017`: 等价于上面的两条.
@@ -57,6 +64,7 @@
    > git branch -vv（两个v），就能够看到本地分支跟踪的远程分支.
 
   `git pull`: 当前分支只有一个追踪分支，连远程主机名都可以省略
+  `git branch --set-upstream-to=origin/creditcloud-web170711153255 creditcloud-web170711153255`:  设置creditcloud-web170711153255分支的upstream, 这样就可以直接git pull, git push了.
 
 * **git push**
   git push <远程主机名> <本地分支名>:<远程分支名>
@@ -90,9 +98,10 @@
   git log master..b3: 查看b3分支比master分支多出来的log
   git log b3..master: 查看master分支比b3分支多出来的log.
   git log --left-right master...dev:  不管哪边多出来的，都显示出来.  master使用"<": commit < ea57df14;  dev使用">": commit > 2420488
+  git log --stat -- biz/src/main/java/cn/fraudmetrix/creditcloud/bodyguard/biz/util/excel/FileUtil.java:  查看提交历史, 该文件是被删除的文件,必须使用 --
 
 * **本地分支与github上分支的比对**
-  git diff：是查看working tree与index file的差别的。（git add后两者就同步）
+  git diff：是查看working tree与index file的差别的。（git add后两者就同步, 另外，将已经commit的文件回退到之前的版本，working tree 和index也相同）
   git diff --cached：or git diff --staged 是查看index file与commit的差别的。（git commit后两者就同步）
   git diff HEAD：是查看working tree和该分支最新版本的差别的。（你一定没有忘记，HEAD代表的是最近的一次commit的信息，即：git commit后working tree未做任何操作，那么两者就是同步的，没有差异信息）
   `git diff master origin/master share/src/main/java/cn/fraudmetrix/creditcloud/api/intf/PreLoan.java`: 比对本地版本库里的master分支(不是working tree), 和origin/master(远程分支)下指定文件的区别.  **有时候需要隔开revision and filename: git diff master origin/master -- biz/src/main/java/cn/fraudmetrix/creditcloud/biz/service/cache/CreditPartnerCache.java
@@ -100,11 +109,15 @@
   @@ -32,23 +32,23 @@:  表示从文件的第32行开始，左边包含23行，右边包含23行, 两边包含行数一致，说明是修改的； 如果不一致，说明新增/删除.
   git diff HEAD HEAD~ web/src/main/webapp/htdocs/app-modules/creditbodyguard/intentionScoreBatch.js: 当前最新版和上一次提交的版本，显示本次修改的内容.
   git diff HEAD~ HEAD~2 web/src/main/webapp/htdocs/app-modules/creditbodyguard/intentionScoreBatch.js: 上一个版本和上上一个版本.
+  git diff --stat origin/bodyguard170706211413:  比对的是版本库和远程分支的区别， 注意是版本库.
+  git diff --stat bodyguard170706211413 origin/bodyguard170706211413:  比对的当前working tree 和远程版本库的区别.
+
 
   `git fetch origin`: origin 是remote repository, 可以通过 git remote -v 查看. fetch 不会修改working dir 中文件. 该命令会fetch origin下的所有分支。 不可以 `git fetch origin/161017`
   `git difftool 161017 origin/master`:  比对本地的161017分支与远程origin下面的master分支的区别, 这里是所有不同的文件都会比对.
   `git difftool 161017 origin/161017`:  比对本地的161017分支与远程origin下面的161017分支的区别. git diff 是原生工具比对.
   `git difftool 161017`: 比对working directory 和版本库里的161017分支, 会比对所有不同的文件.
+  git difftool -d master:   比对master分支和当前分支， 注意: 需要加-d, 目录比对。
   `git diff --stat 161017 origin/161017`: 只列出文件列表，不比对内容. 文件列表大概如下:
   > leslie@wy 17:30:43:script$git diff --stat old origin/old
   > script/create_table.sql | 1 -

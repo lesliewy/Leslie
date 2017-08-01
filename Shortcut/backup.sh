@@ -56,7 +56,6 @@ backup2Leslie(){
 }
 
 
-
 [ "$#" -eq 0 ] && USAGE && exit $EX_USAGE
 while getopts ":ldm" option; do
    case "$option" in
