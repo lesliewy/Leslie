@@ -1,4 +1,4 @@
-* 直接解压solr包即可. bin/solr 执行   127.0.0.1:8983   需要jdk.
+* 直接解压solr包即可. bin/solr 执行   127.0.0.1:8983   需要jdk. 
 
 * solr -h;  solr start -h;   solr create -h;  
   solr create_core -help;  solr create_collection -help;   查看帮助.
