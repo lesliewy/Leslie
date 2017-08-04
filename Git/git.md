@@ -17,7 +17,7 @@
   `git add <directory or file>`: 添加要让git管理的目录、文件.
   `git add -A`: 添加所有目录和文件.
   `git commit -m "first commit"`
-  `git remote add origin https://github.com/lesliewy/Leslie.git`: 添加远程库
+  `git remote add origin https://github.com/lesliewy/Leslie.git`: 添加远程库 必须先在github创建Leslie repository
   `git push -u origin master`: push到远程库, 第一次使用时必须加 -u origin 这个是将已经commit的push到github, 不是当前目录下所有.
 
 * git init
@@ -36,6 +36,7 @@
   `git push origin 161017`: 将161017分支push到github, 就不需要在github上新建了.
   ·git branch -va: 查看本地和远程的所有分支.  
   `git branch -d creditcloud170509225740`: 删除本地分支.  如果该分支还没有merged, 会报错. git branch -D creditcloud170509225740强制删除.
+  `git branch`: 只有当有至少一次commit 才会显示master分支, 刚git init , git add 之后不会显示任何分支.
   `git checkout -b bodyguard170612145119 origin/bodyguard170612145119`:  获取远程分支bodyguard170612145119, 本地会新建一个.
 
 
@@ -45,8 +46,11 @@
   `Shortcut/branches.sh`: 将branch名和描述放在一起.
 
 * **git clone**
-  git clone <版本库的网址> <本地目录名>: 默认将版本库名称设置为origin.
+  git clone <版本库的网址> <本地目录名>: 默认将版本库名称设置为origin; 如果版本库有多个分支，clone下来的是主分支.
   `git clone -o jQuery https://github.com/jquery/jquery.git jquery`: 将origin名称设置为 jQeury. git remote查看, 放到本地的jquery目录.
+  git clone -b b1 https://github.com/jquery/jquery.git:  clone jquery的b1分支.
+  如果clone下来的是master, 此时git branch 只会有一个master,  git branch -r 查看远程分支, 再通过git checkout -b [远程分支名] 来获取其他的远程分支.
+  
 
 * **git add**
    git add -p: 选择某部分的修改添加到index, 而不是整个文件提交到版本库.
@@ -73,7 +77,7 @@
      > 等价于: git push origin --delete master
   `git push origin`: 如果当前分支与远程分支之间存在追踪关系，则本地分支和远程分支都可以省略.  将当前分支推送到origin主机的对应分支
   `git push`: 如果当前分支只有一个追踪分支，那么主机名都可以省略.
-  `git push -u origin master`: 将本地的master分支推送到origin主机，同时指定origin为默认主机，后面就可以不加任何参数使用git push了.
+  `git push -u origin master`: 将本地的master分支推送到origin主机，同时指定origin为默认主机，后面就可以不加任何参数使用git push了, 相当于 git push --set-upstream origin
   `git push --all origin`: 将所有本地分支都推送到origin主机.
 
 * **git remote**
@@ -231,4 +235,9 @@
    在新分支bodyguard170706200706 创建远程分支: git push --set-upstream origin bodyguard170706200706
    通过以上方法，以后bodyguard170706200706分支合并其他分支时也不会出现问题。 注意: 只能revert删除代码的commitid!!!!
 
-
+* jdk source 添加一个source
+  git rm -r --cached jdk1.6.0_45: 删除master里的所有，确保为空.
+  git checkout -b jdk1.8.0_112
+  git add jdk1.8.0_112
+  编辑.gitignore, 忽略掉其他的.
+  git push -u origin jdk1.8.0_112:  push
