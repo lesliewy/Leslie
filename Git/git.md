@@ -8,8 +8,6 @@
   `git show-ref`:  查看 ref, 如果没有使用  git push orgin HEAD:readme-edits
 * 不需要到.git 所在的父目录执行操作，只要是git所管理的目录都可以执行操作，例如 `git commit`, `git push` 等。
 
-* `git reset --hard` 丢弃刚做的操作
-
 * **上传Work/LESLIE的过程**
   `git config --global user.name ""`
   `git config --global user.email ""`
@@ -36,6 +34,8 @@
   `git push origin 161017`: 将161017分支push到github, 就不需要在github上新建了.
   ·git branch -va: 查看本地和远程的所有分支.  
   `git branch -d creditcloud170509225740`: 删除本地分支.  如果该分支还没有merged, 会报错. git branch -D creditcloud170509225740强制删除.
+  `git branch --merged`: 当前HEAD为master分支时，查看已经合并到master的分支
+  `git branch --no-merged`: 未合并到当前HEAD的分支,  如果有分支没有合并到master, 这也是不可以git branch -d 来删除未合并到master分支的原因.
   `git checkout -b bodyguard170612145119 origin/bodyguard170612145119`:  获取远程分支bodyguard170612145119, 本地会新建一个.
 
 
@@ -69,6 +69,7 @@
 * **git push**
   git push <远程主机名> <本地分支名>:<远程分支名>
   `git push origin master`: 如果省略远程分支名，则表示将本地分支推送与之存在"追踪关系"的远程分支（通常两者同名），如果该远程分支不存在，则会被新建.将本地的master分支推送到origin主机的master分支。如果后者不存在，则会被新建.
+  `git push origin --delete serverfix`: 通常用这个来删除远程分支.
   `git push origin :master`: 如果省略本地分支名，则表示删除指定的远程分支，因为这等同于推送一个空的本地分支到远程分支.
      > 等价于: git push origin --delete master
   `git push origin`: 如果当前分支与远程分支之间存在追踪关系，则本地分支和远程分支都可以省略.  将当前分支推送到origin主机的对应分支
@@ -77,7 +78,7 @@
   `git push --all origin`: 将所有本地分支都推送到origin主机.
 
 * **git remote**
-  git remote show <主机名>
+  git remote show origin:   查看远程版本库情况.
   git remote add <主机名> <网址>
   git remote rm <主机名>
   git remote rename <原主机名> <新主机名>
@@ -88,12 +89,13 @@
                 Changes to be committed:   对应已经暂存的，但未提交的. （绿色)
                 Changes not staged for commit: 对应未暂存的. (红色)
   git status -s : 查看working tree与本地版本库的差异文件.
+  git status -sb: 带上ahead/behind
 
 * **git commit**
   git commit --amend:  修改上一次的提交， 将当前staging area 的内容添加到上一次的提交中. 如果上一次commit之后staging area没有变化，则相当于修改commit message.
     git commit -m "修改" -a
     git add a.file b.file:  将a.file b.file 修改同步到staging area, 忘了提交a.file b.file 的内容.  
-    git commit --amend:  重新打开上一次提交.
+    git commit --amend:  重新打开上一次提交, 修改文件中多了a.file b.file,  提交时间仍是上一次的.
 
 * **git log**
   git log --stat master: 查看本地master分支的提交信息.
@@ -119,8 +121,26 @@
   git diff --stat origin/bodyguard170706211413:  比对的是版本库和远程分支的区别， 注意是版本库.
   git diff --stat bodyguard170706211413 origin/bodyguard170706211413:  比对的当前working tree 和远程版本库的区别.
 
+* ^ 与 ~
+  git show HEAD^:  当前HEAD的第一个parent
+  git show HEAD^2: 当前HEAD的第二个parent, 用于merged分支时, 一个commit有多个parent情况.
+  git show HEAD~:  当前HEAD的第一个parent
+  git show HEAD~2: 当前HEAD的第一个parent的第一个parent. 相当于 HEAD^^
 
-  `git fetch origin`: origin 是remote repository, 可以通过 git remote -v 查看. fetch 不会修改working dir 中文件. 该命令会fetch origin下的所有分支。 不可以 `git fetch origin/161017`
+* commit ranges
+  git log master..experiment:    experiment分支上有，但是master上没有的commit.
+  git log experiment..master
+  git log origin/master..HEAD:   当前分支上多出的commit, 即要push的commit.
+
+  git log refA..refB:
+  git log refA refB ^refC:  refA、refB上均有，但是refC上没有.
+  git log refA refB --not refC:  等价于上面的.
+
+  git log master...experiment:   master、experiment上各自有的但不是公共的commits.
+  git log --left-right master...experiment: 标识出哪些commit属于哪个分支.  例如: < F:  master 上有F;    > D:  D在experiment上.
+
+
+  `git fetch origin`: origin 是remote repository的shortname, 可以通过 git remote -v 查看. fetch 不会修改working dir 中文件. 该命令会fetch origin下的所有分支。 不可以 `git fetch origin/161017`
   `git difftool 161017 origin/master`:  比对本地的161017分支与远程origin下面的master分支的区别, 这里是所有不同的文件都会比对.
   `git difftool 161017 origin/161017`:  比对本地的161017分支与远程origin下面的161017分支的区别. git diff 是原生工具比对.
   `git difftool 161017`: 比对working directory 和版本库里的161017分支, 会比对所有不同的文件.
@@ -140,15 +160,30 @@
     git checkout master
     git merge b3:  执行后发生冲突.
     git mergetool: 调用配置的diffmerge来解决.
+    git merge --abort:  如果此时想回退merge操作,可以abort.
+    git add: 添加到staging area, 标志已解决冲突, 也可以用 git commit -a: 一步完成.
     git commit:  提交.
 
 
 * **git reset**
-* `git reset --hard origin/master`: 将当前所在的分支重置成远程分支origin/master. 本地修改将丢失.
+  commit level: 不带file path:  移动HEAD的指向.
+  git reset --soft HEAD~:  将HEAD移动到HEAD~, 即将repository回退至HEAD~, staging area 和 working tree仍然是HEAD.
+  git reset --mixed HEAD~: 将HEAD移动到HEAD~, 同时unstaged, 即将staging area回退到HEAD~, 即repo 和 staging area都回退到HEAD~
+  git reset --hard HEAD~:  将HEAD移动到HEAD~, 同时unstaged, update working tree, 即repo, staging area, working tree 都回退到 HEAD~.
+  git reset HEAD~: 即 git reset --mixed HEAD~.
+
+  file level: 带file path: 不移动HEAD，只改变 staging area, working tree.
+  git reset file.txt: 等价于 git reset --mixed HEAD file.txt, repo不变，将index中file.txt回退到HEAD(repo内容).
+  git reset eb43bf8 file.txt: 将index中file.txt回退到 eb43bf8.
+
+  git reset HEAD file:   unstaging staging area, 回到working area.
+  `git reset --hard` 丢弃刚做的操作
+  `git reset --hard origin/master`: 将当前所在的分支重置成远程分支origin/master. 本地修改将丢失.
 * 回退到某个tag的版本:
   > `git tag`: 查询tag
   > `git show -q <tag-name>`: 查找某个tag的commit id.
   > `git reset --hard 39debacd3375cf4430c502aa6a99ac8655cfddae`: 回退到该版本.
+
 
 * **git blame**
   git blame filename:  查看每一行是哪个提交最后改动的.
@@ -168,10 +203,12 @@
 * 用Eclipse开发时，当前在哪个分支，Eclipse就显示哪个分支的内容。 
   `git checkout 161017` 执行后，需要在Eclipse里面Refresh下.
 
-* `git tag v0.1`: 给最近的commit打标签.
+* `git tag v0.1`: 给最近的commit打lightweight标签, 不带标签信息.
   `git tag -n3`: 显示tag及内容.
-  `git tag -a v0.1 -m "修改完成"`: 给最近的commit打标签同时添加message.
+  `git tag -a v0.1 -m "修改完成"`: 给最近的commit打annotated标签同时添加message
+  `git tag -a v0.1 -m "a" aaf9e2b2a7b:  给某次commit打标签.
   `git push --follow-tags` :  默认push不包含tags
+  `git checkout -b version2 v2.0.0`:  在tag处创建新分支, 不能checkout 一个tag.
 
 * `git show -q v0.1`:  显示v0.1 tag, -q 是去掉diff
 
@@ -183,6 +220,17 @@
   git stash pop: 将栈顶的修改还原到working tree.
   git stash apply stash@{0}:  指定位置还原到working tree.
   git stash drop: 将栈顶(stash@{0})的删除.
+  git stash drop stash@{2}: 删除指定位置的stash.
+
+  git stash --keep-index: 已经git add 到staging area的不做stash. 
+  git stash -u: 即git stash --include-untracked, 同时也将untracked stash.
+  git stash --all: 将所有的都stash, 包括untracked files, ignored files.
+
+* **git clean**
+  git clean -f:  删除所有的untracked files, 默认的git clean 并不会删除:fatal: clean.requireForce defaults to true and neither -i, -n, nor -f given; refusing to clean
+  git clean -f -d:  删除所有的untracked files 和 directories, 以及tracked但是为空的目录.
+  git clean -d -n:  dry run, 列出要删除的，但不会执行.
+  git clean -d -x -n:  -x 包含ignored.
 
 * merge
   直接合并: 将会把所有的提交(包括log)合并在一起.
