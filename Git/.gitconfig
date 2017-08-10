@@ -1,0 +1,20 @@
+[user]
+	name = wangyang
+	email = yang.wang@tongdun.cn
+[core]
+	excludesfile = /Users/leslie/.gitignore_global
+[difftool "sourcetree"]
+	cmd = /Applications/DiffMerge.app/Contents/MacOS/DiffMerge --nosplash \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/DiffMerge.app/Contents/MacOS/DiffMerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
+	trustExitCode = true
+[commit]
+	template = /Users/leslie/.stCommitMsg
+[diff]
+	tool = meld
+[merge]
+	tool = diffmerge
+[alias]
+	diffall = /Users/leslie/MyProjects/GitHub/Leslie/Shortcut/diffall
+   logall =  "log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
