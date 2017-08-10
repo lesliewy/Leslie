@@ -37,6 +37,7 @@
   `git branch --merged`: 当前HEAD为master分支时，查看已经合并到master的分支
   `git branch --no-merged`: 未合并到当前HEAD的分支,  如果有分支没有合并到master, 这也是不可以git branch -d 来删除未合并到master分支的原因.
   `git branch`: 只有当有至少一次commit 才会显示master分支, 刚git init , git add 之后不会显示任何分支.
+  git branch -m oldbranchname newbranchname: 本地分支重命名.
   `git checkout -b bodyguard170612145119 origin/bodyguard170612145119`:  获取远程分支bodyguard170612145119, 本地会新建一个.
 
 
@@ -69,12 +70,14 @@
    > git branch -vv（两个v），就能够看到本地分支跟踪的远程分支.
 
   `git pull`: 当前分支只有一个追踪分支，连远程主机名都可以省略
-  `git branch --set-upstream-to=origin/creditcloud-web170711153255 creditcloud-web170711153255`:  设置creditcloud-web170711153255分支的upstream, 这样就可以直接git pull, git push了.
+  `git branch --set-upstream-to=origin/creditcloud-web170711153255 creditcloud-web170711153255`,
+    设置creditcloud-web170711153255分支的upstream, 这样就可以直接git pull, git push了.
+  git branch --unset-upstream jdk-8u111-linux-x64: unset upstream.
 
 * **git push**
   git push <远程主机名> <本地分支名>:<远程分支名>
   `git push origin master`: 如果省略远程分支名，则表示将本地分支推送与之存在"追踪关系"的远程分支（通常两者同名），如果该远程分支不存在，则会被新建.将本地的master分支推送到origin主机的master分支。如果后者不存在，则会被新建.
-  `git push origin --delete serverfix`: 通常用这个来删除远程分支.
+  `git push origin --delete serverfix`: 通常用这个来删除远程分支, 不需要 origin/serverfix
   `git push origin :master`: 如果省略本地分支名，则表示删除指定的远程分支，因为这等同于推送一个空的本地分支到远程分支.
      > 等价于: git push origin --delete master
   `git push origin`: 如果当前分支与远程分支之间存在追踪关系，则本地分支和远程分支都可以省略.  将当前分支推送到origin主机的对应分支
@@ -291,9 +294,18 @@
    在新分支bodyguard170706200706 创建远程分支: git push --set-upstream origin bodyguard170706200706
    通过以上方法，以后bodyguard170706200706分支合并其他分支时也不会出现问题。 注意: 只能revert删除代码的commitid!!!!
 
+* 修改branch名称.
+  git branch -m oldname newname:  修改本地branch
+  git push origin --delete jdk1.8.0_112:  删除远程分支.
+  git push -u origin jdk-8u112-linux-x64: push 最新分支.
+  git branch --set-upstream-to=origin/jdk-8u112-linux-x64 jdk-8u112-linux-x64: 重新设置upstream.
+  git branch -vv  git branch -va 来验证.
+
 * jdk source 添加一个source
-  git rm -r --cached jdk1.6.0_45: 删除master里的所有，确保为空.
-  git checkout -b jdk1.8.0_112
-  git add jdk1.8.0_112
+  git rm -r --cached jdk-8u111-linux-x64: 删除master里的所有，确保为空.
+  git checkout -b jdk-8u111-linux-x64
+  或者 git checkout master; git checkout jdk-8u111-linux-x64; git rm -r *; git commit -m "delete";  这样来删除新分支现有的;
+  将jdk里的src.zip解压到新分支;
+  git add -A; git commit -m "add": 提交新的source.
   编辑.gitignore, 忽略掉其他的.
   git push -u origin jdk1.8.0_112:  push
