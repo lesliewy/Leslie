@@ -52,6 +52,7 @@
   `git clone -o jQuery https://github.com/jquery/jquery.git jquery`: 将origin名称设置为 jQeury. git remote查看, 放到本地的jquery目录.
   git clone -b b1 https://github.com/jquery/jquery.git:  clone jquery的b1分支.
   如果clone下来的是master, 此时git branch 只会有一个master,  git branch -r 查看远程分支, 再通过git checkout -b [远程分支名] 来获取其他的远程分支.
+  git clone git@gitlab.fraudmetrix.cn:app/billing.git
   
 
 * **git add**
