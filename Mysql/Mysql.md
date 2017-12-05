@@ -72,6 +72,18 @@ character_set_server=utf8
 
 source create_table.sql;   执行外部文件;
 
+* mysql 交互环境
+  select * \c  :   \c 可以清除当前输入，相当于^c, 但是\c 更安全些;  \c 只有在最后才有效
+  \s : 相当于status
+  \q : 相当于exit
+  help:  查看支持的命令，如: \c  \G  \s ...
+  help show: 
+  help set:
+  help alter:
+
+* char varchar
+  记住一个重要区别是: 插入char类型的字段末尾所有的空格都会被去掉，varchar 的不会;   前部空格都会保留. 可以通过 select concat('(', a, ')') 方法来查看空格.
+
 * mysql 备份.
 mysqldump -u root -p mysql > 201009.sql;  备份整个数据库.
 mysql -u root -p mysql < 201009.sql;   还原.   注意，不要用！！！  直接 source 201009.sql 来恢复
