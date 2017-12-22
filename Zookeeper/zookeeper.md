@@ -9,5 +9,7 @@ consumer%3A%2F%2F10.57.241.161%2Fcn.fraudmetrix.creditcloud.tigris.share.api.int
 6dubbo%3D2.8.4%26interface%3Dcn.fraudmetrix.creditcloud.tigris.share.api.intf.IntentScoreInd%26methods%3DgetIntentPartnerList%2CqueryScore%2CsaveIntentPartner%2CqueryIntentPartne
 r%2CqueryMultiInd%26organization%3Ddubbox%26owner%3Dfraudmetrix%26pid%3D2195%26reference.filter%3Dexceptionhandle%2Cdefault%26revision%3D1.1.1%26side%3Dconsumer%26timestamp%3D151
 2474027332%26version%3D1.0.wy_222
-   可以判断下哪些ip要消费哪些version的服务.
+   可以判断下哪些ip要消费哪些version的服务.  10.57.241.161 机器连的dubbo version 是 1.0.wy_222
 
+* 客户端Curator
+  参考: http://www.jianshu.com/p/70151fc0ef5d

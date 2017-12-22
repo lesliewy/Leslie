@@ -39,7 +39,7 @@
   `git branch`: 只有当有至少一次commit 才会显示master分支, 刚git init , git add 之后不会显示任何分支.
   git branch -m oldbranchname newbranchname: 本地分支重命名.
   `git checkout -b bodyguard170612145119 origin/bodyguard170612145119`:  获取远程分支bodyguard170612145119, 本地会新建一个.
-
+  `git checkout master -- deploy/tomcat/conf/catalina.policy web/src/main/resources/spring/asgard/stark-asgard.xml`: 使用master分支上的两个文件替换本地的同名文件.
 
 * **关于branch description**
   `git branch --edit-description 161017`: 给161017分支写说明. 
@@ -305,8 +305,11 @@
 * jdk source 添加一个source
   git rm -r --cached jdk-8u111-linux-x64: 删除master里的所有，确保为空.
   git checkout -b jdk-8u111-linux-x64
-  或者 git checkout master; git checkout jdk-8u111-linux-x64; git rm -r *; git commit -m "delete";  这样来删除新分支现有的;
+  或者 git checkout master; git checkout jdk-8u111-linux-x64; git rm -r *;(好像用rm -rf 也不会把master分支里的删掉) git commit -m "delete";  这样来删除新分支现有的;
+  git ls-files: 验证下新分支版本库没有内容.
   将jdk里的src.zip解压到新分支;
   git add -A; git commit -m "add": 提交新的source.
   编辑.gitignore, 忽略掉其他的.
   git push -u origin jdk1.8.0_112:  push
+
+

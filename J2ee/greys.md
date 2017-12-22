@@ -1,3 +1,8 @@
+* **安装**
+  解压后执行 ./install-local.sh   不需要联网
+
+  ./greys.sh pid
+
 * **help**
   help 查看命令说明.
   help sc: 查看某个命令说明.
@@ -27,5 +32,12 @@
 
 * **tt**
   tt -t -n 3 cn.fraudmetrix.creditcloud.tigris.api.impl.IntentScoreIndImpl queryMultiInd: 记录3次调用
-  tt -i 1001:  每一次调用的详细信息. 包含堆栈信息.  堆栈信息也可以: stack cn.fraudmetrix.creditcloud.tigris.api.impl.IntentScoreIndImpl queryMultiInd 来监控.
+  tt -i 1001:  每一次调用的详细信息. 包含堆栈信息.  堆栈信息也可以: stack 
+  tt -i 1001 -x 3:  可以带上层级的参数.
+  cn.fraudmetrix.creditcloud.tigris.api.impl.IntentScoreIndImpl queryMultiInd 来监控.
 
+* shutdown quit
+  shutdown: 关闭greys server + quit console
+  quit:  quit console,   quit后可以直接  greys.sh 进入已连接的greys server.
+
+* 可以监控private static 等
