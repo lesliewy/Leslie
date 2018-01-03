@@ -47,7 +47,18 @@ Spring MVC的表单控制器(前篇 后篇): http://hi.baidu.com/mars_venus/blog
   编写spring.handlers和spring.schemas串联起所有部件
   参考: http://blog.51cto.com/tianya23/1009715
 
+  在头部的声明中, schemaLocation的个数必须是偶数个, 两两配对的:
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd"
+       default-autowire="byName">
+
 * 报错: invalid column name
   * 检查ibatis的sql配置文件: psmttinv.xml 的sql语句中的所有字段是否都有在resultMap中出现.
   * 在resultMap中是否没有添加nullValue属性.
   * 重新redeploy,重启tomcat再试.
+
+* rest
+  http://www.primeton.com/read.php?id=2262&his=1
