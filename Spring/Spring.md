@@ -47,18 +47,49 @@ Spring MVC的表单控制器(前篇 后篇): http://hi.baidu.com/mars_venus/blog
   编写spring.handlers和spring.schemas串联起所有部件
   参考: http://blog.51cto.com/tianya23/1009715
 
-  在头部的声明中, schemaLocation的个数必须是偶数个, 两两配对的:
+
+*  在头部的声明中, schemaLocation的个数必须是偶数个, 两两配对的:
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd"
        default-autowire="byName">
+  * schemaLocation 中xsd的写法前面必须和namespace一致, 即 http://www.tongdun.cn/schema/sinensis/batchimport/sinensis.xsd 前面部分的"http://www.tongdun.cn/schema/sinensis/batchimport" 就是namespace.
+
+  * 每添加一个命名空间，都要添加schemaLocation，如添加了: xmlns:aop="http://www.springframework.org/schema/aop", 必需在xsi:schemaLocation 中添加一对: http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd"
+
+* AOP
+  * 配置
+  spring xml中添加: 
+  <context:annotation-config/>
+    <context:component-scan base-package="cn.wy.abc">
+  </context:component-scan>
+  pom 中引入: org.aspectj.aspectjrt.jar org.aspectj.aspectjweaver.jar, spring-aop.jar
+  注解方式: 
+  @Aspect
+@Component
+public class ExceptionAdvice {
+    /**
+     * Pointcut 定义Pointcut，Pointcut的名称为aspectjMethod()，此方法没有返回值和参数 该方法就是一个标识，不进行调用
+     */
+    @Pointcut("execution(public * cn.wy.batch..*.*(..))")
+    private void aspectjMethod() {
+
+    }
+    @AfterThrowing(value = "aspectjMethod()", throwing = "e")
+    public void afterThrowing(JoinPoint joinPoint, Throwable e) {
+        LOGGER.error("exception: ", e);
+    }
+}
+   确保该注解在component-scan范围内.
+   这样就可以了，默认jdk 代理 和 cglib 互换的方式;  二者区别: http://youyu4.iteye.com/blog/2348704
+   如果需要强制使用cglib: <aop:aspectj-autoproxy proxy-target-class="true"/>
+ * 
+
 
 * 报错: invalid column name
   * 检查ibatis的sql配置文件: psmttinv.xml 的sql语句中的所有字段是否都有在resultMap中出现.
   * 在resultMap中是否没有添加nullValue属性.
   * 重新redeploy,重启tomcat再试.
 
-* rest
-  http://www.primeton.com/read.php?id=2262&his=1

@@ -46,7 +46,7 @@
         <servlet-name>spring</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
-   同时需要在applicationContext.xml中引入: <import resource="classpath:springmvc-resteasy.xml"/>
+   同时需要在applicationContext.xml中引入: <import resource="classpath:springmvc-resteasy.xml"/>   该引用用到了容器中的HttpServletRequest, 所以非容器启动时可以注释掉;
    这样就可以了.
    需要引入resteasy-servlet-initializer.jar 这样就可以通过注解找到rest配置, 不需要显示的说明了.
 
