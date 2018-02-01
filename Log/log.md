@@ -61,4 +61,3 @@
   * 使用class的全路径名作为Logger更好: Logger logger = LogManager.getLogger(PoniaImpl.class);
     而不是某个具体的名字, 因为可以输出 %logger{36}， 显示具体的class.  如果用 %method 会影响性能;   
     <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{1} - %msg%n"/>
-    

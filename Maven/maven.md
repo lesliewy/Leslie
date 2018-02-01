@@ -56,5 +56,5 @@ mvn -e -Ddb.file=jpetstore exec:java   使用hsqldb,  当前位置需要有pom.x
     添加了profile 后,  在 idea 的 maven profile 视图中就会出现 profile， 可以下拉选择启动;
 
 
-mvn dependency:tree|grep cn.fraudmetrix:   列出依赖.
+mvn dependency:tree|grep cn.wy:   列出依赖.
  

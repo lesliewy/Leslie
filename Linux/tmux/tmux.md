@@ -8,6 +8,7 @@
   `tmux list-windows -t leslie`:  列出leslie session 下的所有window.
   `Ctrl + b + c`: 进入session后，创建window
   `Ctrl + b + s`: 进入session选择页面.
+  `Ctrl + b + L`: 回到上一个session
   `Ctrl + b + ,`: 修改窗口名字.
   `Ctrl + b + d`: detach from session, 随后可以tmux a  -t 来重新进入.
   `Ctrl + b + [`: 进入copy mode, 这是可以使用鼠标滚动屏幕. 设置了vi,也可以使用vi命令滚动.  q 退出该模式.
@@ -19,3 +20,5 @@
 * 配置文件在 ~/.tmux.conf,   ctrl + b + :  进入命令模式:   source-file ~/.tmux.conf 生效.
 
 * 在shell中打开tmux session, 关闭shell软件后，该session仍在，tmux a -t 可以重新进入.
+
+* 非管理员安装: https://www.jianshu.com/p/f7f24b4b2625

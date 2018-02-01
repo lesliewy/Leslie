@@ -16,11 +16,17 @@
   `execfile("a.py")`: 执行文件.
 
 * `sudo apt install python-pip`: 安装pip, 在~/.pip/目录下新建pip.conf配置文件.
+   https://pip.readthedocs.io/en/stable/installing/:  安装pip
+   pip --help:  查看帮助
+   pip install --help:  查看install帮助.
   `pip install scrapy`: 安装scrapy module, 默认放在/home/leslie/.local/lib/python2.7/site-packages
   `pip install scrapy==1.1.0`: 安装指定版本的module, 注意是 ==
   `pip list`: 列出安装的modules
   `pip list -help`: pip list 帮助.
   `pip show scrapy`: 查看scrapy信息.
+  `pip install -U pip`:  更新pip.
+  `pip list --outdate`: 查看需要更新的包.
+  `pip show --files  numpy`: 查看包安装路径.
 
 * `sudo apt install ipython`: 使用ipython来调试.
   ipython 进入ipython环境:

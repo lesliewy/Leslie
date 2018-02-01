@@ -19,7 +19,7 @@
   `git push -u origin master`: push到远程库, 第一次使用时必须加 -u origin 这个是将已经commit的push到github, 不是当前目录下所有.
 
 * git init
-  git remote add origin git@gitlab.fraudmetrix.cn:app/mygit-web.git
+  git remote add origin git@gitlab.wy.cn:app/mygit-web.git
   git fetch
   git checkout -b mygit-web170707102248 origin/mygit-web170707102248
 
@@ -52,8 +52,8 @@
   `git clone -o jQuery https://github.com/jquery/jquery.git jquery`: 将origin名称设置为 jQeury. git remote查看, 放到本地的jquery目录.
   git clone -b b1 https://github.com/jquery/jquery.git:  clone jquery的b1分支.
   如果clone下来的是master, 此时git branch 只会有一个master,  git branch -r 查看远程分支, 再通过git checkout -b [远程分支名] 来获取其他的远程分支.
-  git clone git@gitlab.fraudmetrix.cn:app/billing.git
-  
+  git clone git@gitlab.wy.cn:app/billing.git
+  git clone --depth 1 https://github.com/tensorflow/models: 只clone最近一次commit, 如果项目太大，而又不关心commit 历史的可以使用.
 
 * **git add**
    git add -p: 选择某部分的修改添加到index, 而不是整个文件提交到版本库.
@@ -115,15 +115,15 @@
   git log master..b3: 查看b3分支比master分支多出来的log
   git log b3..master: 查看master分支比b3分支多出来的log.
   git log --left-right master...dev:  不管哪边多出来的，都显示出来.  master使用"<": commit < ea57df14;  dev使用">": commit > 2420488
-  git log --stat -- biz/src/main/java/cn/fraudmetrix/mygit/bodyguard/biz/util/excel/FileUtil.java:  查看提交历史, 该文件是被删除的文件,必须使用 --
+  git log --stat -- biz/src/main/java/cn/wy/mygit/bodyguard/biz/util/excel/FileUtil.java:  查看提交历史, 该文件是被删除的文件,必须使用 --
   git log -S mysql:  显示所有添加 或 删除 "mysql" 的log.
 
 * **本地分支与github上分支的比对**
   git diff：是查看working tree与index file的差别的。（git add后两者就同步, 另外，将已经commit的文件回退到之前的版本，working tree 和index也相同）
   git diff --cached：or git diff --staged 是查看index file与commit的差别的。（git commit后两者就同步）
   git diff HEAD：是查看working tree和该分支最新版本的差别的。（你一定没有忘记，HEAD代表的是最近的一次commit的信息，即：git commit后working tree未做任何操作，那么两者就是同步的，没有差异信息）
-  `git diff master origin/master share/src/main/java/cn/fraudmetrix/mygit/api/intf/PreLoan.java`: 比对本地版本库里的master分支(不是working tree), 和origin/master(远程分支)下指定文件的区别.  **有时候需要隔开revision and filename: git diff master origin/master -- biz/src/main/java/cn/fraudmetrix/mygit/biz/service/cache/CreditPartnerCache.java
-  `git diff origin/master share/src/main/java/cn/fraudmetrix/mygit/api/intf/PreLoan.java`: 比对的是working tree和远程分支上的. 
+  `git diff master origin/master share/src/main/java/cn/wy/mygit/api/intf/PreLoan.java`: 比对本地版本库里的master分支(不是working tree), 和origin/master(远程分支)下指定文件的区别.  **有时候需要隔开revision and filename: git diff master origin/master -- biz/src/main/java/cn/wy/mygit/biz/service/cache/CreditPartnerCache.java
+  `git diff origin/master share/src/main/java/cn/wy/mygit/api/intf/PreLoan.java`: 比对的是working tree和远程分支上的. 
   @@ -32,23 +32,23 @@:  表示从文件的第32行开始，左边包含23行，右边包含23行, 两边包含行数一致，说明是修改的； 如果不一致，说明新增/删除.
   git diff HEAD HEAD~ web/src/main/webapp/htdocs/app-modules/creditbodyguard/intentionScoreBatch.js: 当前最新版和上一次提交的版本，显示本次修改的内容.
   git diff HEAD~ HEAD~2 web/src/main/webapp/htdocs/app-modules/creditbodyguard/intentionScoreBatch.js: 上一个版本和上上一个版本.

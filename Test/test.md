@@ -6,3 +6,7 @@
 ** jmeter
    * jmeter 不要在命令行打开图形界面，在finder中打开.
    jmeter -n -t "兴趣雷达-API.jmx" -l report/01.csv -j log/01.log:   命令行方式.  使用gui创建jmx文件.  可以在图形界面的聚合报告中打开01.csv,查看结果.
+
+** jprofiler
+   * https://yq.aliyun.com/articles/276     http://wangneng-168.iteye.com/blog/1998034
+
