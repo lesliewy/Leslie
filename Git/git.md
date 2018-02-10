@@ -19,9 +19,9 @@
   `git push -u origin master`: push到远程库, 第一次使用时必须加 -u origin 这个是将已经commit的push到github, 不是当前目录下所有.
 
 * git init
-  git remote add origin git@gitlab.fraudmetrix.cn:app/creditcloud-web.git
+  git remote add origin git@gitlab.wy.cn:app/mygit-web.git
   git fetch
-  git checkout -b creditcloud-web170707102248 origin/creditcloud-web170707102248
+  git checkout -b mygit-web170707102248 origin/mygit-web170707102248
 
 * git ls-files: 查看版本库里的内容.
 
@@ -33,13 +33,13 @@
   `git checkout -b b3 master`: 基于master新建分支, 也可以修改成其他的.
   `git push origin 161017`: 将161017分支push到github, 就不需要在github上新建了.
   ·git branch -va: 查看本地和远程的所有分支.  
-  `git branch -d creditcloud170509225740`: 删除本地分支.  如果该分支还没有merged, 会报错. git branch -D creditcloud170509225740强制删除.
+  `git branch -d mygit170509225740`: 删除本地分支.  如果该分支还没有merged, 会报错. git branch -D myweb170509225740强制删除.
   `git branch --merged`: 当前HEAD为master分支时，查看已经合并到master的分支
   `git branch --no-merged`: 未合并到当前HEAD的分支,  如果有分支没有合并到master, 这也是不可以git branch -d 来删除未合并到master分支的原因.
   `git branch`: 只有当有至少一次commit 才会显示master分支, 刚git init , git add 之后不会显示任何分支.
   git branch -m oldbranchname newbranchname: 本地分支重命名.
   `git checkout -b bodyguard170612145119 origin/bodyguard170612145119`:  获取远程分支bodyguard170612145119, 本地会新建一个.
-
+  `git checkout master -- deploy/tomcat/conf/catalina.policy web/src/main/resources/spring/asgard/stark-asgard.xml`: 使用master分支上的两个文件替换本地的同名文件.
 
 * **关于branch description**
   `git branch --edit-description 161017`: 给161017分支写说明. 
@@ -52,8 +52,8 @@
   `git clone -o jQuery https://github.com/jquery/jquery.git jquery`: 将origin名称设置为 jQeury. git remote查看, 放到本地的jquery目录.
   git clone -b b1 https://github.com/jquery/jquery.git:  clone jquery的b1分支.
   如果clone下来的是master, 此时git branch 只会有一个master,  git branch -r 查看远程分支, 再通过git checkout -b [远程分支名] 来获取其他的远程分支.
-  git clone git@gitlab.fraudmetrix.cn:app/billing.git
-  
+  git clone git@gitlab.wy.cn:app/billing.git
+  git clone --depth 1 https://github.com/tensorflow/models: 只clone最近一次commit, 如果项目太大，而又不关心commit 历史的可以使用.
 
 * **git add**
    git add -p: 选择某部分的修改添加到index, 而不是整个文件提交到版本库.
@@ -71,8 +71,8 @@
    > git branch -vv（两个v），就能够看到本地分支跟踪的远程分支.
 
   `git pull`: 当前分支只有一个追踪分支，连远程主机名都可以省略
-  `git branch --set-upstream-to=origin/creditcloud-web170711153255 creditcloud-web170711153255`,
-    设置creditcloud-web170711153255分支的upstream, 这样就可以直接git pull, git push了.
+  `git branch --set-upstream-to=origin/myweb-web170711153255 mygit-web170711153255`,
+    设置mygit-web170711153255分支的upstream, 这样就可以直接git pull, git push了.
   git branch --unset-upstream jdk-8u111-linux-x64: unset upstream.
 
 * **git push**
@@ -115,15 +115,15 @@
   git log master..b3: 查看b3分支比master分支多出来的log
   git log b3..master: 查看master分支比b3分支多出来的log.
   git log --left-right master...dev:  不管哪边多出来的，都显示出来.  master使用"<": commit < ea57df14;  dev使用">": commit > 2420488
-  git log --stat -- biz/src/main/java/cn/fraudmetrix/creditcloud/bodyguard/biz/util/excel/FileUtil.java:  查看提交历史, 该文件是被删除的文件,必须使用 --
+  git log --stat -- biz/src/main/java/cn/wy/mygit/bodyguard/biz/util/excel/FileUtil.java:  查看提交历史, 该文件是被删除的文件,必须使用 --
   git log -S mysql:  显示所有添加 或 删除 "mysql" 的log.
 
 * **本地分支与github上分支的比对**
   git diff：是查看working tree与index file的差别的。（git add后两者就同步, 另外，将已经commit的文件回退到之前的版本，working tree 和index也相同）
   git diff --cached：or git diff --staged 是查看index file与commit的差别的。（git commit后两者就同步）
   git diff HEAD：是查看working tree和该分支最新版本的差别的。（你一定没有忘记，HEAD代表的是最近的一次commit的信息，即：git commit后working tree未做任何操作，那么两者就是同步的，没有差异信息）
-  `git diff master origin/master share/src/main/java/cn/fraudmetrix/creditcloud/api/intf/PreLoan.java`: 比对本地版本库里的master分支(不是working tree), 和origin/master(远程分支)下指定文件的区别.  **有时候需要隔开revision and filename: git diff master origin/master -- biz/src/main/java/cn/fraudmetrix/creditcloud/biz/service/cache/CreditPartnerCache.java
-  `git diff origin/master share/src/main/java/cn/fraudmetrix/creditcloud/api/intf/PreLoan.java`: 比对的是working tree和远程分支上的. 
+  `git diff master origin/master share/src/main/java/cn/wy/mygit/api/intf/PreLoan.java`: 比对本地版本库里的master分支(不是working tree), 和origin/master(远程分支)下指定文件的区别.  **有时候需要隔开revision and filename: git diff master origin/master -- biz/src/main/java/cn/wy/mygit/biz/service/cache/CreditPartnerCache.java
+  `git diff origin/master share/src/main/java/cn/wy/mygit/api/intf/PreLoan.java`: 比对的是working tree和远程分支上的. 
   @@ -32,23 +32,23 @@:  表示从文件的第32行开始，左边包含23行，右边包含23行, 两边包含行数一致，说明是修改的； 如果不一致，说明新增/删除.
   git diff HEAD HEAD~ web/src/main/webapp/htdocs/app-modules/creditbodyguard/intentionScoreBatch.js: 当前最新版和上一次提交的版本，显示本次修改的内容.
   git diff HEAD~ HEAD~2 web/src/main/webapp/htdocs/app-modules/creditbodyguard/intentionScoreBatch.js: 上一个版本和上上一个版本.
@@ -286,6 +286,9 @@
 
 * .gitignore 忽略文件.
   # 用来注释.
+  ponia.properties: 忽略所有名称是 ponia.properties, 包括 conf/my/ponia.properties
+  /ponia.properties: 忽略根目录下的 ponia.properties, 不包括其他位置的
+  ponia.properties/:  忽略目录ponia.properties
 
 ### 其他
 * 从分支1(bodyguard170613152324)中删除代码， 形成两个分支. bodyguard170613152324先提测、上线。
@@ -305,8 +308,11 @@
 * jdk source 添加一个source
   git rm -r --cached jdk-8u111-linux-x64: 删除master里的所有，确保为空.
   git checkout -b jdk-8u111-linux-x64
-  或者 git checkout master; git checkout jdk-8u111-linux-x64; git rm -r *; git commit -m "delete";  这样来删除新分支现有的;
+  或者 git checkout master; git checkout jdk-8u111-linux-x64; git rm -r *;(好像用rm -rf 也不会把master分支里的删掉) git commit -m "delete";  这样来删除新分支现有的;
+  git ls-files: 验证下新分支版本库没有内容.
   将jdk里的src.zip解压到新分支;
   git add -A; git commit -m "add": 提交新的source.
   编辑.gitignore, 忽略掉其他的.
   git push -u origin jdk1.8.0_112:  push
+
+

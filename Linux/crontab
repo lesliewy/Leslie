@@ -1,3 +1,5 @@
+### 详细参考: https://www.cnblogs.com/peida/archive/2013/01/08/2850483.html
+
 ### leslie 用户的crontab. 
 ### crontab -u leslie [file] 来添加.  该文件会放在:/var/spool/cron/crontabs/目录下,名字改成了leslie
 ### 使用上面的方法不起作用.
