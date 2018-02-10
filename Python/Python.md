@@ -6,8 +6,9 @@
   `help(string.swapcase): string.swapcase 帮助.
   `help(str)`: str 和 string 不同, 这个是"aaa".swapcase()中的swapcase的用法.
 
-* `sys.path`: 查找module的路径.
-  `string.__file__`: string module 的路径，通常是pyc文件.
+* `import sys; sys.path`:   module的搜索路径
+  `print(string.__file__)`: 查找module的路径, string module 的路径，通常是pyc文件.
+
 
 * **在python shell 环境下执行py文件:**
   `import os`
@@ -21,6 +22,7 @@
   `pip list`: 列出安装的modules
   `pip list -help`: pip list 帮助.
   `pip show scrapy`: 查看scrapy信息.
+  sudo python3 -m pip install rpi.gpio:  同时安装python2 python3 情况下，将module下载到python3环境.
 
 * `sudo apt install ipython`: 使用ipython来调试.
   ipython 进入ipython环境:
