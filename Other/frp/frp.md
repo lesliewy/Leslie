@@ -9,8 +9,10 @@ privilege_token = happyNoNG
 type = tcp
 local_ip = 127.0.0.1
 local_port = 22
-remote_port = 10022
+remote_port = 20101
 
 
-* 登录: ssh -oPort=20101 leslie@ngrok.lktoken.com
+* 登录
+  ssh -oPort=20101 leslie@ngrok.lktoken.com
+  ssh -oPort=20102 pi@ngrok.lktoken.com
 
