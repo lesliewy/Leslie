@@ -51,6 +51,11 @@
   git clone <版本库的网址> <本地目录名>: 默认将版本库名称设置为origin; 如果版本库有多个分支，clone下来的是主分支.
   `git clone -o jQuery https://github.com/jquery/jquery.git jquery`: 将origin名称设置为 jQeury. git remote查看, 放到本地的jquery目录.
   git clone -b b1 https://github.com/jquery/jquery.git:  clone jquery的b1分支.
+  clone 所有分支:
+      git clone  https://git.coding.net/aiyongbao/tradepc.git      tradepc_zzgdapp: 先clone master
+      git　　branch -r: 显示远程分支;
+      git checkout dev5: checkout 某个远程分支.
+
   如果clone下来的是master, 此时git branch 只会有一个master,  git branch -r 查看远程分支, 再通过git checkout -b [远程分支名] 来获取其他的远程分支.
   git clone git@gitlab.wy.cn:app/billing.git
   git clone --depth 1 https://github.com/tensorflow/models: 只clone最近一次commit, 如果项目太大，而又不关心commit 历史的可以使用.

@@ -10,3 +10,7 @@
   deactivate:  退出激活.
 
 
+* 卷积
+  https://www.zhihu.com/question/39022858
+
+  
