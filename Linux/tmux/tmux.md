@@ -17,6 +17,8 @@
   `Ctrl + b + x`: 删除当前pane
   `Ctrl + b + &`: 删除当前window
 
+  `Ctrl + b + z`: 多个pane时，最大化当前pane;  再按一次，恢复;
+
 * 配置文件在 ~/.tmux.conf,   ctrl + b + :  进入命令模式:   source-file ~/.tmux.conf 生效.
 
 * 在shell中打开tmux session, 关闭shell软件后，该session仍在，tmux a -t 可以重新进入.
