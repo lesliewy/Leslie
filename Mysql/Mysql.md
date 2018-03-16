@@ -90,6 +90,10 @@ mysql -u root -p mysql < 201009.sql;   还原.   注意，不要用！！！  �
 
 mysqldump -u root -p mysql TEST1 > TEST1.sql; 备份表 TEST1.
 mysql -u root --password=mysql --database mysql < data/mysql/170118/ST_CONFIG.sql: 还原. 必须--password=mysql
+mysql -uroot -pmysql -e "select NOTION_NAME, CODE from ST_NOTION_STOCK where source='DFCF'" mysql >./b.data: 使用sql导出数据.
+
+* 导入csv中数据到指定列.
+load data local infile '/Users/leslie/a.csv' into table `st_table`  character set utf8 fields terminated by ','  optionally enclosed by '"' escaped by '"' LINES TERMINATED BY "\r\n" (`a`, `b`, `c`, `d`);
 
 * alter table LOT_KELLY_RULE change WIN_PROP WIN_PROB double;  修改列名, 由WIN_PROP 修改成 WIN_PROB.
 alter table LOT_KELLY_CORP_RESULT change ODDS_CORP_NAME ODDS_CORP_NAME VARCHAR(50) NOT NULL;  修改 列的长度, 由20修改为50;
