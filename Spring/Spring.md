@@ -87,6 +87,10 @@ public class ExceptionAdvice {
    如果需要强制使用cglib: <aop:aspectj-autoproxy proxy-target-class="true"/>
  * 
 
+* 事务
+  事务处理: http://blog.163.com/zsq303288862@126/blog/static/9374596120111182583090/
+  https://blog.csdn.net/xieyuooo/article/details/8269218
+  https://blog.csdn.net/xiejx618/article/details/43952007
 
 * 报错: invalid column name
   * 检查ibatis的sql配置文件: psmttinv.xml 的sql语句中的所有字段是否都有在resultMap中出现.
