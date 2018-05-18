@@ -32,7 +32,7 @@
       且新创建的分支在`git branch -d 161017`前需要merge, 否则使用 `git branch -D 161017`
   `git checkout -b b3 master`: 基于master新建分支, 也可以修改成其他的.
   `git push origin 161017`: 将161017分支push到github, 就不需要在github上新建了.
-  ·git branch -va: 查看本地和远程的所有分支.  
+  ·git branch -va: 查看本地和远程的所有分支.
   `git branch -d mygit170509225740`: 删除本地分支.  如果该分支还没有merged, 会报错. git branch -D myweb170509225740强制删除.
   `git branch --merged`: 当前HEAD为master分支时，查看已经合并到master的分支
   `git branch --no-merged`: 未合并到当前HEAD的分支,  如果有分支没有合并到master, 这也是不可以git branch -d 来删除未合并到master分支的原因.

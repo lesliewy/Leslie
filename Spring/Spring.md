@@ -88,9 +88,16 @@ public class ExceptionAdvice {
  * 
 
 * 事务
-  事务处理: http://blog.163.com/zsq303288862@126/blog/static/9374596120111182583090/
+  事务处理: 
+  https://www.cnblogs.com/yixianyixian/p/8372832.html
+  http://sishuok.com/forum/blogPost/list/2506.html
+  http://blog.163.com/zsq303288862@126/blog/static/9374596120111182583090/
   https://blog.csdn.net/xieyuooo/article/details/8269218
   https://blog.csdn.net/xiejx618/article/details/43952007
+  TransactionSynchronizationManager.isSynchronizationActive()  or  TransactionSynchronizationManager.isActualTransactionActive()
+  这个来判断当前方法是否被事务管理.  true: 被事务管理, false: 没有.
+
+
 
 * 报错: invalid column name
   * 检查ibatis的sql配置文件: psmttinv.xml 的sql语句中的所有字段是否都有在resultMap中出现.
