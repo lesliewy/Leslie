@@ -183,7 +183,7 @@
   commit level: 不带file path:  移动HEAD的指向.
   git reset --soft HEAD~:  将HEAD移动到HEAD~, 即将repository回退至HEAD~, staging area 和 working tree仍然是HEAD.
   git reset --mixed HEAD~: 将HEAD移动到HEAD~, 同时unstaged, 即将staging area回退到HEAD~, 即repo 和 staging area都回退到HEAD~
-  git reset --hard HEAD~:  将HEAD移动到HEAD~, 同时unstaged, update working tree, 即repo, staging area, working tree 都回退到 HEAD~.
+  git reset --hard HEAD~:  将HEAD移动到HEAD~, 同时unstaged, update working tree, 即repo, staging area, working tree 都回退到 HEAD~, ** 慎重使用 hard，数据会丢失 **
   git reset HEAD~: 即 git reset --mixed HEAD~.
 
   file level: 带file path: 不移动HEAD，只改变 staging area, working tree.
