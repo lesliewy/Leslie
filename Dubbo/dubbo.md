@@ -1,5 +1,5 @@
 ## 官方
-  [github](https://github.com/apache/incubator-dubbo)
+  [github](https://github.com/apache/incubator-dubbo)  
   [文档](http://dubbo.apache.org/books/dubbo-user-book/)
 
 ## 配置
@@ -11,7 +11,7 @@
 ## 杂项
 * telnet 扩展  
   [telnet 命令参考手册](http://dubbo.apache.org/books/dubbo-user-book/references/telnet.html)  
-  
+
   在本机暴露20880端口，给消费者调用, 所以可以 telnet 127.0.0.1 20880:  
      help  
      ls: 查看所有服务.  
