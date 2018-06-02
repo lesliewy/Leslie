@@ -1,5 +1,5 @@
-* useful urls
-  http://www.ruanyifeng.com/blog/2014/06/git_remote.html
+* 文档及文章  
+  [Git远程操作详解](http://www.ruanyifeng.com/blog/2014/06/git_remote.html)
 
 ### 命令 ###
   `git` 查看git commands  
