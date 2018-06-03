@@ -102,9 +102,21 @@
   * JDK中的LOG可以参看 <<深入体验Java_Web开发内幕-核心基础>> 的 page 209.  
 
 
-=========================================================================API====================================================================
+=================================useful urls==========================================================
+Java Memory Model 的相关资料:
+http://www.cs.umd.edu/~pugh/java/memoryModel/
+http://www.cs.umd.edu/~pugh/java/memoryModel/jsr-133-faq.html
+http://www.jcp.org/en/jsr/detail?id=133
 
+Java SE HotSpot:
+http://www.oracle.com/technetwork/java/javase/tech/index-jsp-136373.html
 
+Java 2 Platform Security Architecture
+http://docs.oracle.com/javase/6/docs/technotes/guides/security/spec/security-spec.doc.html
+
+http://onjava.com/
+
+http://java.sun.com/docs/codeconv/html/CodeConventions.doc5.html#2991
 
 
 1,
@@ -183,21 +195,7 @@
 
 
 
-=================================useful urls==========================================================
-Java Memory Model 的相关资料:
-http://www.cs.umd.edu/~pugh/java/memoryModel/
-http://www.cs.umd.edu/~pugh/java/memoryModel/jsr-133-faq.html
-http://www.jcp.org/en/jsr/detail?id=133
 
-Java SE HotSpot:
-http://www.oracle.com/technetwork/java/javase/tech/index-jsp-136373.html
-
-Java 2 Platform Security Architecture
-http://docs.oracle.com/javase/6/docs/technotes/guides/security/spec/security-spec.doc.html
-
-http://onjava.com/
-
-http://java.sun.com/docs/codeconv/html/CodeConventions.doc5.html#2991
 
 
 
