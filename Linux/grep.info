@@ -161,6 +161,7 @@ File: grep.info,  Node: General Output Control,  Next: Output Line Prefix Contro
      Suppress normal output; instead print a count of matching lines
      for each input file.  With the `-v', `--invert-match' option,
      count non-matching lines.  (`-c' is specified by POSIX.)
+     * 满足条件的那一行
 
 `--color[=WHEN]'
 `--colour[=WHEN]'
@@ -230,6 +231,7 @@ File: grep.info,  Node: General Output Control,  Next: Output Line Prefix Contro
      Print only the matched (non-empty) parts of matching lines, with
      each such part on a separate output line.
      * grep "OPWM.*1"  SYS.log :   只显示正则表达式 OPWM.*1 匹配的那些字符.  这个看起来很有用.
+       可以用来实现计数: grep -o "the" a.data|wc -l 
 
 `-q'
 `--quiet'
