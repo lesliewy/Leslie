@@ -1,9 +1,13 @@
 
 ## 分析 ##
+### 文档及文章 ###
+   * [jstack(查看线程)、jmap(查看内存)和jstat(性能分析)命令](https://blog.csdn.net/imxiangzi/article/details/47123849)  
+   * [jmap的几个操作要慎用](https://blog.csdn.net/lovetea99/article/details/52588265)  
+
 ### javacore ###
 * 不管用sun的jdk还是ibm的jdk,kill -3 都是发送sigquit消息,jvm不会终止;kill -11 发送sigsegv消息,jvm都会终止掉.
   ibm jdk:  可以设置环境变量IBM_JAVACOREDIR=.  ，同时要让执行jdk的shell知道这个变量,因为是jdk内部输出的javacore. 就会将javacore 输出到指定的目录.
-  
+
 *** IBM jca 工具 v4.2.3:
   runnable : 表示可以运行，现在不一定正在运行.
   waitting : sleep, 等待io, ...

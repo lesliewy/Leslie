@@ -275,5 +275,24 @@
  环境变量说明:  linux下用冒号“:”来分隔路径
                 export是把变量导出为全局变量
                 大小写必须严格区分
+* 软件安装
+
+* bin 文件: chmod a+x filename.bin ./filename.bin 直接运行即可, 一般解压完就可以用了;
+./jdk-6u31-linux-i586.bin
+* tar -xv -f file.tar : 例如 eclipse, 直接解压完就可以用了, ./eclipse; 类似于portable 软件;
+
+* deb 文件: sudo dpkg -i file.deb 即可;
+
+* 源码: 一般流程: ./configure --prefix="install path"; make; make install; 最好是先看下 readme 之类的文件;
+
+Core utils: http://www.gnu.org/software/coreutils/coreutils.html  
+Linux Kernel: https://www.kernel.org/ 
+
+** 常用软件
+#  imagemagick
+   Linux 下修图命令行
+
+# sox
+   Linux 下音频神器.
 
 

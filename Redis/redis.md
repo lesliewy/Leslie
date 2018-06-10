@@ -34,6 +34,16 @@
 ## 监控 ##
   `java -jar redis-stat-0.4.14.jar --server --auth=leslie`
 
+## sentinel ##
+  * 文档  
+  [redis 命令参考 - sentinel](http://doc.redisfans.com/topic/sentinel.html)  
+  [Redis Sentinel 介绍与部署](https://blog.csdn.net/men_wen/article/details/72724406)
+
+  * redis-cli -h 10.57.123.23 -p 23237:  连接到sentinel机器, 可以 info 查看信息.  
+    sentinel masters: 查看master信息. 里面有 ip 和 port.  
+    sentinel slaves mymaster:  查看 mymaster 这个master的slaves.  
+    redis-cli -h {master-ip|salve-ip} -p {master-port|slave-port}: 连接某台redis. 可能需要auth {password}  
+    scan 0 match \*3\* count 5: 正常使用redis命令.  
 
 ## 源码 ##
   * server.c 中的redisCommandTable中包含所有命令及实现，可以从此处入手.  

@@ -40,6 +40,14 @@
     *** 注意 ***:如果在同一个ipython环境里多次执行 %run，加载的始终是第一次的文件，此时需要exit,重新进入.   
   `b 229, j==56`: 当j==56为True时，停在229行.
 
+## 配置 ##
+  * 和设置PATH一样，可以设置PYTHONPATH， ":"分隔. sys.path 可以查看python查找包的路径; 搜索顺序是:  
+     当前路径;  
+     PYTHONPATH 设置的路径;  
+     默认路径;  
+
+  * pycharm 添加PYTHONPATH方法: project: a -> project interpreter -> 选中某个python -> show all -> show paths for the selected interpreter -> "+"  
+
 ## 杂项 ##
   * 如果修改了kNN.py,  在python shell中需要exit(), 重新进入，import kNN 才会生效。   reload(kNN): 也可以重新加载， 不需要退出。  
 
