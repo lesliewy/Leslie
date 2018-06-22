@@ -1,29 +1,3 @@
-
-## JVM ##
-  * jdk jvm jre 3者关系:  c:\Leslie\Work\j2ee\book\java 深度历险\CH_01.深入Java 2 SDK.pdf 中有.  
-  
-  * 执行 java 命令: java.exe 所在的位置不一定在 java_home 指定的地方;  依然是按照先本目录，再 path 变量处.  
-   javac 等jdk本身的命令使用的是 jdk 附带的JRE + tools.jar,  一般在myeclipse里有一个 JRE System Library, 这是开发程序时使用的JRE.  
-  * JDK 安装目录下 src.zip 为JDK的源代码。  
-
-  * 有些情况下,图形界面的IDE不成功,但是在命令行下运行javac、java成功  
-
-  * c:\Leslie\Work\Other\SourceInsight\JDK1.6.0_20\  jdk 源码,  @@@ 标识修改部分。  
-
-  * classpath 中的路径需要具体到 jar 名称; 如果不是jar, 只搜索该目录下的class, 不递归搜索;  
-
-  * Java -source   -target
-    -source Specifies the version of source code accepted.
-    -target Generate class files that target a specified version of the VM. Class files will run on the specified target and on later versions, but not on earlier versions of the VM.
-
-  * `javac test1.java`: test1.java 中可以没有public class,如果要有的话则要与文件名相同.  
-    `java test1`: 要想运行test1,则 class test1 中必须要有main, 可以不是public的.  
-    jvm将会按照classpath的路径查找class.  假如test1.class放在 l:my\MyJava\src\ 目录下面，classpath=l:my\MyJava\src\  这样仍然不可以.应该用 classpath=l:\my\MyJava\src\ 最后的分号不加也是可以的.  
-    test1.java 中  (package + test1).class 必须要在classpath中,否则找不到; 会首先找default package( 不属于任何package)中是否有该class.  
-    javac 和 java 命令后面的 必须能在classpath 中找到. 例: `java api.lang.String.AboutString` 也可以是 `java AboutString`:  会到classpath中找 api/lang/String/AboutString.class 和 AboutString.class  
-
-
-
 ## JDK ##
 ### java.lang ###
  * byte b=66;: System.out.println(b) 输出 66 占用1个字节.  

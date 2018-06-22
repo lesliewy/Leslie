@@ -200,3 +200,35 @@ Serial:yLR8ZC-855555-685979500969430
 snavigator
 
 
+## Intellij Idea ##
+  * Help -> Find Action: 查找各种有用的功能，不必记住快捷键.
+    F3: 代码视图中将该行加入bookmark.    # + F3: 查看.   大项目便于记录.
+    # + Shift + .:  折叠代码行;   # + .: 取消折叠;
+    # + Shift + F7: 查找当前选中的字符串并高亮.  # + G, # + Shift + G 来前后查找.
+
+## jprofiler ##
+  * 文档  
+    [深入浅出JProfiler](https://yq.aliyun.com/articles/276)  
+    [jprofiler的使用](http://wangneng-168.iteye.com/blog/1998034)  
+
+    c:\Leslie\Work\j2ee\About_java\jvm\JProfiler学习笔记 .htm  
+    在 Memory Views 页面 需要选择 " Recorded Objects" 才能在Heap 中的 Allocation tree 中找到调用路径;  
+    如果是Object, 占用的可能大小是不包括引用(4bytes)的; 
+
+  * junit 测试  
+    + CPU 相关  
+    Idea, Jprofiler 9.2.1, 执行profile 'test1()' 后, Probe settings -> Profiling settings -> Customize Profiling settings -> Miscellaneous: 中选中 keep VM alive, 否则有些数据来不及收集，就结束了;  
+    如果需要查看cpu call tree 中的方法执行时间: 需要先把 jprofiler 页面选到 CPU Views -> Call Tree, 否则看不到数据，不知道哪里可以设置;  
+    Filter settings -> Define filters 需要性能监控的package 选择 profiled, 这样CPU call tree 调用结果就只显示该packages;  
+    Filter settings -> Ignore methods 最好全都去掉;  
+    Initial recording profile: 选择 CPU Recording.  否则CPU Views 中没有数据.
+
+    + 内存相关  
+      目前还不知道怎么做.  
+
+  * CPU Views  
+    + Call tree
+      可以查看调用树， 及每个方法执行时间, 占比;  
+
+    + Hot Spots
+      查看方法的执行总时间、平均时间、次数, 方便找出最耗时的;

@@ -15,7 +15,7 @@
   `redis-benchmark -h localhost -p 6379 -c 100 -n 100000`: 100个并发连接，100000个请求   
   `redis-benchmark --help`  
 
-  * info
+  * info  
   `redis-cli -h localhost -p 6380 info`  
   或者 redis-cli 交互模式下执行  info  
   key-field-value: 不管field有多少，Keyspace 的db0:keys 值始终是1;  
@@ -27,7 +27,7 @@
   scan 0 match *3* count 5:   匹配key包含3的  
   scan 444416 match *3*: 根据每次返回的cursor名字继续获取cursor;  
   
-  * flush
+  * flush  
   `flushdb`: 删除当前数据库中的所有Key  
   `flushall`: 删除所有数据库中的key  
 

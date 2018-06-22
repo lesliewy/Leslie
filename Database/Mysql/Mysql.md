@@ -137,6 +137,16 @@ show keys from tblname;
 
 
 
+### 杂项 ###
+  * 安装好后，连接时出现mysql.sock找不到的问题，可能是不在my.cnf配置文件中指定的位置(默认为/tmp/mysql.cnf).  此时需要修改该配置文件，或者ln下.  
+  也可能是根本就没有了，此时可以ps -ef |grep mysql ,先kill 掉所有mysql的进程,然后重启: service mysqld restart. 就会生成sock文件。  
+
+  * 不管是用改表法，还是授权法添加一个用户，都要flush privileges. 否则不生效.  
+
+  * 有时mysql -ubookadm -p -h 127.0.0.1 :  后面的-h不能少，我也不知道为什么.否则登录不了.  
+
+
+
 
 
 
