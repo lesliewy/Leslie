@@ -3,6 +3,7 @@
 ### 文档及文章 ###
    * [JDK 10 Documentation](https://docs.oracle.com/javase/10/)  JDK文档大合集.
    * [JVM参数设置、分析](https://www.cnblogs.com/redcreen/archive/2011/05/04/2037057.html#CMSInitiatingOccupancyFraction_value)  
+   * [JVM实用参数](http://ifeve.com/useful-jvm-flags-part-3-printing-all-xx-flags-and-their-values/)  
 
 ### javacore ###
   * 不管用sun的jdk还是ibm的jdk,kill -3 都是发送sigquit消息,jvm不会终止;kill -11 发送sigsegv消息,jvm都会终止掉.
@@ -45,10 +46,15 @@
   [CMS GC日志详细分析](https://blog.csdn.net/a417930422/article/details/16948933)  
   [GC之详解CMS收集过程和日志分析](http://www.cnblogs.com/zhangxiaoguang/p/5792468.html)  
   [认识JVM性能监控与故障处理工具&深入理解Java内存模型](https://blog.csdn.net/kringpin_lin/article/details/26211119)  
+  [Java: 对象不再使用时赋值为null的作用和原理](https://www.polarxiong.com/archives/Java-%E5%AF%B9%E8%B1%A1%E4%B8%8D%E5%86%8D%E4%BD%BF%E7%94%A8%E6%97%B6%E8%B5%8B%E5%80%BC%E4%B8%BAnull%E7%9A%84%E4%BD%9C%E7%94%A8%E5%92%8C%E5%8E%9F%E7%90%86.html)  
+  [面向GC的Java编程](http://www.importnew.com/11372.html)  
+
   * `jstat -gc {pid}`: 查看gc各分区总大小、已使用大小(kB)
     `jstat -gcutil {pid}`: 查看已使用情况.(kB)
 
   * 发生OOM的时候，如果看gc没有用，就要看heapdump.  
+
+  * 在idea 等IDE中观察gc情况，可以使用System.gc()
 
   * 工具  
     + IBM gc工具 v4.1.4(Pattern Modeling and Analysis Tool for Java Garbage Collector)  
@@ -68,6 +74,7 @@
     [jmap的几个操作要慎用](https://blog.csdn.net/lovetea99/article/details/52588265)  
 
     `jmap -dump:format=b,file=a.bin {pid}`: heapdump.  
+    `jmap -histo 69456|head`: 查看示例个数、大小.
 
   * jstat  
     `jstat -gcutil {pid} {interval} {count}`: gc 相关信息.  每隔 interval s, 输出count次.  

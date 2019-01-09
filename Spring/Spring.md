@@ -60,6 +60,9 @@ Spring MVC的表单控制器(前篇 后篇): http://hi.baidu.com/mars_venus/blog
   * 每添加一个命名空间，都要添加schemaLocation，如添加了: xmlns:aop="http://www.springframework.org/schema/aop", 必需在xsi:schemaLocation 中添加一对: http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd"
 
 * AOP
+  * 文档  
+  [Spring 4.3 源码分析之 编程式Aop (一)](https://www.jianshu.com/p/5005215f522e)  
+  
   * 配置
   spring xml中添加: 
   <context:annotation-config/>

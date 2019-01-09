@@ -135,6 +135,12 @@ show keys from tblname;
             Slave_IO_Running: Connecting
             Slave_SQL_Running: Yes
 
+### 命令 ###
+* show global variables;  查看mysql 全局变量.   
+   explicit_defaults_for_timestamp: 时间戳相关.
+
+### 性能 ###  
+  * [MySQL执行计划解读](https://www.cnblogs.com/zping/p/5368860.html)  
 
 
 ### 杂项 ###
@@ -144,7 +150,6 @@ show keys from tblname;
   * 不管是用改表法，还是授权法添加一个用户，都要flush privileges. 否则不生效.  
 
   * 有时mysql -ubookadm -p -h 127.0.0.1 :  后面的-h不能少，我也不知道为什么.否则登录不了.  
-
 
 
 

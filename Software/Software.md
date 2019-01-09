@@ -205,6 +205,10 @@ snavigator
     F3: 代码视图中将该行加入bookmark.    # + F3: 查看.   大项目便于记录.
     # + Shift + .:  折叠代码行;   # + .: 取消折叠;
     # + Shift + F7: 查找当前选中的字符串并高亮.  # + G, # + Shift + G 来前后查找.
+  * 继承关系图.
+    选定一个接口(或类), 右键 -> Diagrams -> Show Diagrams  
+    如果需要把实现这个接口的所有类添加进来: 右键 -> Add Class to Diagram(Space) 来添加.  可以用Ctrl + H 调出实现该接口的
+    所有类，一个个添加进来.
 
 ## jprofiler ##
   * 文档  
@@ -232,3 +236,14 @@ snavigator
 
     + Hot Spots
       查看方法的执行总时间、平均时间、次数, 方便找出最耗时的;
+
+## Alfred ##  
+  * 文档  
+  [Alfred workflow 开发指南](http://myg0u.com/python/2015/05/23/tutorial-alfred-workflow.html)  
+  [Alfred Workflow教程与实例](https://www.jianshu.com/p/729d5f9991b8)  
+  [Alfred Workflows](http://alfredworkflow.com/)  
+
+
+
+
+

@@ -23,7 +23,8 @@ vim -p filenames:   tab标签打开文件;  :tabnew filename 新增一个文件;
  3,查找替换
     :1,5s/from/to/        :将第1－5行中的from 改为to,每行只匹配第一个找到的from
     :1,5s/from/to/g       :同上，但匹配所有的from。
-    :%s/from/to/g         :替换所有行的from   如果不加"%",则默认只是当前行
+    :%s/from/to/g         :替换所有行的from   如果不加"%",则默认只是当前行  
+    :%s/<tr//gn: 只显示匹配的字符串个数, 不实际替换.  关键是最后的n.  
    : %s/\n/\n/g           : 这里要注意，第一个\n表示<NL>(换行), 第二个表示<Nul>（空字符, 表示为^@), 可以参看:help CR-used-for-NL.     直接搜索换行可以仍然用 /\n
    : %s/\n/^M/g          :  这里是将换行替换成换行了， 第二个汗行是^M(Ctrl-v  Ctrl-M).
     fx                    :在当前行中向后查找字母x, ";"表示下一个,","表示上一个

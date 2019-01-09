@@ -26,7 +26,7 @@
 
   * 在shell中打开tmux session, 关闭shell软件后，该session仍在，`tmux a -t` 可以重新进入.  
 
-  * iterm2 , tmux copy-mode(prefix + [)下, 使用y直接复制内容到剪贴板:  
+  * iterm2 , tmux copy-mode(prefix + [)下, 先空格, 再使用y直接复制内容到剪贴板:  
   To enable this:  
     > Go into iTerm2's preferences.  
     Go to the "General" tab.  
@@ -38,3 +38,6 @@
 ## 杂项 ##
   * 插件管理  
     Tmux Plugin Manager  
+
+  * 有些命令在tmux下无法使用  
+    pbcopy/pbpaste

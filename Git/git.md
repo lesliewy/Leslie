@@ -1,5 +1,6 @@
 * 文档及文章  
   [Git远程操作详解](http://www.ruanyifeng.com/blog/2014/06/git_remote.html)
+  [如何在 Git 中重置、恢复，返回到以前的状态](https://mp.weixin.qq.com/s?__biz=MjM5NjQ4MjYwMQ==&mid=2664611824&idx=1&sn=67be8d6a42bc9badd29fbf49fd7df316&chksm=bdce84b68ab90da0efba8f00b48c35e585fedabf245ec15ecf6f493b861c572ce2742f50a94d&scene=0&key=8b90303c306774bb86651129359cc29a86248864b9eb831c2f811f5b0c4e58efcb70539c8a644ba51f2c1a2708ca4c5507cc2bb14c0e216c43b7b6d95ecd8c5cd770cf899dd0a40e46d179bd2114a27c&ascene=0&uin=MjQ0NDE5OTIxOQ%3D%3D&devicetype=iMac+MacBookAir7%2C2+OSX+OSX+10.12.5+build(16F73)&version=12020810&nettype=WIFI&lang=zh_CN&fontScale=100&pass_ticket=Q9xqv1Q2QFNWCPJc3WGmhoc%2BduaPx6ltaih1erXhBtN0%2FIz02WC6rQNKsy5qPc6I)  
 
 ### 命令 ###
   `git` 查看git commands  
@@ -176,7 +177,8 @@
   `git reset --hard HEAD~`: 将HEAD移动到HEAD~, 同时unstaged, update working tree, 即repo, staging area, working tree 都回退到 HEAD~, ** 慎重使用 hard，数据会丢失 **  
   `git reset HEAD~`: 即 `git reset --mixed HEAD~`  
   `git reset --hard`: 丢弃刚做的操作  
-  `git reset --hard origin/master`: 将当前所在的分支重置成远程分支origin/master. 本地修改将丢失.  
+  `git reset --hard origin/master`: 将当前所在的分支重置成远程分支origin/master. 本地修改将丢失. 
+  `git reset --hard origin/wy181130103117`: 远程分支覆盖, 如果从master分支切换到wy181130103117后，由于master分支已经提交了很多代码，git status 会出现 ahead 49, behind 53 这种情况,git pull 可能后出现冲突, 此时需要完全替换成 wy181130103117 的代码.
 
   * file level: 带file path: 不移动HEAD，只改变 staging area, working tree.  
   `git reset file.txt`: 等价于 git reset --mixed HEAD file.txt, repo不变，将index中file.txt回退到HEAD(repo内容).  
@@ -282,7 +284,10 @@
 
   * 回退某个文件  
   `git checkout -- api/pom.xml`: 放弃working tree的修改, 恢复版本库内容.  
-  `git checkout .`: 放弃所有work tree的修改.  
+  `git checkout .`: 放弃所有work tree的修改， 新增的文件仍然在本地;
+  > 回退本地所有修改，包括新增:
+    `git reset --hard`: 新增的文件会从worktree中删除，但是本地仍然存在;
+    `git clean -df`: 删除多余的本地文件(前面是 ?)   `git clean -n`: 查看要删除的文件;
 
   * 查看某文件的历史版本  
   `git log filename`:查看所有提交历史,获取sha-1值.  

@@ -237,6 +237,11 @@
     `ps -m -p 1743 -o tid,time`  或者 `ps -Lf -p 1743` 或者 `top -H -p 1743` 查找 pid=1743 下的所有thread, tid 列 = LWP 列, 可以查找到最耗时的thread.  
     `jstatck 1743 &> 1743.dat`: 得到1743进程的栈信息. 找到之前的thread. 可能需要16进制转换: `printf "%x\n", 23451`
 
+  * 服务管理  
+    [如何查看 Linux 中所有正在运行的服务](https://mp.weixin.qq.com/s?__biz=MjM5NjQ4MjYwMQ==&mid=2664611829&idx=1&sn=4084b7b06c8b87766941418756602e32&chksm=bdce84b38ab90da56215e270af0818fbe68ca2790d8620220c45f5945f3bf1fc2fcfbe8121d3&scene=0&key=98ef00339cfc89306acd4862740ce1c2dcb58b43d3f837b62b3706d4d9bce8400265d6058f0d3fb5c07f6445bcf2f9215cfad684cc67fa46964950b02672919ca88b326821ce9c76d360b411190fd427&ascene=0&uin=MjQ0NDE5OTIxOQ%3D%3D&devicetype=iMac+MacBookAir7%2C2+OSX+OSX+10.12.5+build(16F73)&version=12020810&nettype=WIFI&lang=zh_CN&fontScale=100&pass_ticket=Q9xqv1Q2QFNWCPJc3WGmhoc%2BduaPx6ltaih1erXhBtN0%2FIz02WC6rQNKsy5qPc6I)  
+    不同的系统有不同的命令, 例如centos 可以用systemctl, MAC os 可以用 launchctl  
+    `systemctl --type service`: 按照service 来查看.  
+
 ## 网络 ##
   `netstat -anp|grep 7001`: 找出7001端口的pid，可以再根据 ps aux|grep pid :  得出该进程信息.  
   `ping -c 3 -s 2000 -M do www.baidu.com` : 可以修改传送的icmp封包的大小，来测定MTU最大值，其中-M do 不能少，表示传送DF（don't fragment)标志，不允许拆分.  
@@ -298,6 +303,8 @@
   * `seq 1 255`: 输出 1－255之间的所有整数.  
 
   * `md5sum file_name`: 计算file_name的md5指纹(摘要)。  
+
+  * `ps -ef|pbcopy`:  将内容复制到剪贴板。 可以直接使用系统的粘贴来使用.  也可以直接 pbpaste,  echo `pbpaste` 来使用.  
 
 ## 记录 ##
   * pwd: print name of current/working directory   显示当前的绝对路径，也可以加一个文件，用来显示该文件的绝对路径。  
