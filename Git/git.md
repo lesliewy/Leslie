@@ -41,7 +41,7 @@
   `git branch`: 只有当有至少一次commit 才会显示master分支, 刚git init , git add 之后不会显示任何分支.  
   `git branch -m oldbranchname newbranchname`: 本地分支重命名.  
   `git checkout -b myjava170612145119 origin/myjava170612145119`:  获取远程分支myjava170612145119, 本地会新建一个.  
-  `git checkout master -- deploy/tomcat/conf/catalina.policy web/src/main/resources/spring/asgard/stark-asgard.xml`: 使用master分支上的两个文件替换本地的同名文件.  
+  `git checkout master -- deploy/tomcat/conf/catalina.policy web/src/main/resources/spring/asgard/stark-asgard.xml`: 使用master分支上的两个文件替换本地的同名文件.  -- 后通常是 <path>, 为了避免 <path> 和 <branch>同名.
 
   * 关于branch description  
   `git branch --edit-description 161017`: 给161017分支写说明.  
@@ -99,6 +99,11 @@
   `git remote rm <主机名>`  
   `git remote rename <原主机名> <新主机名>`  
 
+#### checkout ####
+  git checkout [<commit>] [--] --path: 从暂存区检出, 和 reset 不同: reset的默认值是HEAD，一般用来重置暂存区(--hard 除外), 检出的默认值是暂存区, 主要是覆盖工作区.
+  git checkout <branch>:  改变HEAD指针, 用来切换分支.
+  
+
 #### status ####
   `git status`: 查看working tree 超前/落后远程版本库的次数.  **注意**：git 有一点延迟，如果长期没有使用本地git, `git status` 第一次执行可能不准，等几分钟. 也可以直接 `git fetch` 获取log等信息.  就可以 `git log origin/master` 看到别人的提交了.
   > Changes to be committed:   对应已经暂存的，但未提交的. （绿色)  
@@ -113,7 +118,7 @@
   _M: 已经在repository, 且修改过.  
 
   `git status -s`: 查看working tree与本地版本库的差异文件.  
-  `git status -sb`: 带上ahead/behind  
+  `git status -sb`: 带上分支名及ahead/behind  
 
 #### commit ####
   `git commit --amend`: 修改上一次的提交，将当前staging area 的内容添加到上一次的提交中. 如果上一次commit之后staging area没有变化，则相当于修改commit message.  
@@ -173,12 +178,14 @@
 #### reset ####
   * commit level: 不带file path: 移动HEAD的指向.  
   `git reset --soft HEAD~`: 将HEAD移动到HEAD~, 即将repository回退至HEAD~, staging area 和 working tree仍然是HEAD.
+  `git reset --soft HEAD^`: 同上，对最近的提交不满意时，撤销最新的提交以便重新提交;
   `git reset --mixed HEAD~`: 将HEAD移动到HEAD~, 同时unstaged, 即将staging area回退到HEAD~, 即repo 和 staging area都回退到HEAD~  
   `git reset --hard HEAD~`: 将HEAD移动到HEAD~, 同时unstaged, update working tree, 即repo, staging area, working tree 都回退到 HEAD~, ** 慎重使用 hard，数据会丢失 **  
   `git reset HEAD~`: 即 `git reset --mixed HEAD~`  
   `git reset --hard`: 丢弃刚做的操作  
   `git reset --hard origin/master`: 将当前所在的分支重置成远程分支origin/master. 本地修改将丢失. 
   `git reset --hard origin/wy181130103117`: 远程分支覆盖, 如果从master分支切换到wy181130103117后，由于master分支已经提交了很多代码，git status 会出现 ahead 49, behind 53 这种情况,git pull 可能后出现冲突, 此时需要完全替换成 wy181130103117 的代码.
+  `git reset`: 等于 `git reset HEAD`, 是 `git add`的逆操作.
 
   * file level: 带file path: 不移动HEAD，只改变 staging area, working tree.  
   `git reset file.txt`: 等价于 git reset --mixed HEAD file.txt, repo不变，将index中file.txt回退到HEAD(repo内容).  
