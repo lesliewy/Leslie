@@ -64,6 +64,7 @@
   `git clone --depth 1 https://github.com/tensorflow/models`: 只clone最近一次commit, 如果项目太大，而又不关心commit 历史的可以使用.  
 
 #### add ####
+   `git add -u`:  update, 将所有本地修改(删除)过的被跟踪文件更新到index.
    `git add -p`: 选择某部分的修改添加到index, 而不是整个文件提交到版本库.  
 
 #### fetch ####
@@ -102,7 +103,7 @@
 #### checkout ####
   git checkout [<commit>] [--] --path: 从暂存区检出, 和 reset 不同: reset的默认值是HEAD，一般用来重置暂存区(--hard 除外), 检出的默认值是暂存区, 主要是覆盖工作区.
   git checkout <branch>:  改变HEAD指针, 用来切换分支.
-  
+
 
 #### status ####
   `git status`: 查看working tree 超前/落后远程版本库的次数.  **注意**：git 有一点延迟，如果长期没有使用本地git, `git status` 第一次执行可能不准，等几分钟. 也可以直接 `git fetch` 获取log等信息.  就可以 `git log origin/master` 看到别人的提交了.
@@ -214,9 +215,11 @@
   `git stash`: 将当前working tree修改存入栈.  
   `git stash list`: 列出栈中的内容.  
   `git stash pop`: 将栈顶的修改还原到working tree.  
-  `git stash apply stash@{0}`:  指定位置还原到working tree.  
+  `git stash apply stash@{0}`: 指定位置还原到working tree, 不指定stash@{0}时，将最近的一次进度恢复，和pop不同，不会删除最近的进度.
   `git stash drop`: 将栈顶(stash@{0})的删除.  
   `git stash drop stash@{2}`: 删除指定位置的stash.  
+  `git stash clear`: 清除所有存储的进度;
+  `git stash save "message"`: stash同时添加说明.
   `git stash --keep-index`: 已经git add 到staging area的不做stash.  
   `git stash -u`: 即git stash --include-untracked, 同时也将untracked stash.  
   `git stash --all`: 将所有的都stash, 包括untracked files, ignored files.  
