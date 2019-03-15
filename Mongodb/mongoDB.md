@@ -4,6 +4,10 @@
 * `sudo service mongod start`: 启动mongodb, 可以查看/var/log/mongodb/mongod.log, 是否启动成功.
   `mongo`:  进入mongo shell. MongoDB数据库默认是没有用户名及密码，不用安全验证的，只要连接上服务就可以进行CRUD操作
 
+* mac 下搭建mongodb
+  [Mac下安装和配置mongoDB](://www.cnblogs.com/wx1993/p/5187530.html)
+  启动: mongod -f /opt/mongodb-osx-x86_64-4.0.5/etc/mongod.conf
+
 * 新增用户、密码
   mongo正常登入:  
   use poetry
@@ -40,12 +44,17 @@ db.createUser(
 
   详细的角色信息: https://docs.mongodb.com/manual/core/security-built-in-roles/
 
+* admin: root/root123
+  poem: poem/poem123    
+  stock: stock/stock123
 
 * **相关配置文件**
   > /lib/systemd/system/mongod.service
   > /etc/mongod.conf
 
 * mongostat 是mongodb自带的监控工具.
+  mongostat -u root -p root123 --authenticationDatabase admin
+  studio3T:  mongodb 客户端;
 
 * 一些查询语句.
   `db.poem.find({}, {'author.name' : 1})`: 所有作者. `db.poem.find({}, {'author.name' : 1}).count()`

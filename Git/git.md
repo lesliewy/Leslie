@@ -177,6 +177,7 @@
   script/test1 是本地有，远程没有的；  script/create_table.sql 本地添加了一行； script/useful.sql 本地删除了一行; 0代表没有该文件，其他数字代表行数(非行号)  
 
 #### reset ####
+  * 主要用于本地仓库，如果已经push到远程，最好别用, 因为需要使用push -f 来强制update远程仓库。 如果在push -f 之前已经有人pull了，别人的仓库就会出现 ahead, 容易再次被别人push
   * commit level: 不带file path: 移动HEAD的指向.  
   `git reset --soft HEAD~`: 将HEAD移动到HEAD~, 即将repository回退至HEAD~, staging area 和 working tree仍然是HEAD.
   `git reset --soft HEAD^`: 同上，对最近的提交不满意时，撤销最新的提交以便重新提交;

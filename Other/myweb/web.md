@@ -1,3 +1,4 @@
+* npm init: 交互式生成package.json
 * npm install -g express-generator:  安装可执行的 express,  npm 需要安装node.js. -g 表示全局的，在/opt/node-v4.4.3-linux-x64 目录下.
 * npm install -g bower: 安装bower
 * npm install -g grunt-cli: 安装grunt
@@ -9,6 +10,11 @@
 * npm view babel-loader@7.0.0: 查看包信息. repository.url, deps 等;  version 是当前查看包的版本.
 * npm install babel-loader@7.1.2: 安装指定版本;
 * npm install --save-dev babel-loader@^7:  指定版本范围, major version是7的最大的版本，这里是7.1.5
+* npm adduser: 在本机添加npm user, 需要先注册，可以到官网注册
+* npm publish: 发布当前package, 需要先 npm adduser
+* npm pack: 打包当前目录, 会在当前目录生成tgz package.
+* npm install ../parbat/parbat-1.0.2.tgz:  安装本地package.
+
 
 * bower:  查看bower的命令说明.
 * bower install angular --save: 将依赖写入bower.json
@@ -102,7 +108,7 @@ bower install angular-bootstrap --save
   本地位置: /home/leslie/MyProject/AngularJS/my2
   这几个都是前端用到的，可以没有服务端，一般都是用node.js
 
-  带有服务端(Express)的环境搭建: 
+* 带有服务端(Express 是nodejs框架之一)的环境搭建: 
   * express: 生成express 框架
   * npm install: 下载所需的dependencies. 此时已经可以启动服务端了. npm start即可. package.json中默认有start配置.
                   http://127.0.0.1:3000
@@ -130,6 +136,18 @@ bower install angular-bootstrap --save
    node test.js,没有使用jasmine框架
    ./node_modules/jasmine-node/bin/jasmine-node test/test1.js: 使用了jasmine框架
 
+# karma
+* [karma 官网](http://karma-runner.github.io)
+* [常用的前端自动化测试工具介绍 —— Karma（二）](https://www.jianshu.com/p/9ab441d6a1f4)
+
+npm install --save-dev karma
+npm install --save-dev karma-jasmine karma-chrome-launcher jasmine-core
+npm install -g karma-cli: 全局安装,将命令路径(/usr/local/lib/node_modules/karma/bin/karma)添加到PATH中.
+karma init: 交互式设置测试环境;
+karma start: 执行karma测试;
+
+# phantomjs
+* 提供了js运行环境, 官网下载，添加到path, 直接phantomjs 命令进入;  也可以phantomjs a.js 来执行a.js.
 
 
 # Node.js
@@ -150,6 +168,13 @@ http://123.57.50.82:3838/
 * 入门参考: http://www.cnblogs.com/xuehaoyue/p/6410095.html
   http://www.cnblogs.com/vajoy/p/4650467.html
 
+# Vue
+* [vue 官网](https://cn.vuejs.org/)
+* [vue 教程](https://cn.vuejs.org/v2/guide/)
+* [vue-cli 环境配置](http://vuejs-templates.github.io/webpack/)
+
+# webpack + vue
+* [从零开始搭建一个简单的基于webpack的vue开发环境](https://segmentfault.com/a/1190000012789253)
 
 # TODO
 * 初期可以用表格的方式，后期改成图
