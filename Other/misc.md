@@ -17,3 +17,7 @@
   * 桌面软件  
   [编写图形界面程序 (PC/Mac)](https://upclinux.github.io/intro/07/gui/)  
   [桌面应用软件开发语言调查](https://www.jianshu.com/p/1ece6fd7a80c)  
+
+## 杂项 ##
+  * 看源码
+    > 比对自己修改过的文件: 先checkout 出tag: v4.2.1.RELEASE(checkout tag 方法见 git.md 中 tag 部分) 然后 compare with branches,  选择该tag.

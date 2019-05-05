@@ -243,7 +243,9 @@ snavigator
   [Alfred Workflow教程与实例](https://www.jianshu.com/p/729d5f9991b8)  
   [Alfred Workflows](http://alfredworkflow.com/)  
 
-
+## Sublime ##
+  * 打开多个文件
+    find . -iname xml.md|xargs open -t
 
 
 

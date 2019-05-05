@@ -22,6 +22,11 @@
   重复的key db0:keys不算在内，即db0:keys的key都是不重复的;  
   重复的key 也不会增加内存, 即used_memory_human  
 
+  * config
+  config get *
+  * client
+  client list:  查看连接.
+
   * cursor  
   慎重使用 keys *,  scan cursor [MATCH pattern] [COUNT count]  
   scan 0 match *3* count 5:   匹配key包含3的  
@@ -41,7 +46,7 @@
 
   * redis-cli -h 10.57.123.23 -p 23237:  连接到sentinel机器, 可以 info 查看信息.  
     sentinel masters: 查看master信息. 里面有 ip 和 port.  
-    sentinel slaves mymaster:  查看 mymaster 这个master的slaves.  
+    sentinel slaves mymaster:  查看slave信息. 查看 mymaster 这个master的slaves.  
     redis-cli -h {master-ip|salve-ip} -p {master-port|slave-port}: 连接某台redis. 可能需要auth {password}  
     scan 0 match \*3\* count 5: 正常使用redis命令.  
 

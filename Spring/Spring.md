@@ -30,7 +30,8 @@ Spring MVC的表单控制器(前篇 后篇): http://hi.baidu.com/mars_venus/blog
   关于spring的错误提示:   http://blog.sina.com.cn/s/blog_4b86f2ee01000765.html
 
 * 报invalid column name 错误:    首先检查sql语句;   再检查如果数据库中的字段是nullable的，返回的sql中存在为null的字段，再根据resultMap去映射时，会报此错，可以添加 nullValue=" ".
-* 在sql-map-config.xml的 <settings> </settings>中如果有useStatementNamespaces="false"，则调用 <select id="queryAInvByObject" resultMap="result"> 这样的语句时可以直接写queryAInvByObject,  否则需要<sqlMap namespace="Psmtainv">  "Psmtainv.queryAInvByObject"才可以,默认为true.
+* 在sql-map-config.xml的 <settings> </settings>中如果有useStatementNamespaces="false"，则调用 
+<select id="queryAInvByObject" resultMap="result"> 这样的语句时可以直接写queryAInvByObject,  否则需要<sqlMap namespace="Psmtainv">  "Psmtainv.queryAInvByObject"才可以,默认为true.
 * Don't know how to iterate over supplied "items" in &lt;forEach&gt;    :  此错一般是传给items的值类型不是collection的.
 
 * form:
@@ -59,7 +60,7 @@ Spring MVC的表单控制器(前篇 后篇): http://hi.baidu.com/mars_venus/blog
 
   * 每添加一个命名空间，都要添加schemaLocation，如添加了: xmlns:aop="http://www.springframework.org/schema/aop", 必需在xsi:schemaLocation 中添加一对: http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd"
 
-* AOP
+## AOP ##
   * 文档  
   [Spring 4.3 源码分析之 编程式Aop (一)](https://www.jianshu.com/p/5005215f522e)  
   
@@ -107,3 +108,25 @@ public class ExceptionAdvice {
   * 在resultMap中是否没有添加nullValue属性.
   * 重新redeploy,重启tomcat再试.
 
+## 源码阅读 ##
+  * Spring core
+    [Spring IoC 体系](https://www.cnblogs.com/yuanfuqiang/p/5834496.html)
+    [最详细的Spring核心IOC的源码分析(每次看都有不同的感悟)](https://blog.csdn.net/nuomizhende45/article/details/81158383)
+    [spring源代码分析：annotation支持的实现](https://shmilyaw-hotmail-com.iteye.com/blog/2424156)
+    [使用spring注解@Controller @Service @Repository简化配置](https://www.cnblogs.com/1016882435AIDA/p/5967358.html)
+    [从Controller注解切入了解spring注解原理](https://blog.csdn.net/jack_wang001/article/details/78781588)
+
+  * Spring-web
+    [Spring&WEB整合原理及源码分析](https://blog.csdn.net/uftjtt/article/details/80351102)  
+    [SpringMVC框架理解](https://blog.csdn.net/litianxiang_kaola/article/details/79169148)  
+    [深入剖析Spring Web源码（一） - 前言](https://blog.csdn.net/uftjtt/article/details/80281199)
+    [深入剖析Spring Web源码（二） - Web MVC介绍](https://blog.csdn.net/uftjtt/article/details/80281383)
+    [深入剖析Spring Web源码（三） - Spring Web MVC工作流](https://blog.csdn.net/uftjtt/article/details/80281437)
+    [深入剖析Spring Web源码（四） - DispatcherServlet的实现之通用Servlet和HTTP Servlet](https://blog.csdn.net/uftjtt/article/details/80281753)  
+    [SpringMVC源码剖析（四）- DispatcherServlet请求转发的实现](https://blog.csdn.net/wudiazu/article/details/78241709)
+    [手写Spring MVC，体验飞一般的感觉](https://blog.csdn.net/qq_41699100/article/details/81747582) 
+     
+  * Spring-data access
+    [Spring源码阅读：Spring如何支持各种ORM框架](http://www.mamicode.com/info-detail-145143.html)
+    [Spring JdbcTemplate源码深度剖析](https://blog.csdn.net/weixin_39723544/article/details/79907375)
+  

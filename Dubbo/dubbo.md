@@ -27,3 +27,8 @@
   容器中使用:
   
   * dubbo admin 已没人维护，存在一些bug. 推荐使用 [dubbokeeper](https://github.com/dubboclub/dubbokeeper)   
+
+  ## 源码阅读
+    * [手把手带你阅读dubbo源码(一) 服务暴露](https://blog.csdn.net/u012117723/article/details/80734653)
+
+    
