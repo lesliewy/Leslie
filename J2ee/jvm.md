@@ -60,7 +60,15 @@
     + IBM gc工具 v4.1.4(Pattern Modeling and Analysis Tool for Java Garbage Collector)  
    
     + Graph view all 界面: if ( Used Tenured after + request > Total Tenured after)  OutOfMemory 就会发生, 所有可能出现Used小于Total的情况下也会有OOM.  
-
+    
+    + jvisualvm 工具使用.
+      本地的话，直接命令行敲 jvisualvm 就好了.
+      远程，需要再服务端配置下, 新建jstatd.all.policy, 内容:
+      grant codebase "file:${java.home}/../lib/tools.jar" {
+         permission java.security.AllPermission;
+      };
+      然后: jstatd -J-Djava.security.policy=jstatd.all.policy 
+      最后在客户端的jvisualvm中添加下远程机器的ip即可.
 
 ## 性能 ## 
 

@@ -1,6 +1,7 @@
 ## 文档
   [官方 github](https://github.com/apache/incubator-dubbo)  
   [官方文档](http://dubbo.apache.org/books/dubbo-user-book/)
+  [官方解释服务调用过程](http://dubbo.apache.org/zh-cn/docs/source_code_guide/service-invoking-process.html)
 
 ## 配置
     <dubbo:application name="xixi_provider"  />
@@ -30,5 +31,9 @@
 
   ## 源码阅读
     * [手把手带你阅读dubbo源码(一) 服务暴露](https://blog.csdn.net/u012117723/article/details/80734653)
+    * [手把手带你阅读dubbo源码(二) 服务发现](https://blog.csdn.net/u012117723/article/details/80742790)
+    * [Dubbo源码阅读体会(一)](https://blog.csdn.net/u010681276/article/details/46416645)
+    * [Dubbo调度机制解析(LoadBalance扩展)](https://blog.csdn.net/qq838642798/article/details/78437330)
+    * [源码分析Dubbo负载算法](https://blog.csdn.net/prestigeding/article/details/80939248)
+    * [Dubbo 源码解析](https://blog.csdn.net/u013076044/column/info/23907)
 
-    
