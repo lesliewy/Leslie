@@ -62,7 +62,8 @@ Spring MVC的表单控制器(前篇 后篇): http://hi.baidu.com/mars_venus/blog
 
 ## AOP ##
   * 文档  
-  [Spring 4.3 源码分析之 编程式Aop (一)](https://www.jianshu.com/p/5005215f522e)  
+  [Spring 4.3 源码分析之 编程式Aop (一)](https://www.jianshu.com/p/5005215f522e) 
+  [Spring AOP 之编译期织入、装载期织入、运行时织入](https://blog.csdn.net/wenbingoon/article/details/22888619) 
   
   * 配置
   spring xml中添加: 
@@ -130,3 +131,10 @@ public class ExceptionAdvice {
     [Spring源码阅读：Spring如何支持各种ORM框架](http://www.mamicode.com/info-detail-145143.html)
     [Spring JdbcTemplate源码深度剖析](https://blog.csdn.net/weixin_39723544/article/details/79907375)
   
+  ## 记录 ##
+    * 自己开发二方包来使用.  例如需要开发自定义xml配置形式导入excel，统一日志记录等, 这些二方包如何加载到应用的项目中.
+      1. 如果开发的是xsd配置标签, 例如<your:excelImportTask><your:processor/></your:excelImportTask>, 二方包中可利用spring schema技术来解析xsd(extends AbstractSingleBeanDefinitionParser), 可以将配置的xsd生成bean。
+      2. 二方包中是普通的class, 可能带有注解, 项目应用中配置<bean> 来使用, 二方包中需提供调用方法.
+      3. 二方包中是普通的class, 可能带有注解, 项目应用中配置 <context:component-scan> 指定二方包中bean的路径来加载二方包中的类.
+      4. 二方包中是普通的class, 可能带有注解, 也提供了applicationContext.xml, 项目应用中加载该xml来使用二方包.
+      5. 二方包中是普通的class, 带有 @Aspect 等注解, 项目应用中配置<bean>来加载，不用提供调用方法也可实现拦截功能.

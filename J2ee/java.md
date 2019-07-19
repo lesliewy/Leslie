@@ -22,7 +22,8 @@
   * [详解 ThreadLocal](https://www.cnblogs.com/zhangjk1993/archive/2017/03/29/6641745.html)  
 
 ### 注解 ###
-  * [Java自定义注解和运行时靠反射获取注解](http://blog.csdn.net/bao19901210/article/details/17201173/)  
+  * [Java自定义注解和运行时靠反射获取注解](http://blog.csdn.net/bao19901210/article/details/17201173/) 
+  * [自定义注解详细介绍](https://blog.csdn.net/xsp_happyboy/article/details/80987484) 
 
 ### 异常 ###
   * 绝对不要直接catch exception, 因为 NPE、OutOfMemoryErrors 等异常也能被捕获.  
