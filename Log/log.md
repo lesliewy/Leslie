@@ -1,6 +1,7 @@
 ## log4j
 
 ## logback
+   * [logback和log4j比较，前者是后者改良，logback配置详解](https://blog.csdn.net/zbajie001/article/details/79596109)
    * 使用
    引用org.slf4j.slf4j-api.jar  和 ch.qos.logback.logback-classic.jar;
    在classpath中添加logback.xml,  例如放在 resource 目录下;
@@ -61,3 +62,6 @@
   * 使用class的全路径名作为Logger更好: Logger logger = LogManager.getLogger(PoniaImpl.class);
     而不是某个具体的名字, 因为可以输出 %logger{36}， 显示具体的class.  如果用 %method 会影响性能;   
     <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{1} - %msg%n"/>
+
+## 源码阅读
+  * [读logback源码系列文章（一）——对接slf4j](读logback源码系列文章（一）——对接slf4j)

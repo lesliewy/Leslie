@@ -133,7 +133,7 @@ public class ExceptionAdvice {
   
   ## 记录 ##
     * 自己开发二方包来使用.  例如需要开发自定义xml配置形式导入excel，统一日志记录等, 这些二方包如何加载到应用的项目中.
-      1. 如果开发的是xsd配置标签, 例如<your:excelImportTask><your:processor/></your:excelImportTask>, 二方包中可利用spring schema技术来解析xsd(extends AbstractSingleBeanDefinitionParser), 可以将配置的xsd生成bean。
+      1. 如果开发的是xsd配置标签, 由调用者配置自定义标签，例如<your:excelImportTask><your:processor/></your:excelImportTask>, 二方包中可利用spring schema技术来解析xsd(extends AbstractSingleBeanDefinitionParser), 可以将配置的xsd生成bean, 由调用者使用.
       2. 二方包中是普通的class, 可能带有注解, 项目应用中配置<bean> 来使用, 二方包中需提供调用方法.
       3. 二方包中是普通的class, 可能带有注解, 项目应用中配置 <context:component-scan> 指定二方包中bean的路径来加载二方包中的类.
       4. 二方包中是普通的class, 可能带有注解, 也提供了applicationContext.xml, 项目应用中加载该xml来使用二方包.

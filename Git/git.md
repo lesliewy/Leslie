@@ -335,4 +335,6 @@
   编辑.gitignore, 忽略掉其他的.  
   `git push -u origin jdk1.8.0_112`:  push  
 
+  * 撤销首次提交
+  `git update-ref -d HEAD`, 不能用git reset HEAD~
 
