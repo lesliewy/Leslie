@@ -20,13 +20,10 @@ repoNames=("Leslie"
            "Python"
            "mysolr"
           )
-paths=("/home/leslie/Work/Leslie"
-       "/home/leslie/MyProject/OkParse"
-       "/home/leslie/MyProject/StockAnalyse"
-       "/home/leslie/MyProject/R"
-       "/home/leslie/MyProject/MyWeb"
-       "/home/leslie/MyProject/Python"
-       "/home/leslie/MyProject/mysolr"
+paths=("/home/leslie/myprojects/GitHub/Leslie"
+       "/home/leslie/myprojects/GitHub/OkParse"
+       "/home/leslie/myprojects/GitHub/StockAnalyse"
+       "/home/leslie/myprojects/GitHub/Python"
       )
 
 # 注意： 该部分通过.gitignore来实现了。
