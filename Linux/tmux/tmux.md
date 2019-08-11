@@ -38,6 +38,13 @@
 ## 杂项 ##
   * 插件管理  
     Tmux Plugin Manager  
+    安装插件流程: 
+    1, .tmux.conf 中添加插件， 类似set -g @plugin '...'这样的行
+    2， 在终端中敲tmux启动tmux
+    3， 在tmux环境中敲<prefix>+I来安装相应的插件（ls ~/.tmux/plugins/可以看到抓下来的插件）
+        <prefix>就是tmux中前缀键  注意I是大写
+    4, 如果要升级所有插件，敲<prefix> + U
+    5, 如果要干掉某个插件，先从~/.tmux.conf中删掉对应的行，然后敲<prefix> + alt + u即可
 
   * 有些命令在tmux下无法使用  
     pbcopy/pbpaste
