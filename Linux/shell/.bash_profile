@@ -14,7 +14,9 @@ function myrm(){
 function gvim () { (/usr/bin/gvim -f "$@" &) }
 
 # 设置PS1
-export PS1='\[\e]0;\u@\h: \W\a\]${debian_chroot:+($debian_chroot)}\u@\h \t:\W\$'
+#export PS1='\[\e]0;\u@\h: \W\a\]${debian_chroot:+($debian_chroot)}\u@\h \t:\W\$'
+# 必须包含在\[ \]中，否则超长命令不会折行.
+export PS1="\[\e[32m\]\u\[\e[0m\]\[\e[33m\]@\[\e[0m\]\[\e[34m\]\h\[\e[0m\][\[\e[36m\]\W\[\e[0m\]] \[\e[31m\]\t\[\e[0m\]\$ "
 
 SHORTCUT_HOME=/home/leslie/myprojects/GitHub/Leslie/Shortcut
 set -o vi
