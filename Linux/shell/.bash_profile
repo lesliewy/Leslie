@@ -1,4 +1,8 @@
 
+if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+fi
+
 # 将 rm 转为 mv;  /bin/rm 仍然为系统的rm命令;
 function myrm(){
   timestamp=`date +%Y%m%d%H%M%S`
@@ -18,8 +22,8 @@ function gvim () { (/usr/bin/gvim -f "$@" &) }
 # 必须包含在\[ \]中，否则超长命令不会折行.
 export PS1="\[\e[32m\]\u\[\e[0m\]\[\e[33m\]@\[\e[0m\]\[\e[34m\]\h\[\e[0m\][\[\e[36m\]\W\[\e[0m\]] \[\e[31m\]\t\[\e[0m\]\$ "
 
-SHORTCUT_HOME=/home/leslie/myprojects/GitHub/Leslie/Shortcut
 set -o vi
+SHORTCUT_HOME=/home/leslie/myprojects/GitHub/Leslie/Shortcut
 alias cds='cd $SHORTCUT_HOME'
 alias cd1='cd ~/myprojects/'
 alias cd6='cd /usr/MyInterest'
