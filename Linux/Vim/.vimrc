@@ -1,6 +1,7 @@
 """ vim-markdown 插件
-au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set filetype=mkd
-let g:vim_markdown_folding_disabled=1
+""" 这两句报不支持了，还没查原因.
+""" au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set filetype=mkd
+""" let g:vim_markdown_folding_disabled=1
 """ vim-markdown 插件 END
 " An example for a vimrc file.
 "
@@ -113,28 +114,29 @@ set shiftwidth=3
 " map
 " map 
 "nmap \c I#<Esc>
-nmap <silent> <F4> :set opfunc=CountSpaces<CR>g@
+"nmap <silent> <F4> :set opfunc=CountSpaces<CR>g@
 " function! 重新定义该function
-function! CountSpaces(type, ...)
-          let sel_save = &selection
-          let &selection = "inclusive"
-          let reg_save = @@
-
-          if a:0  " Invoked from Visual mode, use '< and '> marks.
-            silent exe "normal! `<" . a:type . "`>y"
-          elseif a:type == 'line'
-            silent exe "normal! '[V']y"
-          elseif a:type == 'block'
-            silent exe "normal! `[\<C-V>`]y"
-          else
-            silent exe "normal! `[v`]y"
-          endif
-
-          echomsg strlen(substitute(@@, '[^ ]', '', 'g'))
-
-          let &selection = sel_save
-          let @@ = reg_save
-        endfunction
+" 这个报不支持了，还没查原因  let 语法也不支持了.
+"function! CountSpaces(type, ...)
+"          let sel_save = &selection
+"          let &selection = "inclusive"
+"          let reg_save = @@
+"
+"          if a:0  " Invoked from Visual mode, use '< and '> marks.
+"            silent exe "normal! `<" . a:type . "`>y"
+"          elseif a:type == 'line'
+"            silent exe "normal! '[V']y"
+"          elseif a:type == 'block'
+"            silent exe "normal! `[\<C-V>`]y"
+"          else
+"            silent exe "normal! `[v`]y"
+"          endif
+"
+"          echomsg strlen(substitute(@@, '[^ ]', '', 'g'))
+"
+"          let &selection = sel_save
+"          let @@ = reg_save
+"        endfunction
 
 " 折行不截断单词
 set linebreak
@@ -144,17 +146,17 @@ set relativenumber
 
 " javacomplete plugin begin
 setlocal omnifunc=javacomplete#Complete
-autocmd FileType java set omnifunc=javacomplete#Complete
-autocmd FileType java set completefunc=javacomplete#CompleteParamsInf
+"autocmd FileType java set omnifunc=javacomplete#Complete
+"autocmd FileType java set completefunc=javacomplete#CompleteParamsInf
 inoremap <buffer> <C-X><C-U> <C-X><C-U><C-P>
   inoremap <buffer> <C-S-Space> <C-X><C-U><C-P> 
-  autocmd Filetype java,javascript,jsp inoremap <buffer>  .  .<C-X><C-O><C-P>
+"  autocmd Filetype java,javascript,jsp inoremap <buffer>  .  .<C-X><C-O><C-P>
 " javacomplete plugin end
 
 " javabrowser plugin begin
-let JavaBrowser_Ctags_Cmd = '/usr/bin/ctags'
-let Javabrowser_Use_Icon = 1
-let JavaBrowser_Use_Highlight_Tag = 1
+"let JavaBrowser_Ctags_Cmd = '/usr/bin/ctags'
+"let Javabrowser_Use_Icon = 1
+"let JavaBrowser_Use_Highlight_Tag = 1
 map <F12> :JavaBrowser<CR> 
 imap <F12> <ESC><F12>
 " javabrowser plugin end
@@ -165,8 +167,8 @@ map <F3> :NERDTreeToggle<CR>
 " nerdtree plugin end
 
 " Conque shell plugin begin
-let g:ConqueTerm_CWInsert = 1
-:command -range=% CS :ConqueTermVSplit bash
+"let g:ConqueTerm_CWInsert = 1
+":command -range=% CS :ConqueTermVSplit bash
 " Conque shell plugin end
 
 " jk 按虚拟行移动
