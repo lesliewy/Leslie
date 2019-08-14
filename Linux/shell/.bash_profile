@@ -1,7 +1,7 @@
 
-if [ -f ~/.bashrc ]; then
-    . ~/.bashrc
-fi
+#if [ -f ~/.bashrc ]; then
+#    . ~/.bashrc
+#fi
 
 # 将 rm 转为 mv;  /bin/rm 仍然为系统的rm命令;
 function myrm(){
@@ -69,3 +69,4 @@ export R_HOME=/usr/lib/R
 export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/amd64/server/
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+echo "this is .bash_profile"

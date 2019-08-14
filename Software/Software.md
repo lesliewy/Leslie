@@ -201,6 +201,7 @@ snavigator
 
 
 ## Intellij Idea ##
+  * https://www.algerfan.cn/articles/2019/03/06/1563504766284.html 破解
   * Help -> Find Action: 查找各种有用的功能，不必记住快捷键.
     F3: 代码视图中将该行加入bookmark.    # + F3: 查看.   大项目便于记录.
     # + Shift + .:  折叠代码行;   # + .: 取消折叠;
