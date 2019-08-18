@@ -289,6 +289,9 @@
   * deb 文件  
     `sudo dpkg -i file.deb` 即可;
 
+  * apt 来安装.
+    snap 来安装， 在ubuntu 18.04中刚发现的， 有些package在这里的版本更高些.
+
   * 源码  
     一般流程
       ./configure --prefix="install path"; make; make install; 最好是先看下 readme 之类的文件;  
