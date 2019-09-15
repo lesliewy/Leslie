@@ -1,0 +1,3 @@
+set scrolloff=5
+# 添加系统剪切板, 默认是*寄存器
+set clipboard+=unnamed

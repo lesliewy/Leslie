@@ -1,3 +1,5 @@
+""" 在Ubuntu 上默认安装的是tiny-vim(输入vim命令找不到),  需要安装完整版: sudo apt install vim
+
 """ vim-markdown 插件
 """ 这两句报不支持了，还没查原因.
 """ au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set filetype=mkd
@@ -105,11 +107,15 @@ endif
 
 " 设置编码,打开中文文件.
 set encoding=utf-8
+" 设置一行字符数
+set textwidth=200
 " 设置tap为3个空格, expandtab 使用空格.
 set tabstop=3
 set expandtab
 " visual模式下，> < 整体移动时使用.
 set shiftwidth=3
+" 光标滚动到离顶部(底部)还剩几行时屏幕就开始滚动.
+set scrolloff=5
 
 " map
 " map 
@@ -175,3 +181,20 @@ map <F3> :NERDTreeToggle<CR>
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
+" 插件管理器Vundle begin
+set nocompatible                " required
+filetype off                    " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+" Add all your plugins here(note older versions of Vundle used Bundle instead of Plugin)
+" All of your Plugins must be added before the following line
+
+call vundle#end()               " required
+filetype plugin indent on       " required
+" Vundle end

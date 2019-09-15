@@ -2,6 +2,26 @@
 #if [ -f ~/.bashrc ]; then
 #    . ~/.bashrc
 #fi
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
 
 # 将 rm 转为 mv;  /bin/rm 仍然为系统的rm命令;
 function myrm(){
@@ -34,7 +54,7 @@ alias cd8='cd /home/leslie/Work/Leslie'
 alias cd9='cd ~/Work'
 #alias rm=myrm;
 # 列出当前目录下所有文件的绝对路径.
-alias lsp='ls | sed "s:^:`pwd`/:g"'
+alias lsp='ls -a| sed "s:^:`pwd`/:g"'
 
 #export JAVA_HOME=/opt/jdk/oracle/jdk1.6.0_45
 export JAVA_HOME=/opt/jdk/oracle/jdk1.7.0_45
