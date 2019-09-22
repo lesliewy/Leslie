@@ -6,7 +6,8 @@
 
 
 IFS=$'\n'
-for file in `find $1 -depth 1 -name "*.html"`; do
+# MacOS中 使用 -depth参数.
+for file in `find $1 -maxdepth 1 -name "*.html"`; do
    suffix=${file:(-8)}
    if [ $suffix = "old.html" ]; then
       # rm $file
