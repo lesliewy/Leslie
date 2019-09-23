@@ -1,1 +1,0 @@
-sed -n '/weui_media_title.*weixin/p' 图解金融.txt | sed -n '/删除/!p' | sed -n 's/<h4 class="weui_media_title" hrefs="\(.*\)">/\1/p' > 图解金融_url.txt
