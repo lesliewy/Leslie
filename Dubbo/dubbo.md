@@ -1,6 +1,6 @@
 ## 文档
   [官方 github](https://github.com/apache/incubator-dubbo)  
-  [官方文档](http://dubbo.apache.org/books/dubbo-user-book/)
+  [官方文档](http://dubbo.apache.org/zh-cn/docs/user/quick-start.html)
   [官方解释服务调用过程](http://dubbo.apache.org/zh-cn/docs/source_code_guide/service-invoking-process.html)
 
 ## 配置

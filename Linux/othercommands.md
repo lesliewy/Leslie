@@ -128,6 +128,8 @@
 
   * 查找文件find  
     `find . -iname "startweblogic.sh"`: 忽略文件名的大小写. 得出的文件路径是相对路径。如果使用 `find /home/leslie -iname "a*"` 则得出的是绝对路径.  
+    `find . -iname *.html|xargs grep -lir "幻读"`: 所有html文件中包含幻读的.
+    `find . -iname *.html -exec grep -lir "幻读" {} \;`: 同上，但是可以处理文件名中包含空格的情况.
 
   * 创建目录 删除目录  
     `mkdir -p a/b/c`: 创建目录，a,a中创建b,b中创建c,并且即使存在也不报错.  
