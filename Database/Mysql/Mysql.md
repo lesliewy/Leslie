@@ -23,6 +23,7 @@ dpkg: dependency problems prevent configuration of mysql-community-server:
 * Mac 安装.
   Tar.gz 方式安装:  解压至 /usr/local/mysql;  添加PATH;   mysqld: 启动
   root@localhost: fwgZapkk9R-P   -> root/root
+  mysql --help|grep cnf:   查看配置文件路径及优先级.
 
 * 修改root密码
    mysqld_safe --skip-grant-tables --skip-networking &

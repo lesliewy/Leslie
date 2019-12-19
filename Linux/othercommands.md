@@ -278,6 +278,7 @@
     `alien -i -c rpm-file`: -c 执行rpm中的脚本,如果没有-c，有些rpm会报错.  
     `rpm -ivh rpm-file`: red hat中可以用rpm命令来安装软件.  
     `rpm -qp --scripts rpm-file -q:query`: 一定要有-p表示读取rpm文件,而不是数据库.  
+    `rpm -e --nodeps xorg-x11-drv-nvidia-390xx-cuda-libs-390.132-1.el7.x86_64: 卸载软件包.
 
   * dpkg 类型  
     `dpkg -l |grep jdk`: 在ubuntu 中即使是rpm软件，也要用dpkg查询，因为alien 在安装时会将其转为debian类型的.  
