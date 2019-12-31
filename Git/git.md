@@ -231,6 +231,13 @@
   `git clean -d -n`:  dry run, 列出要删除的，但不会执行.  
   `git clean -d -x -n`:  -x 包含ignored.  
 
+#### fork ####
+fork 的仓库和源仓库同步:
+   `git remote add fork-from https://github.com/iluwatar/java-design-patterns.git`: remote 添加源仓库.
+   `git fetch --all`: 同步remote 中所有repo;
+   `git rebase fork-from/master`;   本地与源仓库同步; git status 可以看到已经比自己fork的远程repo 提前了.
+   `git push origin master`:  将自己的远程repo 和 源repo 同步;
+
 #### merge ####
   * conflicts  
   发生在对不同分支上同一文件的同一文本块以不同方式修改;  
