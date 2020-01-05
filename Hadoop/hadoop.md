@@ -31,7 +31,7 @@
       start-yarn.sh
 
 # hive 环境安装
-  必须先安装hadoop环境.
+  > 必须先安装hadoop环境.
   * 下载hive 安装包, 同样cp 解压 配置:
       https://www.jianshu.com/p/f209c4d013fb
       修改了 hive-site.xml 中: hive.metastore.schema.verification   值改成了false.

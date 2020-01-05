@@ -1,0 +1,27 @@
+# centos + docker 
+# docker build -f /Users/leslie/MyProjects/GitHub/Leslie/Docker/dockerfiles/centos/withdocker -t centos7_docker:v1 .
+# docker run --privileged --cap-add SYS_ADMIN -e container=docker -it  -d centos7_docker:v1 /usr/sbin/init
+# docker exec -it 3e bash
+# systemctl start docker: 启动docker
+
+#生成的新镜像以centos镜像为基础, FROM 会pull centos 镜像.
+FROM centos:7
+LABEL maintainer=wy
+
+RUN echo "set -o vi" >> ~/.bashrc
+
+RUN yum -y update
+RUN yum install -y yum-utils  device-mapper-persistent-data lvm2
+RUN yum-config-manager  --add-repo  https://download.docker.com/linux/centos/docker-ce.repo
+RUN yum install -y xfsprogs.x86_64   # /usr/bin/dockerd 启动时需要mkfs.ext4  拉下来的镜像中没有.
+#RUN yum install -y docker-ce docker-ce-cli containerd.io
+
+# 手动安装, 下载软件较慢, 需要准备好3个rpm
+RUN mkdir /root/soft/
+ADD *.rpm /root/soft/
+WORKDIR /root/soft/
+RUN yum install -y containerd.io-1.2.6-3.3.el7.x86_64.rpm
+RUN yum install -y docker-ce-cli-19.03.5-3.el7.x86_64.rpm
+RUN yum install -y docker-ce-19.03.5-3.el7.x86_64.rpm
+
+

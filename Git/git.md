@@ -1,33 +1,36 @@
 * 文档及文章  
-  [Git远程操作详解](http://www.ruanyifeng.com/blog/2014/06/git_remote.html)
+  [Git远程操作详解](http://www.ruanyifeng.com/blog/2014/06/git_remote.html)  
   [如何在 Git 中重置、恢复，返回到以前的状态](https://mp.weixin.qq.com/s?__biz=MjM5NjQ4MjYwMQ==&mid=2664611824&idx=1&sn=67be8d6a42bc9badd29fbf49fd7df316&chksm=bdce84b68ab90da0efba8f00b48c35e585fedabf245ec15ecf6f493b861c572ce2742f50a94d&scene=0&key=8b90303c306774bb86651129359cc29a86248864b9eb831c2f811f5b0c4e58efcb70539c8a644ba51f2c1a2708ca4c5507cc2bb14c0e216c43b7b6d95ecd8c5cd770cf899dd0a40e46d179bd2114a27c&ascene=0&uin=MjQ0NDE5OTIxOQ%3D%3D&devicetype=iMac+MacBookAir7%2C2+OSX+OSX+10.12.5+build(16F73)&version=12020810&nettype=WIFI&lang=zh_CN&fontScale=100&pass_ticket=Q9xqv1Q2QFNWCPJc3WGmhoc%2BduaPx6ltaih1erXhBtN0%2FIz02WC6rQNKsy5qPc6I)  
 
-### 命令 ###
+### 常用命令 ###
+  * 命令  
   `git` 查看git commands  
   `git add -help`: 查看git add 使用说明.  
   `git help add`:  更加详细的说明.  
   `git remote add origin https://github.com/lesliewy/helloworld.git`  
   `git push origin readme-edits`: 报错:  src refspec readme-edits does not match any.  
   `git show-ref`:  查看 ref, 如果没有使用  git push orgin HEAD:readme-edits  
-
-  * 上传Work/LESLIE的过程  
-  `git config --global user.name ""`  
-  `git config --global user.email ""`  
-  `git init`  
-  `git add <directory or file>`: 添加要让git管理的目录、文件.  
-  `git add -A`: 添加所有目录和文件到 staging area.  
-  `git commit -m "first commit"`  将staging area 内容提交到版本库, 即staging area 和 repository同步.  -a: 将所有修改的stage, 即woking tree 和 staging area 同步.  
-  `git remote add origin https://github.com/lesliewy/Leslie.git`: 添加远程库  
-  `git push -u origin master`: push到远程库, 第一次使用时必须加 -u origin 这个是将已经commit的push到github, 不是当前目录下所有.  
-
-  > `git init`  
-  > `git remote add origin git@gitlab.wy.cn:app/mygit-web.git`  
-  > `git fetch`  
-  > `git checkout -b mygit-web170707102248 origin/mygit-web170707102248`  
-
   `git ls-files`: 查看版本库里的内容.
 
+  * 上传Work/LESLIE的过程  
+    ```
+    git config --global user.name ""  
+    git config --global user.email ""  
+    git init  
+    git add <directory or file>: 添加要让git管理的目录、文件.  
+    git add -A: 添加所有目录和文件到 staging area.  
+    git commit -m "first commit"  将staging area 内容提交到版本库, 即staging area 和 repository同步.  -a: 将所有修改的stage, 即woking tree 和 staging area 同步.  
+    git remote add origin https://github.com/lesliewy/Leslie.git: 添加远程库  
+    git push -u origin master: push到远程库, 第一次使用时必须加 -u origin 这个是将已经commit的push到github, 不是当前目录下所有.  
+
+    git init
+    git remote add origin git@gitlab.wy.cn:app/mygit-web.git
+    git fetch
+    git checkout -b mygit-web170707102248 origin/mygit-web170707102248
+    ```
+
 #### branch ####
+  * 命令  
   `git branch 161017`  
   `git checkout 161017`  
   `git checkout -b 161017`: 等价于上面的两条.  
@@ -49,42 +52,50 @@
   `Shortcut/branches.sh`: 将branch名和描述放在一起.  
 
 #### clone ####
+  * 命令  
   git clone <版本库的网址> <本地目录名>: 默认将版本库url别s名设置为origin. 没有<本地目录名> 将默认为版本库名称.  
   git clone <版本库的网址> <本地目录名>: 默认将版本库名称设置为origin; 如果版本库有多个分支，clone下来的是主分支.  
-  `git clone -o jQuery https://github.com/jquery/jquery.git jquery`: 将origin名称设置为 jQeury. git remote查看, 放到本地的jquery目录.  
-  `git clone -b b1 https://github.com/jquery/jquery.git`:  clone jquery的b1分支.  
+  git clone -o jQuery https://github.com/jquery/jquery.git jquery`: 将origin名称设置为 jQeury. git remote查看, 放到本地的jquery目录.  
+  git clone -b b1 https://github.com/jquery/jquery.git`:  clone jquery的b1分支.  
 
   * clone 所有分支  
-  `git clone  https://git.coding.net/aiyongbao/tradepc.git      tradepc_zzgdapp`: 先clone master  
-  `git branch -r`: 显示远程分支;  
-  `git checkout dev5`: checkout 某个远程分支.  
-  如果clone下来的是master, 此时git branch 只会有一个master,  git branch -r 查看远程分支, 再通过git checkout -b [远程分支名] 来获取其他的远程分支.
+    ```
+    git clone  https://git.coding.net/aiyongbao/tradepc.git      tradepc_zzgdapp`: 先clone master  
+    git branch -r`: 显示远程分支;  
+    git checkout dev5`: checkout 某个远程分支.  
+    如果clone下来的是master, 此时git branch 只会有一个master,  git branch -r 查看远程分支, 再通过git checkout -b [远程分支名] 来获取其他的远程分支.
 
-  `git clone git@gitlab.wy.cn:app/billing.git`  
-  `git clone --depth 1 https://github.com/tensorflow/models`: 只clone最近一次commit, 如果项目太大，而又不关心commit 历史的可以使用.  
+    git clone git@gitlab.wy.cn:app/billing.git`  
+    git clone --depth 1 https://github.com/tensorflow/models`: 只clone最近一次commit, 如果项目太大，而又不关心commit 历史的可以使用.  
+    ```
 
 #### add ####
-   `git add -u`:  update, 将所有本地修改(删除)过的被跟踪文件更新到index.
-   `git add -p`: 选择某部分的修改添加到index, 而不是整个文件提交到版本库.  
+  * 命令  
+    `git add -u`:  update, 将所有本地修改(删除)过的被跟踪文件更新到index.
+    `git add -p`: 选择某部分的修改添加到index, 而不是整个文件提交到版本库.  
 
 #### fetch ####
-  `git fetch origin`: origin 是remote repository的shortname, 可以通过 `git remote -v` 查看. fetch 不会修改working dir 中文件. 该命令会fetch origin下的所有分支。 不可以 `git fetch origin/161017`
+  * 命令  
+    `git fetch origin`: origin 是remote repository的shortname, 可以通过 `git remote -v` 查看. fetch 不会修改working dir 中文件. 该命令会fetch origin下的所有分支。 不可以 `git fetch origin/161017`
 
 #### pull ####
+  * 命令  
   git pull <远程主机名> <远程分支名>:<本地分支名>: 取回远程主机某个分支的更新，再与本地的指定分支合并。它的完整格式稍稍有点复杂。  
   `git pull origin next:master`: 取回origin主机的next分支，与本地的master分支合并  
   `git pull origin next`: 远程分支是与当前分支合并，则冒号后面的部分可以省略. 取回origin/next分支，再与当前分支合并.   
   等价于:
-  > `git fetch origin`  
-  > `git merge origin/next`  
-
+  ```
+   git fetch origin  
+   git merge origin/next  
+  ```
   `git pull origin 161017`: 获取远程(url是origin，可以通过git remote -v 查看)分支名是161017至本地.  
   `git pull origin`:  当前分支与远程分支存在追踪关系，git pull就可以省略远程分支名。 `git branch -vv`（两个v），就能够看到本地分支跟踪的远程分支.  
   `git pull`: 当前分支只有一个追踪分支，连远程主机名都可以省略  
   `git branch --set-upstream-to=origin/myweb-web170711153255 mygit-web170711153255`: 设置mygit-web170711153255分支的upstream, 这样就可以直接git pull, git push了.  
-  git branch --unset-upstream jdk-8u111-linux-x64: unset upstream.  
+  `git branch --unset-upstream jdk-8u111-linux-x64`: unset upstream.  
 
 #### push ####
+  * 命令  
   git push <远程主机名> <本地分支名>:<远程分支名>  
   `git push origin master`: 如果省略远程分支名，则表示将本地分支推送与之存在"追踪关系"的远程分支（通常两者同名），如果该远程分支不存在，则会被新建.将本地的master分支推送到origin主机的master分支。如果后者不存在，则会被新建.  
   `git push origin --delete serverfix`: 通常用这个来删除远程分支, 不需要 origin/serverfix  
@@ -95,39 +106,46 @@
   `git push --all origin`: 将所有本地分支都推送到origin主机.  
 
 #### remote ####
+  * 命令  
   `git remote show origin`: 查看远程版本库情况.  
   `git remote add <主机名> <网址>`  
   `git remote rm <主机名>`  
   `git remote rename <原主机名> <新主机名>`  
 
 #### checkout ####
+  * 命令  
   git checkout [<commit>] [--] --path: 从暂存区检出, 和 reset 不同: reset的默认值是HEAD，一般用来重置暂存区(--hard 除外), 检出的默认值是暂存区, 主要是覆盖工作区.
   git checkout <branch>:  改变HEAD指针, 用来切换分支.
 
 
 #### status ####
+  * 命令  
   `git status`: 查看working tree 超前/落后远程版本库的次数.  **注意**：git 有一点延迟，如果长期没有使用本地git, `git status` 第一次执行可能不准，等几分钟. 也可以直接 `git fetch` 获取log等信息.  就可以 `git log origin/master` 看到别人的提交了.
-  > Changes to be committed:   对应已经暂存的，但未提交的. （绿色)  
-  > Changes not staged for commit: 对应未暂存的. (红色)  
-  第一个 ？主要表示staging area 和 repository 两个区域间的文件变化，一般会有两个字母来表示（A、M <绿色>）   
-  A 表示此文件已经是在追踪文件  
-  M 表示此文件已经在staging area区域修改，还没有提交到repository。  
-  第二个 ？ 主要表示working directory 和 staging area 两个区域间的文件变化  
-  M <红色> 表示此文件已经working  directory区域修改，还没有提交到staging area  
-  A_: 第一次加入追踪文件.  
-  AM: 加入追踪文件，尚未提交时，有过修改.  
-  _M: 已经在repository, 且修改过.  
-
+  
+  ```
+   Changes to be committed:   对应已经暂存的，但未提交的. （绿色)  
+   Changes not staged for commit: 对应未暂存的. (红色)  
+   第一个 ？主要表示staging area 和 repository 两个区域间的文件变化，一般会有两个字母来表示（A、M <绿色>）   
+   A 表示此文件已经是在追踪文件  
+   M 表示此文件已经在staging area区域修改，还没有提交到repository。  
+   第二个 ？ 主要表示working directory 和 staging area 两个区域间的文件变化  
+   M <红色> 表示此文件已经working  directory区域修改，还没有提交到staging area  
+   A_: 第一次加入追踪文件.  
+   AM: 加入追踪文件，尚未提交时，有过修改.  
+   _M: 已经在repository, 且修改过.  
+  ```
   `git status -s`: 查看working tree与本地版本库的差异文件.  
   `git status -sb`: 带上分支名及ahead/behind  
 
 #### commit ####
+  * 命令  
   `git commit --amend`: 修改上一次的提交，将当前staging area 的内容添加到上一次的提交中. 如果上一次commit之后staging area没有变化，则相当于修改commit message.  
   `git commit -m "修改" -a`
   `git add a.file b.file`: 将a.file b.file 修改同步到staging area, 忘了提交a.file b.file 的内容.  
   `git commit --amend`:  重新打开上一次提交, 修改文件中多了a.file b.file,  提交时间仍是上一次的.  
 
 #### log ####
+  * 命令  
   `git log --stat master`: 查看本地master分支的提交信息.  
   `git log --stat`: 查看当前分支的log  
   `git log --stat origin/master`: 查看远程版本库的提交信息.  
@@ -152,6 +170,7 @@
 
 
 #### diff ####
+  * 命令  
   `git diff`: 是查看working tree与index file的差别的。（git add后两者就同步, 另外，将已经commit的文件回退到之前的版本，working tree 和index也相同）  
   `git diff --cached` or `git diff --staged` 是查看index file与commit的差别的。（git commit后两者就同步）  
   `git diff HEAD`：是查看working tree和该分支最新版本的差别的。（你一定没有忘记，HEAD代表的是最近的一次commit的信息，即：git commit后working tree未做任何操作，那么两者就是同步的，没有差异信息）  
@@ -169,35 +188,39 @@
   `git difftool 161017`: 比对working directory 和版本库里的161017分支, 会比对所有不同的文件.  
   `git difftool -d master`:  比对master分支和当前分支， 注意: 需要加-d, 目录比对。  
   `git diff --stat 161017 origin/161017`: 只列出文件列表，不比对内容. 文件列表大概如下:  
+  ```
   > leslie@wy 17:30:43:script$git diff --stat old origin/old  
   > script/create_table.sql | 1 -  
   > script/test1            | 0  
   > script/useful.sql       | 1 +  
   > 3 files changed, 1 insertion(+), 1 deletion(-)  
   script/test1 是本地有，远程没有的；  script/create_table.sql 本地添加了一行； script/useful.sql 本地删除了一行; 0代表没有该文件，其他数字代表行数(非行号)  
+  ```
 
 #### reset ####
-  * 主要用于本地仓库，如果已经push到远程，最好别用, 因为需要使用push -f 来强制update远程仓库。 如果在push -f 之前已经有人pull了，别人的仓库就会出现 ahead, 容易再次被别人push
+  > 主要用于本地仓库，如果已经push到远程，最好别用, 因为需要使用push -f 来强制update远程仓库。 如果在push -f 之前已经有人pull了，别人的仓库就会出现 ahead, 容易再次被别人push
   * commit level: 不带file path: 移动HEAD的指向.  
-  `git reset --soft HEAD~`: 将HEAD移动到HEAD~, 即将repository回退至HEAD~, staging area 和 working tree仍然是HEAD.
-  `git reset --soft HEAD^`: 同上，对最近的提交不满意时，撤销最新的提交以便重新提交;
-  `git reset --mixed HEAD~`: 将HEAD移动到HEAD~, 同时unstaged, 即将staging area回退到HEAD~, 即repo 和 staging area都回退到HEAD~  
-  `git reset --hard HEAD~`: 将HEAD移动到HEAD~, 同时unstaged, update working tree, 即repo, staging area, working tree 都回退到 HEAD~, ** 慎重使用 hard，数据会丢失 **  
-  `git reset HEAD~`: 即 `git reset --mixed HEAD~`  
-  `git reset --hard`: 丢弃刚做的操作  
-  `git reset --hard origin/master`: 将当前所在的分支重置成远程分支origin/master. 本地修改将丢失. 
-  `git reset --hard origin/wy181130103117`: 远程分支覆盖, 如果从master分支切换到wy181130103117后，由于master分支已经提交了很多代码，git status 会出现 ahead 49, behind 53 这种情况,git pull 可能后出现冲突, 此时需要完全替换成 wy181130103117 的代码.
-  `git reset`: 等于 `git reset HEAD`, 是 `git add`的逆操作.
+    `git reset --soft HEAD~`: 将HEAD移动到HEAD~, 即将repository回退至HEAD~, staging area 和 working tree仍然是HEAD.
+    `git reset --soft HEAD^`: 同上，对最近的提交不满意时，撤销最新的提交以便重新提交;
+    `git reset --mixed HEAD~`: 将HEAD移动到HEAD~, 同时unstaged, 即将staging area回退到HEAD~, 即repo 和 staging area都回退到HEAD~  
+    `git reset --hard HEAD~`: 将HEAD移动到HEAD~, 同时unstaged, update working tree, 即repo, staging area, working tree 都回退到 HEAD~, ** 慎重使用 hard，数据会丢失 **  
+    `git reset HEAD~`: 即 `git reset --mixed HEAD~`  
+    `git reset --hard`: 丢弃刚做的操作  
+    `git reset --hard origin/master`: 将当前所在的分支重置成远程分支origin/master. 本地修改将丢失. 
+    `git reset --hard origin/wy181130103117`: 远程分支覆盖, 如果从master分支切换到wy181130103117后，由于master分支已经提交了很多代码，git status 会出现 ahead 49, behind 53 这种情况,git pull 可能后出现冲突, 此时需要完全替换成 wy181130103117 的代码.
+    `git reset`: 等于 `git reset HEAD`, 是 `git add`的逆操作.
 
   * file level: 带file path: 不移动HEAD，只改变 staging area, working tree.  
-  `git reset file.txt`: 等价于 git reset --mixed HEAD file.txt, repo不变，将index中file.txt回退到HEAD(repo内容).  
-  `git reset eb43bf8 file.txt`: 将index中file.txt回退到 eb43bf8.  
-  `git reset HEAD file`:   unstaging staging area, 回到working area.  
+    `git reset file.txt`: 等价于 git reset --mixed HEAD file.txt, repo不变，将index中file.txt回退到HEAD(repo内容).  
+    `git reset eb43bf8 file.txt`: 将index中file.txt回退到 eb43bf8.  
+    `git reset HEAD file`:   unstaging staging area, 回到working area.  
 
 #### blame ####
+  * 命令  
   `git blame filename`: 查看每一行是哪个提交最后改动的.  
 
 #### tag ###
+  * 命令  
   `git tag v0.1`: 给最近的commit打lightweight标签, 不带标签信息.  
   `git tag -n3`: 显示tag及内容.  
   `git tag -a v0.1 -m "修改完成"`: 给最近的commit打annotated标签同时添加message  
@@ -213,6 +236,7 @@
   `git reset --hard 39debacd3375cf4430c502aa6a99ac8655cfddae`: 回退到该版本.  
 
 #### stash ####
+  * 命令  
   `git stash`: 将当前working tree修改存入栈.  
   `git stash list`: 列出栈中的内容.  
   `git stash pop`: 将栈顶的修改还原到working tree.  
@@ -226,13 +250,14 @@
   `git stash --all`: 将所有的都stash, 包括untracked files, ignored files.  
 
 #### clean ####
+  * 命令  
   `git clean -f`: 删除所有的untracked files, 默认的git clean 并不会删除:fatal: clean.requireForce defaults to true and neither -i, -n, nor -f given; refusing to clean  
   `git clean -f -d`: 删除所有的untracked files 和 directories, 以及tracked但是为空的目录.  
   `git clean -d -n`:  dry run, 列出要删除的，但不会执行.  
   `git clean -d -x -n`:  -x 包含ignored.  
 
 #### fork ####
-fork 的仓库和源仓库同步:
+  * fork 的仓库和源仓库同步  
    `git remote add fork-from https://github.com/iluwatar/java-design-patterns.git`: remote 添加源仓库.
    `git fetch --all`: 同步remote 中所有repo;
    `git rebase fork-from/master`;   本地与源仓库同步; git status 可以看到已经比自己fork的远程repo 提前了.
@@ -249,47 +274,50 @@ fork 的仓库和源仓库同步:
     `git add`: 添加到staging area, 标志已解决冲突, 也可以用 git commit -a: 一步完成.  
     `git commit`:  提交.  
 
-  * 直接合并: 将会把所有的提交(包括log)合并在一起.  
+  * 直接合并  
+    将会把所有的提交(包括log)合并在一起.  
     将161017分支merge到master分支:
     ~/MyProject/StockAnalyse> git checkout master
     ~/MyProject/StockAnalyse> git merge --no-ff 161017
   
-  * 压合合并: 将被合并分支的所有提交压合成一个提交.  
+  * 压合合并  
+    将被合并分支的所有提交压合成一个提交.  
     将b3分支压合合并至master.  
     `git checkout master`  
     `git merge --squash b3`  
     `git status`: 未提交的是压合合并的内容.  
     `git commit -m "" -a`:  正常提交一次.  
   
-  * 拣选合并: 选择指定的commit来合并.  
-    只选择一个来合并:  
-  > `git checkout master`  
-  > `git cherry-pick <commitid>`  
-
-    选择多个来合并:  
-  > `git checkout master`  
-  > `git cherry-pick -n <commitid>`  
-  > `git cherry-pick -n <commitid>`  
-  > ...  
-  > `git commit`:  不带 -m 参数.  
+  * 拣选合并  
+    选择指定的commit来合并.  
+    * 只选择一个来合并:  
+      git checkout master  
+      git cherry-pick <commitid>  
+      
+    * 选择多个来合并:  
+      git checkout master  
+      git cherry-pick -n <commitid>  
+      git cherry-pick -n <commitid>  
+      ...  
+      git commit`:  不带 -m 参数.  
 
 ### 配置 ###
   * `git config --list`: 查看配置信息.  
 
   * 使用meld作为diff工具  
-  `git config --global diff.tool meld`  
-  `git difftool Markdown/readme.md`  
-  `git diffall`: 比较working tree 和 index.  
-  `git-diffall e73e7db9c0bdc40ea79c2ce6b498e4e3d4e858e4 cb3fcb5fc7502641db456ddda8889134ce381344`: 最初提交的文件比较.  
+    `git config --global diff.tool meld`  
+    `git difftool Markdown/readme.md`  
+    `git diffall`: 比较working tree 和 index.  
+    `git-diffall e73e7db9c0bdc40ea79c2ce6b498e4e3d4e858e4 cb3fcb5fc7502641db456ddda8889134ce381344`: 最初提交的文件比较.  
 
   * `git push origin master`: 报错 can't connect.  
-  `git config --global -l`: 查看有 http.proxy的设置, 去掉该设置:  `git config --global --unset http.proxy` 即可.  
+    `git config --global -l`: 查看有 http.proxy的设置, 去掉该设置:  `git config --global --unset http.proxy` 即可.  
 
   * .gitignore 忽略文件.  
-  # 用来注释.  
-  ponia.properties: 忽略所有名称是 ponia.properties, 包括 conf/my/ponia.properties  
-  /ponia.properties: 忽略根目录下的 ponia.properties, 不包括其他位置的  
-  ponia.properties/:  忽略目录ponia.properties  
+    "#" 用来注释.  
+    ponia.properties: 忽略所有名称是 ponia.properties, 包括 conf/my/ponia.properties  
+    /ponia.properties: 忽略根目录下的 ponia.properties, 不包括其他位置的  
+    ponia.properties/:  忽略目录ponia.properties  
 
 ### 其他 ###
   *  不需要到.git 所在的父目录执行操作，只要是git所管理的目录都可以执行操作，例如 `git commit`, `git push` 等。  
@@ -303,7 +331,8 @@ fork 的仓库和源仓库同步:
   * 回退某个文件  
   `git checkout -- api/pom.xml`: 放弃working tree的修改, 恢复版本库内容.  
   `git checkout .`: 放弃所有work tree的修改， 新增的文件仍然在本地;
-  > 回退本地所有修改，包括新增:
+  
+  * 回退本地所有修改，包括新增  
     `git reset --hard`: 新增的文件会从worktree中删除，但是本地仍然存在;
     `git clean -df`: 删除多余的本地文件(前面是 ?)   `git clean -n`: 查看要删除的文件;
 
@@ -311,7 +340,7 @@ fork 的仓库和源仓库同步:
   `git log filename`:查看所有提交历史,获取sha-1值.  
   `git show sha-1 filename`: 查看内容.  
 
-  * 查看某次提交的文件列表.  
+  * 查看某次提交的文件列表  
   `git log --stat`: 找出commitid  
   `git show --stat commitid`  
 
