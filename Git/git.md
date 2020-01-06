@@ -200,15 +200,16 @@
 #### reset ####
   > 主要用于本地仓库，如果已经push到远程，最好别用, 因为需要使用push -f 来强制update远程仓库。 如果在push -f 之前已经有人pull了，别人的仓库就会出现 ahead, 容易再次被别人push
   * commit level: 不带file path: 移动HEAD的指向.  
-    `git reset --soft HEAD~`: 将HEAD移动到HEAD~, 即将repository回退至HEAD~, staging area 和 working tree仍然是HEAD.
-    `git reset --soft HEAD^`: 同上，对最近的提交不满意时，撤销最新的提交以便重新提交;
-    `git reset --mixed HEAD~`: 将HEAD移动到HEAD~, 同时unstaged, 即将staging area回退到HEAD~, 即repo 和 staging area都回退到HEAD~  
+    `git reset --soft HEAD~`: 将HEAD移动到HEAD~, 即将repository回退至HEAD~, staging area 和 working tree仍然是HEAD.  
+    `git reset --soft HEAD^`: 同上，对最近的提交不满意时，撤销最新的提交以便重新提交;  
+    `git update-ref -d HEAD`: 撤销版本库的第一次commit, 第一次commit不能使用reset HEAD~ 这种方式.  
+    `git reset --mixed HEAD~`: 将HEAD移动到HEAD~, 同时unstaged, 即将staging area回退到HEAD~, 即repo 和 staging area都回退到HEAD~   
     `git reset --hard HEAD~`: 将HEAD移动到HEAD~, 同时unstaged, update working tree, 即repo, staging area, working tree 都回退到 HEAD~, ** 慎重使用 hard，数据会丢失 **  
-    `git reset HEAD~`: 即 `git reset --mixed HEAD~`  
+    `git reset HEAD~`: 即 `git reset --mixed HEAD~`   
     `git reset --hard`: 丢弃刚做的操作  
-    `git reset --hard origin/master`: 将当前所在的分支重置成远程分支origin/master. 本地修改将丢失. 
-    `git reset --hard origin/wy181130103117`: 远程分支覆盖, 如果从master分支切换到wy181130103117后，由于master分支已经提交了很多代码，git status 会出现 ahead 49, behind 53 这种情况,git pull 可能后出现冲突, 此时需要完全替换成 wy181130103117 的代码.
-    `git reset`: 等于 `git reset HEAD`, 是 `git add`的逆操作.
+    `git reset --hard origin/master`: 将当前所在的分支重置成远程分支origin/master. 本地修改将丢失.  
+    `git reset --hard origin/wy181130103117`: 远程分支覆盖, 如果从master分支切换到wy181130103117后，由于master分支已经提交了很多代码，git status 会出现 ahead 49, behind 53 这种情况,git pull 可能后出现冲突, 此时需要完全替换成 wy181130103117 的代码.  
+    `git reset`: 等于 `git reset HEAD`, 是 `git add`的逆操作.  
 
   * file level: 带file path: 不移动HEAD，只改变 staging area, working tree.  
     `git reset file.txt`: 等价于 git reset --mixed HEAD file.txt, repo不变，将index中file.txt回退到HEAD(repo内容).  

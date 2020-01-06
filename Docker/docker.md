@@ -36,6 +36,10 @@
   * docker commit `docker ps -q` mycentos:v1  : 将指定docker保存为新的image.
   
   * docker stop `docker ps -q`: 停止所有正在运行的容器;
+    docker stop `docker ps -aqf name=hive`: 
+    docker rm `docker ps -aqf name=hive`:  
+    docker exec -it `docker ps -q -f name=hive` bash:  filter string 方式查找.
+    docker stop `docker ps -aqf name=hive` && docker rm `docker ps -aqf name=hive`  : 使用 && 同时执行  
   * docker rm `docker ps -aq`: 删除所有容器;  ***如果没有commit, 之前的修改会丢失.***
   * docker rmi mycentos:v1  : 删除image
   
@@ -72,8 +76,10 @@
 	-e MYSQL_ROOT_PASSWORD=123456 \
 	-d mysql:5.7
 	-v：主机和容器的目录映射关系，":"前为主机目录，之后为容器目录
-    sudo docker exec -it mysql bash
-    mysql -uroot -p123456: 进入docker, 连接mysql
+	两种方式登录: 
+    sudo docker exec -it mysql bash  
+    mysql -uroot -p123456: 进入docker, 先进入容器, 连接mysql
+    mysql -u root -p -h 127.0.0.1 -p 3306:  直接在主机中登录.
 
   ### centos
     yum list docker-ce --showduplicates: 查看所有历史版本  

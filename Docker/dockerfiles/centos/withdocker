@@ -16,7 +16,7 @@ RUN yum-config-manager  --add-repo  https://download.docker.com/linux/centos/doc
 RUN yum install -y xfsprogs.x86_64   # /usr/bin/dockerd 启动时需要mkfs.ext4  拉下来的镜像中没有.
 #RUN yum install -y docker-ce docker-ce-cli containerd.io
 
-# 手动安装, 下载软件较慢, 需要准备好3个rpm
+# 手动安装, 下载软件较慢, 需要准备好3个rpm, 放在 docker build 中指定的目录.
 RUN mkdir /root/soft/
 ADD *.rpm /root/soft/
 WORKDIR /root/soft/

@@ -1,0 +1,46 @@
+# centos7 + hadoop + hive
+# docker build -f /Users/leslie/MyProjects/GitHub/Leslie/Docker/dockerfiles/hadoop_hive/hive -t lesliewy/centos7_hive:v1 .
+# docker run --privileged --cap-add SYS_ADMIN -e container=docker -it  --name hive -d -v /Users/leslie/MyProjects/GitHub/Leslie/Docker/dockerfiles/hadoop_hive/hadoop_conf/etc:/opt/hadoop-3.1.3/etc:ro -v /Users/leslie/MyProjects/GitHub/Leslie/Docker/dockerfiles/hadoop_hive/hadoop_conf/sbin:/opt/hadoop-3.1.3/sbin:ro -v /Users/leslie/MyProjects/GitHub/Leslie/Docker/dockerfiles/hadoop_hive/hive_conf/bin:/opt/apache-hive-3.1.2-bin/bin:ro -v /Users/leslie/MyProjects/GitHub/Leslie/Docker/dockerfiles/hadoop_hive/hive_conf/conf:/opt/apache-hive-3.1.2-bin/conf:ro lesliewy/centos7_hive:v1 /usr/sbin/init;
+# docker exec -it `docker ps -qf name=hive` bash
+#
+#
+# created on 2020-01-06
+
+FROM centos:7
+LABEL maintainer=wy
+
+RUN echo "set -o vi" >> ~/.bashrc
+
+RUN yum -y update
+# 安装 jre 1.8  需要用到
+RUN yum -y install java-1.8.0-openjdk.x86_64
+ENV JAVA_HOME=/etc/alternatives/jre_1.8.0
+
+#安装openssh-server、client  需要用到ssh
+RUN yum -y install openssh-server openssh-clients.x86_64 vim less wget
+#将密钥文件复制到/etc/ssh/目录中。这里要用root的权限生成key
+RUN mkdir -p /root/.ssh
+RUN ssh-keygen -t rsa -b 2048 -P '' -f /root/.ssh/id_rsa
+RUN cat /root/.ssh/id_rsa.pub > /root/.ssh/authorized_keys
+RUN cp /root/.ssh/id_rsa /etc/ssh/ssh_host_rsa_key
+RUN cp /root/.ssh/id_rsa.pub /etc/ssh/ssh_host_rsa_key.pub
+
+# 安装软件. build 指定目录需存在安装包.
+# 这里使用ADD 就不行，尚不清楚原因.
+COPY *.gz /opt/
+WORKDIR /opt/
+RUN tar -zxv -f hadoop-3.1.3.tar.gz
+RUN tar -zxv -f apache-hive-3.1.2-bin.tar.gz
+# 需要更新版本guava, 否则hive启动时会报错: Exception in thread "main" java.lang.NoSuchMethodError: com.google.common.base.Preconditions.checkArgument
+WORKDIR /opt/apache-hive-3.1.2-bin/
+COPY guava-25.0-jre.jar lib/
+RUN mv lib/guava-19.0.jar lib/guava-19.0.jar.bak 
+# 使用mysql 做hive的元数据库时，需要驱动.
+COPY mysql-connector-java-8.0.17.jar lib/
+
+# 添加环境变量 $HADOOP_HOME 不需要解释.
+RUN echo "HADOOP_HOME=/opt/hadoop-3.1.3" >> ~/.bashrc
+RUN echo "HIVE_HOME=/opt/apache-hive-3.1.2-bin" >> ~/.bashrc
+RUN echo PATH=$PATH:'$HADOOP_HOME'/bin:'$HADOOP_HOME'/sbin:'$HIVE_HOME'/bin >> ~/.bashrc
+
+

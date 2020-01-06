@@ -31,6 +31,10 @@ dpkg: dependency problems prevent configuration of mysql-community-server:
    update mysql.user set authentication_string=password('123qwe') where user='root':   修改密码, 5.7以前authentication_string 叫password
    flush privileges;
    quit;
+   
+   mysql8 中密码加密规则改变, 可能报错: ERROR 2059 (HY000): Authentication plugin 'caching_sha2_password' cannot be loaded:
+   ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root';
+   ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
 
 * 安装好后，连接时出现mysql.sock找不到的问题，可能是不在my.cnf配置文件中指定的位置(默认为/tmp/mysql.cnf).  此时需要修改该配置文件，或者ln下.
   也可能是根本就没有了，此时可以ps -ef |grep mysql ,先kill 掉所有mysql的进程,然后重启: service mysqld restart. 就会生成sock文件。
