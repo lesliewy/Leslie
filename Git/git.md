@@ -263,6 +263,7 @@
    `git fetch --all`: 同步remote 中所有repo;
    `git rebase fork-from/master`;   本地与源仓库同步; git status 可以看到已经比自己fork的远程repo 提前了.
    `git push origin master`:  将自己的远程repo 和 源repo 同步;
+   
 
 #### merge ####
   * conflicts  
@@ -274,6 +275,13 @@
     `git merge --abort`:  如果此时想回退merge操作,可以abort.  
     `git add`: 添加到staging area, 标志已解决冲突, 也可以用 git commit -a: 一步完成.  
     `git commit`:  提交.  
+    
+  * rebase 时发生冲突  
+    git rebase fork-from/dev_v1
+    resolve conflicts
+    git add .      不要commit
+    git rebase --continue   再次与本地的冲突, 再次解决.  
+    git rebase --skip   确定没有了, 就skip  
 
   * 直接合并  
     将会把所有的提交(包括log)合并在一起.  

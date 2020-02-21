@@ -33,7 +33,8 @@
   
   * docker inspect mysql|grep -i IP:  查找指定容器的ip信息. inspect 可以看到容器的底层信息.
   
-  * docker commit `docker ps -q` mycentos:v1  : 将指定docker保存为新的image.
+  * docker commit `docker ps -q` mycentos:v1  : 将指定docker保存为新的image. 容器内部的修改仍然保持在images中，如果docker start 仍然保持, 不过 docker rm 就没有了, 除非commit 
+     
   
   * docker stop `docker ps -q`: 停止所有正在运行的容器;
     docker stop `docker ps -aqf name=hive`: 
@@ -78,7 +79,7 @@
 	-v：主机和容器的目录映射关系，":"前为主机目录，之后为容器目录
 	两种方式登录: 
     sudo docker exec -it mysql bash  
-    mysql -uroot -p123456: 进入docker, 先进入容器, 连接mysql
+    mysql -uroot -p123456: 进入docker, 先进入容器, 连接mysql  等价于: docker exec -it mysql mysql -uroot -p123456
     mysql -u root -p -h 127.0.0.1 -p 3306:  直接在主机中登录.
 
   ### centos
@@ -88,6 +89,47 @@
     docker run -tdi --privileged centos:7 init: 不加 privileged   init  进入后, centos 没有启动systemctl.  
     sudo docker run --privileged --cap-add SYS_ADMIN -e container=docker -it --name my_centos  -d --restart=always centos:7 /usr/sbin/init
     
+  ### hadoop  
+      * 下载hadoop 安装包.
+        拷贝安装包
+    	docker cp hadoop-2.7.0.tar.gz hadoop_centos:/usr/local
+    	 进入容器
+    	docker exec -it hadoop_centos /bin/bash
+    	cd /usr/local/
+    	 解压安装包
+    	tar xvf hadoop-2.7.0.tar.gz
+       * 伪分布式安装:
+          vim /usr/local/hadoop-2.7.0/etc/hadoop/core-site.xml:
+          https://www.jianshu.com/p/f209c4d013fb  按照这里操作. 
+          start-dfs.sh ， 添加了:    
+              HDFS_DATANODE_USER=root
+    		  HDFS_NAMENODE_USER=root
+    		  HDFS_SECONDARYNAMENODE_USER=root
+    	  start-yarn.sh, 添加了:
+    	      YARN_RESOURCEMANAGER_USER=root
+    		  YARN_NODEMANAGER_USER=root 
+    	  mapred-site.xml: 配置了
+    	      mapreduce.framework.name=yarn, yarn.app.mapreduce.am.env=HADOOP_MAPRED_HOME=${HADOOP_HOME}, mapreduce.map.env=HADOOP_MAPRED_HOME=${HADOOP_HOME}, mapreduce.reduce.env=HADOOP_MAPRED_HOME=${HADOOP_HOME};
+    	  yarn-site.xml: 配置了:
+    	      yarn.nodemanager.aux-services = mapreduce_shuffle, yarn.nodemanager.aux-services.mapreduce.shuffle.class=org.apache.hadoop.mapred.ShuffleHandler, yarn.nodemanager.vmem-check-enabled=false
+    	  以上是在参考之外添加的，否则hive执行时抛异常。
+          hadoop namenode -format
+          start-dfs.sh
+          start-yarn.sh
+    
+  ### hive 环境安装
+      > 必须先安装hadoop环境.
+      * 下载hive 安装包, 同样cp 解压 配置:
+          https://www.jianshu.com/p/f209c4d013fb
+          修改了 hive-site.xml 中: hive.metastore.schema.verification   值改成了false.
+      schematool -initSchema -dbType derby: 初始化数据库， 使用derby 作为元数据库.
+      hive: 启动hive.
+      
+      * 使用mysql作为元数据库
+        https://www.jianshu.com/p/f209c4d013fb
+        启动mysql, 建database;
+        修改hive-site.xml;
+        schematool -initSchema -dbType mysql
     
 ## 杂项  
   * 占用空间过大  
@@ -97,7 +139,7 @@
     rm -rf /Users/leslie/Library/Containers/com.docker.docker/Data/*:  mac 上, 需要先退出docker, 清空一切;  
     
   * commit 、build 制作image区别  
-    docker history container: 可以查看容器操作历史, 比较区别;  
+    docker history image: 可以查看容器操作历史, 比较区别, 观察是否可以减小image大小.  
     docker commit 需要手动进入容器操作，以后就不知道怎么做出来的， Dockfile 方式清楚明白.   
     
   * 将centos中的docker容器配置成开机启动  
@@ -109,3 +151,12 @@
     2, 将容器设置自动启动  
       docker run -d -p 9100:9100 --name node-exporter --restart=always prom/node-exporter:  启动参数中加 --restart=always  
       
+  * docker -v 文件修改  
+    -v 挂载的文件, 如果在本机用 vi 修改，会导致文件 inode 发生变化, docker 里的文件会出现读写异常;  
+    cat nginx2.conf > nginx.conf  : 这样就不会导致inode变化了.
+    
+  * docker 容器内访问宿主机端口
+    http://host.docker.internal:8082/ok.htm
+      
+
+

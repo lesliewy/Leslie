@@ -204,4 +204,64 @@ begin
    dbms_output.put_line('hello,leslie.');
 end;
 
+-- mysql
+CREATE TABLE `t` (
+  `id` int(11) NOT NULL,
+  `a` int(11) DEFAULT NULL,
+  `b` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `a` (`a`),
+  KEY `b` (`b`)
+) ENGINE=InnoDB；
+
+CREATE TABLE `t1` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `val` int(10) DEFAULT 0,
+  `source` int(10) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `a` (`val`)
+) ENGINE=InnoDB；
+
+delimiter ;;
+create procedure idata()
+begin
+  declare i int;
+  set i=1;
+  while(i<=100000)do
+    insert into t values(i, i, i);
+    set i=i+1;
+  end while;
+end;;
+delimiter ;
+call idata();
+ 
+-- set autocommit = off;
+delimiter ;;
+DROP PROCEDURE IF EXISTS `idata1`;;
+create procedure idata1()
+begin
+  declare i int;
+  declare j int;
+  set i=1, j=1;
+  while(i<=5000000)do
+    insert into t1 values(i, j, j);
+    if (i mod 50000 = 0) then
+        begin
+          commit;
+        end;
+    end if;
+    if (i mod 500000 = 0) then
+      set j=j+1;
+    end if;
+    set i=i+1;
+  end while;
+  begin
+    commit;
+  end;
+end;;
+delimiter ;
+-- 调用 procedure.
+call idata1();
+
+
 

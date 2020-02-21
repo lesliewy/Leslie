@@ -272,6 +272,21 @@
     `rmsock <addr> <addrType>`: 如果第二列是tcp, addrType是tcpcb, udp 是inpcb.  
     `ps -ef |grep <pid>`
       
+  * curl  
+    curl http://www.google.com:   下载的是源码.
+    curl www.likegeeks.com --output likegeeks.html:  保存为文件。
+    curl -L www.likegeeks.com --output likegeeks.html: 支持重定向.
+    curl -C - example.com/some-file.zip --output MyFile.zip: 断点续传.
+    curl --connect-timeout 60 example.com:  指定连接超时时间(s) 
+    curl -m 60 example.com: 指定命令执行总时间(s)
+    curl -u username:password ftp://example.com:  指定用户名密码
+    curl -x 192.168.1.1:8080 http://example.com:  代理.
+    curl -s http://example.com --output index.html: 静默下载.
+    curl -I example.com: 不获取body, 只获取header等信息。
+    curl -H 'Connection: keep-alive' -H 'Accept-Charset: utf-8 ' http://example.com： 带上header
+    curl -d 'name=geek&location=usa' http://example.com:  POST方式.
+    
+    
 ## 软件安装  ##
   * rpm 类型  
     `alien -iv rpm-file`: 在ubuntu 使用alien 来安装rpm软件.  
@@ -279,6 +294,8 @@
     `rpm -ivh rpm-file`: red hat中可以用rpm命令来安装软件.  
     `rpm -qp --scripts rpm-file -q:query`: 一定要有-p表示读取rpm文件,而不是数据库.  
     `rpm -e --nodeps xorg-x11-drv-nvidia-390xx-cuda-libs-390.132-1.el7.x86_64: 卸载软件包.
+    `rpm -ql man-pages-zh-CN-1.5.2-4.el7.noarch`: 查看package安装了哪些文件.  
+    `rpm -qa | grep man`: 查看安装的packages中包含man的.  
 
   * dpkg 类型  
     `dpkg -l |grep jdk`: 在ubuntu 中即使是rpm软件，也要用dpkg查询，因为alien 在安装时会将其转为debian类型的.  

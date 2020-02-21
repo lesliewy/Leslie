@@ -5,7 +5,8 @@
 # mysql -u root -p -h 127.0.0.1 -P 3306: 主机登录.
 # created on 2020-01-06
 
-FROM mysql:8
+#FROM mysql:8
+FROM mysql:5.7
 LABEL maintainer=wy
 
 
