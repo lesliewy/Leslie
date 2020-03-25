@@ -383,3 +383,5 @@
   * 撤销首次提交
   `git update-ref -d HEAD`, 不能用git reset HEAD~
 
+  * 添加commit 模板
+  git config --local commit.template /Users/leslie/MyProjects/GitHub/Leslie/Git/commit_template

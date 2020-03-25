@@ -3,6 +3,16 @@
   cp conf/zoo_sample.cfg zoo.cfg  
   zkServer.sh start : 启动.  
   zkCli.sh -server 127.0.0.1:2181: 连接.  
+  
+  * docker  
+  cd /Users/leslie/Software/PS_ProgrammingSoft/Docker/mycentos: 先进入要发送到docker容器的本地目录;
+  docker build -f /Users/leslie/MyProjects/GitHub/Leslie/Docker/dockerfiles/centos/Dockerfile -t lesliewy/mycentos:v0 . : 执行docker file
+  docker run --privileged --name mycentos -p 2181:2181 -v /Users/leslie/MyProjects/GitHub/Leslie/Zookeeper/zoo.cfg:/opt/apache-zookeeper-3.5.6-bin/conf/zoo.cfg -it -d lesliewy/mycentos:v0 /usr/sbin/init 
+  docker exec -it mycentos bash
+  tar -zxv -f /root/soft/apache-zookeeper-3.5.6-bin.tar.gz -C /opt/
+  cd /opt/apache-zookeeper-3.5.6-bin;
+  bin/zkServer.sh start
+  
 
 ## 命令 ##
   `ls /dubbo/cn.wy.mygit.api.intf.CollectionInputParam/providers`: 查看生产者. 即通过<dubbo:service> 注册的.  

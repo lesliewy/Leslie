@@ -7,6 +7,8 @@
  -server_tokens off;  关闭服务器版本信息.  默认时 curl -I http://localhost 返回： Server: nginx/1.10.2  
 
   * docker
+  cd /Users/leslie/Software/PS_ProgrammingSoft/Docker/mycentos: 先进入要发送到docker容器的本地目录;
+  docker build -f /Users/leslie/MyProjects/GitHub/Leslie/Docker/dockerfiles/centos/Dockerfile -t lesliewy/mycentos:v0 . : 执行docker file
   docker run --privileged --name mycentos -p 6060:6060 -p 6050:6050 -v /Users/leslie/MyProjects/GitHub/Leslie/J2ee/nginx/nginx.conf:/opt/nginx/conf/nginx.conf:ro -it -d lesliewy/mycentos:v0 /usr/sbin/init
   docker exec -it mycentos bash 
   tar -zxv -f soft/nginx-1.16.1.tar.gz -C /opt/;
