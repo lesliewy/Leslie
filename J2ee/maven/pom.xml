@@ -36,7 +36,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- 定义常量, 后面可以用 ${springframework.version}来访问; -->
-    <springframework.version>2.5.6</springframework.version>
+    <springframework.version>4.3.19.RELEASE</springframework.version>
   </properties>
 
   <!-- 依赖调解:  第一原则:  最短路径优先. 传递性依赖的深度有关.    第二原则: POM中先声明者优先. -->
