@@ -16,7 +16,7 @@ ENDOFUSAGE
 # 变换分隔符。将换行符作为分隔符, 防止文件名中包含空格.
 IFS=$'\n'
 OLDIFS="$IFS"
-for docfile in `find $1 -iname "*.doc"`; do
+for docfile in `find $1 -iname "[!~]*.doc"`; do
    $antiword "$docfile"|grep $2 > /dev/null
    [ "$?" -eq 0 ] && echo "$docfile"
 done

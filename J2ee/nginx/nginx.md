@@ -27,6 +27,7 @@
   `nginx -s reload`: 重新载入配置文件.  kill -s HUP 2770 
   `nginx -s reopen`: 重启.  
   `nginx -t -c /path/to/nginx.conf`: 检查配置是否正确.  
+  `sudo nginx -t`:  可以查看nginx 默认使用的是哪个conf文件
   `ps -ef | grep nginx`: 找出pid.  
   `kill -QUIT 主进程号`：从容停止Nginx  
   `kill -TERM 主进程号`：快速停止Nginx  
