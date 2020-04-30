@@ -214,6 +214,7 @@
     `lsof -u leslie`: list open files. 查询leslie用户下面程序打开的程序.  
     `lsof -u leslie -a +d ~/leslie/`: 查询leslie用户下面打开~/leslie/目录下的程序情况. -a : and  
     `lsof |grep deleted`: 用 rm 删除文件后，但是df -m 空间没有增加，原因是存在某个进程正在使用该文件。此命令可以查看哪些这种情况.  
+    `lsof -p {pid}`: 查看某个进程打开的所有文件。
   
   * 设置hostname
     /etc/sysconfig/network 中添加一行: HOSTNAME=app2

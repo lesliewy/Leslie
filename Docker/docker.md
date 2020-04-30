@@ -61,6 +61,12 @@
   * tag  
     docker tag mycentos:v1 hadoop_centos:v1   : 修改image名称. 将mycentos:v1 修改成 hadoop_centos:v1
     
+  * search
+    docker search federatedai   查看docker hub中有相关的images.
+    https://registry.hub.docker.com/v2/repositories/federatedai/fateboard/tags  
+    https://registry.hub.docker.com/v1/repositories/redis/tags   通过url查看仓库中镜像的tags,  有可能没有latest;   有的image用v2的url能查，有的用v1的url. 注意
+    最后tags后面没有"/".
+  
   * push/pull  
     docker push lesliewy/mycentos:v0  : image命名要符合规范 dockerid/imagename;  执行push前需要docker login
      
@@ -131,10 +137,20 @@
         修改hive-site.xml;
         schematool -initSchema -dbType mysql
     
+  ### redis
+      docker pull redis:latest
+      docker run -p 6379:6379 --name redis -d redis:latest
+      两种方式连接redis:  
+          宿主机: redis-cli -h localhost -p 6379
+          容器: docker exec -it redis /bin/bash;  redis-cli;    
+      
 ## 杂项  
   * 占用空间过大  
+    docker system df -v: 详细查看空间使用情况.
     docker system prune:   
     docker system prune -a:  会删除所有container, image, 慎用;  
+    docker volume ls:  查看本地卷，这个也是占用空间大户.
+    docker 
     docker rm / docker rmi:  手动删除某些container, image, 看空间是否减少.  
     rm -rf /Users/leslie/Library/Containers/com.docker.docker/Data/*:  mac 上, 需要先退出docker, 清空一切;  
     

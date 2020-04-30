@@ -1,5 +1,6 @@
 # centos 基础镜像. 安装了部分软件. 
 # docker build -f /Users/leslie/MyProjects/GitHub/Leslie/Docker/dockerfiles/centos/Dockerfile -t lesliewy/mycentos:v0 .
+#      最后的. 标识的目录在"/Users/leslie/Software/PS_ProgrammingSoft/Docker/mycentos"
 # docker run --privileged --name mycentos -it -d lesliewy/mycentos:v0 /usr/sbin/init
 # docker exec -it `docker ps -qf name=mycentos` bash
 

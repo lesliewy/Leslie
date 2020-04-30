@@ -17,7 +17,7 @@ ENDOFUSAGE
 IFS=$'\n'
 OLDIFS="$IFS"
 for docfile in `find $1 -iname "[!~]*.doc"`; do
-   $antiword "$docfile"|grep $2 > /dev/null
+   $antiword "$docfile"|grep -i $2 > /dev/null
    [ "$?" -eq 0 ] && echo "$docfile"
 done
 IFS="$OLDIFS"

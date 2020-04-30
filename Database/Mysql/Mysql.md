@@ -25,6 +25,14 @@ dpkg: dependency problems prevent configuration of mysql-community-server:
   root@localhost: fwgZapkk9R-P   -> root/root
   mysql --help|grep cnf:   查看配置文件路径及优先级.
 
+* 安装后操作: 
+   mysql -u root -p:  root 登录.
+   CREATE DATABASE IF NOT EXISTS db_name DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+   CREATE USER 'wy'@'%' IDENTIFIED BY 'bond_123456';
+   GRANT ALL ON bond.* TO 'bond'@'%';
+   flush privileges;
+
+
 * 修改root密码
    mysqld_safe --skip-grant-tables --skip-networking &
    mysql -u root
