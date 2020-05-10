@@ -204,7 +204,7 @@ begin
    dbms_output.put_line('hello,leslie.');
 end;
 
--- mysql
+------------------------------------------------------------mysql--------------------------------------------------------------------
 CREATE TABLE `t` (
   `id` int(11) NOT NULL,
   `a` int(11) DEFAULT NULL,
@@ -212,7 +212,7 @@ CREATE TABLE `t` (
   PRIMARY KEY (`id`),
   KEY `a` (`a`),
   KEY `b` (`b`)
-) ENGINE=InnoDB；
+) ENGINE=InnoDB;
 
 CREATE TABLE `t1` (
   `id` bigint(20) NOT NULL auto_increment,
@@ -220,8 +220,19 @@ CREATE TABLE `t1` (
   `source` int(10) DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `a` (`val`)
-) ENGINE=InnoDB；
+) ENGINE=InnoDB;
 
+-- 创建一样的表.
+CREATE TABLE t1 like t;
+
+-- 导入另一张表的数据
+INSERT INTO t1 SELECT * from t where a=1;
+
+
+
+
+
+-- 插入数据.
 delimiter ;;
 create procedure idata()
 begin
@@ -235,6 +246,7 @@ end;;
 delimiter ;
 call idata();
  
+-- show variables like '%commit%'; -- 查看autocommit是否是ON;
 -- set autocommit = off;
 delimiter ;;
 DROP PROCEDURE IF EXISTS `idata1`;;
@@ -243,7 +255,7 @@ begin
   declare i int;
   declare j int;
   set i=1, j=1;
-  while(i<=5000000)do
+  while(i<=500000)do
     insert into t1 values(i, j, j);
     if (i mod 50000 = 0) then
         begin
@@ -260,6 +272,29 @@ begin
   end;
 end;;
 delimiter ;
+
+-- 每隔一段时间insert 一条记录.
+delimiter ;;
+DROP PROCEDURE IF EXISTS `insert1`;;
+create procedure insert1()
+begin
+  declare i int;
+  declare j int;
+  set i=500001, j=1;
+  while(i<=500010)do
+    insert into t values(i, j, j);
+    begin
+      commit;
+    end;
+    select sleep(5);
+    set i=i+1;
+  end while;
+  begin
+    commit;
+  end;
+end;;
+delimiter ;
+
 -- 调用 procedure.
 call idata1();
 

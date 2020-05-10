@@ -86,7 +86,7 @@
 	两种方式登录: 
     sudo docker exec -it mysql bash  
     mysql -uroot -p123456: 进入docker, 先进入容器, 连接mysql  等价于: docker exec -it mysql mysql -uroot -p123456
-    mysql -u root -p -h 127.0.0.1 -p 3306:  直接在主机中登录.
+    mysql -u root -p -h 127.0.0.1 -P 3306:  直接在主机中登录.
 
   ### centos
     yum list docker-ce --showduplicates: 查看所有历史版本  

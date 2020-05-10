@@ -27,9 +27,9 @@ dpkg: dependency problems prevent configuration of mysql-community-server:
 
 * 安装后操作: 
    mysql -u root -p:  root 登录.
-   CREATE DATABASE IF NOT EXISTS db_name DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
-   CREATE USER 'wy'@'%' IDENTIFIED BY 'bond_123456';
-   GRANT ALL ON bond.* TO 'bond'@'%';
+   CREATE DATABASE IF NOT EXISTS wy DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+   CREATE USER 'wy1'@'%' IDENTIFIED BY 'wy1_123456';
+   GRANT ALL ON wy.* TO 'wy1'@'%';
    flush privileges;
 
 
@@ -112,8 +112,22 @@ load data local infile '/Users/leslie/a.csv' into table `st_table`  character se
 alter table LOT_KELLY_CORP_RESULT change ODDS_CORP_NAME ODDS_CORP_NAME VARCHAR(50) NOT NULL;  修改 列的长度, 由20修改为50;
 
 * show indexes from LOT_KELLY_CORP_RESULT;  查看表 LOT_KELLY_CORP_RESULT 的索引.
-ALTER TABLE LOT_KELLY_CORP_RESULT DROP INDEX OK_URL_DATE;  删除索引;
-show keys from tblname;
+  ALTER TABLE LOT_KELLY_CORP_RESULT DROP INDEX OK_URL_DATE;  删除索引;
+  drop index a on t1: 删除索引;
+  show keys from tblname;
+
+* 锁
+   show processlist: 查看连接情况.  kill id, 可以kill掉连接.
+   show OPEN TABLES where In_use > 0;  查看打开的表的情况.
+   select concat("kill ",trx_mysql_thread_id,";") as kill_id from information_schema.INNODB_TRX where trx_lock_structs=0 and trx_weight=0 and trx_rows_locked=0 and trx_rows_modified=0 and trx_state='RUNNING';
+   select concat("kill ",b.ID,";") as kill_id from information_schema.INNODB_TRX a,information_schema.PROCESSLIST b where a.trx_mysql_thread_id=b.ID and a.trx_state='RUNNING' and b.TIME >=30;
+
+* 隔离级别
+   show variables like '%isolation%'
+   SELECT @@tx_isolation:   两个都可以查看隔离级别.
+
+* 优化
+  explain select * from t where a = 1;   or  desc select * from t where a = 1;   两个一样的，查看执行计划.
 
 * 主从复制.
   参考: http://blog.csdn.net/goustzhu/article/details/9339621
@@ -151,6 +165,7 @@ show keys from tblname;
 ### 命令 ###
 * show global variables;  查看mysql 全局变量.   
    explicit_defaults_for_timestamp: 时间戳相关.
+  show create table t1: 查看t1的建表语句.
 
 ### 性能 ###  
   * [MySQL执行计划解读](https://www.cnblogs.com/zping/p/5368860.html)  

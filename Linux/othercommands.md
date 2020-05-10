@@ -286,6 +286,9 @@
     curl -I example.com: 不获取body, 只获取header等信息。
     curl -H 'Connection: keep-alive' -H 'Accept-Charset: utf-8 ' http://example.com： 带上header
     curl -d 'name=geek&location=usa' http://example.com:  POST方式.
+    curl -w "http: %{http}\ndns: %{dns}\nredirect: %{redirect}\ntime_connect: %{time_connect}\ntime_appconnect: %{time_appconnect}\ntime_pretransfer: %{time_pretransfer}\ntime_starttransfer: %{time_starttransfer}\nsize_download: %{size_download}\nspeed_download: %{speed_download}\n--------\ntime_total: %{time_total}\n" http://localhost:7181/home:
+         使用curl来测试各种时间.
+    curl -w @a.txt http://localhost:7181/home:  从文件读取， 其中a.txt中内容即上面的引号部分.
     
     
 ## 软件安装  ##
