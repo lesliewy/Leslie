@@ -41,7 +41,7 @@ vim -p filenames:   tab标签打开文件;  :tabnew filename 新增一个文件;
     :grep root *.txt      : 类似于在命令行中执行,会显示出当前所有以txt为扩展名文件中包含root的行. 只作为显示，不能跳到该文件.
     :vimgrep root *.txt   : 在vim7.3中即使没有打开全部的txt文件,使用:cn可以跳转到该文件. :n 是在当前文件中下一处.
     :argdo %s/root/leslie/e 对当前buffers中的所有文件进行查找替换.
-ggguG:  全部转为小写;    gggUG全部转为大写;  gu0: 光标所在处至行首转为小写；   gU$: 光标所在处至行尾转为大写;
+ggguG:  全部转为小写;    gggUG全部转为大写;  gu0: 光标所在处至行首转为；   gU$: 光标所在处至行尾转为大写;
 guw,  gu5w: 单词转换；   guG:  所在处至最后    gu1G: 所在处至文章开始.
 
  4, 删除

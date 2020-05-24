@@ -14,30 +14,44 @@ BG=40     # 取值 40 41 42 43 44 45 46 47
 # repo名字需与路径对应
 repoNames=("Leslie" 
            "OkParse" 
-           "StockAnalyse" 
-           "R"
-           "MyWeb"
            "Python"
-           "mysolr"
+           "StockAnalyse" 
+           "springboot1"
+           "webtest"
           )
-paths=("/home/leslie/myprojects/GitHub/Leslie"
-       "/home/leslie/myprojects/GitHub/OkParse"
-       "/home/leslie/myprojects/GitHub/StockAnalyse"
-       "/home/leslie/myprojects/GitHub/Python"
+paths=("/Users/leslie/MyProjects/GitHub/Leslie"
+       "/Users/leslie/MyProjects/GitHub/OkParse"
+       "/Users/leslie/MyProjects/GitHub/Python"
+       "/Users/leslie/MyProjects/GitHub/StockAnalyse"
+       "/Users/leslie/MyProjects/GitHub/springboot1"
+       "/Users/leslie/MyProjects/GitHub/webtest"
       )
 
 # 注意： 该部分通过.gitignore来实现了。
 # 忽略的目录, 有些没有加入git管理.利用关联数组实现.
 # ${!animals[@]}: 所有的key
 # ${animals[@]}: 所有的value
-declare -A ommitedDirs
-ommitedDirs=([${repoNames[0]}]="----"
-             [${repoNames[1]}]="backup/|charts/|html/|parse/target/|"
-             [${repoNames[2]}]="backup/|gen/|history/|html/|stanalyse/stanalyselog/|stanalyse/target/|stanalyseweb/target/|"
-             [${repoNames[3]}]="shinyAppLog/|"
-             [${repoNames[4]}]="angular-basic/app/bower_components/|angular-basic/node_modules/|web.log|"
-             [${repoNames[5]}]="Backup/|"
-             [${repoNames[6]}]="SolrMongoImporter/.classpath|SolrMongoImporter/.project|SolrMongoImporter/bin/|SolrMongoImporter/build/"
+
+# mac 上能用-a, 不能用-A
+#declare -A ommitedDirs
+declare -a ommitedDirs
+
+# mac 上不能用${repoNames[0]}, 去掉{}
+#ommitedDirs=([${repoNames[0]}]="----"
+#             [${repoNames[1]}]="backup/|charts/|html/|parse/target/|"
+#             [${repoNames[2]}]="backup/|gen/|history/|html/|stanalyse/stanalyselog/|stanalyse/target/|stanalyseweb/target/|"
+#             [${repoNames[3]}]="shinyAppLog/|"
+#             [${repoNames[4]}]="angular-basic/app/bower_components/|angular-basic/node_modules/|web.log|"
+#             [${repoNames[5]}]="Backup/|"
+#             [${repoNames[6]}]="SolrMongoImporter/.classpath|SolrMongoImporter/.project|SolrMongoImporter/bin/|SolrMongoImporter/build/"
+#            )
+ommitedDirs=([$repoNames[0]]="----"
+             [$repoNames[1]]="backup/|charts/|html/|parse/target/|"
+             [$repoNames[2]]="backup/|gen/|history/|html/|stanalyse/stanalyselog/|stanalyse/target/|stanalyseweb/target/|"
+             [$repoNames[3]]="shinyAppLog/|"
+             [$repoNames[4]]="angular-basic/app/bower_components/|angular-basic/node_modules/|web.log|"
+             [$repoNames[5]]="Backup/|"
+             [$repoNames[6]]="SolrMongoImporter/.classpath|SolrMongoImporter/.project|SolrMongoImporter/bin/|SolrMongoImporter/build/"
             )
 
 numOfRepos=${#repoNames[*]}

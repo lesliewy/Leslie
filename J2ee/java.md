@@ -63,7 +63,10 @@
   * IBM的很多工具都是一个可执行jar,  可以用:   java -jar jca423.jar 来打开.   java –Xmx500m –jar
   如果打开某个文件时出现outofmemory,可以增大此参数.  
 
-
+### java && jar ###
+  * springboot 下的jar解压与压缩:
+    jar -xvf xxx.jar 
+    jar -cvfm0 xxx.jar META-INF/MANIFEST.MF *
 
 ## 错误及解决 ##
   * java.lang.SecurityException: Prohibited package name: java.perftuning.objectcreation.pool1  
@@ -75,6 +78,7 @@
   *  如果字节发送时用 UTF-8编码,如bytebuffer.append(responseMsg.getBytes("UTF-8"))  接收时用GBK编码还原会显示乱码:"receive00[" + bytebuffer.toString("GBK") + "]"  
   
   * JDK中的LOG可以参看 <<深入体验Java_Web开发内幕-核心基础>> 的 page 209.  
+
 
 
 =================================useful urls==========================================================

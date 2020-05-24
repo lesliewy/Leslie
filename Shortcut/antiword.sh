@@ -3,7 +3,7 @@
 # 需要先下载antiword.
 
 # 配置antiword 路径.
-antiword=/Users/leslie/bin/antiword
+antiword=/Users/leslie/MyProjects/GitHub/Leslie/Shortcut/antiword
 
 USAGE(){
    cat << ENDOFUSAGE

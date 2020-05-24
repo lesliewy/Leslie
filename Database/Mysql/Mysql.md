@@ -1,24 +1,39 @@
 * Linux安装.
   http://dev.mysql.com/downloads/mysql/:  下载.  mysql-server_5.7.17-1ubuntu16.04_amd64.deb-bundle.tar  解压后得到组件包.
 
+ 方式一:
+    sudo dpkg -i mysql-community-server_5.7.17-1ubuntu16.04_amd64.deb:  直接安装报错:
+    Unpacking mysql-community-server (5.7.17-1ubuntu16.04) ...
+    dpkg: dependency problems prevent configuration of mysql-community-server:
+     mysql-community-server depends on mysql-common (>= 5.7.17-1ubuntu16.04); however:
+      Package mysql-common is not installed.
+     mysql-community-server depends on mysql-client (= 5.7.17-1ubuntu16.04); however:
+      Package mysql-client is not installed.
+     mysql-community-server depends on libmecab2 (>= 0.996-1.2ubuntu1); however:
+      Package libmecab2 is not installed.
 
-sudo dpkg -i mysql-community-server_5.7.17-1ubuntu16.04_amd64.deb:  直接安装报错:
-Unpacking mysql-community-server (5.7.17-1ubuntu16.04) ...
-dpkg: dependency problems prevent configuration of mysql-community-server:
- mysql-community-server depends on mysql-common (>= 5.7.17-1ubuntu16.04); however:
-  Package mysql-common is not installed.
- mysql-community-server depends on mysql-client (= 5.7.17-1ubuntu16.04); however:
-  Package mysql-client is not installed.
- mysql-community-server depends on libmecab2 (>= 0.996-1.2ubuntu1); however:
-  Package libmecab2 is not installed.
-
-  正确顺序: 
-   sudo dpkg -i mysql-common_5.7.17-1ubuntu16.04_amd64.deb
-   sudo dpkg -i mysql-community-client_5.7.17-1ubuntu16.04_amd64.deb
-   sudo dpkg -i mysql-client_5.7.17-1ubuntu16.04_amd64.deb
-   sudo apt-get install libmecab2：  会提示创建root用户密码.
-   sudo dpkg -i mysql-community-server_5.7.17-1ubuntu16.04_amd64.deb
-   mysql -u root -p:  使用root登录.  
+    正确顺序: 
+     sudo dpkg -i mysql-common_5.7.17-1ubuntu16.04_amd64.deb
+     sudo dpkg -i mysql-community-client_5.7.17-1ubuntu16.04_amd64.deb
+     sudo dpkg -i mysql-client_5.7.17-1ubuntu16.04_amd64.deb
+     sudo apt-get install libmecab2：  会提示创建root用户密码.
+     sudo dpkg -i mysql-community-server_5.7.17-1ubuntu16.04_amd64.deb
+     mysql -u root -p:  使用root登录.  
+  
+   方式二(官方安装包):
+   使用官方安装包: mysql-5.7.29-el7-x86_64.tar.gz
+   配置my.cnf;
+   rpm -qa|grep libaio: 确认是否安装libaio;
+   yum install  libaio-devel.x86_64;
+   mkdir data;  mkdir log;  确保my.cnf 中的datadir, log 等目录存在.
+   
+   ./bin/mysqld --initialize-insecure --user=tdops --basedir=/data01/spartan/mysql/mysql-5.7.29-el7-x86_64 --datadir=/data01/spartan/mysql/mysql-5.7.29-el7-x86_64/data: 先初始化一些mysql运行必须的表等数据, 每个mysql数据库只执行一次. 
+       如果 datadir 指定的目录中存在数据，执行会报错.
+   
+   ./bin/mysqld_safe --defaults-file=/data01/spartan/mysql/mysql-5.7.29-el7-x86_64/conf/my.cnf &   启动;
+   /data01/spartan/mysql/mysql-5.7.29-el7-x86_64/bin/mysql --defaults-file=/data01/spartan/mysql/mysql-5.7.29-el7-x86_64/conf/my.cnf -u root -p  连接mysql
+   
+   kill mysql:  kill 掉 bin/mysqld,  而不是 bin/mysqld_safe
 
 * Mac 安装.
   Tar.gz 方式安装:  解压至 /usr/local/mysql;  添加PATH;   mysqld: 启动
@@ -31,6 +46,9 @@ dpkg: dependency problems prevent configuration of mysql-community-server:
    CREATE USER 'wy1'@'%' IDENTIFIED BY 'wy1_123456';
    GRANT ALL ON wy.* TO 'wy1'@'%';
    flush privileges;
+   
+* 权限
+   show grants for 'replica'@'%';  查看 'replica'@'%' 拥有的权限.
 
 
 * 修改root密码

@@ -309,6 +309,12 @@
       git cherry-pick -n <commitid>  
       ...  
       git commit`:  不带 -m 参数.  
+      
+  * 选择另一个分支上的部分文件.
+    不是一整个commit, 而不是不同commit里的文件。
+    1， 使用idea -> merge branches,  选择分支，勾选 no-commit(相当于 --no-commit 选项). 会将所有不同合并，但不会提交，A 或 M状态;
+        git reset; 将所有cached的回退到本地;  
+        git add -- {needed files}
 
 ### 配置 ###
   * `git config --list`: 查看配置信息.  

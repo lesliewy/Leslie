@@ -214,8 +214,17 @@
     `lsof -u leslie`: list open files. 查询leslie用户下面程序打开的程序.  
     `lsof -u leslie -a +d ~/leslie/`: 查询leslie用户下面打开~/leslie/目录下的程序情况. -a : and  
     `lsof |grep deleted`: 用 rm 删除文件后，但是df -m 空间没有增加，原因是存在某个进程正在使用该文件。此命令可以查看哪些这种情况.  
+                          是否删除文件是看该文件的inode结构中的引用计数。 只有引用计数为0才会删除文件。
+                          比如，删除某些log文件后，空间没有释放, 应用进程仍然在使用.
     `lsof -p {pid}`: 查看某个进程打开的所有文件。
   
+  * hcache
+     安装: wget https://silenceshell-1255345740.cos.ap-shanghai.myqcloud.com/hcache   mv hcache /usr/local/bin  chmod a+x hcache;
+     free -m;  or  vmstat -t 3;  中buffer/cache过高;
+     1, 回收buffer/cache: sudo su;  echo 3 > /proc/sys/vm/drop_caches:表示清除pagecache和slab分配器中的缓存对象。
+     2, 使用hcache.   hcache --top 3: 最大的3个文件；
+        hcache -pid 12345
+     
   * 设置hostname
     /etc/sysconfig/network 中添加一行: HOSTNAME=app2
     在/etc/hosts 中添加: 192.16.150.185 app2 这样就能找到主机.  
@@ -244,6 +253,29 @@
     [如何查看 Linux 中所有正在运行的服务](https://mp.weixin.qq.com/s?__biz=MjM5NjQ4MjYwMQ==&mid=2664611829&idx=1&sn=4084b7b06c8b87766941418756602e32&chksm=bdce84b38ab90da56215e270af0818fbe68ca2790d8620220c45f5945f3bf1fc2fcfbe8121d3&scene=0&key=98ef00339cfc89306acd4862740ce1c2dcb58b43d3f837b62b3706d4d9bce8400265d6058f0d3fb5c07f6445bcf2f9215cfad684cc67fa46964950b02672919ca88b326821ce9c76d360b411190fd427&ascene=0&uin=MjQ0NDE5OTIxOQ%3D%3D&devicetype=iMac+MacBookAir7%2C2+OSX+OSX+10.12.5+build(16F73)&version=12020810&nettype=WIFI&lang=zh_CN&fontScale=100&pass_ticket=Q9xqv1Q2QFNWCPJc3WGmhoc%2BduaPx6ltaih1erXhBtN0%2FIz02WC6rQNKsy5qPc6I)  
     不同的系统有不同的命令, 例如centos 可以用systemctl, MAC os 可以用 launchctl  
     `systemctl --type service`: 按照service 来查看.  
+    
+    chkconfig
+       维护/etc/rc[0~6] d 文件夹的命令行工具
+    
+    service
+       旧的服务管理。
+    
+    systemctl
+       慢慢取代service, chkconfig.  负责控制systemd系统和服务管理器, Systemd目的是要取代Unix时代以来一直在使用的init系统.
+       systemctl list-unit-files:  列出所有可用单元。
+       systemctl list-units: 列出运行中的单元. 
+       systemctl --failed: 列出所有失败的单元.
+       systemctl list-unit-files --type=mount: 查看挂载点.
+       systemctl list-unit-files --type=socket: 查看套接口.
+       systemctl show mysqld:  查看服务的详细信息.
+       
+       systemctl status|start|stop|restart|reload| mysqld: 管理mysqld服务。
+       systemctl enable|disable httpd:  激活、禁止服务.
+       systemctl kill httpd: 杀死服务.
+       
+       /lib/systemd/system/keepalived.service: 由systemctl管理的服务必须提供该文件.
+       /etc/keepalived/keepalived.conf:  默认情况下， systemctl 到/etc/{service-name}/ 找配置文件.
+       /var/log/messages:  systemctl 的日志信息.    也可以用 journalctl -f  来观察.
 
 ## 网络 ##
   `netstat -anp|grep 7001`: 找出7001端口的pid，可以再根据 ps aux|grep pid :  得出该进程信息.  
@@ -320,6 +352,7 @@
   * 源码  
     一般流程
       ./configure --prefix="install path"; make; make install; 最好是先看下 readme 之类的文件;  
+      通过源码安装的，如果./configure时没有指定安装路径，一般在 /usr/local 目录下. find . -iname *keepalive*
 
 ## 其他命令 ##
   * bc: 可以进行 + - * / ^ % 计算.  
@@ -364,3 +397,5 @@
 ## USEFUL URLS ##
   * [Core utils](http://www.gnu.org/software/coreutils/coreutils.html)    
   * [Linux Kernel](https://www.kernel.org/)  
+  * [shell变量命名规范](https://www.cnblogs.com/gentlemanhai/p/11835793.html)
+  
