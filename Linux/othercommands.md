@@ -291,6 +291,9 @@
   `tcpdump -i eth0 port 25 -w a.cap`: 同上但是将结果导入到a.dat文件。  分析tcpdump导出的文件可以: tcpdump -r a.cap
       也可以用wireshark 打开a.cap来分析, 既简单又直观方便.    
   `tcpdump -i eth0 -nn -X 'port 25 and src host 127.0.0.1'`: 可以指定监听的expression,并且十六进制输出(X).    
+  sudo tcpdump ip host 10.57.30.43 and ! \(10.57.211.23 or 10.57.31.26 \) : 监控10.57.30.43 与其他所有主机的通信, 除了10.57.211.23 和 10.57.31.26.  没有指定src和dst, 表示都监控.
+  sudo tcpdump ip src host 10.57.30.43 and dst host ! \(10.57.211.23 or 10.57.31.26 or 10.57.31.163\):  监控所有src为10.57.30.43, dst 不为...的通信情况.
+
 
   * ssh & sftp  
     `ssh payopr@211.138.236.209 -p 3222`: ssh 连接同时指定端口为3222.  
@@ -332,6 +335,7 @@
     `rpm -e --nodeps xorg-x11-drv-nvidia-390xx-cuda-libs-390.132-1.el7.x86_64: 卸载软件包.
     `rpm -ql man-pages-zh-CN-1.5.2-4.el7.noarch`: 查看package安装了哪些文件.  
     `rpm -qa | grep man`: 查看安装的packages中包含man的.  
+    `rpm -qi man-pages-zh-CN-1.5.2-4.el7.noarch`: 查看包的安装时间等信息.
 
   * dpkg 类型  
     `dpkg -l |grep jdk`: 在ubuntu 中即使是rpm软件，也要用dpkg查询，因为alien 在安装时会将其转为debian类型的.  

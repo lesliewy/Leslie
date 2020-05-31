@@ -6,6 +6,8 @@
   deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
   sudo apt-get install docker-ce
   
+  默认情况下, 需要使用sudo docker, 因为docker使用的socket 是root的:  sudo usermod -aG docker $USER  可解决.
+  
   * centos  
     uname -a
     cat /etc/os-release
@@ -20,6 +22,8 @@
     repo 是docker hub 中的, 仓库中名称;
     image 是repo:tag 拉取到本地后的镜像, 静态的;
     container 是启动后的image, docker ps 中的, 动态的;
+    
+  * docker ps -a --no-trunc: 输出完整的command.
     
   * docker build -t my_centos:v1 .   执行当前目录下的Dockerfile,  名字必须是Dockerfile,  大小写敏感; 执行后会生成一个新的image: my_centos, tag 为 v1
   * docker run -d -it my_centos:v1 /bin/bash:  对于centos镜像，需要加上-it, 否则刚启动就停止了.
@@ -52,6 +56,7 @@
     docker save -o /data/testimage.tar testimage:latest   将 testimage:latest 导出到本机 /data/ 目录下.
     docker rmi testimage:  删除docker 中镜像。  有些image太大，不用的时候可以备份到u盘中.
     docker load < /data/testimage.tar   导入image。  
+    docker load -i bond-web.tar:  导入image
     
   * diff  
     docker diff container: 文件系统上有哪些改变。  
@@ -147,6 +152,7 @@
 ## 杂项  
   * 占用空间过大  
     docker system df -v: 详细查看空间使用情况.
+    docker rmi $(docker images -q -f dangling=true):  删除悬挂镜像.  比如: 重复build同名的image, 前一个就会变成dangling状态.
     docker system prune:   
     docker system prune -a:  会删除所有container, image, 慎用;  
     docker volume ls:  查看本地卷，这个也是占用空间大户.

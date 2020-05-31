@@ -1,7 +1,7 @@
 * Linux安装.
   http://dev.mysql.com/downloads/mysql/:  下载.  mysql-server_5.7.17-1ubuntu16.04_amd64.deb-bundle.tar  解压后得到组件包.
 
- 方式一:
+ 方式一(多个pakcage.):
     sudo dpkg -i mysql-community-server_5.7.17-1ubuntu16.04_amd64.deb:  直接安装报错:
     Unpacking mysql-community-server (5.7.17-1ubuntu16.04) ...
     dpkg: dependency problems prevent configuration of mysql-community-server:
@@ -13,27 +13,45 @@
       Package libmecab2 is not installed.
 
     正确顺序: 
-     sudo dpkg -i mysql-common_5.7.17-1ubuntu16.04_amd64.deb
-     sudo dpkg -i mysql-community-client_5.7.17-1ubuntu16.04_amd64.deb
-     sudo dpkg -i mysql-client_5.7.17-1ubuntu16.04_amd64.deb
-     sudo apt-get install libmecab2：  会提示创建root用户密码.
-     sudo dpkg -i mysql-community-server_5.7.17-1ubuntu16.04_amd64.deb
-     mysql -u root -p:  使用root登录.  
+     dep包:
+        sudo dpkg -i mysql-common_5.7.17-1ubuntu16.04_amd64.deb
+        sudo dpkg -i mysql-community-client_5.7.17-1ubuntu16.04_amd64.deb
+        sudo dpkg -i mysql-client_5.7.17-1ubuntu16.04_amd64.deb
+        sudo apt-get install libmecab2：  会提示创建root用户密码.
+        sudo dpkg -i mysql-community-server_5.7.17-1ubuntu16.04_amd64.deb
+        mysql -u root -p:  使用root登录.  
+     
+     rpm包:
+        sudo rpm -ivh mysql-comunity-commonxxx.rpm
+         
+         
   
-   方式二(官方安装包):
-   使用官方安装包: mysql-5.7.29-el7-x86_64.tar.gz
-   配置my.cnf;
-   rpm -qa|grep libaio: 确认是否安装libaio;
-   yum install  libaio-devel.x86_64;
-   mkdir data;  mkdir log;  确保my.cnf 中的datadir, log 等目录存在.
+   方式二(官方安装包, 全量):
+      使用官方安装包: mysql-5.7.29-el7-x86_64.tar.gz
+      直接解压使用.
+      配置my.cnf;
+      rpm -qa|grep libaio: 确认是否安装libaio;
+      yum install  libaio-devel.x86_64;
+      mkdir data;  mkdir log;  确保my.cnf 中的datadir, log 等目录存在.
+      ./bin/mysqld --initialize-insecure --user=tdops --basedir=/data01/spartan/mysql/mysql-5.7.29-el7-x86_64 --datadir=/data01/spartan/mysql/mysql-5.7.29-el7-x86_64/data: 先初始化一些mysql运行必须的表等数据, 每个mysql数据库只执行一次. 
+          如果 datadir 指定的目录中存在数据，执行会报错.
+      ./bin/mysqld_safe --defaults-file=/data01/spartan/mysql/mysql-5.7.29-el7-x86_64/conf/my.cnf &   启动;
+      /data01/spartan/mysql/mysql-5.7.29-el7-x86_64/bin/mysql --defaults-file=/data01/spartan/mysql/mysql-5.7.29-el7-x86_64/conf/my.cnf -u root -p  连接mysql
+      kill mysql:  kill 掉 bin/mysqld,  而不是 bin/mysqld_safe
+      
+      确保安全，最好用mysql用户初始化:
+          sudo groupadd mysql;
+          sudo useradd -r -g mysql mysql;
+          my.cnf 修改;
+          sudo chmod -R 755 /usr/local/mysql    
+          sudo chown -R mysql:mysql /usr/local/mysql   修改mysql 安装包、datadir log 目录权限.   这里将包解压到 /usr/local/mysql,  其下有datadir
+          sudo  ./bin/mysqld --initialize-insecure  --user=mysql 
+          
    
-   ./bin/mysqld --initialize-insecure --user=tdops --basedir=/data01/spartan/mysql/mysql-5.7.29-el7-x86_64 --datadir=/data01/spartan/mysql/mysql-5.7.29-el7-x86_64/data: 先初始化一些mysql运行必须的表等数据, 每个mysql数据库只执行一次. 
-       如果 datadir 指定的目录中存在数据，执行会报错.
-   
-   ./bin/mysqld_safe --defaults-file=/data01/spartan/mysql/mysql-5.7.29-el7-x86_64/conf/my.cnf &   启动;
-   /data01/spartan/mysql/mysql-5.7.29-el7-x86_64/bin/mysql --defaults-file=/data01/spartan/mysql/mysql-5.7.29-el7-x86_64/conf/my.cnf -u root -p  连接mysql
-   
-   kill mysql:  kill 掉 bin/mysqld,  而不是 bin/mysqld_safe
+   方式三:
+      rpm -ivh https://repo.mysql.com//mysql80-community-release-el7-3.noarch.rpm:  先安装源.  参数可以是url也可以是文件.
+           安装了 /etc/yum.repos.d/ 目录下.    rpm -e 卸载时也是到这里找文件删除.
+      
 
 * Mac 安装.
   Tar.gz 方式安装:  解压至 /usr/local/mysql;  添加PATH;   mysqld: 启动
@@ -47,6 +65,11 @@
    GRANT ALL ON wy.* TO 'wy1'@'%';
    flush privileges;
    
+* mysql 重新初始化
+   停止mysql;
+   删除my.cnf中datadir 指定目录下所有内容.
+   sudo  ./bin/mysqld --initialize-insecure  --user=mysql 
+
 * 权限
    show grants for 'replica'@'%';  查看 'replica'@'%' 拥有的权限.
 
