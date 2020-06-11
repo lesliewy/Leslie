@@ -15,7 +15,15 @@
   `Ctrl + b + ?`: 快捷键帮助  
   `Ctrl + b + x`: 删除当前pane  
   `Ctrl + b + &`: 删除当前window  
+  `Ctrl + b + |`: 将window划分为左右两个pane.
+  `Ctrl + b + -`: 将window划分为上下两个pane.
+  `Ctrl + b + j`: ijkl 进入不同的pane.
   `Ctrl + b + z`: 多个pane时，最大化当前pane;  再按一次，恢复;  
+  `Ctrl + b + Ctrl h`: 调整pane的宽度. 同样可以Ctrl i, k, l
+  `Ctrl + b + {`:  swap pane
+  `Ctrl + b + q`: 多个pane时，显示各个pane的序号.
+  `Ctrl + b + o`: 在各个pane间，按转序跳转。跳转的先后可能是Ctrl + b + q 所显示的顺序.
+  `Ctrl + b + '`: 输入window index 来跳转. 0-9 不够用时使用这个.
 
 ## 配置 ##
   * 安装  

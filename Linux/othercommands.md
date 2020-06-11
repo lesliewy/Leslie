@@ -163,6 +163,9 @@
   * 文件编码  
     `iconv -f CP936 -t utf-8 1.txt -o 2.txt`: 将原来的windows下的cp936编码转为utf-8编码，否则在linux下如果软件不知道cp936，会造成乱码. 如果要查看编码,可以在vim中用set fileencoding, 如果安装了enca，也可以用.  
     `iconv -l`: 列出iconv支持的所有编码.  
+    
+  * dd 生成、备份
+  sudo dd if=/dev/zero bs=1024 count=1000000 of=/data01/wy/1Gb.file:  生成一个1G大小的文件.
 
 ## 系统管理 ##
   * env:查看环境变量  
@@ -287,14 +290,24 @@
   `ifconfig ppp1 down`: 关闭ppp1连接。
 
   * tcpdump  
+  抓的包是在网卡上的，不一定会被送入内核处理.
+  通过注册一种虚拟的底层网络协议来完成对网络报文(准确的说是网络设备)消息的处理权。当网卡接收到一个网络报文之后，它会遍历系统中所有已经注册的网络协议. 例如以太网协议、x25协议处理模块来尝试进行报文的解析处理
   `tcpdump -i eth0 port 25`: 监听eth0 上的25号端口.  
   `tcpdump -i eth0 port 25 -w a.cap`: 同上但是将结果导入到a.dat文件。  分析tcpdump导出的文件可以: tcpdump -r a.cap
       也可以用wireshark 打开a.cap来分析, 既简单又直观方便.    
   `tcpdump -i eth0 -nn -X 'port 25 and src host 127.0.0.1'`: 可以指定监听的expression,并且十六进制输出(X).    
+  sudo tcpdump -i eth0 arp -n:   监听 arp 协议包.
+  sudo tcpdump -n \(vrrp or arp\):   监听 arp 或者 vrrp 协议包.
   sudo tcpdump ip host 10.57.30.43 and ! \(10.57.211.23 or 10.57.31.26 \) : 监控10.57.30.43 与其他所有主机的通信, 除了10.57.211.23 和 10.57.31.26.  没有指定src和dst, 表示都监控.
   sudo tcpdump ip src host 10.57.30.43 and dst host ! \(10.57.211.23 or 10.57.31.26 or 10.57.31.163\):  监控所有src为10.57.30.43, dst 不为...的通信情况.
 
-
+  * arp
+    arp -a: 显示所有interface的arp缓存表. 
+    arp -i eth0: 显示特定interface的arp缓存表.
+    
+  * nmap
+    cat /proc/net/arp |grep "88:3f:d3:5b:b4:74":  根据mac查询ip, 或者反过来.   
+  
   * ssh & sftp  
     `ssh payopr@211.138.236.209 -p 3222`: ssh 连接同时指定端口为3222.  
     `sftp -oPort=3222 payopr@211.138.236.209`: sftp 连接,同时指定端口为3222.  
@@ -325,6 +338,8 @@
          使用curl来测试各种时间.
     curl -w @a.txt http://localhost:7181/home:  从文件读取， 其中a.txt中内容即上面的引号部分.
     
+  * iptables
+    sudo iptables -L:  列出当前所有规则.
     
 ## 软件安装  ##
   * rpm 类型  
@@ -336,6 +351,7 @@
     `rpm -ql man-pages-zh-CN-1.5.2-4.el7.noarch`: 查看package安装了哪些文件.  
     `rpm -qa | grep man`: 查看安装的packages中包含man的.  
     `rpm -qi man-pages-zh-CN-1.5.2-4.el7.noarch`: 查看包的安装时间等信息.
+    `sudo rpm -ev mysql-connector-python-8.0.11-1.el7.x86_64 --nodeps`:  删除package.  --nodeps: 表示不考虑依赖包. 不加，会因为依赖包的存在而无法删除.
 
   * dpkg 类型  
     `dpkg -l |grep jdk`: 在ubuntu 中即使是rpm软件，也要用dpkg查询，因为alien 在安装时会将其转为debian类型的.  

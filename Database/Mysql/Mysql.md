@@ -142,7 +142,7 @@ source create_table.sql;   执行外部文件;
 mysqldump -u root -p mysql > 201009.sql;  备份整个数据库.
 mysql -u root -p mysql < 201009.sql;   还原.   注意，不要用！！！  直接 source 201009.sql 来恢复
 
-mysqldump -u root -p mysql TEST1 > TEST1.sql; 备份表 TEST1.
+mysqldump -u root -p mysql TEST1 TEST2 TEST3 > TEST1.sql; 备份表 mysql数据库的 TEST1, TEST2, TEST3.
 mysql -u root --password=mysql --database mysql < data/mysql/170118/ST_CONFIG.sql: 还原. 必须--password=mysql
 mysql -uroot -pmysql -e "select NOTION_NAME, CODE from ST_NOTION_STOCK where source='DFCF'" mysql >./b.data: 使用sql导出数据.
 
@@ -156,6 +156,22 @@ alter table LOT_KELLY_CORP_RESULT change ODDS_CORP_NAME ODDS_CORP_NAME VARCHAR(5
   ALTER TABLE LOT_KELLY_CORP_RESULT DROP INDEX OK_URL_DATE;  删除索引;
   drop index a on t1: 删除索引;
   show keys from tblname;
+  
+* binlog 相关.
+   show variables like 'log_bin';   如果为OFF， 则没有打开binlog
+   show binlog events;   查看binlog的变动信息.
+   show binary logs;  查看binlog 文件名和文件大小.
+   show variables like "%binlog_format%": 查看使用的binlog的模式: https://blog.csdn.net/m0_37814112/article/details/78638359
+   /data01/spartan/mysql/mysql-5.7.29-el7-x86_64/bin/mysqlbinlog --no-defaults --database=test1  --base64-output=decode-rows -v  mysql-bin.000001  查看binlog 信息.
+
+* login-path
+   避免直接输入明文密码.
+   /data01/spartan/mysql/mysql-5.7.29-el7-x86_64/bin/mysql_config_editor set --login-path=test --user=wy --password   : ~/.mylogin.cnf 中记录信息.
+   /data01/spartan/mysql/mysql-5.7.29-el7-x86_64/bin/mysql --defaults-file=/data01/spartan/mysql/mysql-5.7.29-el7-x86_64/conf/my.cnf  --login-path=test      使用login-path 登录.
+   /data01/spartan/mysql/mysql-5.7.29-el7-x86_64/bin/mysql_config_editor print --login-path=test:   查看 login-path=test 的之前做的设置 kv
+   /data01/spartan/mysql/mysql-5.7.29-el7-x86_64/bin/mysql_config_editor remove --login-path=test   删除 login-path=test
+   /data01/spartan/mysql/mysql-5.7.29-el7-x86_64/bin/mysql_config_editor reset --login-path=test
+   $mysqldump_bin --login-path=test --socket $mysqlsocket --quick --events:  可以在脚本中使用.
 
 * 锁
    show processlist: 查看连接情况.  kill id, 可以kill掉连接.
@@ -170,39 +186,104 @@ alter table LOT_KELLY_CORP_RESULT change ODDS_CORP_NAME ODDS_CORP_NAME VARCHAR(5
 * 优化
   explain select * from t where a = 1;   or  desc select * from t where a = 1;   两个一样的，查看执行计划.
 
-* 主从复制.
+### 主从复制.
   参考: http://blog.csdn.net/goustzhu/article/details/9339621
+       (https://blog.csdn.net/weixin_34258078/article/details/92036858)[mysql主从双向同步复制]
 
-  master: cnf的mysqld域[mysqld]:
-  server-id = 1
-  log_bin        = /var/log/mysql/mysql-bin.log
-  log_bin_index  = master_bin.index
-  binlog_format  = mixed
-  innodb_file_per_table = 1
-  sudo service mysql restart; 登录后, show master status 
-  增加同步的账户:
-  CREATE USER 'rep@127.0.0.1' IDENTIFIED BY "rep147258";
-  GRANT REPLICATION SLAVE ON *.* TO 'rep@192.168.1.100' identified by 'rep147258'; -- 这个不行.
-  GRANT REPLICATION SLAVE ON *.* TO 'rep' identified by 'rep147258';
+  master: 
+    配置my.cnf:
+       cnf的mysqld域[mysqld]:
+         server-id = 1
+         log_bin        = /var/log/mysql/mysql-bin.log   # 打开binlog
+         log_bin_index  = master_bin.index
+         binlog-do-db=test1    # 只复制某个库;
+         binlog-ignore-db=mysql
+         # 多主自增长id重复问题.
+         #auto_increment_increment = 2
+         #auto_increment_offset = 1
+         slave-skip-errors=all    # 忽略所有的报错。例如从库上有了主键，dup key 错误. 该行语句报错，不复制， 但不影响后面正确的语句进行复制。 复制的报错日志是在my.cnf  log-error 配置的日志文件中
+    重启mysql
+       sudo service mysql restart; 或者使用 mysqld_safe 来启动. 登录后, show master status 
+    增加同步的账户:
+     CREATE USER 'replica'@'%' IDENTIFIED BY 'replica_123456';
+     GRANT FILE,SELECT,REPLICATION SLAVE ON *.* TO   'replica'@'%';
+     FLUSH PRIVILEGES;
 
-  slave: cnf的mysqld域[mysqld]:
-  注释掉binlog, 开始relay-log:
-  relay-log = relay-log
-  relay-log-index = relay-log.index
-  server-id = 2
-  sudo service mysql restart;  show slave status 还没用东西，因为还没启动slave服务。
-  slave mysql 下执行:
-  CHANGE MASTER TO MASTER_HOST = '183.206.172.118', MASTER_PORT=3306, MASTER_USER='rep', MASTER_PASSWORD='rep147258', MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS = 407;
-  show slave status \G; 查看状态， 此时的
-             Slave_IO_Running: No
-            Slave_SQL_Running: No
-  然后, start slave(对应的stop slave), 都正常情况下，显示:
-            Slave_IO_Running: Yes
-            Slave_SQL_Running: Yes
-  如果连接不上MASTER, 显示:
-            Slave_IO_Running: Connecting
-            Slave_SQL_Running: Yes
+  slave: 
+    配置my.cnf 
+      cnf的mysqld域[mysqld]:
+      server-id = 2
+      注释掉binlog, 开始relay-log:
+      relay-log = relay-log
+      relay-log-index = relay-log.index
+      # 双向复制时使用.
+      #log-bin=/data/spartan/mysql/mysql-5.7.29-el7-x86_64/log/mysql-bin.log
+      #binlog-do-db=test1
+      #binlog-ignore-db=mysql
+      # 多主自增长id重复问题.
+      #auto_increment_increment = 2
+      #auto_increment_offset = 2
+      replicate-ignore-db=mysql
+      replicate-do-db=test1
+      slave-skip-errors=all
+    重启mysql
+      sudo service mysql restart;  show slave status 还没有东西，因为还没启动slave服务。
+    登录后执行:  
+    CHANGE MASTER TO MASTER_HOST = '183.206.172.118', MASTER_PORT=3306, MASTER_USER='rep', MASTER_PASSWORD='rep147258', MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS = 407;
+    show slave status \G; 查看状态， 此时的
+               Slave_IO_Running: No
+              Slave_SQL_Running: No
+    然后, start slave(对应的stop slave), 都正常情况下，显示:
+              Slave_IO_Running: Yes
+              Slave_SQL_Running: Yes
+    如果连接不上MASTER, 显示:
+              Slave_IO_Running: Connecting
+              Slave_SQL_Running: Yes
+     show slave status \G:  观察其中的 Slave_IO_Running, Slave_SQL_Running 是否都为YES
+                             这里的Master_Log_File, Read_Master_Log_Pos  需和 master 上 show master status 保持一致.
+    
+    双向复制:
+       在slave 的my.cnf中配置：
+       log-bin=/data01/spartan/mysql/mysql-5.7.29-el7-x86_64/log/mysql-bin.log
+       binlog-do-db=test1
+       binlog-ignore-db=mysql
+       在slave 中创建专用于复制的账号: replica
+       在master 中执行:
+          change master to master_host='10.57.31.163', master_port=3306, master_user='replica', master_password='replica_123456';
+          start slave;
 
+    * binlog_format 是ROW级别的， create table ,  alter table,  alter tabble ... add index... , drop table,  都可以主从复制。
+    
+### 全量、增量备份
+    参考: (https://www.jianshu.com/p/d3f77f7da512)[mysql全量备份和增量备份]
+    
+    Mysql 全量、增量备份(放在备库上).
+    * 全量备份
+       需要开启binlog
+       show variables like '%log_bin%': 全量备份.
+       /data01/spartan/mysql/mysql-5.7.29-el7-x86_64/bin/mysqldump -uwy -pwy_123456 --socket /data01/spartan/mysql/mysql-5.7.29-el7-x86_64/mysql.sock --all-databases --single-transaction --flush-logs > all.sql;    备份所有数据库。
+           source all.sql:  恢复数据库.
+           flush privileges;    如果备份了mysql.user 等权限数据，必须执行 FLUSH PRIVILEGE 才会生效.
+      
+    * 增量备份
+        /data01/spartan/mysql/mysql-5.7.29-el7-x86_64/bin/mysqladmin --defaults-file=/data01/spartan/mysql/mysql-5.7.29-el7-x86_64/conf/my.cnf -uroot -p123456 flush-logs:   增量备份。 此命令后会新生成一个binlog文件，序号递增。
+        mysqlbinlog /home/mysql/backup/daily/binlog.000008 | mysql -uroot -p123456;   恢复增量备份binlog文件.
+        show binary logs;:  列出binlog 文件名、大小.
+        show binlog events in 'mysql_bin.000001';   查看binlog 信息.
+        /data01/spartan/mysql/mysql-5.7.29-el7-x86_64/bin/mysqlbinlog --socket=/data01/spartan/mysql/mysql-5.7.29-el7-x86_64/mysql.sock --start-position=219 --stop-position=414 log/mysql-bin.000004 > a.sql          从binlog中摘出部分来生成文件. 其中position从show binlog events 中查找。  可以直接执行source a.sql 来恢复.
+        /data/spartan/mysql/mysql-5.7.29-el7-x86_64/bin/mysqlbinlog --socket=/data/spartan/mysql/mysql-5.7.29-el7-x86_64/mysql.sock --start-position=8024 --stop-position=8748   ./mysql-bin.000003 | /data/spartan/mysql/mysql-5.7.29-el7-x86_64/bin/mysql --socket=/data/spartan/mysql/mysql-5.7.29-el7-x86_64/mysql.sock -uroot -p   恢复指定的binlog中指定起止位置的binlog.
+        /data/spartan/mysql/mysql-5.7.29-el7-x86_64/bin/mysqlbinlog --socket=/data/spartan/mysql/mysql-5.7.29-el7-x86_64/mysql.sock   ./mysql-bin.000004 | /data/spartan/mysql/mysql-5.7.29-el7-x86_64/bin/mysql --socket=/data/spartan/mysql/mysql-5.7.29-el7-x86_64/mysql.sock -uroot -p   恢复整个binlog文件.
+    
+    * 定时任务
+      方式一:
+        sudo crontab -e
+        [tdops@zhibang-d-031163 backup]$ sudo crontab -l
+        * * * * * /data/spartan/mysql/shell/mysql_backup_full.sh  每分钟
+      方式二: etc/crontab 直接修改.
+        * * * * * root /data/spartan/mysql/shell/mysql_backup_full.sh
+      完整的脚本放在: GitHub/webtest/myweb/src/test/shell/mysql/ 下
+    
+    
 ### 命令 ###
 * show global variables;  查看mysql 全局变量.   
    explicit_defaults_for_timestamp: 时间戳相关.

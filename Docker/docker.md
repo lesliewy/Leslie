@@ -75,6 +75,8 @@
   * push/pull  
     docker push lesliewy/mycentos:v0  : image命名要符合规范 dockerid/imagename;  执行push前需要docker login
      
+  * compose
+    docker-compose -f docker-compose.yaml up -d myweb: 启动 myweb服务. -d 后台启动.
   
 ## 常用容器
   ### mysql  
@@ -128,7 +130,7 @@
           start-dfs.sh
           start-yarn.sh
     
-  ### hive 环境安装
+  ### hive 安装
       > 必须先安装hadoop环境.
       * 下载hive 安装包, 同样cp 解压 配置:
           https://www.jianshu.com/p/f209c4d013fb
@@ -148,6 +150,15 @@
       两种方式连接redis:  
           宿主机: redis-cli -h localhost -p 6379
           容器: docker exec -it redis /bin/bash;  redis-cli;    
+  
+  ### kafka
+      GitHub/Leslie/Docker/dockerfiles/kafka  
+      
+      tar -zxv -f jdk-8u221-linux-x64.tar.gz:  需要jdk.   .bashrc 中配置PATH: PATH=$PATH:/root/soft/jdk1.8.0_221/bin
+      tar -xzf kafka_2.12-2.5.0.tgz:  kafka安装包.
+      nohup bin/zookeeper-server-start.sh config/zookeeper.properties & > ~/zookeeper.log:  需要zookeeper, kafka安装包中自带.
+      nohup bin/kafka-server-start.sh config/server.properties & > ~/kafka.log: 启动kafka
+      
       
 ## 杂项  
   * 占用空间过大  
@@ -161,7 +172,8 @@
     rm -rf /Users/leslie/Library/Containers/com.docker.docker/Data/*:  mac 上, 需要先退出docker, 清空一切;  
     
   * commit 、build 制作image区别  
-    docker history image: 可以查看容器操作历史, 比较区别, 观察是否可以减小image大小.  
+    docker history image: 可以查看容器操作历史, docker 层级概念, 比较区别, 观察是否可以减小image大小.  
+    docker history lesliewy/mycentos:v0 --no-trunc   
     docker commit 需要手动进入容器操作，以后就不知道怎么做出来的， Dockfile 方式清楚明白.   
     
   * 将centos中的docker容器配置成开机启动  
@@ -180,5 +192,6 @@
   * docker 容器内访问宿主机端口
     http://host.docker.internal:8082/ok.htm
       
-
+  * .bashrc or .bash_profile
+    docker exec -it 登录环境时，生效的是.bashrc, 而不是.bash_profile. 需要将环境变量配置在.bashrc中.  PATH=$PATH:/root/soft/jdk1.8.0_221/bin  前面要有$PATH.
 

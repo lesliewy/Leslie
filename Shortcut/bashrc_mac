@@ -1,0 +1,103 @@
+export LC_ALL=en_US.UTF-8  
+export LANG=en_US.UTF-8
+
+#enables colorin the terminal bash shell export
+CLICOLOR=1
+
+#sets up thecolor scheme for list export
+LSCOLORS=gxfxcxdxbxegedabagacad
+
+#export PS1='\033[01;32m\u@\h\033[00m:\033[01;36m\w\033[00m\$ '
+#export PS1="\[\e[35m\]^o^\[\e[0m\]$ \[\e[31m\]\t\[\e[0m\] [\[\e[36m\]\W\[\e[0m\]] \[\e[32m\]\u\[\e[0m\]\[\e[33m\]@\[\e[0m\]\[\e[34m\]\h\[\e[0m\]\n\[\e[35m\].O.\[\e[0m\]\$ "  
+# 必须包含在\[ \]中，否则超长命令不会折行.
+export PS1="\[\e[32m\]\u\[\e[0m\]\[\e[33m\]@\[\e[0m\]\[\e[34m\]\h\[\e[0m\][\[\e[36m\]\W\[\e[0m\]] \[\e[31m\]\t\[\e[0m\]\$ "  
+
+#enables colorfor iTerm
+#export TERM=xterm-color
+
+# 代理
+start_proxy() {
+    proxy1=socks5://192.168.6.32:1080
+    export ALL_PROXY=$proxy1
+    export all_proxy=$proxy1
+    export http_proxy=$proxy1
+    export https_proxy=$proxy1
+}
+stop_proxy() {
+    unset ALL_PROXY
+    unset all_proxy
+    unset http_proxy
+    unset https_proxy
+}
+
+alias ls="ls -G"
+alias ll="ls -alF"
+alias cd1="cd ~/MyProjects"
+alias cd2="cd ~/MyProjects/GitHub/Leslie"
+alias cd3="cd ~/Downloads"
+alias cd7="cd ~/Software"
+alias cd6="cd ~/MyInterest"
+alias cd9="cd ~/Work"
+SHORTCUT_HOME="/Users/leslie/MyProjects/GitHub/Leslie/Shortcut"
+alias cds="cd $SHORTCUT_HOME"
+alias lsp='ls | sed "s:^:`pwd`/:g"'
+alias bd=". bd -si"
+alias lsof="lsof -nP -iTCP"
+
+set -o vi
+
+
+# 设置 JDK   
+export JAVA_7_HOME=`/usr/libexec/java_home -v 1.7`  
+export JAVA_8_HOME=`/usr/libexec/java_home -v 1.8`  
+export JAVA_11_HOME=`/usr/libexec/java_home -v 11`  
+alias jdk7="export JAVA_HOME=$JAVA_7_HOME"  
+alias jdk8="export JAVA_HOME=$JAVA_8_HOME"
+alias jdk11="export JAVA_HOME=$JAVA_11_HOME"
+
+MAVEN_HOME="/opt/maven/apache-maven-3.3.3"
+TOMCAT_HOME="/opt/tomcat/apache-tomcat-7.0.63"
+MYSQL_HOME="/usr/local/mysql"
+ZOOKEEPER_HOME="/opt/zookeeper-3.4.10"
+REDIS_HOME="/opt/redis/redis-3.2.8"
+KAFKA_HOME="/opt/kafka/kafka_2.10-0.10.2.1"
+SPHINX_HOME="/opt/cmusphinx"
+GRADLE_HOME="/opt/gradle/gradle-3.5"
+CASSANDRA_HOME="/opt/Cassandra/apache-cassandra-3.11.0"
+JMETER_HOME="/opt/apache-jmeter-3.2"
+# facebook review
+ARCANIST_HOME="/Users/leslie/IdeaProjects/facebook/arcanist"
+GREYS_HOME="/Users/leslie/Work/Greys/greys"
+HBASE_HOME="/opt/hbase-1.2.6"
+BAZEL_HOME="/Users/leslie/Software/PS_ProgrammingSoft/bazel_0.11.1"
+NWJS_HOME="/Users/leslie/Software/PS_ProgrammingSoft/nwjs/nwjs-sdk-v0.32.4-osx-x64/nwjs.app/Contents/MacOS/"
+MONGODB_HOME="/opt/mongodb-osx-x86_64-4.0.5"
+PHANTOMJS_HOME="/Users/leslie/Software/PS_ProgrammingSoft/phantomjs/phantomjs-2.1.1-macosx"
+KARMA_HOME="/usr/local/lib/node_modules"
+JAD_HOME="/Users/leslie/MyProjects/GitHub/MyWeb/manaslu/bin/jad"
+BTRACE_HOME="/Users/leslie/Software/PS_ProgrammingSoft/JavaTools/btrace/btrace-bin-1.3.11.3"
+export PATH=$NWJS_HOME:$MAVEN_HOME/bin:$TOMCAT_HOME/bin:$MYSQL_HOME/bin:$ZOOKEEPER_HOME/bin:/usr/libexec:$SHORTCUT_HOME:$REDIS_HOME/src:$KAFKA_HOME/bin:$SPHINX_HOME/bin:$GRADLE_HOME/bin:$CASSANDRA_HOME/bin:$JMETER_HOME/bin:$ARCANIST_HOME/bin:$GREYS_HOME/:$HBASE_HOME/bin:$BAZEL_HOME/output:$MONGODB_HOME/bin:/usr/local/bin:$PHANTOMJS_HOME/bin:$KARMA_HOME/bin:$JAD_HOME/:$BTRACE_HOME/bin:$PATH
+
+export NODE_PATH="/usr/local/lib/node_modules"
+
+
+#start_proxy() {
+#   export http_proxy=192.168.6.32:8118
+#   export https_proxy=192.168.6.32:8118
+#}
+#stop_proxy() {
+#   unset http_proxy
+#   unset https_proxy
+#    }
+
+#start_proxy() {
+#       export ALL_PROXY=192.168.6.32:1080
+#    }
+#    stop_proxy() {
+#           unset ALL_PROXY
+#        }
+
+export PYTHONPATH=/Users/leslie/MyProjects/GitHub/Python/mypackages
+
+# tesseract 需要
+export TESSDATA_PREFIX=/Users/leslie/MyProjects/tesseract-ocr/tessdata/
