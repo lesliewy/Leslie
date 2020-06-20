@@ -46,19 +46,23 @@ set -o vi
 SHORTCUT_HOME=/home/leslie/myprojects/GitHub/Leslie/Shortcut
 alias cds='cd $SHORTCUT_HOME'
 alias cd1='cd ~/myprojects/'
-alias cd6='cd /usr/MyInterest'
+#alias cd6='cd /usr/MyInterest'
 #alias cd7='cd /opt/Software'
 alias cd7='cd /home/leslie/Software'
 #alias cd8='cd /home/leslie/Dropbox/Leslie'
-alias cd8='cd /home/leslie/Work/Leslie'
+#alias cd8='cd /home/leslie/Work/Leslie'
 alias cd9='cd ~/Work'
+alias cdl='cd ~/myprojects/GitHub/Leslie'
 #alias rm=myrm;
 # 列出当前目录下所有文件的绝对路径.
 alias lsp='ls -a| sed "s:^:`pwd`/:g"'
 
-#export JAVA_HOME=/opt/jdk/oracle/jdk1.6.0_45
-export JAVA_HOME=/opt/jdk/oracle/jdk1.7.0_45
-#export JAVA_HOME=/opt/jdk/oracle/jdk1.8.0_112
+# JDK 设置
+JAVA_HOME=/opt/jdk/jdk1.8.0_221
+export JAVA_7_HOME=/opt/jdk/jdk1.7.0_80
+export JAVA_8_HOME=/opt/jdk/jdk1.8.0_221
+alias jdk7="export JAVA_HOME=$JAVA_7_HOME && source ~/.bash_profile"
+alias jdk8="export JAVA_HOME=$JAVA_8_HOME && source ~/.bash_profile"
 
 MAVEN_HOME=/opt/apache-maven-3.1.0
 ANT_HOME=/opt/Software/ProgrammingSoftware/Apache/apache-ant-1.9.2
@@ -89,4 +93,3 @@ export R_HOME=/usr/lib/R
 export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/amd64/server/
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-echo "this is .bash_profile"

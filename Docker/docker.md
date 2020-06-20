@@ -195,3 +195,5 @@
   * .bashrc or .bash_profile
     docker exec -it 登录环境时，生效的是.bashrc, 而不是.bash_profile. 需要将环境变量配置在.bashrc中.  PATH=$PATH:/root/soft/jdk1.8.0_221/bin  前面要有$PATH.
 
+  * 使用greys
+    需要将greys安装包cp 到docker中, 然后使用. jps -l 找到jvm pid.
