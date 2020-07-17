@@ -29,6 +29,19 @@
   
   * dubbo admin 已没人维护，存在一些bug. 推荐使用 [dubbokeeper](https://github.com/dubboclub/dubbokeeper)   
 
+  * Docker 中使用Dubbo
+    问题: 注册到zk上的dubbo url 是docker的ip, 类似 dubbo://172.16.0.3:48085/... 如果消费者和docker不在同一个宿主机，调用dubbo就会出现问题，
+         具体来说，在 com.alibaba.dubbo.remoting.transport.AbstractClient#getAttribute, 获取到的channel 为null.
+    解决: dubbo 2.6.4 版本中, 可以通过环境变量指定注册到zk上的ip: DUBBO_PORT_TO_REGISTRY. 只需在docker run 中添加环境变量即可.
+         docker run -d -it -p 8081:8081 -p 58081:58081 \
+            -e JAVA_OPTS="-Xms1024m -Xmx1536m" \
+            -e DEPLOY_ENV=dev \
+            -e DUBBO_IP_TO_REGISTRY=10.57.239.242 \
+            --name aaa aaa:v1.0
+         其中的 DUBBO_IP_TO_REGISTRY 指定的ip会注册到zk, 58081 是提供者的端口，需要映射到宿主机供消费者调用。
+         dubbo的源码: com.alibaba.dubbo.config.ServiceConfig#doExportUrlsFor1Protocol
+         dubbo 2.8.4 中好像没有使用外部变量的代码了，这个版本还不知道怎么处理。
+
   ## 源码阅读
     * [手把手带你阅读dubbo源码(一) 服务暴露](https://blog.csdn.net/u012117723/article/details/80734653)
     * [手把手带你阅读dubbo源码(二) 服务发现](https://blog.csdn.net/u012117723/article/details/80742790)

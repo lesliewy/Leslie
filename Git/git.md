@@ -149,13 +149,15 @@
   `git log --stat master`: 查看本地master分支的提交信息.  
   `git log --stat`: 查看当前分支的log  
   `git log --stat origin/master`: 查看远程版本库的提交信息.  
-  `git log --grep="mysql"`: 查找log中包含所有 "mysql" 的.  
+  `git log --grep="mysql"`: 查找log的提交描述中包含所有 "mysql" 的.  
   `git log -p -1`: 最近一次提交的log, 同时显示diff  
   `git log master..b3`: 查看b3分支比master分支多出来的log  
   `git log b3..master`: 查看master分支比b3分支多出来的log.  
   `git log --left-right master...dev`:  不管哪边多出来的，都显示出来.  master使用"<": commit < ea57df14;  dev使用">": commit > 2420488  
   `git log --stat -- biz/src/main/java/cn/wy/mygit/myjava/biz/util/excel/FileUtil.java`: 查看提交历史, 该文件是被删除的文件,必须使用 --  
   `git log -S mysql`:  显示所有添加 或 删除 "mysql" 的log.  
+  `git log --stat abc*`:  显示所有文件路径名中包含abc的commit.  abc不一定是文件名, 可以是路径中的目录名.
+  参考: [git log 命令全解析，打log还能这么随心所欲！](https://www.cnblogs.com/bellkosmos/p/5923439.html) 
 
   * commit ranges  
   `git log master..experiment`: experiment分支上有，但是master上没有的commit. `git log experiment..master`  
@@ -317,7 +319,9 @@
         git add -- {needed files}
 
 ### 配置 ###
-  * `git config --list`: 查看配置信息.  
+  * `git config --list`: 查看配置信息.  默认是local, 项目级别, 相当于 git config --local --list  配置文件再 .git/config 
+    git config --global --list:  用户级别配置, 优先级低于项目级别.  配置文件在 ~/.gitconfig
+    git config --system --list:  系统级别配置，优先级低于用户级别， 配置文件再 /etc/gitconfig
 
   * 使用meld作为diff工具  
     `git config --global diff.tool meld`  

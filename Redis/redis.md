@@ -35,6 +35,9 @@
   * flush  
   `flushdb`: 删除当前数据库中的所有Key  
   `flushall`: 删除所有数据库中的key  
+  
+  * bigmap
+  
 
 ## 监控 ##
   `java -jar redis-stat-0.4.14.jar --server --auth=leslie`
