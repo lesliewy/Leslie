@@ -7,6 +7,7 @@
   sudo apt-get install docker-ce
   
   默认情况下, 需要使用sudo docker, 因为docker使用的socket 是root的:  sudo usermod -aG docker $USER  可解决.
+  主要看 /var/run/docker.sock 的用户和组, 确保当前用户有docker.sock的权限.
   
   * centos  
     uname -a
