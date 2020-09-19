@@ -130,6 +130,7 @@
     `find . -iname "startweblogic.sh"`: 忽略文件名的大小写. 得出的文件路径是相对路径。如果使用 `find /home/leslie -iname "a*"` 则得出的是绝对路径.  
     `find . -iname *.html|xargs grep -lir "幻读"`: 所有html文件中包含幻读的.
     `find . -iname *.html -exec grep -lir "幻读" {} \;`: 同上，但是可以处理文件名中包含空格的情况.
+    `find . -iname *.html|sort -R|head -n 20`: 随机输出前20.
 
   * 创建目录 删除目录  
     `mkdir -p a/b/c`: 创建目录，a,a中创建b,b中创建c,并且即使存在也不报错.  
@@ -183,6 +184,12 @@
          TTY 表示登录终端.tty1 - tt6 是本机上登录的,pts/0 等表示由网络连接进终端的.
 
     `ps aux` or `ps -ef`: 这两个应该是等价的，都会列出所有的process.但是ps aux会多显示一些:%CPU %MEM VSZ(虚拟内存KB) RSS(占用固定内存KB)  
+    `ps -eL -o uid,pid,lwp,nlwp,cputime,%cpu,vsz,rss,%mem,stat,args`: -L light-weight process, 显示线程信息.
+        其中: rss: kB
+             vsz: kB
+        进程状态: man ps 中 PROCESS STATE CODES
+        -o 的其他参数: man ps 中 STANDARD FORMAT SPECIFIERS
+
     `pstree -Aup`: 列出所有process的树状结构，同时显示user 和 pid.  
  
     `top -d 2`: 每隔2妙刷新一次.  P:按%CPU降序 M:按%M降序 N:按PID降序   也可以用 '>' 和 '<' 键,注意 F 和 f 的使用.  
@@ -385,7 +392,7 @@
 
   * `md5sum file_name`: 计算file_name的md5指纹(摘要)。  
 
-  * `ps -ef|pbcopy`:  将内容复制到剪贴板。 可以直接使用系统的粘贴来使用.  也可以直接 pbpaste,  echo `pbpaste` 来使用.  
+  * `ps -ef|pbcopy`:  将内容复制到剪贴板。 可以直接使用系统的粘贴来使用.  也可以直接 pbpaste,  echo `pbpaste` 来使用.  注意, pbcopy 需要在独立的iterm中使用，不能再tmux中.
 
 ## 记录 ##
   * pwd: print name of current/working directory   显示当前的绝对路径，也可以加一个文件，用来显示该文件的绝对路径。  
@@ -416,6 +423,7 @@
 
 ## USEFUL URLS ##
   * [Core utils](http://www.gnu.org/software/coreutils/coreutils.html)    
+     搜索coreutils中指定的命令:  https://www.gnu.org/software/coreutils/manual/html_node/
   * [Linux Kernel](https://www.kernel.org/)  
   * [shell变量命名规范](https://www.cnblogs.com/gentlemanhai/p/11835793.html)
   

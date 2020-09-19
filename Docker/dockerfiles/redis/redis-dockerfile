@@ -1,0 +1,6 @@
+FROM redis:latest
+LABEL maintainer=wy
+#RUN echo "127.0.0.1 wy1.leslie.com" >> /etc/hosts
+WORKDIR /data
+RUN touch ab
+#CMD ["touch","ab"]

@@ -77,7 +77,18 @@
     docker push lesliewy/mycentos:v0  : image命名要符合规范 dockerid/imagename;  执行push前需要docker login
      
   * compose
+    docker-compose 不使用 -f: 默认使用 docker-compose.yml, docker-compose.yaml
+    
+    docker-compose build redis:  生成image, docker images中查看. 如果yaml中没有指定build, 使用的是image， 不需要build, 直接拉取指定的image
+    docker-compose create redis:  生成 container. docker ps -a 中查看。  docker-compose 后面带的都是yml中的service,  docker 后面带的是container-name
+    docker-compose start redis: 启动 redis
+    docker-compose up --build -d redis: 相当于: build + create + start
+    docker-compose up -d redis: 相当于: create + start.
+    
     docker-compose -f docker-compose.yaml up -d myweb: 启动 myweb服务. -d 后台启动.
+    docker-compose -f docker-compose.yaml up -d : 后台启动docker-compose.yaml 中所有container
+    docker-compose down: stop + rm container.  貌似不可以指定service:  down mysql8
+    docker-compose stop: 仅stop.
   
 ## 常用容器
   ### mysql  

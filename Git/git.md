@@ -312,8 +312,16 @@
       ...  
       git commit`:  不带 -m 参数.  
       
+    * 使用idea 来进行cherry-pick.
+       参考: [使用IDEA进行git cherry-pick](https://www.jianshu.com/p/b36fc61afb26)
+       假设A分支需要cherry-pick B分支上的几个commit, 即代码在B分支上，需要合并到A分支.
+       1, idea 切换到A分支.
+       2, 打开version control 中的Log标签. branch 选择B分支, 找到需要并入A的commit;
+       3, 选择commit, ctrl 多选
+       4, 点击Log标题栏中的cherry-pick. 有几个commit, idea会弹出几个提交框，输入提交信息.
+      
   * 选择另一个分支上的部分文件.
-    不是一整个commit, 而不是不同commit里的文件。
+    不是一整个commit, 而是不同commit里的文件。
     1， 使用idea -> merge branches,  选择分支，勾选 no-commit(相当于 --no-commit 选项). 会将所有不同合并，但不会提交，A 或 M状态;
         git reset; 将所有cached的回退到本地;  
         git add -- {needed files}

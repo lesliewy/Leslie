@@ -1,8 +1,11 @@
   Mvn dependency:tree , mvn deploy mvn clean 等在maven plugins 下: http://maven.apache.org/plugins/index.html
   Pom settings.xml 配置在 user center下: http://maven.apache.org/users/index.html
 
+* mvn -v: 查看maven的相关配置。比如: maven home, java home等.
+  mvn clean package -X -e:  输出debug信息, 方便排查问题.
+  
 * maven package , maven clean 这些命令必须要在当前工程目录下执行才可以,  还必须是根目录, 有 pom文件的目录;
-*  mvn -Dmaven.test.skip=true clean install:  跳过测试.d
+*  mvn -Dmaven.test.skip=true clean install:  跳过测试.
 * mvn groupId:artifactId:version:goals      maven 命令完整的格式
 *  mvn archetype:generate   生成maven工程骨架.   会让选择archetype, 输入 要创建项目的groupId,artifactId，version以及包名package(java 的package),  默认的packaging 是jar (其他war,pom)
       maven 3: mvn archetype:generate 
@@ -21,7 +24,9 @@ mvn tomcat7:deploy :  部署应用到tomcat上，需要配置tomcat插件, 参�
 
 ** dependencyManagement
    里面的dependency 并不会依赖, 只有当子modules 中使用时才会依赖进来;
-   子module 不需要再写 <version>,  包括依赖的依赖, 都将使用dependencyManagement 中的版本号
+   子module 不需要再写 <version>,  包括依赖的依赖, 都将使用dependencyManagement 中的版本号. 
+   例1： dependencyManagement 中lombok 配置的version 是1.14.8, 子module中引入了elastic-job-core-1.1.1, 该eclastic又引入了lombok-1.16.4,
+   那么，最终lombok使用的是 dependencyManagement 配置的1.14.8
 
 ** 稳定版和SNAPSHOT版本
    稳定版: 如果本地不存在，则从远程仓库下载，存在不会再去下载。   例如: <version>1.0.4</version>
@@ -57,4 +62,8 @@ mvn -e -Ddb.file=jpetstore exec:java   使用hsqldb,  当前位置需要有pom.x
 
 
 mvn dependency:tree|grep cn.wy:   列出依赖.
+
+** plugin
+  [Maven 自定义Maven插件](https://www.cnblogs.com/oscar1987121/p/10959083.html)
+  
  

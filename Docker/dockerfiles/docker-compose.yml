@@ -1,0 +1,47 @@
+version: '3.4'
+services:
+  ########################
+  # 1, docker-compose up -d redis: create && start   最后的是service名称, 而不是container_name
+  # 如果分开:
+  # docker-compose create redis;
+  # docker-compose start redis: 会报错, nework dockerfiles_default not found.   使用up 会自动创建network
+  # WARNING: The create command is deprecated. Use the up command with the --no-start flag instead.
+  # 
+  # 2, 还是不明白怎么在/etc/hosts里面加数据.  compose-file 的command 和 build 方式 应该都可以，但是都还没成功.
+  #
+  # 3, compose-file 所在目录可以添加 .env 文件来设置变量, compose-file 中可以使用 ${} 来引用.
+  #
+  ########################
+  redis:
+    build:
+      context: ./redis
+      # 这里的路径是相对于上面的context来说的.
+      dockerfile: ./redis-dockerfile
+
+    # 指定build得到的image名字. 如果不指定, 默认: dockerfiles_redis
+    image: redis:1.0      
+    container_name: redis 
+    restart: on-failure:3
+    logging:
+      options:
+        max-size: "100m"
+    cap_add:
+      - SYS_PTRACE
+        #    networks:
+        #      - bridge
+        
+    # 暴露给宿主机. Dockerfile 中的EXPOSE 6379 不是暴露给主机的, 而是暴露给link的其他容器, 或者在同一个networks中可以访问.
+    ports:
+      - 6379:6379
+
+  mysql8:
+    container_name: mysql-8
+    image: mysql:8
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    ports:
+       - 3306:3306
+
+  mycentos:
+    container_name: mycentos
+    image: lesliewy/mycentos:v0

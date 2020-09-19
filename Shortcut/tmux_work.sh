@@ -27,6 +27,7 @@ create_session(){
                [ $i -ge 5 -a $i -le 9 ] && $cmd rename-window -t $i "remote"
             fi
             if [ $session_name == "interest" ]; then
+               [ $i -eq 4 ] && $cmd neww -t $session_name -c "/Users/leslie/Work/Favorite" -n "Favorite" -d && continue
                [ $i -eq 5 ] && $cmd neww -t $session_name -c "/Users/leslie/MyProjects/GitHub/Leslie" -n "Leslie" -d && continue
                # $cmd rename-window -t $i "Leslie"
                $cmd neww -t $session_name -d
