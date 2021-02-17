@@ -1,5 +1,10 @@
+## 网络
+** dig, host, nslookup 这几个命令在 bind-utils 包中.
 ** DNS 解析的3种修改方法:
     https://www.cnblogs.com/zjhblogs/p/5938739.html
+   正常情况下先走 /etc/hosts查找, 再走resolv.conf(centOS) 中的dns进行域名解析.
+   配置了http_proxy, https_proxy 变量的话, 会直接走代理，不走/etc/hosts 和 resolv.conf
+    
 
 
 ## 驱动 ##
@@ -34,3 +39,7 @@ https://blog.csdn.net/bingo1991/article/details/80633000  参考这篇文章来�
 # 开机启动 #
    * ubuntu 18.04 中输入: gnome-session-properties, 打开开机启动软件, 在其中设置.
 
+
+## 配置
+   sysctl -a  列出所有. centos
+   sudo sysctl -w net.ipv4.ip_forward=1  修改配置.  这个ip_forward好像不用重启. centos

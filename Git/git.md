@@ -212,6 +212,7 @@
     `git reset --hard origin/master`: 将当前所在的分支重置成远程分支origin/master. 本地修改将丢失.  
     `git reset --hard origin/wy181130103117`: 远程分支覆盖, 如果从master分支切换到wy181130103117后，由于master分支已经提交了很多代码，git status 会出现 ahead 49, behind 53 这种情况,git pull 可能后出现冲突, 此时需要完全替换成 wy181130103117 的代码.  
     `git reset`: 等于 `git reset HEAD`, 是 `git add`的逆操作.  
+    `git reset origin/dev_v2.4`: 重新拉取远程分支，会覆盖本地的commit.   
 
   * file level: 带file path: 不移动HEAD，只改变 staging area, working tree.  
     `git reset file.txt`: 等价于 git reset --mixed HEAD file.txt, repo不变，将index中file.txt回退到HEAD(repo内容).  
@@ -266,6 +267,26 @@
    `git rebase fork-from/master`;   本地与源仓库同步; git status 可以看到已经比自己fork的远程repo 提前了.
    `git push origin master`:  将自己的远程repo 和 源repo 同步;
    
+  * fork 的仓库同步源仓库中新增加的分支.
+    `git clone fork仓库`
+    `git remote add fork-from 源仓库的git地址`
+    `git checkout -b 新分支名`:  在fork仓库中新增分支，最好和源仓库中名字一致.
+    `git pull fork-from 源仓库中新分支名`:  在本地分支中拉取源仓库的新分支;
+    `git push origin 新分支名`:  将本地新分支名push到远程. 
+    
+  * merge request 手动合入.
+    git init : 新git.
+    git fetch {your_fork_git} dev_v2.4
+    git remote add yang.wang {your_fork_git}
+    git checkout -b yang.wang/wy-dev_v2.4 FETCH_HEAD   checkout出你fork出的仓库.
+    
+    git remote add origin xxx     fork-from git地址, 没有的话需要添加. 
+    git fetch origin
+    git checkout -b dev_v2.4 origin/dev_v2.4     checkout出fork-from 的分支，即需要合入的destination分支. 
+    
+    git merge --no-ff yang.wang/bond-dev_v2.4    合并{your_fork_git}.
+    
+    git push origin dev_v2.4    
 
 #### merge ####
   * conflicts  
@@ -355,13 +376,20 @@
   `git show HEAD~`:  当前HEAD的第一个parent  
   `git show HEAD~2`: 当前HEAD的第一个parent的第一个parent. 相当于 HEAD^^  
 
-  * 回退某个文件  
+  * 回退working tree上的某个文件  
   `git checkout -- api/pom.xml`: 放弃working tree的修改, 恢复版本库内容.  
   `git checkout .`: 放弃所有work tree的修改， 新增的文件仍然在本地;
+  
+  * 回退staging area 上的文件
+   `git reset -- api/pom.xml api/a.java api/b.java`: 回退staging area 上修改到working tree, 即 第一位绿色M 编程 第二位红色M
   
   * 回退本地所有修改，包括新增  
     `git reset --hard`: 新增的文件会从worktree中删除，但是本地仍然存在;
     `git clean -df`: 删除多余的本地文件(前面是 ?)   `git clean -n`: 查看要删除的文件;
+    
+  * 只提交部分文件
+    `git add -- api/pom.xml api/a.java api/b.java`
+    `git commit -m "....`:  只会提交staging area上的修改. 即 第一位为绿色A or M.   如果是 MM, 也是提交第一位M部分的, 第二位M部分的修改仍然保存在working tree.
 
   * 查看某文件的历史版本  
   `git log filename`:查看所有提交历史,获取sha-1值.  
@@ -403,3 +431,11 @@
 
   * 添加commit 模板
   git config --local commit.template /Users/leslie/MyProjects/GitHub/Leslie/Git/commit_template
+  
+  * 最佳实践一.
+   本地开发，修改一些文件，需要提交部分文件. 
+   git add -- {files}  来add需要提交的文件.
+   git diff --cached: 比对带提交的文件.
+   git commit -m ""
+   利用上staging area.  以前是git commit -m "" -a，跳过staging area,直接提交到repository.
+  

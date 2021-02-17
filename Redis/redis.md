@@ -9,6 +9,8 @@
   * help  
   `redis-server --help`: 显示帮助信息.  
   `redis-cli --help`  
+  `help`: 查看帮助.  help <Tab>: 命令集
+  `help get`: 查看get帮助.
 
   * redis-benchmark  
   `redis-benchmark`: server 基准信息检测;  
@@ -24,6 +26,7 @@
 
   * config
   config get *
+  
   * client
   client list:  查看连接.
 
@@ -38,6 +41,9 @@
   
   * bigmap
   
+  * eval, script
+  eval "return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}" 2 a b 1 2   执行lua脚本.
+  script flush: 清空Lua脚本缓存. 会导致首次执行 evalsha 失败.
 
 ## 监控 ##
   `java -jar redis-stat-0.4.14.jar --server --auth=leslie`

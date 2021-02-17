@@ -1,6 +1,11 @@
 # centos7 + hadoop + hive
 # docker build -f /Users/leslie/MyProjects/GitHub/Leslie/Docker/dockerfiles/hadoop_hive/hive -t lesliewy/centos7_hive:v1 .
-# docker run --privileged --cap-add SYS_ADMIN -e container=docker -it  --name hive -d -v /Users/leslie/MyProjects/GitHub/Leslie/Docker/dockerfiles/hadoop_hive/hadoop_conf/etc:/opt/hadoop-3.1.3/etc:ro -v /Users/leslie/MyProjects/GitHub/Leslie/Docker/dockerfiles/hadoop_hive/hadoop_conf/sbin:/opt/hadoop-3.1.3/sbin:ro -v /Users/leslie/MyProjects/GitHub/Leslie/Docker/dockerfiles/hadoop_hive/hive_conf/bin:/opt/apache-hive-3.1.2-bin/bin:ro -v /Users/leslie/MyProjects/GitHub/Leslie/Docker/dockerfiles/hadoop_hive/hive_conf/conf:/opt/apache-hive-3.1.2-bin/conf:ro lesliewy/centos7_hive:v1 /usr/sbin/init;
+# docker run --privileged --cap-add SYS_ADMIN -e container=docker -it  --name hive -d \
+# -v /Users/leslie/MyProjects/GitHub/Leslie/Docker/dockerfiles/hadoop_hive/hadoop_conf/etc:/opt/hadoop-3.1.3/etc:ro \
+# -v /Users/leslie/MyProjects/GitHub/Leslie/Docker/dockerfiles/hadoop_hive/hadoop_conf/sbin:/opt/hadoop-3.1.3/sbin:ro \
+# -v /Users/leslie/MyProjects/GitHub/Leslie/Docker/dockerfiles/hadoop_hive/hive_conf/bin:/opt/apache-hive-3.1.2-bin/bin:ro \
+# -v /Users/leslie/MyProjects/GitHub/Leslie/Docker/dockerfiles/hadoop_hive/hive_conf/conf:/opt/apache-hive-3.1.2-bin/conf:ro \
+#    lesliewy/hadoop_centos:v1 /usr/sbin/init;
 # docker exec -it `docker ps -qf name=hive` bash
 #
 #
@@ -19,7 +24,9 @@ openssh-server \
 openssh-clients.x86_64 \
 vim \
 less \
-wget 
+wget \
+telnet \
+net-tools
 
 ENV JAVA_HOME=/etc/alternatives/jre_1.8.0
 #将密钥文件复制到/etc/ssh/目录中。这里要用root的权限生成key
@@ -46,6 +53,9 @@ RUN mv lib/guava-19.0.jar lib/guava-19.0.jar.bak
 COPY mysql-connector-java-8.0.17.jar lib/
 
 
+
+# 常用配置.
+RUN echo 'alias ll="ls -alF"' >> ~/.bashrc
 # 添加环境变量 $HADOOP_HOME 不需要解释.
 RUN echo "HADOOP_HOME=/opt/hadoop-3.1.3" >> ~/.bashrc
 RUN echo "HIVE_HOME=/opt/apache-hive-3.1.2-bin" >> ~/.bashrc

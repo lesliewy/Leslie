@@ -32,7 +32,7 @@
      [67,60ms]: 到目前总共执行时间67ms, 当前方法执行时间60ms
 
   * tt  
-  `tt -t -n 3 cn.wy.mygit.wy.api.impl.myIndImpl queryMultiInd`: 记录3次调用  
+  `tt -t -n 3 cn.wy.mygit.wy.api.impl.myIndImpl queryMultiInd`: 记录3次调用  也会记录exception. 
   `tt -i 1001`:  每一次调用的详细信息. 包含堆栈信息.  堆栈信息也可以: stack   
   `tt -i 1001 -x 3`:  可以带上层级的参数.  
   `cn.wy.mygit.wy.api.impl.myIndImpl queryMultiInd` 来监控.  
@@ -46,3 +46,4 @@
   
   * Arthas(阿尔萨斯) 是基于greys的二次开发, 升级版.
   
+  * TODO 怎么监控对象属性？？？  greys 中好像都是方法参数、返回值什么的.

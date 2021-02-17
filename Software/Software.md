@@ -208,8 +208,11 @@ snavigator
     # + Shift + F7: 查找当前选中的字符串并高亮.  # + G, # + Shift + G 来前后查找.
   * 继承关系图.
     选定一个接口(或类), 右键 -> Diagrams -> Show Diagrams  
-    如果需要把实现这个接口的所有类添加进来: 右键 -> Add Class to Diagram(Space) 来添加.  可以用Ctrl + H 调出实现该接口的
+    如果需要把实现这个接口的所有类添加进来: 
+    a, 右键 -> Add Class to Diagram(Space) 来添加.  可以用Ctrl + H 调出实现该接口的
     所有类，一个个添加进来.
+    b, 在diagram图上选中某个接口，右击 -> show implementations -> 选中某个实现， 添加进来.
+       show parents 也可以.
 
 ## jprofiler ##
   * 文档  

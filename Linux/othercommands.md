@@ -32,16 +32,17 @@
      `userdel -r test1`: 删除用户user1,同时删除和其相关的目录.  
 
   * su 变更使用者身份  
-    `su -`  or `su -l` : 加了这个参数之后，就好像是重新登陆为该使用者一样，大部分环境变量（例如HOME、SHELL和USER等）都是以该使用者（USER）为主，并且工作目录也会改变。如果没有指定USER，缺省情况是root。如果用 su user: 则工作目录(pwd)仍没有变，且有权限限制.  
+    `su -`  or `su -l` : 加了这个参数之后，就好像是重新登陆为该使用者一样，大部分环境变量（例如HOME、SHELL和USER等）都是以该使用者（USER）为主，并且工作目录也会改变。如果没有指定USER，缺省情况是root。
+                         如果用 su user: 则工作目录(pwd)仍没有变，且有权限限制.
 
 ## 硬件挂载 ##
-  * U 盘  
-    插入U盘后，先用 `fdisk -l` 查看 U 盘挂在哪个位置(可能是/dev/sdb1)。然后我的U盘是fat32格式(vfat),  使用 `mount -t vfat /dev/sdb1 /mnt/usb` ，当然要先在 `mkdir usb` 目录。
-    /mnt/ 目录一般是挂载的目录。但是在Ubuntu9.10中，好像可以直接进入：cd /media/LESLIE_WY, 不用mount,卸载时用： `umount /media/LESLIE_WY`，桌面上消失图标即已卸载。  
+### U 盘 ###
+   * 插入U盘后，先用 `fdisk -l` 查看 U 盘挂在哪个位置(可能是/dev/sdb1)。然后我的U盘是fat32格式(vfat),  使用 `mount -t vfat /dev/sdb1 /mnt/usb` ，当然要先在 `mkdir usb` 目录。
+    /mnt/ 目录一般是挂载的目录。但是在Ubuntu9.10中，好像可以直接进入：cd /media/LESLIE_WY, 不用mount,卸载时用： `umount /media/LESLIE_WY`，桌面上消失图标即已卸载。
 
-  * 硬盘  
-    在我的ubuntu中，挂载vista中的某个分区。 `mount -t ntfs /dev/sda1 /mnt/usb`
-    卸载都是 umount /mnt/usb  
+### 硬盘 ###
+   * 在我的ubuntu中，挂载vista中的某个分区。 `mount -t ntfs /dev/sda1 /mnt/usb`
+      卸载都是 umount /mnt/usb  
 
 ## 文件管理 ##
   * 修改文件权限  
@@ -125,12 +126,17 @@
     `bzip2 -d essential-20061022.tar.bz2`: 解压essential-20061022.tar.bz2为tar文件.  
 
     `cpio -i <initrd.img-2.6.31-16-generic`: 其中file initrd.img-2.6.31-16-generic显示他是ASCII cpio archive,所以可以用cpio还原.  
+    
+    rar a importNew_202006.rar importNew:   将importNew 压缩成importNew_202006.rar
+    rar x importNew_202006.rar:  解压文件.
 
   * 查找文件find  
     `find . -iname "startweblogic.sh"`: 忽略文件名的大小写. 得出的文件路径是相对路径。如果使用 `find /home/leslie -iname "a*"` 则得出的是绝对路径.  
     `find . -iname *.html|xargs grep -lir "幻读"`: 所有html文件中包含幻读的.
     `find . -iname *.html -exec grep -lir "幻读" {} \;`: 同上，但是可以处理文件名中包含空格的情况.
+    `find . -iname "*.html" -print0|xargs -0 grep -lir "幻读"`:  同上, find xargs 组合. -print0: 以null为分隔符.  -0: 同样以null为分隔符.
     `find . -iname *.html|sort -R|head -n 20`: 随机输出前20.
+    `find . -iname *.html|grep -v _files|sort -R |head -n 20`: 排除掉文件名包含 _files 的html, 随机输出20个.
 
   * 创建目录 删除目录  
     `mkdir -p a/b/c`: 创建目录，a,a中创建b,b中创建c,并且即使存在也不报错.  
@@ -274,6 +280,7 @@
        慢慢取代service, chkconfig.  负责控制systemd系统和服务管理器, Systemd目的是要取代Unix时代以来一直在使用的init系统.
        systemctl list-unit-files:  列出所有可用单元。
        systemctl list-units: 列出运行中的单元. 
+       systemctl list-units --type service: 列出所有服务.
        systemctl --failed: 列出所有失败的单元.
        systemctl list-unit-files --type=mount: 查看挂载点.
        systemctl list-unit-files --type=socket: 查看套接口.
@@ -286,15 +293,23 @@
        /lib/systemd/system/keepalived.service: 由systemctl管理的服务必须提供该文件.
        /etc/keepalived/keepalived.conf:  默认情况下， systemctl 到/etc/{service-name}/ 找配置文件.
        /var/log/messages:  systemctl 的日志信息.    也可以用 journalctl -f  来观察.
+       
+  * 硬件管理.
+   sudo dmidecode -t system: 查看系统硬件信息. 其中的如果出现virtual 则是虚拟机. 
+   sudo dmidecode -t1:   同上. 
 
 ## 网络 ##
-  `netstat -anp|grep 7001`: 找出7001端口的pid，可以再根据 ps aux|grep pid :  得出该进程信息.  
+  `netstat -anp|grep 7001`: 找出7001端口的pid，可以再根据 ps aux|grep pid :  得出该进程信息.  如果列出pid，需要添加sudo. 
+  `ss -tunpl|grep 7001`: 基本同上, 信息稍多.
   `ping -c 3 -s 2000 -M do www.baidu.com` : 可以修改传送的icmp封包的大小，来测定MTU最大值，其中-M do 不能少，表示传送DF（don't fragment)标志，不允许拆分.  
   `traceroute -w 1 -n -T www.baidu.com`: 利用TCP的方式来traceroute 到www.baidu.com 的每个node，响应时间限制为1s, 每个node测试3次。 默认 UDP方式.  
   `netstat -tulnp -c 3`: 列出当前正在监听(l)的协议是TCP(t)、UDP(u)的网络连接,包括pid, 并且3s自动更新一次.服务端口对应文件:/etc/services  
   `host www.baidu.com 58.20.127.170`: 利用dns server 58.20.127.170 来查出www.baidu.com对应的ip,如果不加dns server，则使用/etc/resolv.conf  
   `telnet 127.0.0.1 25`: 利用telnet连接到端口是25的服务.  如果不加port，表示登录主机.  
   `ifconfig ppp1 down`: 关闭ppp1连接。
+  
+  ip route ls:  查看路由. ip route 相当于原来的route命令, 统一在ip下.
+  
 
   * tcpdump  
   抓的包是在网卡上的，不一定会被送入内核处理.
@@ -349,17 +364,38 @@
     sudo iptables -L:  列出当前所有规则.
     
 ## 软件安装  ##
-  * rpm 类型  
+  * rpm 类型 (centos, redhat)
     `alien -iv rpm-file`: 在ubuntu 使用alien 来安装rpm软件.  
     `alien -i -c rpm-file`: -c 执行rpm中的脚本,如果没有-c，有些rpm会报错.  
     `rpm -ivh rpm-file`: red hat中可以用rpm命令来安装软件.  
     `rpm -qp --scripts rpm-file -q:query`: 一定要有-p表示读取rpm文件,而不是数据库.  
     `rpm -e --nodeps xorg-x11-drv-nvidia-390xx-cuda-libs-390.132-1.el7.x86_64: 卸载软件包.
+    `sudo rpm -ev mysql-connector-python-8.0.11-1.el7.x86_64 --nodeps`:  删除package.  --nodeps: 表示不考虑依赖包. 不加，会因为依赖包的存在而无法删除.
     `rpm -ql man-pages-zh-CN-1.5.2-4.el7.noarch`: 查看package安装了哪些文件.  
     `rpm -qa | grep man`: 查看安装的packages中包含man的.  
     `rpm -qi man-pages-zh-CN-1.5.2-4.el7.noarch`: 查看包的安装时间等信息.
-    `sudo rpm -ev mysql-connector-python-8.0.11-1.el7.x86_64 --nodeps`:  删除package.  --nodeps: 表示不考虑依赖包. 不加，会因为依赖包的存在而无法删除.
+    `rpm -qf /usr/lib64/libtomcrypt.so.0`: 查询文件属于哪个package.
+    `rpm -qa|grep python3|xargs sudo rpm -ev --allmatches --nodeps`: 删除所有python3开头的包.
 
+  * yum (centos)
+    sudo yum install -y yum-utils : 安装.
+    sudo yum localinstall *.rpm: 只安装本地的rpm，不去联网安装依赖.
+    yum list docker-ce --showduplicates: 查看所有历史版本  
+    yum deplist docker-ce-3:18.09.0-3.el7:  查看某个版本的package的依赖. docker-ce 是包名. 3:18.09.0-3.el7是版本号. 
+    sudo yum install --downloadonly --downloaddir=~/wy lvm2 : 只下载不安装, 貌似如果已经安装了该包，就不会下载了.
+    repotrack libaio .  : 只下载rpm, 不安装. 相比上一种, 这种方式更好. 需要先yum install yum-utils;  通过虚拟机方式启动某版本OS, 再使用这种方式下载依赖包，就可以
+                        发给不能联网的机器安装了.
+    关于centos下的rpm package名称:
+    [tdops@party2 software]$ yum list coreutils
+    Installed Packages
+    coreutils.x86_64        8.22-18.el7            @anaconda
+    实际包名是 coreutils-8.22-18.el7,  不包含x86_64
+    
+    Available Packages
+    openssl-devel.x86_64             1:1.0.2k-8.el7         
+    实际包名是 openssl-devel-1.0.2k-19.el7 ,  没有.x86_64 和 1:
+    需要指定版本时候可以使用。例如: sudo yum install --downloadonly --downloaddir=. coreutils-8.22-18.el7
+    
   * dpkg 类型  
     `dpkg -l |grep jdk`: 在ubuntu 中即使是rpm软件，也要用dpkg查询，因为alien 在安装时会将其转为debian类型的.  
     `ptitude show package-name` or `dpkg -s package-name`: 查看已安装的软件信息  

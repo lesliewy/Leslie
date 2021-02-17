@@ -32,6 +32,10 @@
   `pip install -U pip`: 更新pip.  
   `pip list --outdate`: 查看需要更新的包.  
   `pip show --files numpy`: 查看包安装路径.  
+  
+  pip好像不能查看远程package情况, 两种方法:
+   1, https://pypi.org/  搜索
+   2, conda search torch:  可以，pip search 不行, 只能搜索package。
 
   * ipython  
   `sudo apt install ipython`: 使用ipython来调试.  

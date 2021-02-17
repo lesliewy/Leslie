@@ -185,6 +185,7 @@ alter table LOT_KELLY_CORP_RESULT change ODDS_CORP_NAME ODDS_CORP_NAME VARCHAR(5
 
 * 优化
   explain select * from t where a = 1;   or  desc select * from t where a = 1;   两个一样的，查看执行计划.
+  show table status from mydb;  查看数据库mydb中所有表状态, 可以看到 data_free.
 
 ### 主从复制.
   参考: http://blog.csdn.net/goustzhu/article/details/9339621

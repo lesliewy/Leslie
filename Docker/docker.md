@@ -37,6 +37,7 @@
     最后的参数指定build context，因为Dockerfile中有ADD 指令需要用到. 该context 会被发送到docker deamon, 所以通常是空目录或者少量文件的目录.  
   
   * docker inspect mysql|grep -i IP:  查找指定容器的ip信息. inspect 可以看到容器的底层信息.
+    docker inspect mysql:   ENV 部分可以看到启动时配置的环境变量.
   
   * docker commit `docker ps -q` mycentos:v1  : 将指定docker保存为新的image. 容器内部的修改仍然保持在images中，如果docker start 仍然保持, 不过 docker rm 就没有了, 除非commit 
      
@@ -63,6 +64,13 @@
     docker diff container: 文件系统上有哪些改变。  
   
   * docker network:  网络相关.
+    docker network ls:  查看docker的网卡.  会显示network id, name 等.
+    docker network inspect monitor_default: 查看该网络详细信息。 其中monitor_default 是ls中的name.
+    
+    docker run 使用的默认网卡 docker0
+    docker-compose 这种方式是创建的新网卡.  跟yaml所在目录有关, monitor/docker-compose.yaml,  network name 就是monitor_default
+                   所用的网段和默认的也不一样，每次重启都不一样.  docker network inspect 可以看到.
+        
   
   * tag  
     docker tag mycentos:v1 hadoop_centos:v1   : 修改image名称. 将mycentos:v1 修改成 hadoop_centos:v1
@@ -89,6 +97,9 @@
     docker-compose -f docker-compose.yaml up -d : 后台启动docker-compose.yaml 中所有container
     docker-compose down: stop + rm container.  貌似不可以指定service:  down mysql8
     docker-compose stop: 仅stop.
+    
+  * info
+    docker info|grep -i root ： 其中Docker Root Dir 就是镜像保存的路径.
   
 ## 常用容器
   ### mysql  
@@ -103,9 +114,9 @@
 	-d mysql:5.7
 	-v：主机和容器的目录映射关系，":"前为主机目录，之后为容器目录
 	两种方式登录: 
-    sudo docker exec -it mysql bash  
+    1, sudo docker exec -it mysql bash  
     mysql -uroot -p123456: 进入docker, 先进入容器, 连接mysql  等价于: docker exec -it mysql mysql -uroot -p123456
-    mysql -u root -p -h 127.0.0.1 -P 3306:  直接在主机中登录.
+    2, mysql -u root -p -h 127.0.0.1 -P 3306:  直接在主机中登录.
 
   ### centos
     yum list docker-ce --showduplicates: 查看所有历史版本  
@@ -115,6 +126,9 @@
     sudo docker run --privileged --cap-add SYS_ADMIN -e container=docker -it --name my_centos  -d --restart=always centos:7 /usr/sbin/init
     
   ### hadoop  
+      *  /Users/leslie/MyProjects/GitHub/Leslie/Docker/dockerfiles/hadoop_hive
+         docker pull lesliewy/hadoop_centos:v1
+         
       * 下载hadoop 安装包.
         拷贝安装包
     	docker cp hadoop-2.7.0.tar.gz hadoop_centos:/usr/local
@@ -209,3 +223,6 @@
 
   * 使用greys
     需要将greys安装包cp 到docker中, 然后使用. jps -l 找到jvm pid.
+
+  * 容器内部查看端口监听
+    lsof -i:7778   其中会包含pid

@@ -18,6 +18,7 @@ repoNames=("Leslie"
            "StockAnalyse" 
            "springboot1"
            "webtest"
+           "AI"
           )
 paths=("/Users/leslie/MyProjects/GitHub/Leslie"
        "/Users/leslie/MyProjects/GitHub/OkParse"
@@ -25,6 +26,7 @@ paths=("/Users/leslie/MyProjects/GitHub/Leslie"
        "/Users/leslie/MyProjects/GitHub/StockAnalyse"
        "/Users/leslie/MyProjects/GitHub/springboot1"
        "/Users/leslie/MyProjects/GitHub/webtest"
+       "/Users/leslie/MyProjects/GitHub/AI"
       )
 
 # 注意： 该部分通过.gitignore来实现了。
